@@ -33,7 +33,7 @@ export default async function RootLayout({
   const isStaging = host === "test.nsnodes.com";
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
       <head>
         {isStaging && (
           <>
@@ -49,7 +49,7 @@ export default async function RootLayout({
         )}
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
       >
         <ThemeProvider defaultTheme="dark">
           <div className="relative z-50">
@@ -62,10 +62,10 @@ export default async function RootLayout({
               <p className="text-muted-foreground font-mono text-sm">We&apos;re getting things ready.</p>
             </div>
           </div>
-          <main className="container mx-auto px-4 py-8">{children}</main>
+          <main className="container mx-auto px-4 py-8 max-w-full overflow-x-hidden">{children}</main>
           <footer className="border-t-2 border-border mt-16 py-8">
             <div className="container mx-auto px-4">
-              <pre className="text-center font-mono text-xs opacity-60">{`╔═══════════════════════════════════════════════════════════╗
+              <pre className="text-center font-mono text-[10px] sm:text-xs opacity-60 max-w-full overflow-x-auto whitespace-pre">{`╔═══════════════════════════════════════════════════════════╗
 ║  Built with ❤️ for the Network State Community           ║
 ║  "The future is decentralized" - Balaji Srinivasan       ║
 ╚═══════════════════════════════════════════════════════════╝`}</pre>

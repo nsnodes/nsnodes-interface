@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { useState } from "react";
-import { AsciiLogo } from "./ascii-logo";
+import { LogoImage } from "@/components/logo-image";
 
 export function AsciiNav() {
   const pathname = usePathname();
@@ -28,7 +28,8 @@ export function AsciiNav() {
           {/* Centered Logo and Controls */}
           <div className="flex items-center justify-center relative">
             <Link href="/" className="hover:opacity-80 transition-opacity block">
-              <AsciiLogo />
+              <span className="hidden sm:inline-block"><LogoImage /></span>
+              <span className="sm:hidden inline-block"><LogoImage width={160} height={32} /></span>
             </Link>
             {/* Right controls container to balance centering */}
             <div className="absolute right-0 flex items-center gap-2">

@@ -192,8 +192,8 @@ export default function Home() {
       </section>
 
       {/* Meme Section */}
-      <section className="border-2 border-border p-6 bg-card text-center">
-        <pre className="font-mono text-xs sm:text-sm leading-relaxed opacity-80">
+      <section className="border-2 border-border p-6 bg-card text-center overflow-x-hidden">
+        <pre className="font-mono text-xs sm:text-sm leading-relaxed opacity-80 max-w-full overflow-x-auto">
 {`
     ┌─────────────────────────────────────────┐
     │  "Exit > Voice"                         │
