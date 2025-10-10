@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -24,8 +25,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const h = headers();
+  const host = h.get("host") || "";
+  const isStaging = host === "test.nsnodes.com";
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {isStaging ? (
+          <>
+            <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+            <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet" />
+          </>
+        ) : null}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
