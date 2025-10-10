@@ -10,8 +10,6 @@ export function middleware(request: NextRequest) {
   const host = rawHost.replace(/:\d+$/, "");
   const pathname = url.pathname;
 
-  console.log("Host header:", host);
-
   // Match the staging host domain
   const isStagingHost = host === "test.nsnodes.com";
 
