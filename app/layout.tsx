@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   title: "NSNodes - Network State Hub for Crypto Builders",
   description:
     "The ultimate hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
+  metadataBase: new URL("https://nsnodes.com"),
 };
 
 // ✅ Make RootLayout async so we can await headers()
@@ -47,6 +48,8 @@ export default async function RootLayout({
             />
           </>
         )}
+        {/* Canonical: always point to production host to avoid duplicate content */}
+        <link rel="canonical" href="https://nsnodes.com" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
@@ -55,13 +58,7 @@ export default async function RootLayout({
           <div className="relative z-50">
             <AsciiNav />
           </div>
-          {/* Full-screen overlay: blur background and show Coming Soon */}
-          <div className="fixed inset-0 z-40 backdrop-blur-md bg-background/70 flex items-center justify-center">
-            <div className="text-center space-y-2">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">Coming Soon</h1>
-              <p className="text-muted-foreground font-mono text-sm">We&apos;re getting things ready.</p>
-            </div>
-          </div>
+          {/* Removed coming soon overlay */}
           <main className="container mx-auto px-4 py-8 max-w-full overflow-x-hidden">{children}</main>
           <footer className="border-t-2 border-border mt-16 py-8">
             <div className="container mx-auto px-4">
