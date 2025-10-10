@@ -59,7 +59,7 @@ export default async function RootLayout({
           <div className="fixed inset-0 z-40 backdrop-blur-md bg-background/70 flex items-center justify-center">
             <div className="text-center space-y-2">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">Coming Soon</h1>
-              <p className="text-muted-foreground font-mono text-sm">We\'re getting things ready.</p>
+              <p className="text-muted-foreground font-mono text-sm">We&apos;re getting things ready.</p>
             </div>
           </div>
           <main className="container mx-auto px-4 py-8">{children}</main>
