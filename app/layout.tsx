@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   title: "NSNodes - Network State Hub for Crypto Builders",
   description:
     "The ultimate hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
+  metadataBase: new URL("https://nsnodes.com"),
 };
 
 // ✅ Make RootLayout async so we can await headers()
@@ -47,6 +48,8 @@ export default async function RootLayout({
             />
           </>
         )}
+        {/* Canonical: always point to production host to avoid duplicate content */}
+        <link rel="canonical" href="https://nsnodes.com" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
