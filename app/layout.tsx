@@ -16,15 +16,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NSNodes - Network State Hub for Crypto Builders",
+  title: "nsnodes.com - Network State Hub for Network Societies Builders",
   description:
-    "The ultimate hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
+    "Hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
   metadataBase: new URL("https://nsnodes.com"),
   openGraph: {
-    title: "NSNodes - Network State Hub for Crypto Builders",
-    description: "The ultimate hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
+    title: "nsnodes.com - Network State Hub for Network Societies Builders",
+    description: "Hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
     url: "https://nsnodes.com",
-    siteName: "NSNodes",
+    siteName: "nsnodes.com",
     images: [
       {
         url: "/featured-image.png",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NSNodes - Network State Hub for Crypto Builders",
+    title: "NSNodes - Network State Hub for Network Societies builders",
     description: "The ultimate hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
     images: ["/featured-image.png"],
   },
