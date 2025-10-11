@@ -74,15 +74,15 @@ export default async function RootLayout({
         <link rel="canonical" href="https://nsnodes.com" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden flex flex-col`}
       >
         <ThemeProvider defaultTheme="dark">
           <div className="relative z-50">
             <AsciiNav />
           </div>
           {/* Removed coming soon overlay */}
-          <main className="container mx-auto px-4 py-8 max-w-full overflow-x-hidden">{children}</main>
-          <footer className="border-t-2 border-border mt-16 py-8">
+          <main className="container mx-auto px-4 py-8 max-w-full overflow-x-hidden flex-1">{children}</main>
+          <footer className="border-t-2 border-border py-8">
             <div className="container mx-auto px-4">
               <pre className="text-center font-mono text-[10px] sm:text-xs opacity-60 max-w-full overflow-x-auto whitespace-pre">{`╔═══════════════════════════════════════════════════════════╗
 ║  Built with ❤️ for the Network State Community           ║
