@@ -1,6 +1,7 @@
 "use client";
 
 import { Calendar, TrendingUp, Users } from "lucide-react";
+import Image from "next/image";
 
 const networkStates = [
   { name: "Balajistan", members: "12.5K", growth: "+23%" },
@@ -73,17 +74,27 @@ export default function Home() {
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="text-center space-y-4">
-        <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
-
-        </pre>
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
-          [ nsnodes.com ]
-        </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto font-mono text-sm sm:text-base">
-          Your central hub for Network State events, opportunities, and community updates.
-          Because the future is opt-in.
-        </p>
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        <div className="space-y-4 text-left">
+          <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80"></pre>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
+            [ nsnodes.com ]
+          </h1>
+          <p className="text-muted-foreground font-mono text-sm sm:text-base max-w-prose">
+            Your central hub for Network State events, opportunities, and community updates.
+            Because the future is opt-in.
+          </p>
+        </div>
+        <div className="w-full flex justify-center md:justify-end">
+          <Image
+            src="/featured-image.png"
+            alt="Don't dare to raise me up in a nation state"
+            width={420}
+            height={280}
+            priority
+            className="h-auto max-w-full border-2 border-border"
+          />
+        </div>
       </section>
 
       {/* Top Network States */}
