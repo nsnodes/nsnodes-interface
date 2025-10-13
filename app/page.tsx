@@ -1,8 +1,8 @@
 "use client";
 
-import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search } from "lucide-react";
+import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table } from "lucide-react";
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const networkStates = [
   {
@@ -73,7 +73,6 @@ const events = [
 
   // 🌏 Chiang Mai — Thailand
   { date: "2025-10-25", time: "10:00 – 12:00", title: "AI ENGINEERS MEETUP WEEKLY CHIANG MAI", location: "Chiang Mai, Thailand", networkState: "4Seas Community", type: "Meetup", url: "https://app.sola.day/event/detail/16278" },
-  { date: "2025-11-04", time: "06:00 – 09:00", title: "[TogETHer] Explore Chiang Mai’s Most Beautiful Hiking Trail!", location: "Chiang Mai, Thailand", networkState: "StarShare", type: "Hike", url: "https://app.sola.day/event/detail/11661" },
 
   // 🧘‍♀️ Network School — Forest City, Malaysia (Luma)
   { date: "2025-10-11", time: "10:00 PM", title: "Morning Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
@@ -108,13 +107,20 @@ export default function Home() {
   const [typeSearch, setTypeSearch] = useState<string>("");
   const [locationSearch, setLocationSearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
+  const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
+  const [timelineZoomDays, setTimelineZoomDays] = useState<number>(30);
+  const [isTimelineDropdownOpen, setIsTimelineDropdownOpen] = useState<boolean>(false);
   const filtersRef = useRef<HTMLDivElement>(null);
+  const timelineDropdownRef = useRef<HTMLDivElement>(null);
 
-  // Handle click outside to close all filters
+  // Handle click outside to close all filters and timeline dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (filtersRef.current && !filtersRef.current.contains(event.target as Node)) {
         setAllFiltersOpen(false);
+      }
+      if (timelineDropdownRef.current && !timelineDropdownRef.current.contains(event.target as Node)) {
+        setIsTimelineDropdownOpen(false);
       }
     };
 
@@ -297,6 +303,53 @@ export default function Home() {
   // Define the order of groups
   const groupOrder = ["Today", "Tomorrow", "This Week", "Later"];
 
+  // Gantt chart helper functions
+  const getEventDuration = (event: typeof events[0]) => {
+    // Parse time range (e.g., "6:30 PM – 9:00 PM" or "10:00 AM – 12:00 PM")
+    const timeMatch = event.time.match(/(\d{1,2}):?(\d{2})?\s*(AM|PM)?\s*[–-]\s*(\d{1,2}):?(\d{2})?\s*(AM|PM)?/i);
+    if (!timeMatch) return 2; // Default 2 hours if can't parse
+    
+    const [, startHour, startMin = "00", startPeriod, endHour, endMin = "00", endPeriod] = timeMatch;
+    
+    let startTime = parseInt(startHour) + (startMin ? parseInt(startMin) / 60 : 0);
+    let endTime = parseInt(endHour) + (endMin ? parseInt(endMin) / 60 : 0);
+    
+    // Convert to 24-hour format
+    if (startPeriod?.toUpperCase() === 'PM' && startTime < 12) startTime += 12;
+    if (endPeriod?.toUpperCase() === 'PM' && endTime < 12) endTime += 12;
+    if (startPeriod?.toUpperCase() === 'AM' && startTime === 12) startTime = 0;
+    if (endPeriod?.toUpperCase() === 'AM' && endTime === 12) endTime = 0;
+    
+    return Math.max(1, endTime - startTime); // Minimum 1 hour
+  };
+
+  const getEventStartHour = (event: typeof events[0]) => {
+    const timeMatch = event.time.match(/(\d{1,2}):?(\d{2})?\s*(AM|PM)?/i);
+    if (!timeMatch) return 9; // Default 9 AM
+    
+    const [, hour, min = "00", period] = timeMatch;
+    let time = parseInt(hour) + (min ? parseInt(min) / 60 : 0);
+    
+    if (period?.toUpperCase() === 'PM' && time < 12) time += 12;
+    if (period?.toUpperCase() === 'AM' && time === 12) time = 0;
+    
+    return time;
+  };
+
+  const getNetworkStateColor = (networkState: string) => {
+    const colors: Record<string, string> = {
+      'Edge City Patagonia': 'bg-green-600',
+      'Network School': 'bg-gray-600',
+      '4Seas Community': 'bg-cyan-600',
+      'StarShare': 'bg-purple-600',
+      'ZuCity Japan': 'bg-pink-600',
+      'Próspera': 'bg-orange-600',
+      'ShanhaiWoo': 'bg-red-600',
+      'Edge City': 'bg-emerald-600',
+    };
+    return colors[networkState] || 'bg-gray-600';
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="space-y-12">
@@ -311,7 +364,7 @@ export default function Home() {
             Your central hub for Network State events, opportunities, and community updates.
           </p>
         </div>
-        <div className="w-full flex justify-center md:justify-end">
+        <div className="w-full flex justify-start md:justify-end">
           <Image
             src="/dontdare.png"
             alt="Don't dare to raise me up in a nation state"
@@ -359,7 +412,7 @@ export default function Home() {
             </a>
           ))}
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-start">
           <a
             href="https://www.xyz.city/?utm_source=nsnodes.com"
             target="_blank"
@@ -378,10 +431,40 @@ export default function Home() {
             <Calendar className="h-6 w-6" />
             [ UPCOMING EVENTS ]
           </h2>
-          <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="opacity-60">
-              Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
-            </span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="opacity-60">
+                Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
+              </span>
+            </div>
+            <div className="relative flex border-2 border-border bg-card">
+              <button
+                onClick={() => setViewMode("table")}
+                className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+                  viewMode === "table" ? "bg-accent" : "hover:bg-accent"
+                }`}
+              >
+                <Table className="h-3 w-3" />
+                TABLE
+              </button>
+              <button
+                onClick={() => setViewMode("gantt")}
+                className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+                  viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
+                }`}
+              >
+                <BarChart3 className="h-3 w-3" />
+                TIMELINE
+              </button>
+
+              {/* ASCII Arrow Callout */}
+              <div className="hidden lg:block absolute -top-10 -right-2 pointer-events-none">
+                <pre className="text-xs leading-tight font-mono opacity-70 whitespace-pre">
+{`Try this!
+    ↓`}
+                </pre>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -646,24 +729,14 @@ export default function Home() {
           </button>
         )}
 
-        {/* Desktop Table */}
-        <div className="hidden md:block space-y-6">
-          {groupOrder.map(groupLabel => {
-            const groupEvents = groupedEvents[groupLabel];
-            if (!groupEvents || groupEvents.length === 0) return null;
-
-            return (
-              <div key={groupLabel} className="overflow-x-auto border-2 border-border">
+        {/* Table View */}
+        {viewMode === "table" && (
+          <>
+            {/* Desktop Table */}
+            <div className="hidden md:block">
+              <div className="overflow-x-auto border-2 border-border">
                 <table className="w-full font-mono text-sm">
                   <thead>
-                    <tr className="bg-muted border-b-2 border-border">
-                      <th colSpan={5} className="text-left p-4">
-                        <h3 className="font-mono font-bold text-lg flex items-center gap-2">
-                          <Calendar className="h-5 w-5" />
-                          [ {groupLabel.toUpperCase()} ]
-                        </h3>
-                      </th>
-                    </tr>
                     <tr className="border-b-2 border-border bg-muted">
                       <th
                         className="text-left p-4 font-bold whitespace-nowrap cursor-pointer hover:bg-accent transition-colors"
@@ -702,7 +775,7 @@ export default function Home() {
                         </div>
                       </th>
                       <th
-                        className="text-left p-4 font-bold cursor-pointer hover:bg-accent transition-colors"
+                        className="text-left p-4 font-bold whitespace-nowrap cursor-pointer hover:bg-accent transition-colors"
                         onClick={() => handleSort("type")}
                       >
                         <div className="flex items-center gap-2">
@@ -713,81 +786,491 @@ export default function Home() {
                     </tr>
                   </thead>
                   <tbody>
-                      {groupEvents.map((event, index) => (
-                        <tr
-                          key={index}
-                          className="border-b border-border hover:bg-accent transition-colors cursor-pointer"
-                          onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
-                        >
-                          <td className="p-4 whitespace-nowrap">
-                            <div className="space-y-0.5">
-                              <div className="font-semibold">{event.date}</div>
-                              <div className="text-xs text-muted-foreground whitespace-nowrap">{event.time}</div>
-                            </div>
-                          </td>
-                          <td className="p-4 font-semibold">{event.title}</td>
-                          <td className="p-4">{event.location}</td>
-                          <td className="p-4">
-                            <span className="px-2 py-1 bg-primary/10 border border-primary/20 text-xs">
-                              {event.networkState}
-                            </span>
-                          </td>
-                          <td className="p-4">
-                            <span className="text-muted-foreground text-xs">
-                              {event.type}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
+                    {groupOrder.map(groupLabel => {
+                      const groupEvents = groupedEvents[groupLabel];
+                      if (!groupEvents || groupEvents.length === 0) return null;
+
+                      return (
+                        <React.Fragment key={groupLabel}>
+                          {/* Group Header Row */}
+                          <tr className="bg-muted border-b-2 border-border">
+                            <td colSpan={5} className="p-4">
+                              <h3 className="font-mono font-bold text-lg flex items-center gap-2">
+                                <Calendar className="h-5 w-5" />
+                                [ {groupLabel.toUpperCase()} ]
+                              </h3>
+                            </td>
+                          </tr>
+                          {/* Group Events */}
+                          {groupEvents.map((event, index) => (
+                            <tr
+                              key={`${groupLabel}-${index}`}
+                              className="border-b border-border hover:bg-accent transition-colors cursor-pointer"
+                              onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                            >
+                              <td className="p-4 whitespace-nowrap">
+                                <div className="space-y-0.5">
+                                  <div className="font-semibold">{event.date}</div>
+                                  <div className="text-xs text-muted-foreground whitespace-nowrap">{event.time}</div>
+                                </div>
+                              </td>
+                              <td className="p-4 font-semibold">{event.title}</td>
+                              <td className="p-4">{event.location}</td>
+                              <td className="p-4">
+                                <span className="px-2 py-1 bg-primary/10 border border-primary/20 text-xs">
+                                  {event.networkState}
+                                </span>
+                              </td>
+                              <td className="p-4 whitespace-nowrap">
+                                <span className="text-muted-foreground text-xs">
+                                  {event.type}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </React.Fragment>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
-            );
-          })}
-        </div>
+            </div>
 
-        {/* Mobile Cards */}
-        <div className="md:hidden space-y-6">
-          {groupOrder.map(groupLabel => {
-            const groupEvents = groupedEvents[groupLabel];
-            if (!groupEvents || groupEvents.length === 0) return null;
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-4">
+              {groupOrder.map(groupLabel => {
+                const groupEvents = groupedEvents[groupLabel];
+                if (!groupEvents || groupEvents.length === 0) return null;
 
-            return (
-              <div key={groupLabel} className="space-y-2">
-                <div className="border-2 border-border bg-muted p-3">
-                  <h3 className="font-mono font-bold text-base flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    [ {groupLabel.toUpperCase()} ]
-                  </h3>
-                </div>
-                <div className="space-y-4">
-                  {groupEvents.map((event, index) => (
-                    <div
-                      key={index}
-                      className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
-                      onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
-                    >
-                      <div className="flex items-start justify-between">
-                        <div className="space-y-0.5">
-                          <div className="text-xs font-mono text-muted-foreground">{event.date}</div>
-                          <div className="text-xs font-mono text-muted-foreground">{event.time}</div>
-                        </div>
-                        <span className="text-xs font-mono px-2 py-1 border border-border bg-muted">
-                          {event.type}
-                        </span>
-                      </div>
-                      <h3 className="font-mono font-bold text-sm">{event.title}</h3>
-                      <p className="text-xs font-mono text-muted-foreground">{event.location}</p>
-                      <span className="inline-block px-2 py-1 bg-primary/10 border border-primary/20 text-xs font-mono">
-                        {event.networkState}
-                      </span>
+                return (
+                  <React.Fragment key={groupLabel}>
+                    {/* Group Header */}
+                    <div className="border-2 border-border bg-muted p-3">
+                      <h3 className="font-mono font-bold text-base flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        [ {groupLabel.toUpperCase()} ]
+                      </h3>
                     </div>
-                  ))}
+                    {/* Group Events */}
+                    <div className="space-y-4">
+                      {groupEvents.map((event, index) => (
+                        <div
+                          key={`${groupLabel}-${index}`}
+                          className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+                          onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="space-y-0.5">
+                              <div className="text-xs font-mono text-muted-foreground">{event.date}</div>
+                              <div className="text-xs font-mono text-muted-foreground">{event.time}</div>
+                            </div>
+                            <span className="text-xs font-mono px-2 py-1 border border-border bg-muted">
+                              {event.type}
+                            </span>
+                          </div>
+                          <h3 className="font-mono font-bold text-sm">{event.title}</h3>
+                          <p className="text-xs font-mono text-muted-foreground">{event.location}</p>
+                          <span className="inline-block px-2 py-1 bg-primary/10 border border-primary/20 text-xs font-mono">
+                            {event.networkState}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          </>
+        )}
+
+        {/* Timeline View */}
+        {viewMode === "gantt" && (
+          <div className="border-2 border-border bg-card">
+            {/* Timeline Header */}
+            <div className="border-b-2 border-border bg-muted p-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-mono font-bold text-lg flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  [ EVENT TIMELINE ]
+                </h3>
+                <div ref={timelineDropdownRef} className="relative">
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs font-mono text-muted-foreground">View:</label>
+                    <button
+                      onClick={() => setIsTimelineDropdownOpen(!isTimelineDropdownOpen)}
+                      className="text-xs font-mono border border-border bg-background px-2 py-1 min-w-[80px] text-left flex items-center justify-between hover:bg-accent transition-colors"
+                      aria-label="Timeline zoom level"
+                    >
+                      <span>{timelineZoomDays} days</span>
+                      <ChevronDown className={`h-3 w-3 transition-transform ${isTimelineDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                  </div>
+                  
+                  {/* Custom Dropdown */}
+                  {isTimelineDropdownOpen && (
+                    <div className="absolute top-full right-0 mt-1 bg-background border-2 border-border shadow-lg z-50 min-w-[80px]">
+                      {[7, 14, 30, 60, 90].map((days) => (
+                        <button
+                          key={days}
+                          onClick={() => {
+                            setTimelineZoomDays(days);
+                            setIsTimelineDropdownOpen(false);
+                          }}
+                          className={`w-full text-xs font-mono px-2 py-1 text-left hover:bg-accent transition-colors ${
+                            timelineZoomDays === days ? 'bg-accent' : ''
+                          }`}
+                        >
+                          {days} days
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </div>
+
+            {/* Timeline Legend */}
+            <div className="border-b border-border bg-card p-4">
+              <div className="flex flex-wrap gap-3 text-xs font-mono">
+                {(() => {
+                  // Count events per network state
+                  const networkStateCounts = filteredAndSortedEvents.reduce((counts, event) => {
+                    counts[event.networkState] = (counts[event.networkState] || 0) + 1;
+                    return counts;
+                  }, {} as Record<string, number>);
+                  
+                  // Sort by event count (descending) then by name
+                  const sortedNetworkStates = Object.keys(networkStateCounts).sort((a, b) => {
+                    const countDiff = networkStateCounts[b] - networkStateCounts[a];
+                    return countDiff !== 0 ? countDiff : a.localeCompare(b);
+                  });
+                  
+                  return sortedNetworkStates.map(networkState => (
+                    <div key={networkState} className="flex items-center gap-1">
+                      <div className={`w-3 h-3 ${getNetworkStateColor(networkState)}`}></div>
+                      <span>{networkState}</span>
+                    </div>
+                  ));
+                })()}
+              </div>
+            </div>
+
+            {(() => {
+              // Group events by date
+              const eventsByDate = filteredAndSortedEvents.reduce((acc, event) => {
+                if (!acc[event.date]) {
+                  acc[event.date] = [];
+                }
+                acc[event.date].push(event);
+                return acc;
+              }, {} as Record<string, typeof filteredAndSortedEvents>);
+
+              // Get sorted unique dates
+              const sortedDates = Object.keys(eventsByDate).sort();
+
+              // Calculate date range
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              const endDate = new Date(today);
+              endDate.setDate(endDate.getDate() + timelineZoomDays);
+
+              // Generate date columns for the timeline
+              const dateColumns: Date[] = [];
+              for (let d = new Date(today); d <= endDate; d.setDate(d.getDate() + 1)) {
+                dateColumns.push(new Date(d));
+              }
+
+              return (
+                <>
+                  {/* Desktop Timeline Grid */}
+                  <div className="hidden md:block p-4 overflow-x-auto">
+                    <div className="min-w-[800px]">
+                      <div className="space-y-6">
+                        {/* Date Header */}
+                        <div className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${Math.min(dateColumns.length, 31)}, minmax(80px, 1fr))` }}>
+                          <div className="text-xs font-mono font-bold text-muted-foreground"></div>
+                          {dateColumns.slice(0, 31).map((date, idx) => {
+                            const dateStr = date.toISOString().split('T')[0];
+                            const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+                            const dayOfMonth = date.getDate();
+                            const isToday = dateStr === today.toISOString().split('T')[0];
+                            const hasEvents = eventsByDate[dateStr];
+
+                            return (
+                              <div
+                                key={idx}
+                                className={`text-center border-l border-border p-1 ${isToday ? 'bg-primary/10' : ''} ${hasEvents ? 'font-bold' : ''}`}
+                              >
+                                <div className="text-xs font-mono">{dayOfWeek}</div>
+                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`}>
+                                  {dayOfMonth}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* 24-hour Timeline Grid */}
+                        {Array.from({ length: 24 }, (_, hour) => {
+                          // Get events for this hour across all dates
+                          const hourEvents = sortedDates.flatMap(date => {
+                            const dateEvents = eventsByDate[date] || [];
+                            return dateEvents
+                              .filter(event => {
+                                const eventStartHour = Math.floor(getEventStartHour(event));
+                                const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                return hour >= eventStartHour && hour < eventEndHour;
+                              })
+                              .map(event => ({ ...event, date }));
+                          });
+
+                          // Only show rows with events
+                          if (hourEvents.length === 0) return null;
+
+                          return (
+                            <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${Math.min(dateColumns.length, 31)}, minmax(80px, 1fr))` }}>
+                              {/* Hour Label */}
+                              <div className="text-xs font-mono text-muted-foreground flex items-center">
+                                {hour.toString().padStart(2, '0')}:00
+                              </div>
+
+                              {/* Date Columns */}
+                              {dateColumns.slice(0, 31).map((date, idx) => {
+                                const dateStr = date.toISOString().split('T')[0];
+                                const dayEvents = (eventsByDate[dateStr] || []).filter(event => {
+                                  const eventStartHour = Math.floor(getEventStartHour(event));
+                                  const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                  return hour >= eventStartHour && hour < eventEndHour;
+                                });
+
+                                // Calculate columns for overlapping events in this hour
+                                const eventsStartingThisHour = dayEvents.filter(event => Math.floor(getEventStartHour(event)) === hour);
+                                const eventColumns: number[] = [];
+                                const eventsWithCols = eventsStartingThisHour.map((event, eventIdx) => {
+                                  const startTime = getEventStartHour(event);
+                                  const endTime = startTime + getEventDuration(event);
+
+                                  let column = 0;
+                                  const usedColumns = new Set<number>();
+
+                                  // Check for overlaps with previously processed events
+                                  for (let i = 0; i < eventIdx; i++) {
+                                    const otherEvent = eventsStartingThisHour[i];
+                                    const otherStart = getEventStartHour(otherEvent);
+                                    const otherEnd = otherStart + getEventDuration(otherEvent);
+
+                                    if (startTime < otherEnd && endTime > otherStart) {
+                                      usedColumns.add(eventColumns[i]);
+                                    }
+                                  }
+
+                                  while (usedColumns.has(column)) {
+                                    column++;
+                                  }
+
+                                  eventColumns.push(column);
+                                  return { event, column };
+                                });
+
+                                const maxCols = eventsStartingThisHour.length > 0 ? Math.max(1, ...eventColumns.map(c => c + 1)) : 1;
+
+                                return (
+                                  <div
+                                    key={idx}
+                                    className="relative min-h-[60px] border-l border-t border-border bg-muted/20"
+                                  >
+                                    {eventsWithCols.map(({ event, column }, eventIdx) => {
+                                      const startHour = getEventStartHour(event);
+                                      const duration = getEventDuration(event);
+
+                                      const heightInPx = Math.max(40, duration * 60);
+                                      const topOffset = ((startHour % 1) * 60);
+
+                                      // Calculate column positioning
+                                      const columnWidth = 100 / maxCols;
+                                      const leftPercent = column * columnWidth;
+
+                                      return (
+                                        <div
+                                          key={eventIdx}
+                                          className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                          style={{
+                                            top: `${topOffset}px`,
+                                            height: `${heightInPx}px`,
+                                            left: `${leftPercent}%`,
+                                            width: `calc(${columnWidth}% - 2px)`,
+                                          }}
+                                          onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                                          title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
+                                        >
+                                          <div className="p-1 text-white text-[10px] font-mono leading-tight h-full overflow-hidden">
+                                            <div className="font-bold truncate">{event.title}</div>
+                                            <div className="opacity-90 truncate">{event.time}</div>
+                                            <div className="opacity-75 truncate text-[9px]">{event.networkState}</div>
+                                          </div>
+
+                                          {/* Tooltip on hover */}
+                                          <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block z-20 w-64 p-2 bg-popover border-2 border-border text-popover-foreground text-xs font-mono shadow-lg">
+                                            <div className="font-bold mb-1">{event.title}</div>
+                                            <div className="space-y-0.5 text-[10px]">
+                                              <div>📅 {event.date}</div>
+                                              <div>🕐 {event.time}</div>
+                                              <div>📍 {event.location}</div>
+                                              <div>🌐 {event.networkState}</div>
+                                              <div>🏷️ {event.type}</div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          );
+                        })}
+
+                        {/* Empty State */}
+                        {filteredAndSortedEvents.length === 0 && (
+                          <div className="text-center py-12 text-muted-foreground font-mono text-sm">
+                            No events found in the selected date range
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mobile Timeline View */}
+                  <div className="md:hidden p-4 space-y-6">
+                    {sortedDates.map((date: string) => {
+                      const dateEvents = eventsByDate[date] || [];
+                      if (dateEvents.length === 0) return null;
+
+                      const eventDate = new Date(date);
+                      const dateLabel = eventDate.toLocaleDateString('en-US', {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric'
+                      });
+
+                      // Sort events by start time for this date
+                      const sortedEvents = [...dateEvents].sort((a, b) => {
+                        return getEventStartHour(a) - getEventStartHour(b);
+                      });
+
+                      // Calculate overlapping events and assign columns
+                      const columns: number[] = [];
+                      const eventsWithColumns = sortedEvents.map((event, idx) => {
+                        const startTime = getEventStartHour(event);
+                        const endTime = startTime + getEventDuration(event);
+
+                        // Find overlapping events before this one
+                        let column = 0;
+                        const usedColumns = new Set<number>();
+
+                        for (let i = 0; i < idx; i++) {
+                          const otherEvent = sortedEvents[i];
+                          const otherStart = getEventStartHour(otherEvent);
+                          const otherEnd = otherStart + getEventDuration(otherEvent);
+
+                          // Check if events overlap
+                          if (startTime < otherEnd && endTime > otherStart) {
+                            usedColumns.add(columns[i]);
+                          }
+                        }
+
+                        // Find first available column
+                        while (usedColumns.has(column)) {
+                          column++;
+                        }
+
+                        columns.push(column);
+                        return { event, column };
+                      });
+
+                      // Calculate max columns needed
+                      const maxColumns = Math.max(1, ...columns.map(c => c + 1));
+
+                      // Get the hour range for this day
+                      const minHour = Math.floor(Math.min(...sortedEvents.map(e => getEventStartHour(e))));
+                      const maxHour = Math.ceil(Math.max(...sortedEvents.map(e => getEventStartHour(e) + getEventDuration(e))));
+
+                      return (
+                        <div key={date} className="border-2 border-border bg-card">
+                          {/* Date Header */}
+                          <div className="bg-muted border-b-2 border-border p-3">
+                            <h4 className="font-mono font-bold text-sm">{dateLabel}</h4>
+                          </div>
+
+                          {/* Timeline Grid */}
+                          <div className="p-3">
+                            <div className="relative">
+                              {/* Hour markers and grid */}
+                              {Array.from({ length: maxHour - minHour + 1 }, (_, i) => {
+                                const hour = minHour + i;
+                                return (
+                                  <div key={hour} className="flex border-t border-border" style={{ height: '60px' }}>
+                                    {/* Hour label */}
+                                    <div className="w-12 flex-shrink-0 text-[10px] font-mono text-muted-foreground pt-1">
+                                      {hour.toString().padStart(2, '0')}:00
+                                    </div>
+                                    {/* Grid line */}
+                                    <div className="flex-1 bg-muted/20 relative"></div>
+                                  </div>
+                                );
+                              })}
+
+                              {/* Events overlay */}
+                              <div className="absolute top-0 left-12 right-0 bottom-0">
+                                {eventsWithColumns.map(({ event, column }, idx) => {
+                                  const startHour = getEventStartHour(event);
+                                  const duration = getEventDuration(event);
+                                  const topPosition = (startHour - minHour) * 60;
+                                  const height = duration * 60;
+
+                                  // Calculate column width and position
+                                  const columnWidth = 100 / maxColumns;
+                                  const leftPercent = column * columnWidth;
+                                  const widthPercent = columnWidth;
+
+                                  return (
+                                    <div
+                                      key={idx}
+                                      className={`absolute ${getNetworkStateColor(event.networkState)} rounded border-2 border-border cursor-pointer hover:opacity-90 transition-opacity overflow-hidden`}
+                                      style={{
+                                        top: `${topPosition}px`,
+                                        height: `${Math.max(height, 40)}px`,
+                                        left: `${leftPercent}%`,
+                                        width: `calc(${widthPercent}% - 4px)`,
+                                      }}
+                                      onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                                    >
+                                      <div className="p-2 text-white h-full overflow-hidden">
+                                        <div className="font-mono font-bold text-[11px] leading-tight truncate">
+                                          {event.title}
+                                        </div>
+                                        <div className="font-mono text-[10px] opacity-90 truncate">
+                                          {event.time}
+                                        </div>
+                                        <div className="font-mono text-[9px] opacity-75 truncate">
+                                          {event.networkState}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+        )}
       </section>
 
       {/* Meme Section */}

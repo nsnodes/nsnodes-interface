@@ -24,41 +24,57 @@ export function AsciiNav() {
 
   return (
     <nav className="border-b-2 border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col gap-4">
-          {/* Centered Logo and Controls */}
-          <div className="flex items-center justify-center relative">
-            <Link href="/" className="hover:opacity-80 transition-opacity block">
-              <span className="hidden sm:inline-block"><LogoImage /></span>
-              <span className="sm:hidden inline-block"><LogoImage width={160} height={32} /></span>
-            </Link>
-            {/* Right controls container to balance centering */}
-            <div className="absolute right-0 flex items-center gap-2">
-              {/* Desktop Theme Toggle */}
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="hidden md:flex items-center gap-2 px-4 py-2 border-2 border-border hover:bg-accent transition-colors font-mono"
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? (
-                  <>
-                    <Sun className="h-4 w-4" />
-                    <span className="text-sm">[ LIGHT ]</span>
-                  </>
-                ) : (
-                  <>
-                    <Moon className="h-4 w-4" />
-                    <span className="text-sm">[ DARK ]</span>
-                  </>
-                )}
-              </button>
-              {/* Mobile Menu Toggle */}
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden border-2 border-border px-3 py-2 font-mono text-sm hover:bg-accent"
-              >
-                {mobileMenuOpen ? "[ ✕ ]" : "[ ≡ ]"}
-              </button>
+          {/* Logo and Controls */}
+          <div className="flex items-center justify-between md:justify-center relative w-full">
+            {/* Mobile: Logo on left, controls on right */}
+            <div className="flex items-center justify-between w-full md:hidden">
+              <Link href="/" className="hover:opacity-80 transition-opacity block">
+                <LogoImage width={160} height={32} />
+              </Link>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <button
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="border-2 border-border px-3 py-2 font-mono text-sm hover:bg-accent whitespace-nowrap"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "dark" ? "[ LIGHT ]" : "[ DARK ]"}
+                </button>
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="border-2 border-border px-3 py-2 font-mono text-sm hover:bg-accent whitespace-nowrap"
+                >
+                  {mobileMenuOpen ? "[ ✕ ]" : "[ ≡ ]"}
+                </button>
+              </div>
+            </div>
+            
+            {/* Desktop: Centered logo with controls positioned absolutely within container */}
+            <div className="hidden md:flex items-center justify-center relative w-full">
+              <Link href="/" className="hover:opacity-80 transition-opacity block">
+                <LogoImage />
+              </Link>
+              <div className="absolute right-0 flex items-center gap-2">
+                {/* Desktop Theme Toggle */}
+                <button
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  className="flex items-center gap-2 px-4 py-2 border-2 border-border hover:bg-accent transition-colors font-mono"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "dark" ? (
+                    <>
+                      <Sun className="h-4 w-4" />
+                      <span className="text-sm">[ LIGHT ]</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon className="h-4 w-4" />
+                      <span className="text-sm">[ DARK ]</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -98,22 +114,6 @@ export function AsciiNav() {
                   {item.label}
                 </Link>
               ))}
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="flex items-center justify-center gap-2 px-4 py-2 border-2 border-border hover:bg-accent transition-colors font-mono"
-              >
-                {theme === "dark" ? (
-                  <>
-                    <Sun className="h-4 w-4" />
-                    <span className="text-sm">[ LIGHT MODE ]</span>
-                  </>
-                ) : (
-                  <>
-                    <Moon className="h-4 w-4" />
-                    <span className="text-sm">[ DARK MODE ]</span>
-                  </>
-                )}
-              </button>
             </div>
           )}
         </div>
