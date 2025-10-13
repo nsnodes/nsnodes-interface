@@ -89,6 +89,15 @@ const events = [
   { date: "2025-10-17", time: "9:00 AM – 9:00 PM", title: "Ârc: Welcome Home at The Network State", location: "Forest City, Malaysiaa", networkState: "Network School", type: "Pop-Up", url: "https://luma.com/arc-ns" }
 ]
 
+const popupEvents = [
+  { date: "2025-10-27", endDate: "2025-11-23", title: "Invisible Garden Argentina", location: "Buenos Aires, Argentina", networkState: "Invisible Garden Argentina", url: "https://app.sola.day/event/invisiblegardenar" },
+  { date: "2025-10-18", endDate: "2025-11-15", title: "Edge City Patagonia", location: "San Martín, Argentina", networkState: "Edge City Patagonia", url: "https://app.sola.day/event/edgepatagonia" },
+  { date: "2025-08-28", endDate: "2025-12-31", title: "Próspera", location: "Próspera, Roatán", networkState: "Próspera", url: "https://app.sola.day/event/prospera" },
+  { date: "2025-07-19", endDate: "2025-08-01", title: "Zanzalu 2", location: "Zanzalu", networkState: "zanzalu", url: "https://app.sola.day/event/zanzalu" },
+  { date: "2025-01-09", endDate: "2025-12-31", title: "INFINITA", location: "Próspera ZEDE", networkState: "Infinita City / Community", url: "https://app.sola.day/event/infinita" },
+  { date: "2025-11-01", endDate: "2025-12-31", title: "4Seas", location: "Chiangmai, Thailand", networkState: "4Seas Community", url: "https://app.sola.day/event/4seas" }
+]
+
 
 
 type SortField = "date" | "event" | "location" | "networkState" | "type";
@@ -110,10 +119,14 @@ export default function Home() {
   const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
   const [timelineZoomDays, setTimelineZoomDays] = useState<number>(30);
   const [isTimelineDropdownOpen, setIsTimelineDropdownOpen] = useState<boolean>(false);
+  const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">("gantt");
+  const [popupZoomDays, setPopupZoomDays] = useState<number>(365);
+  const [isPopupDropdownOpen, setIsPopupDropdownOpen] = useState<boolean>(false);
   const filtersRef = useRef<HTMLDivElement>(null);
   const timelineDropdownRef = useRef<HTMLDivElement>(null);
+  const popupDropdownRef = useRef<HTMLDivElement>(null);
 
-  // Handle click outside to close all filters and timeline dropdown
+  // Handle click outside to close all filters and dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (filtersRef.current && !filtersRef.current.contains(event.target as Node)) {
@@ -121,6 +134,9 @@ export default function Home() {
       }
       if (timelineDropdownRef.current && !timelineDropdownRef.current.contains(event.target as Node)) {
         setIsTimelineDropdownOpen(false);
+      }
+      if (popupDropdownRef.current && !popupDropdownRef.current.contains(event.target as Node)) {
+        setIsPopupDropdownOpen(false);
       }
     };
 
@@ -346,6 +362,13 @@ export default function Home() {
       'Próspera': 'bg-orange-600',
       'ShanhaiWoo': 'bg-red-600',
       'Edge City': 'bg-emerald-600',
+      'Invisible Garden Argentina': 'bg-indigo-600',
+      'ETH Safari': 'bg-yellow-600',
+      'Web3 META Hub': 'bg-teal-600',
+      'ShanhaiWoo · Singapore': 'bg-red-500',
+      'east2046festival': 'bg-violet-600',
+      'zanzalu': 'bg-rose-600',
+      'Infinita City / Community': 'bg-slate-600',
     };
     return colors[networkState] || 'bg-gray-600';
   };
@@ -422,6 +445,482 @@ export default function Home() {
             View full list -&gt;
           </a>
         </div>
+      </section>
+
+      {/* Pop-Up Timeline */}
+      <section className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
+            <Calendar className="h-6 w-6" />
+            [ POP-UP]
+          </h2>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-xs font-mono">
+              <span className="opacity-60">
+                Listing {popupEvents.length} {popupEvents.length === 1 ? 'event' : 'events'}
+              </span>
+            </div>
+            <div className="relative flex border-2 border-border bg-card">
+              <button
+                onClick={() => setPopupViewMode("table")}
+                className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+                  popupViewMode === "table" ? "bg-accent" : "hover:bg-accent"
+                }`}
+              >
+                <Table className="h-3 w-3" />
+                TABLE
+              </button>
+              <button
+                onClick={() => setPopupViewMode("gantt")}
+                className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+                  popupViewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
+                }`}
+              >
+                <BarChart3 className="h-3 w-3" />
+                TIMELINE
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Table View */}
+        {popupViewMode === "table" && (
+          <>
+            {/* Desktop Table */}
+            <div className="hidden md:block">
+              <div className="overflow-x-auto border-2 border-border">
+                <table className="w-full font-mono text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-border bg-muted">
+                      <th className="text-left p-4 font-bold whitespace-nowrap">
+                        [ DATE RANGE ]
+                      </th>
+                      <th className="text-left p-4 font-bold">
+                        [ EVENT ]
+                      </th>
+                      <th className="text-left p-4 font-bold">
+                        [ LOCATION ]
+                      </th>
+                      <th className="text-left p-4 font-bold whitespace-nowrap">
+                        [ NETWORK STATE ]
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {popupEvents.map((event, index) => (
+                      <tr
+                        key={index}
+                        className="border-b border-border hover:bg-accent transition-colors cursor-pointer"
+                        onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                      >
+                        <td className="p-4 whitespace-nowrap">
+                          <div className="space-y-0.5">
+                            <div className="font-semibold">{event.date}</div>
+                            <div className="text-xs text-muted-foreground">{event.endDate}</div>
+                          </div>
+                        </td>
+                        <td className="p-4 font-semibold">{event.title}</td>
+                        <td className="p-4">{event.location}</td>
+                        <td className="p-4">
+                          <span className="px-2 py-1 bg-primary/10 border border-primary/20 text-xs">
+                            {event.networkState}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Mobile Cards */}
+            <div className="md:hidden space-y-4">
+              {popupEvents.map((event, index) => (
+                <div
+                  key={index}
+                  className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+                  onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-mono text-muted-foreground">{event.date}</div>
+                      <div className="text-xs font-mono text-muted-foreground">{event.endDate}</div>
+                    </div>
+                  </div>
+                  <h3 className="font-mono font-bold text-sm">{event.title}</h3>
+                  <p className="text-xs font-mono text-muted-foreground">{event.location}</p>
+                  <span className="inline-block px-2 py-1 bg-primary/10 border border-primary/20 text-xs font-mono">
+                    {event.networkState}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Timeline View */}
+        {popupViewMode === "gantt" && (
+          <div className="border-2 border-border bg-card">
+            {/* Timeline Header */}
+            <div className="border-b-2 border-border bg-muted p-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-mono font-bold text-lg flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  [ POP-UP ]
+                </h3>
+                <div ref={popupDropdownRef} className="relative">
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs font-mono text-muted-foreground">View:</label>
+                    <button
+                      onClick={() => setIsPopupDropdownOpen(!isPopupDropdownOpen)}
+                      className="text-xs font-mono border border-border bg-background px-2 py-1 min-w-[80px] text-left flex items-center justify-between hover:bg-accent transition-colors"
+                      aria-label="Timeline zoom level"
+                    >
+                      <span>{popupZoomDays} days</span>
+                      <ChevronDown className={`h-3 w-3 transition-transform ${isPopupDropdownOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                  </div>
+                  
+                  {/* Custom Dropdown */}
+                  {isPopupDropdownOpen && (
+                    <div className="absolute top-full right-0 mt-1 bg-background border-2 border-border shadow-lg z-50 min-w-[80px]">
+                      {[90, 180, 365, 730, 1095].map((days) => (
+                        <button
+                          key={days}
+                          onClick={() => {
+                            setPopupZoomDays(days);
+                            setIsPopupDropdownOpen(false);
+                          }}
+                          className={`w-full text-xs font-mono px-2 py-1 text-left hover:bg-accent transition-colors ${
+                            popupZoomDays === days ? 'bg-accent' : ''
+                          }`}
+                        >
+                          {days} days
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Timeline Legend */}
+            <div className="border-b border-border bg-card p-4">
+              <div className="flex flex-wrap gap-3 text-xs font-mono">
+                {(() => {
+                  // Count events per network state
+                  const networkStateCounts = popupEvents.reduce((counts, event) => {
+                    counts[event.networkState] = (counts[event.networkState] || 0) + 1;
+                    return counts;
+                  }, {} as Record<string, number>);
+                  
+                  // Sort by event count (descending) then by name
+                  const sortedNetworkStates = Object.keys(networkStateCounts).sort((a, b) => {
+                    const countDiff = networkStateCounts[b] - networkStateCounts[a];
+                    return countDiff !== 0 ? countDiff : a.localeCompare(b);
+                  });
+                  
+                  return sortedNetworkStates.map(networkState => (
+                    <div key={networkState} className="flex items-center gap-1">
+                      <div className={`w-3 h-3 ${getNetworkStateColor(networkState)}`}></div>
+                      <span>{networkState}</span>
+                    </div>
+                  ));
+                })()}
+              </div>
+            </div>
+
+            {(() => {
+              // Calculate date range - start from current month
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              
+              // Find the latest date from all events
+              const allDates = popupEvents.flatMap(event => [
+                new Date(event.date), 
+                new Date(event.endDate)
+              ]);
+              const latestDate = new Date(Math.max(...allDates.map(d => d.getTime())));
+              
+              // Start from current month
+              const startMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+              
+              // Generate month columns (horizontal) from current month
+              const monthColumns: Date[] = [];
+              for (let d = new Date(startMonth); 
+                   d <= latestDate; 
+                   d.setMonth(d.getMonth() + 1)) {
+                monthColumns.push(new Date(d));
+              }
+
+              // Generate week columns within each month
+              const weekColumns: { month: Date; week: Date; weekEnd: Date }[] = [];
+              monthColumns.forEach(month => {
+                const monthStart = new Date(month.getFullYear(), month.getMonth(), 1);
+                const monthEnd = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+                
+                // Find first week of month
+                const firstWeekStart = new Date(monthStart);
+                firstWeekStart.setDate(firstWeekStart.getDate() - firstWeekStart.getDay());
+                
+                // Generate weeks for this month
+                for (let weekStart = new Date(firstWeekStart); 
+                     weekStart <= monthEnd; 
+                     weekStart.setDate(weekStart.getDate() + 7)) {
+                  const weekEnd = new Date(weekStart);
+                  weekEnd.setDate(weekEnd.getDate() + 6);
+                  
+                  weekColumns.push({
+                    month: new Date(month),
+                    week: new Date(weekStart),
+                    weekEnd: new Date(weekEnd)
+                  });
+                }
+              });
+
+              // Helper function to get month key
+              const getMonthKey = (date: Date) => {
+                return `${date.getFullYear()}-${date.getMonth()}`;
+              };
+
+              // Helper function to get week key
+              const getWeekKey = (date: Date) => {
+                const weekStart = new Date(date);
+                weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+                return weekStart.toISOString().split('T')[0];
+              };
+
+              // Helper function to calculate event span across weeks
+              const getEventSpan = (event: typeof popupEvents[0]) => {
+                const eventStart = new Date(event.date);
+                const eventEnd = new Date(event.endDate);
+                
+                let startWeekIndex = -1;
+                let endWeekIndex = -1;
+                
+                // Find first week that overlaps with event
+                for (let i = 0; i < weekColumns.length; i++) {
+                  const week = weekColumns[i];
+                  if (eventStart <= week.weekEnd && eventEnd >= week.week) {
+                    if (startWeekIndex === -1) startWeekIndex = i;
+                    endWeekIndex = i;
+                  }
+                }
+                
+                return {
+                  startIndex: Math.max(0, startWeekIndex),
+                  endIndex: Math.max(0, endWeekIndex),
+                  spanWeeks: Math.max(1, endWeekIndex - startWeekIndex + 1)
+                };
+              };
+
+              return (
+                <>
+                  {/* Desktop Timeline Grid - Week Horizontal, Popup Vertical */}
+                  <div className="hidden md:block p-4 overflow-x-auto">
+                    <div className="min-w-[1200px]">
+                      <div className="space-y-1">
+                        {/* Week Header Row */}
+                        <div className="grid gap-1" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
+                          <div className="text-xs font-mono font-bold text-muted-foreground p-2">POP-UP EVENTS</div>
+                          {weekColumns.map((weekData, idx) => {
+                            const weekStart = weekData.week;
+                            const weekEnd = weekData.weekEnd;
+                            const monthKey = getMonthKey(weekData.month);
+                            const isCurrentWeek = weekStart <= today && weekEnd >= today;
+                            const isCurrentMonth = monthKey === getMonthKey(today);
+
+                            // Calculate week number
+                            const getWeekNumber = (date: Date) => {
+                              const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+                              const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+                              return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+                            };
+
+                            const weekNumber = getWeekNumber(weekStart);
+
+                            return (
+                              <div
+                                key={idx}
+                                className={`text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
+                              >
+                                <div className="text-xs font-mono font-bold">
+                                  W{weekNumber}
+                                </div>
+                                <div className="text-[10px] font-mono opacity-75">
+                                  {weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* Popup Event Rows */}
+                        {popupEvents.map((event, eventIdx) => {
+                          const eventStart = new Date(event.date);
+                          const eventEnd = new Date(event.endDate);
+                          
+                          return (
+                            <div key={eventIdx} className="grid gap-1" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
+                              {/* Event Label */}
+                              <div className="text-xs font-mono text-muted-foreground flex items-center p-2 border-t border-border">
+                                <div className="space-y-1">
+                                  <div className="font-bold">{event.title}</div>
+                                  <div className="text-[10px] opacity-75">{event.networkState}</div>
+                                  <div className="text-[10px] opacity-75">{event.date} - {event.endDate}</div>
+                                </div>
+                              </div>
+
+                              {/* Week Columns */}
+                              {weekColumns.map((weekData, weekIdx) => {
+                                const weekStart = weekData.week;
+                                const weekEnd = weekData.weekEnd;
+                                
+                                // Check if event overlaps with this week
+                                const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
+                                
+                                // Find the first and last weeks this event appears in
+                                const firstWeekIndex = weekColumns.findIndex(week => 
+                                  eventStart <= week.weekEnd && eventEnd >= week.week
+                                );
+                                const lastWeekIndex = weekColumns.findLastIndex(week => 
+                                  eventStart <= week.weekEnd && eventEnd >= week.week
+                                );
+
+                                return (
+                                  <div
+                                    key={weekIdx}
+                                    className="relative min-h-[80px] border-l border-t border-border bg-muted/20"
+                                  >
+                                    {/* Only render the event bar in the first week it appears */}
+                                    {isActiveInWeek && weekIdx === firstWeekIndex && (
+                                      <div
+                                        className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        style={{
+                                          left: '2px',
+                                          width: `calc(${(lastWeekIndex - firstWeekIndex + 1) * 100}% - 4px)`,
+                                          top: '2px',
+                                          bottom: '2px',
+                                        }}
+                                        onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                                        title={`${event.title}\n${event.date} - ${event.endDate}\n${event.location}\n${event.networkState}`}
+                                      >
+                                        <div className="p-2 text-white text-[10px] font-mono leading-tight h-full overflow-hidden flex items-center justify-center">
+                                          <div className="text-center">
+                                            <div className="font-bold truncate">{event.title}</div>
+                                            <div className="opacity-90 truncate text-[9px]">
+                                              {event.date.split('-')[2]} - {event.endDate.split('-')[2]}
+                                            </div>
+                                            <div className="opacity-75 truncate text-[8px]">
+                                              {event.location}
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        {/* Tooltip on hover */}
+                                        <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block z-20 w-64 p-2 bg-popover border-2 border-border text-popover-foreground text-xs font-mono shadow-lg">
+                                          <div className="font-bold mb-1">{event.title}</div>
+                                          <div className="space-y-0.5 text-[10px]">
+                                            <div>📅 {event.date} - {event.endDate}</div>
+                                            <div>📍 {event.location}</div>
+                                            <div>🌐 {event.networkState}</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          );
+                        })}
+
+                        {/* Empty State */}
+                        {popupEvents.length === 0 && (
+                          <div className="text-center py-12 text-muted-foreground font-mono text-sm">
+                            No pop-up events found
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Mobile Timeline View */}
+                  <div className="md:hidden p-4 space-y-6">
+                    {(() => {
+                      // Sort popup events by start date
+                      const sortedPopupEvents = [...popupEvents].sort((a, b) =>
+                        new Date(a.date).getTime() - new Date(b.date).getTime()
+                      );
+
+                      return sortedPopupEvents.map((event, idx) => {
+                        const eventStart = new Date(event.date);
+                        const eventEnd = new Date(event.endDate);
+                        const dateLabel = eventStart.toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        });
+                        const endDateLabel = eventEnd.toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        });
+
+                        // Calculate duration in days
+                        const durationDays = Math.ceil((eventEnd.getTime() - eventStart.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
+                        return (
+                          <div key={idx} className="border-2 border-border bg-card">
+                            {/* Event Header */}
+                            <div className="bg-muted border-b-2 border-border p-3">
+                              <h4 className="font-mono font-bold text-sm">{event.title}</h4>
+                              <div className="font-mono text-xs text-muted-foreground mt-1">
+                                {event.networkState}
+                              </div>
+                            </div>
+
+                            {/* Timeline Visual */}
+                            <div className="p-3">
+                              <div className="space-y-2">
+                                {/* Date Range */}
+                                <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">
+                                  <span>{dateLabel}</span>
+                                  <span>{endDateLabel}</span>
+                                </div>
+
+                                {/* Timeline Bar */}
+                                <div className="relative">
+                                  <div className={`${getNetworkStateColor(event.networkState)} rounded border-2 border-border p-3 cursor-pointer hover:opacity-90 transition-opacity`}
+                                    onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                                  >
+                                    <div className="text-white space-y-1">
+                                      <div className="font-mono font-bold text-xs">
+                                        {durationDays} {durationDays === 1 ? 'day' : 'days'}
+                                      </div>
+                                      <div className="font-mono text-[10px] opacity-90">
+                                        📍 {event.location}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                {/* Duration Info */}
+                                <div className="text-center text-[10px] font-mono text-muted-foreground">
+                                  {event.date} → {event.endDate}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      });
+                    })()}
+                  </div>
+                </>
+              );
+            })()}
+          </div>
+        )}
       </section>
 
       {/* Events Table */}
