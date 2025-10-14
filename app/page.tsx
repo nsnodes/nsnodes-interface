@@ -3,7 +3,7 @@
 import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { getEvents, getPopupCities } from "@/lib/actions/events";
+import { getEvents /* , getPopupCities */ } from "@/lib/actions/events"; // getPopupCities temporarily disabled
 import type { UIEvent, PopupCity } from "@/lib/types/events";
 
 const networkStates = [
@@ -54,13 +54,26 @@ const networkStates = [
 
 ];
 
+// TODO: Remove this hardcoded data once database is fixed
+// Temporarily using hardcoded data while database is being updated
+const hardcodedPopupEvents: PopupCity[] = [
+  { date: "2025-10-27", endDate: "2025-11-23", title: "Invisible Garden Argentina", location: "Buenos Aires, Argentina", networkState: "Invisible Garden Argentina", url: "https://app.sola.day/event/invisiblegardenar" },
+  { date: "2025-10-18", endDate: "2025-11-15", title: "Edge City Patagonia", location: "San Martín, Argentina", networkState: "Edge City Patagonia", url: "https://app.sola.day/event/edgepatagonia" },
+  { date: "2025-08-28", endDate: "2025-12-31", title: "Próspera", location: "Próspera, Roatán", networkState: "Próspera", url: "https://app.sola.day/event/prospera" },
+  { date: "2025-07-19", endDate: "2025-08-01", title: "Zanzalu 2", location: "Zanzalu", networkState: "zanzalu", url: "https://app.sola.day/event/zanzalu" },
+  { date: "2025-01-09", endDate: "2025-12-31", title: "INFINITA", location: "Próspera ZEDE", networkState: "Infinita City / Community", url: "https://app.sola.day/event/infinita" },
+  { date: "2025-11-01", endDate: "2025-12-31", title: "4Seas", location: "Chiangmai, Thailand", networkState: "4Seas Community", url: "https://app.sola.day/event/4seas" }
+];
+
 type SortField = "date" | "event" | "location" | "networkState" | "type";
 type SortDirection = "asc" | "desc";
 
 export default function Home() {
   // Database state
   const [events, setEvents] = useState<UIEvent[]>([]);
-  const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
+  // Temporarily using hardcoded data - uncomment below to use database
+  const [popupEvents] = useState<PopupCity[]>(hardcodedPopupEvents);
+  // const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -113,22 +126,24 @@ export default function Home() {
       }
     }
 
-    async function loadPopupCities() {
-      try {
-        const fetchedPopups = await getPopupCities();
-
-        if (isMounted) {
-          setPopupEvents(fetchedPopups);
-        }
-      } catch (err) {
-        if (isMounted) {
-          console.error("Failed to load popup cities:", err);
-        }
-      }
-    }
+    // Temporarily disabled - using hardcoded data while database is being fixed
+    // Uncomment this function and the call below to use database
+    // async function loadPopupCities() {
+    //   try {
+    //     const fetchedPopups = await getPopupCities();
+    //
+    //     if (isMounted) {
+    //       setPopupEvents(fetchedPopups);
+    //     }
+    //   } catch (err) {
+    //     if (isMounted) {
+    //       console.error("Failed to load popup cities:", err);
+    //     }
+    //   }
+    // }
 
     loadEvents();
-    loadPopupCities();
+    // loadPopupCities(); // Temporarily disabled
 
     return () => {
       isMounted = false;
