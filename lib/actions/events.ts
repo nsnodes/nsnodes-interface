@@ -1,7 +1,7 @@
 'use server'
 
 import { createServerClient } from '@/lib/supabase/server'
-import { DatabaseEvent, UIEvent } from '@/lib/types/events'
+import { DatabaseEvent, UIEvent, PopupCity } from '@/lib/types/events'
 
 /**
  * Parse network state from organizers field
@@ -221,6 +221,83 @@ export async function getEventsByOrganizer(organizerSlug: string): Promise<UIEve
     return (data as DatabaseEvent[]).map(transformEvent)
   } catch (error) {
     console.error('Error in getEventsByOrganizer:', error)
+    return []
+  }
+}
+
+/**
+ * Transform a database event to popup city format
+ */
+function transformPopupCity(dbEvent: DatabaseEvent): PopupCity {
+  const startDate = new Date(dbEvent.start_at)
+  const endDate = new Date(dbEvent.end_at)
+
+  // Format dates as YYYY-MM-DD (UTC)
+  const date = startDate.toISOString().split('T')[0]
+  const endDateStr = endDate.toISOString().split('T')[0]
+
+  // Format location (prefer city, fallback to venue_name, address)
+  const location = dbEvent.city
+    ? `${dbEvent.city}${dbEvent.country ? ', ' + dbEvent.country : ''}`
+    : dbEvent.venue_name || dbEvent.address || 'TBD'
+
+  // Parse network state from organizers field
+  const networkState = parseNetworkState(dbEvent.organizers)
+
+  return {
+    date,
+    endDate: endDateStr,
+    title: dbEvent.title,
+    location,
+    networkState,
+    url: dbEvent.source_url
+  }
+}
+
+/**
+ * Fetch popup cities from Supabase
+ * Filters by the "popup-city" tag
+ */
+export async function getPopupCities(): Promise<PopupCity[]> {
+  try {
+    const supabase = createServerClient()
+
+    const { data, error } = await supabase
+      .from('events')
+      .select(`
+        title,
+        description,
+        start_at,
+        end_at,
+        timezone,
+        venue_name,
+        address,
+        city,
+        country,
+        lat,
+        lng,
+        source,
+        source_url,
+        organizers,
+        tags,
+        image_url
+      `)
+      // Filter for events with "popup-city" tag
+      .contains('tags', ['popup-city'])
+      // Show ongoing and upcoming popup cities
+      .gte('end_at', new Date().toISOString())
+      .order('start_at', { ascending: true })
+      .limit(100)
+
+    if (error) {
+      console.error('Error fetching popup cities from Supabase:', error)
+      return []
+    }
+
+    // Transform database events to popup city format
+    return (data as DatabaseEvent[]).map(transformPopupCity)
+  } catch (error) {
+    console.error('Error in getPopupCities:', error)
     return []
   }
 }
