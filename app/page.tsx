@@ -3,8 +3,8 @@
 import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { getEvents } from "@/lib/actions/events";
-import type { UIEvent } from "@/lib/types/events";
+import { getEvents, getPopupCities } from "@/lib/actions/events";
+import type { UIEvent, PopupCity } from "@/lib/types/events";
 
 const networkStates = [
   {
@@ -54,55 +54,13 @@ const networkStates = [
 
 ];
 
-// TODO: Fetch this from database - currently hardcoded
-// Consider creating a separate table for pop-up events with date ranges
-const popupEvents = [
-    {
-      date: "2025-08-25",
-      endDate: "2025-11-22",
-      title: "Aleph Festival",
-      location: "Aleph Hub, Buenos Aires, Argentina",
-      networkState: "Aleph Festival",
-      url: "https://aleph.crecimiento.build"
-    },
-    { date: "2025-10-18", endDate: "2025-11-15", title: "Edge City Patagonia", location: "San Martín, Argentina", networkState: "Edge City Patagonia", url: "https://app.sola.day/event/edgepatagonia" },
-
-    {
-      date: "2025-11-01",
-      endDate: "2025-11-16",
-      title: "The Oz City Patagonia",
-      location: "San Martín de los Andes, Patagonia, Argentina",
-      networkState: "Oz City Patagonia",
-      url: "https://www.theozcity.com"
-    },
-    {
-      date: "2025-10-24",
-      endDate: "2025-11-14",
-      title: "Builder Residency",
-      location: "Buenos Aires, Argentina",
-      networkState: "Builder Residency",
-      url: "https://www.fundingthecommons.io/builderresidency2025"
-    },
-    {
-      date: "2025-10-18",
-      endDate: "2025-11-15",
-      title: "Regen Haus Residency",
-      location: "San Martín de los Andes, Patagonia, Argentina",
-      networkState: "Regen Haus Residency",
-      url: "https://luma.com/drfil5al"
-    },
-{ date: "2025-10-27", endDate: "2025-11-23", title: "Invisible Garden Argentina", location: "Buenos Aires, Argentina", networkState: "Invisible Garden Argentina", url: "https://app.sola.day/event/invisiblegardenar" },
-  { date: "2025-11-01",   endDate: "2025-12-31", title: "4Seas", location: "Chiangmai, Thailand", networkState: "4Seas Community", url: "https://app.sola.day/event/4seas" }
-]
-
-
-
 type SortField = "date" | "event" | "location" | "networkState" | "type";
 type SortDirection = "asc" | "desc";
 
 export default function Home() {
   // Database state
   const [events, setEvents] = useState<UIEvent[]>([]);
+  const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -130,7 +88,7 @@ export default function Home() {
   const popupDropdownRef = useRef<HTMLDivElement>(null);
   const clearButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Fetch events from database on mount
+  // Fetch events and popup cities from database on mount
   useEffect(() => {
     let isMounted = true;
 
@@ -155,7 +113,22 @@ export default function Home() {
       }
     }
 
+    async function loadPopupCities() {
+      try {
+        const fetchedPopups = await getPopupCities();
+
+        if (isMounted) {
+          setPopupEvents(fetchedPopups);
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error("Failed to load popup cities:", err);
+        }
+      }
+    }
+
     loadEvents();
+    loadPopupCities();
 
     return () => {
       isMounted = false;
