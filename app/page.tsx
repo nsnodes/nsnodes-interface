@@ -3,7 +3,8 @@
 import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { societiesDatabase, getSocietiesByTier } from "@/lib/data/societies-database";
+import { getEvents } from "@/lib/actions/events";
+import type { UIEvent } from "@/lib/types/events";
 
 const networkStates = [
   {
@@ -53,43 +54,8 @@ const networkStates = [
 
 ];
 
-
-const events = [
-  // 🌿 Edge City Patagonia — Argentina
-  { date: "2025-10-19", time: "6:30 PM – 9:00 PM", title: "Opening Ceremony", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16088" },
-  { date: "2025-10-20", time: "7:00 AM – 8:00 AM", title: "Run Club", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16093" },
-  { date: "2025-10-20", time: "8:00 AM – 9:00 AM", title: "Yoga", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16167" },
-  { date: "2025-10-20", time: "10:00 AM – 12:00 PM", title: "Pomodoro Deepwork Session (Murmur Experiment)", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16114" },
-  { date: "2025-10-21", time: "8:00 AM – 9:00 AM", title: "Yoga", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16171" },
-  { date: "2025-10-21", time: "10:00 AM – 12:00 PM", title: "Pomodoro Deepwork Session (Murmur Experiment)", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16115" },
-  { date: "2025-10-22", time: "7:00 AM – 8:00 AM", title: "Run Club", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16097" },
-  { date: "2025-10-22", time: "7:15 AM – 9:00 AM", title: "Digital Detox Hike", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16140" },
-  { date: "2025-10-22", time: "8:00 AM – 9:00 AM", title: "Yoga", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16175" },
-  { date: "2025-10-22", time: "10:00 AM – 12:00 PM", title: "Pomodoro Deepwork Session (Murmur Experiment)", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16116" },
-  { date: "2025-10-22", time: "14:00 – 15:00", title: "Funding \"woo woo\" ventures", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Workshop", url: "https://app.sola.day/event/detail/16359" },
-  { date: "2025-11-10", time: "10:00 AM – 12:00 PM", title: "Pomodoro Deepwork Session (Murmur Experiment)", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Deepwork", url: "https://app.sola.day/event/detail/16135" },
-  { date: "2025-11-04", time: "18:45 – 20:00", title: "Psychedelic Movie Screening", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Screening", url: "https://app.sola.day/event/detail/16195" },
-  { date: "2025-11-06", time: "19:00 – 20:00", title: "Yoga Session", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Yoga", url: "https://app.sola.day/event/detail/16249" },
-  { date: "2025-11-04", time: "19:00 – 20:00", title: "Yoga Session", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Yoga", url: "https://app.sola.day/event/detail/16248" },
-
-  // 🌏 Chiang Mai — Thailand
-  { date: "2025-10-25", time: "10:00 – 12:00", title: "AI ENGINEERS MEETUP WEEKLY CHIANG MAI", location: "Chiang Mai, Thailand", networkState: "4Seas Community", type: "Meetup", url: "https://app.sola.day/event/detail/16278" },
-
-  // 🧘‍♀️ Network School — Forest City, Malaysia (Luma)
-  { date: "2025-10-11", time: "10:00 PM", title: "Morning Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "11:00 PM", title: "Learnathon: ML Foundations", location: "Forest City, Malaysia", networkState: "Network School", type: "Workshop", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "2:00 AM – 5:00 AM", title: "NS Badminton Club (NSBC)", location: "Forest City, Malaysia", networkState: "Network School", type: "Sports", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "2:30 AM – 5:30 AM", title: "Beach Volleyball + Cold Plunge", location: "Forest City, Malaysia", networkState: "Network School", type: "Sports", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "5:00 AM – 8:00 AM", title: "Vipassana Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-12", time: "8:00 PM", title: "NS October Mixer", location: "Forest City, Malaysia", networkState: "Network School", type: "Mixer", url: "https://lu.ma/ns" },
-  { date: "2025-10-12", time: "1:00 AM – 4:00 AM", title: "Commons: Opening Ceremony", location: "Forest City, Malaysia", networkState: "Network School", type: "Ceremony", url: "https://lu.ma/ns" },
-  { date: "2025-10-12", time: "5:00 AM – 8:00 AM", title: "Vipassana Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-13", time: "5:20 PM", title: "Morning Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-13", time: "1:00 AM – 4:00 AM", title: "Nomad Tax Reality Check – Myths, Risks & Real Solutions", location: "Forest City, Malaysia", networkState: "Network School", type: "Discussion", url: "https://lu.ma/ns" },
-  { date: "2025-10-14", time: "9:31 PM", title: "decoding VC and how you can raise your first round", location: "Forest City, Malaysia", networkState: "Network School", type: "Discussion", url: "https://lu.ma/ns" },
-  { date: "2025-10-17", time: "9:00 AM – 9:00 PM", title: "Ârc: Welcome Home at The Network State", location: "Forest City, Malaysiaa", networkState: "Network School", type: "Pop-Up", url: "https://luma.com/arc-ns" }
-]
-
+// TODO: Fetch this from database - currently hardcoded
+// Consider creating a separate table for pop-up events with date ranges
 const popupEvents = [
     {
       date: "2025-08-25",
@@ -135,17 +101,23 @@ type SortField = "date" | "event" | "location" | "networkState" | "type";
 type SortDirection = "asc" | "desc";
 
 export default function Home() {
+  // Database state
+  const [events, setEvents] = useState<UIEvent[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // UI state
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [selectedNetworkStates, setSelectedNetworkStates] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<string>("upcoming");
   const [customStartDate, setCustomStartDate] = useState<string>("");
   const [customEndDate, setCustomEndDate] = useState<string>("");
   const [networkStateSearch, setNetworkStateSearch] = useState<string>("");
   const [typeSearch, setTypeSearch] = useState<string>("");
-  const [locationSearch, setLocationSearch] = useState<string>("");
+  const [countrySearch, setCountrySearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
   const [timelineZoomDays, setTimelineZoomDays] = useState<number>(30);
@@ -157,6 +129,38 @@ export default function Home() {
   const timelineDropdownRef = useRef<HTMLDivElement>(null);
   const popupDropdownRef = useRef<HTMLDivElement>(null);
   const clearButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Fetch events from database on mount
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadEvents() {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const fetchedEvents = await getEvents();
+
+        if (isMounted) {
+          setEvents(fetchedEvents);
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error("Failed to load events:", err);
+          setError("Failed to load events. Please try refreshing the page.");
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadEvents();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Handle click outside to close all filters and dropdowns
   useEffect(() => {
@@ -244,20 +248,26 @@ export default function Home() {
     }
   };
 
-  // Get unique values for filters
-  const uniqueNetworkStates = Array.from(new Set(events.map(e => e.networkState))).sort();
-  const uniqueTypes = Array.from(new Set(events.map(e => e.type))).sort();
-  const uniqueLocations = Array.from(new Set(events.map(e => e.location))).sort();
+  // Get unique values for filters (filter out null/undefined/empty)
+  const uniqueNetworkStates = Array.from(
+    new Set(events.map(e => e.networkState).filter(Boolean))
+  ).sort();
+  const uniqueTypes = Array.from(
+    new Set(events.map(e => e.type).filter(Boolean))
+  ).sort();
+  const uniqueCountries = Array.from(
+    new Set(events.map(e => e.country).filter(Boolean))
+  ).sort();
 
-  // Filter lists based on search
+  // Filter lists based on search (with null safety)
   const filteredNetworkStates = uniqueNetworkStates.filter(ns =>
-    ns.toLowerCase().includes(networkStateSearch.toLowerCase())
+    ns?.toLowerCase().includes(networkStateSearch.toLowerCase())
   );
   const filteredTypes = uniqueTypes.filter(type =>
-    type.toLowerCase().includes(typeSearch.toLowerCase())
+    type?.toLowerCase().includes(typeSearch.toLowerCase())
   );
-  const filteredLocations = uniqueLocations.filter(location =>
-    location.toLowerCase().includes(locationSearch.toLowerCase())
+  const filteredCountries = uniqueCountries.filter(country =>
+    country?.toLowerCase().includes(countrySearch.toLowerCase())
   );
 
   const toggleFilter = (value: string, filterArray: string[], setFilter: React.Dispatch<React.SetStateAction<string[]>>) => {
@@ -287,7 +297,7 @@ export default function Home() {
       if (selectedTypes.length > 0 && !selectedTypes.includes(event.type)) {
         return false;
       }
-      if (selectedLocations.length > 0 && !selectedLocations.includes(event.location)) {
+      if (selectedCountries.length > 0 && !selectedCountries.includes(event.country)) {
         return false;
       }
       return true;
@@ -1002,9 +1012,13 @@ export default function Home() {
           </h2>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-xs font-mono">
-              <span className="opacity-60">
-                Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
-              </span>
+              {isLoading ? (
+                <span className="opacity-60 animate-pulse">Loading events...</span>
+              ) : (
+                <span className="opacity-60">
+                  Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
+                </span>
+              )}
             </div>
             <div className="relative flex border-2 border-border bg-card">
               <button
@@ -1153,7 +1167,7 @@ export default function Home() {
             )}
           </div>
 
-          {/* Location Filter */}
+          {/* Country Filter */}
           <div className="border-2 border-border bg-card">
             <button
               type="button"
@@ -1162,7 +1176,7 @@ export default function Home() {
             >
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
-                [ LOCATION ]
+                [ COUNTRY ]
               </div>
               {allFiltersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
             </button>
@@ -1172,22 +1186,22 @@ export default function Home() {
                   <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 opacity-50" />
                   <input
                     type="text"
-                    value={locationSearch}
-                    onChange={(e) => setLocationSearch(e.target.value)}
-                    placeholder="Search locations..."
+                    value={countrySearch}
+                    onChange={(e) => setCountrySearch(e.target.value)}
+                    placeholder="Search countries..."
                     className="w-full pl-7 pr-2 py-1 text-xs font-mono border border-border bg-background"
                   />
                 </div>
                 <div className="max-h-48 overflow-y-auto space-y-1">
-                  {filteredLocations.map(location => (
-                    <label key={location} className="flex items-center gap-2 cursor-pointer hover:bg-accent p-1 transition-colors">
+                  {filteredCountries.map(country => (
+                    <label key={country} className="flex items-center gap-2 cursor-pointer hover:bg-accent p-1 transition-colors">
                       <input
                         type="checkbox"
-                        checked={selectedLocations.includes(location)}
-                        onChange={() => toggleFilter(location, selectedLocations, setSelectedLocations)}
+                        checked={selectedCountries.includes(country)}
+                        onChange={() => toggleFilter(country, selectedCountries, setSelectedCountries)}
                         className="cursor-pointer"
                       />
-                      <span className="text-xs font-mono">{location}</span>
+                      <span className="text-xs font-mono">{country}</span>
                     </label>
                   ))}
                 </div>
@@ -1281,7 +1295,7 @@ export default function Home() {
         </div>
 
         {/* Clear Filters Button */}
-        {(selectedNetworkStates.length > 0 || selectedTypes.length > 0 || selectedLocations.length > 0 || selectedDateRange !== "upcoming") && (
+        {(selectedNetworkStates.length > 0 || selectedTypes.length > 0 || selectedCountries.length > 0 || selectedDateRange !== "upcoming") && (
           <button
             ref={clearButtonRef}
             type="button"
@@ -1289,7 +1303,7 @@ export default function Home() {
               e.stopPropagation(); // Prevent event bubbling to parent elements
               setSelectedNetworkStates([]);
               setSelectedTypes([]);
-              setSelectedLocations([]);
+              setSelectedCountries([]);
               setSelectedDateRange("upcoming");
               setCustomStartDate("");
               setCustomEndDate("");
@@ -1301,8 +1315,51 @@ export default function Home() {
           </button>
         )}
 
+        {/* Error State */}
+        {error && (
+          <div className="border-2 border-red-500 bg-red-50 dark:bg-red-950/20 p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-red-600 dark:text-red-400 text-2xl">⚠</span>
+              <div className="space-y-2">
+                <p className="font-mono text-sm text-red-600 dark:text-red-400 font-bold">
+                  Failed to load events
+                </p>
+                <p className="font-mono text-xs text-red-600/80 dark:text-red-400/80">
+                  {error}
+                </p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="font-mono text-xs border border-red-600 dark:border-red-400 px-3 py-1 hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors"
+                >
+                  [ RELOAD PAGE ]
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {isLoading && !error && (
+          <div className="border-2 border-border bg-card p-12 text-center">
+            <div className="space-y-4">
+              <div className="text-4xl animate-pulse">⏳</div>
+              <p className="font-mono text-sm opacity-60">Loading events from database...</p>
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && !error && events.length === 0 && (
+          <div className="border-2 border-border bg-card p-12 text-center">
+            <div className="space-y-4">
+              <div className="text-4xl">📭</div>
+              <p className="font-mono text-sm opacity-60">No events found in the database</p>
+            </div>
+          </div>
+        )}
+
         {/* Table View */}
-        {viewMode === "table" && (
+        {!isLoading && !error && events.length > 0 && viewMode === "table" && (
           <>
             {/* Desktop Table */}
             <div className="hidden md:block">
@@ -1456,7 +1513,7 @@ export default function Home() {
         )}
 
         {/* Timeline View */}
-        {viewMode === "gantt" && (
+        {!isLoading && !error && events.length > 0 && viewMode === "gantt" && (
           <div className="border-2 border-border bg-card">
             {/* Timeline Header */}
             <div className="border-b-2 border-border bg-muted p-4">
