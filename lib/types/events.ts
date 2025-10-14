@@ -40,3 +40,13 @@ export interface UIEvent {
   type: string
   url: string
 }
+
+// Type for popup cities (long-running events with date ranges)
+export interface PopupCity {
+  date: string // Start date in YYYY-MM-DD format
+  endDate: string // End date in YYYY-MM-DD format
+  title: string
+  location: string
+  networkState: string
+  url: string
+}
