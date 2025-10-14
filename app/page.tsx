@@ -683,36 +683,6 @@ export default function Home() {
                 return `${date.getFullYear()}-${date.getMonth()}`;
               };
 
-              // Helper function to get week key
-              const getWeekKey = (date: Date) => {
-                const weekStart = new Date(date);
-                weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-                return weekStart.toISOString().split('T')[0];
-              };
-
-              // Helper function to calculate event span across weeks
-              const getEventSpan = (event: typeof popupEvents[0]) => {
-                const eventStart = new Date(event.date);
-                const eventEnd = new Date(event.endDate);
-                
-                let startWeekIndex = -1;
-                let endWeekIndex = -1;
-                
-                // Find first week that overlaps with event
-                for (let i = 0; i < weekColumns.length; i++) {
-                  const week = weekColumns[i];
-                  if (eventStart <= week.weekEnd && eventEnd >= week.week) {
-                    if (startWeekIndex === -1) startWeekIndex = i;
-                    endWeekIndex = i;
-                  }
-                }
-                
-                return {
-                  startIndex: Math.max(0, startWeekIndex),
-                  endIndex: Math.max(0, endWeekIndex),
-                  spanWeeks: Math.max(1, endWeekIndex - startWeekIndex + 1)
-                };
-              };
 
               return (
                 <>

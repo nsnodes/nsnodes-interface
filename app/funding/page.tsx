@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp, ExternalLink, DollarSign, Gift, ArrowRight } from "lucide-react";
+import { TrendingUp, ExternalLink, Gift, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 export default function FundingPage() {
@@ -120,7 +120,7 @@ export default function FundingPage() {
       <section className="border-2 border-border p-8 bg-card text-center space-y-4">
         <h3 className="text-xl font-bold font-mono">[ BUILDING SOMETHING? ]</h3>
         <p className="text-sm font-mono text-muted-foreground max-w-2xl mx-auto">
-          Whether you need equity investment or non-dilutive grants, there's capital
+          Whether you need equity investment or non-dilutive grants, there&apos;s capital
           available for Network State builders. Explore both options to find the right fit.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">

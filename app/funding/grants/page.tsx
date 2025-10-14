@@ -266,7 +266,7 @@ export default function GrantsPage() {
             </ul>
           </div>
           <div className="space-y-2">
-            <div className="font-bold text-destructive">✗ DON'T:</div>
+            <div className="font-bold text-destructive">✗ DON&apos;T:</div>
             <ul className="space-y-1 text-muted-foreground ml-4">
               <li>• Ask for unrealistic amounts</li>
               <li>• Be vague about deliverables</li>

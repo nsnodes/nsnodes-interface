@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Moon, Sun, ChevronDown } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
 import { useState, useRef, useEffect } from "react";
@@ -9,7 +9,6 @@ import { LogoImage } from "@/components/logo-image";
 
 export function AsciiNav() {
   const pathname = usePathname();
-  const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [fundingDropdownOpen, setFundingDropdownOpen] = useState(false);
