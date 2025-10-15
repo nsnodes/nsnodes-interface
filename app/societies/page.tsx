@@ -1,9 +1,8 @@
 "use client";
 
 import { Users, MapPin, TrendingUp, ExternalLink, ChevronDown, ChevronUp, Calendar, MessageCircle } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 // Comprehensive network states data
 const networkStates = [

@@ -99,7 +99,7 @@ export default async function RootLayout({
                     Built with ❤️ for the Network State Community
                   </div>
                   <div className="font-mono text-[10px] opacity-50 italic">
-                    "The future is decentralized" - Balaji Srinivasan
+                    &quot;The future is decentralized&quot; - Balaji Srinivasan
                   </div>
                 </div>
               </div>
