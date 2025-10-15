@@ -90,11 +90,42 @@ const events = [
 ]
 
 const popupEvents = [
-  { date: "2025-10-27", endDate: "2025-11-23", title: "Invisible Garden Argentina", location: "Buenos Aires, Argentina", networkState: "Invisible Garden Argentina", url: "https://app.sola.day/event/invisiblegardenar" },
-  { date: "2025-10-18", endDate: "2025-11-15", title: "Edge City Patagonia", location: "San Martín, Argentina", networkState: "Edge City Patagonia", url: "https://app.sola.day/event/edgepatagonia" },
-  { date: "2025-08-28", endDate: "2025-12-31", title: "Próspera", location: "Próspera, Roatán", networkState: "Próspera", url: "https://app.sola.day/event/prospera" },
-  { date: "2025-01-09", endDate: "2025-12-31", title: "INFINITA", location: "Próspera ZEDE", networkState: "Infinita City / Community", url: "https://app.sola.day/event/infinita" },
-  { date: "2025-11-01", endDate: "2025-12-31", title: "4Seas", location: "Chiangmai, Thailand", networkState: "4Seas Community", url: "https://app.sola.day/event/4seas" }
+    {
+      date: "2025-08-25",
+      endDate: "2025-11-22",
+      title: "Aleph Festival",
+      location: "Aleph Hub, Buenos Aires, Argentina",
+      networkState: "Aleph Festival",
+      url: "https://aleph.crecimiento.build"
+    },
+    { date: "2025-10-18", endDate: "2025-11-15", title: "Edge City Patagonia", location: "San Martín, Argentina", networkState: "Edge City Patagonia", url: "https://app.sola.day/event/edgepatagonia" },
+
+    {
+      date: "2025-11-01",
+      endDate: "2025-11-16",
+      title: "The Oz City Patagonia",
+      location: "San Martín de los Andes, Patagonia, Argentina",
+      networkState: "Oz City Patagonia",
+      url: "https://www.theozcity.com"
+    },
+    {
+      date: "2025-10-24",
+      endDate: "2025-11-14",
+      title: "Builder Residency",
+      location: "Buenos Aires, Argentina",
+      networkState: "Builder Residency",
+      url: "https://www.fundingthecommons.io/builderresidency2025"
+    },
+    {
+      date: "2025-10-18",
+      endDate: "2025-11-15",
+      title: "Regen Haus Residency",
+      location: "San Martín de los Andes, Patagonia, Argentina",
+      networkState: "Regen Haus Residency",
+      url: "https://luma.com/drfil5al"
+    },
+{ date: "2025-10-27", endDate: "2025-11-23", title: "Invisible Garden Argentina", location: "Buenos Aires, Argentina", networkState: "Invisible Garden Argentina", url: "https://app.sola.day/event/invisiblegardenar" },
+  { date: "2025-11-01",   endDate: "2025-12-31", title: "4Seas", location: "Chiangmai, Thailand", networkState: "4Seas Community", url: "https://app.sola.day/event/4seas" }
 ]
 
 
@@ -353,21 +384,28 @@ export default function Home() {
 
   const getNetworkStateColor = (networkState: string) => {
     const colors: Record<string, string> = {
-      'Edge City Patagonia': 'bg-green-600',
+      // Network States
       'Network School': 'bg-gray-600',
-      '4Seas Community': 'bg-cyan-600',
       'StarShare': 'bg-purple-600',
       'ZuCity Japan': 'bg-pink-600',
       'Próspera': 'bg-orange-600',
       'ShanhaiWoo': 'bg-red-600',
       'Edge City': 'bg-emerald-600',
-      'Invisible Garden Argentina': 'bg-indigo-600',
       'ETH Safari': 'bg-yellow-600',
       'Web3 META Hub': 'bg-teal-600',
       'ShanhaiWoo · Singapore': 'bg-red-500',
       'east2046festival': 'bg-violet-600',
       'zanzalu': 'bg-rose-600',
       'Infinita City / Community': 'bg-slate-600',
+      
+      // Popup Events - Distinct high-contrast colors
+      'Aleph Festival': 'bg-gradient-to-r from-purple-700 to-fuchsia-600',
+      'Edge City Patagonia': 'bg-gradient-to-r from-green-700 to-emerald-600',
+      'Oz City Patagonia': 'bg-gradient-to-r from-blue-700 to-cyan-500',
+      'Builder Residency': 'bg-gradient-to-r from-amber-600 to-orange-500',
+      'Regen Haus Residency': 'bg-gradient-to-r from-lime-600 to-green-500',
+      'Invisible Garden Argentina': 'bg-gradient-to-r from-indigo-700 to-purple-600',
+      '4Seas Community': 'bg-gradient-to-r from-cyan-700 to-blue-500',
     };
     return colors[networkState] || 'bg-gray-600';
   };
@@ -630,7 +668,7 @@ export default function Home() {
             </div>
 
             {(() => {
-              // Calculate date range - start from current month
+              // Calculate date range - start from current week
               const today = new Date();
               today.setHours(0, 0, 0, 0);
               
@@ -641,41 +679,29 @@ export default function Home() {
               ]);
               const latestDate = new Date(Math.max(...allDates.map(d => d.getTime())));
               
-              // Start from current month
-              const startMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+              // Start from current week (Monday of current week)
+              const currentWeekStart = new Date(today);
+              currentWeekStart.setDate(today.getDate() - today.getDay() + 1); // Monday
               
-              // Generate month columns (horizontal) from current month
-              const monthColumns: Date[] = [];
-              for (let d = new Date(startMonth); 
-                   d <= latestDate; 
-                   d.setMonth(d.getMonth() + 1)) {
-                monthColumns.push(new Date(d));
-              }
-
-              // Generate week columns within each month
+              // Generate week columns directly (avoid month-based generation to prevent duplicates)
               const weekColumns: { month: Date; week: Date; weekEnd: Date }[] = [];
-              monthColumns.forEach(month => {
-                const monthStart = new Date(month.getFullYear(), month.getMonth(), 1);
-                const monthEnd = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+              const endDate = new Date(Math.max(latestDate.getTime(), today.getTime() + 90 * 24 * 60 * 60 * 1000)); // 90 days from now
+              
+              for (let weekStart = new Date(currentWeekStart); 
+                   weekStart <= endDate; 
+                   weekStart.setDate(weekStart.getDate() + 7)) {
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekEnd.getDate() + 6);
                 
-                // Find first week of month
-                const firstWeekStart = new Date(monthStart);
-                firstWeekStart.setDate(firstWeekStart.getDate() - firstWeekStart.getDay());
+                // Determine which month this week belongs to (use the month of the week start)
+                const weekMonth = new Date(weekStart.getFullYear(), weekStart.getMonth(), 1);
                 
-                // Generate weeks for this month
-                for (let weekStart = new Date(firstWeekStart); 
-                     weekStart <= monthEnd; 
-                     weekStart.setDate(weekStart.getDate() + 7)) {
-                  const weekEnd = new Date(weekStart);
-                  weekEnd.setDate(weekEnd.getDate() + 6);
-                  
-                  weekColumns.push({
-                    month: new Date(month),
-                    week: new Date(weekStart),
-                    weekEnd: new Date(weekEnd)
-                  });
-                }
-              });
+                weekColumns.push({
+                  month: weekMonth,
+                  week: new Date(weekStart),
+                  weekEnd: new Date(weekEnd)
+                });
+              }
 
               // Helper function to get month key
               const getMonthKey = (date: Date) => {
@@ -699,11 +725,17 @@ export default function Home() {
                             const isCurrentWeek = weekStart <= today && weekEnd >= today;
                             const isCurrentMonth = monthKey === getMonthKey(today);
 
-                            // Calculate week number
+                            // Calculate ISO week number
                             const getWeekNumber = (date: Date) => {
-                              const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-                              const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
-                              return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+                              const target = new Date(date.valueOf());
+                              const dayNr = (date.getDay() + 6) % 7;
+                              target.setDate(target.getDate() - dayNr + 3);
+                              const firstThursday = target.valueOf();
+                              target.setMonth(0, 1);
+                              if (target.getDay() !== 4) {
+                                target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+                              }
+                              return 1 + Math.ceil((firstThursday - target.valueOf()) / 604800000);
                             };
 
                             const weekNumber = getWeekNumber(weekStart);
@@ -828,11 +860,17 @@ export default function Home() {
                             const isCurrentWeek = weekStart <= today && weekEnd >= today;
                             const isCurrentMonth = monthKey === getMonthKey(today);
 
-                            // Calculate week number
+                            // Calculate ISO week number
                             const getWeekNumber = (date: Date) => {
-                              const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-                              const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
-                              return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+                              const target = new Date(date.valueOf());
+                              const dayNr = (date.getDay() + 6) % 7;
+                              target.setDate(target.getDate() - dayNr + 3);
+                              const firstThursday = target.valueOf();
+                              target.setMonth(0, 1);
+                              if (target.getDay() !== 4) {
+                                target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);
+                              }
+                              return 1 + Math.ceil((firstThursday - target.valueOf()) / 604800000);
                             };
 
                             const weekNumber = getWeekNumber(weekStart);
