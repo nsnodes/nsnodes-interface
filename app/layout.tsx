@@ -82,12 +82,27 @@ export default async function RootLayout({
           </div>
           {/* Removed coming soon overlay */}
           <main className="container mx-auto px-4 py-8 max-w-full overflow-x-hidden flex-1">{children}</main>
-          <footer className="border-t-2 border-border py-8">
+          <footer className="border-t-2 border-border py-4 sm:py-8">
             <div className="container mx-auto px-4">
-              <pre className="text-center font-mono text-[10px] sm:text-xs opacity-60 max-w-full overflow-x-auto whitespace-pre">{`╔═══════════════════════════════════════════════════════════╗
+              <div className="text-center">
+                {/* Mobile-friendly ASCII art */}
+                <div className="hidden sm:block">
+                  <pre className="font-mono text-[10px] sm:text-xs opacity-60 max-w-full overflow-x-auto whitespace-pre">{`╔═══════════════════════════════════════════════════════════╗
 ║  Built with ❤️ for the Network State Community           ║
 ║  "The future is decentralized" - Balaji Srinivasan       ║
 ╚═══════════════════════════════════════════════════════════╝`}</pre>
+                </div>
+                
+                {/* Mobile version - simpler text */}
+                <div className="sm:hidden space-y-2">
+                  <div className="font-mono text-xs opacity-60">
+                    Built with ❤️ for the Network State Community
+                  </div>
+                  <div className="font-mono text-[10px] opacity-50 italic">
+                    "The future is decentralized" - Balaji Srinivasan
+                  </div>
+                </div>
+              </div>
             </div>
           </footer>
         </ThemeProvider>

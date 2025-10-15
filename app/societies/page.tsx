@@ -1,8 +1,9 @@
 "use client";
 
 import { Users, MapPin, TrendingUp, ExternalLink, ChevronDown, ChevronUp, Calendar, MessageCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Comprehensive network states data
 const networkStates = [
@@ -330,7 +331,7 @@ export default function SocietiesPage() {
                           </a>
                         ))}
                         <Link
-                          href="/?filter=upcoming"
+                          href="/#upcoming-events"
                           className="block text-center text-xs font-mono text-primary hover:underline mt-3"
                         >
                           View all events on homepage →
@@ -360,7 +361,7 @@ export default function SocietiesPage() {
             [ GET IN TOUCH ]
           </Link>
           <Link
-            href="/"
+            href="/#upcoming-events"
             className="px-6 py-3 border-2 border-border bg-background hover:bg-accent transition-colors font-mono shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             [ VIEW EVENTS ]

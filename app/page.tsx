@@ -85,7 +85,7 @@ const events = [
   { date: "2025-10-12", time: "5:00 AM – 8:00 AM", title: "Vipassana Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
   { date: "2025-10-13", time: "5:20 PM", title: "Morning Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
   { date: "2025-10-13", time: "1:00 AM – 4:00 AM", title: "Nomad Tax Reality Check – Myths, Risks & Real Solutions", location: "Forest City, Malaysia", networkState: "Network School", type: "Discussion", url: "https://lu.ma/ns" },
-  { date: "2025-10-14", time: "9:30 PM", title: "decoding VC and how you can raise your first round", location: "Forest City, Malaysia", networkState: "Network School", type: "Discussion", url: "https://lu.ma/ns" },
+  { date: "2025-10-14", time: "9:31 PM", title: "decoding VC and how you can raise your first round", location: "Forest City, Malaysia", networkState: "Network School", type: "Discussion", url: "https://lu.ma/ns" },
   { date: "2025-10-17", time: "9:00 AM – 9:00 PM", title: "Ârc: Welcome Home at The Network State", location: "Forest City, Malaysiaa", networkState: "Network School", type: "Pop-Up", url: "https://luma.com/arc-ns" }
 ]
 
@@ -93,7 +93,6 @@ const popupEvents = [
   { date: "2025-10-27", endDate: "2025-11-23", title: "Invisible Garden Argentina", location: "Buenos Aires, Argentina", networkState: "Invisible Garden Argentina", url: "https://app.sola.day/event/invisiblegardenar" },
   { date: "2025-10-18", endDate: "2025-11-15", title: "Edge City Patagonia", location: "San Martín, Argentina", networkState: "Edge City Patagonia", url: "https://app.sola.day/event/edgepatagonia" },
   { date: "2025-08-28", endDate: "2025-12-31", title: "Próspera", location: "Próspera, Roatán", networkState: "Próspera", url: "https://app.sola.day/event/prospera" },
-  { date: "2025-07-19", endDate: "2025-08-01", title: "Zanzalu 2", location: "Zanzalu", networkState: "zanzalu", url: "https://app.sola.day/event/zanzalu" },
   { date: "2025-01-09", endDate: "2025-12-31", title: "INFINITA", location: "Próspera ZEDE", networkState: "Infinita City / Community", url: "https://app.sola.day/event/infinita" },
   { date: "2025-11-01", endDate: "2025-12-31", title: "4Seas", location: "Chiangmai, Thailand", networkState: "4Seas Community", url: "https://app.sola.day/event/4seas" }
 ]
@@ -683,36 +682,6 @@ export default function Home() {
                 return `${date.getFullYear()}-${date.getMonth()}`;
               };
 
-              // Helper function to get week key
-              const getWeekKey = (date: Date) => {
-                const weekStart = new Date(date);
-                weekStart.setDate(weekStart.getDate() - weekStart.getDay());
-                return weekStart.toISOString().split('T')[0];
-              };
-
-              // Helper function to calculate event span across weeks
-              const getEventSpan = (event: typeof popupEvents[0]) => {
-                const eventStart = new Date(event.date);
-                const eventEnd = new Date(event.endDate);
-                
-                let startWeekIndex = -1;
-                let endWeekIndex = -1;
-                
-                // Find first week that overlaps with event
-                for (let i = 0; i < weekColumns.length; i++) {
-                  const week = weekColumns[i];
-                  if (eventStart <= week.weekEnd && eventEnd >= week.week) {
-                    if (startWeekIndex === -1) startWeekIndex = i;
-                    endWeekIndex = i;
-                  }
-                }
-                
-                return {
-                  startIndex: Math.max(0, startWeekIndex),
-                  endIndex: Math.max(0, endWeekIndex),
-                  spanWeeks: Math.max(1, endWeekIndex - startWeekIndex + 1)
-                };
-              };
 
               return (
                 <>
@@ -846,75 +815,132 @@ export default function Home() {
                   </div>
 
                   {/* Mobile Timeline View */}
-                  <div className="md:hidden p-4 space-y-6">
-                    {(() => {
-                      // Sort popup events by start date
-                      const sortedPopupEvents = [...popupEvents].sort((a, b) =>
-                        new Date(a.date).getTime() - new Date(b.date).getTime()
-                      );
+                  <div className="md:hidden p-4 overflow-x-auto">
+                    <div className="min-w-[800px]">
+                      <div className="space-y-1">
+                        {/* Week Header Row */}
+                        <div className="grid gap-1" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
+                          <div className="text-xs font-mono font-bold text-muted-foreground p-2">POP-UP EVENTS</div>
+                          {weekColumns.map((weekData, idx) => {
+                            const weekStart = weekData.week;
+                            const weekEnd = weekData.weekEnd;
+                            const monthKey = getMonthKey(weekData.month);
+                            const isCurrentWeek = weekStart <= today && weekEnd >= today;
+                            const isCurrentMonth = monthKey === getMonthKey(today);
 
-                      return sortedPopupEvents.map((event, idx) => {
-                        const eventStart = new Date(event.date);
-                        const eventEnd = new Date(event.endDate);
-                        const dateLabel = eventStart.toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric'
-                        });
-                        const endDateLabel = eventEnd.toLocaleDateString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric'
-                        });
+                            // Calculate week number
+                            const getWeekNumber = (date: Date) => {
+                              const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+                              const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+                              return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+                            };
 
-                        // Calculate duration in days
-                        const durationDays = Math.ceil((eventEnd.getTime() - eventStart.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                            const weekNumber = getWeekNumber(weekStart);
 
-                        return (
-                          <div key={idx} className="border-2 border-border bg-card">
-                            {/* Event Header */}
-                            <div className="bg-muted border-b-2 border-border p-3">
-                              <h4 className="font-mono font-bold text-sm">{event.title}</h4>
-                              <div className="font-mono text-xs text-muted-foreground mt-1">
-                                {event.networkState}
-                              </div>
-                            </div>
-
-                            {/* Timeline Visual */}
-                            <div className="p-3">
-                              <div className="space-y-2">
-                                {/* Date Range */}
-                                <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">
-                                  <span>{dateLabel}</span>
-                                  <span>{endDateLabel}</span>
+                            return (
+                              <div
+                                key={idx}
+                                className={`text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
+                              >
+                                <div className="text-xs font-mono font-bold">
+                                  W{weekNumber}
                                 </div>
+                                <div className="text-[10px] font-mono opacity-75">
+                                  {weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
 
-                                {/* Timeline Bar */}
-                                <div className="relative">
-                                  <div className={`${getNetworkStateColor(event.networkState)} rounded border-2 border-border p-3 cursor-pointer hover:opacity-90 transition-opacity`}
-                                    onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                        {/* Popup Event Rows */}
+                        {popupEvents.map((event, eventIdx) => {
+                          const eventStart = new Date(event.date);
+                          const eventEnd = new Date(event.endDate);
+                          
+                          return (
+                            <div key={eventIdx} className="grid gap-1" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
+                              {/* Event Label */}
+                              <div className="text-xs font-mono text-muted-foreground flex items-center p-2 border-t border-border">
+                                <div className="space-y-1">
+                                  <div className="font-bold">{event.title}</div>
+                                  <div className="text-[10px] opacity-75">{event.networkState}</div>
+                                  <div className="text-[10px] opacity-75">{event.date} - {event.endDate}</div>
+                                </div>
+                              </div>
+
+                              {/* Week Columns */}
+                              {weekColumns.map((weekData, weekIdx) => {
+                                const weekStart = weekData.week;
+                                const weekEnd = weekData.weekEnd;
+                                
+                                // Check if event overlaps with this week
+                                const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
+                                
+                                // Find the first and last weeks this event appears in
+                                const firstWeekIndex = weekColumns.findIndex(week => 
+                                  eventStart <= week.weekEnd && eventEnd >= week.week
+                                );
+                                const lastWeekIndex = weekColumns.findLastIndex(week => 
+                                  eventStart <= week.weekEnd && eventEnd >= week.week
+                                );
+
+                                return (
+                                  <div
+                                    key={weekIdx}
+                                    className="relative min-h-[60px] border-l border-t border-border bg-muted/20"
                                   >
-                                    <div className="text-white space-y-1">
-                                      <div className="font-mono font-bold text-xs">
-                                        {durationDays} {durationDays === 1 ? 'day' : 'days'}
-                                      </div>
-                                      <div className="font-mono text-[10px] opacity-90">
-                                        📍 {event.location}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                                    {/* Only render the event bar in the first week it appears */}
+                                    {isActiveInWeek && weekIdx === firstWeekIndex && (
+                                      <div
+                                        className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        style={{
+                                          left: '2px',
+                                          width: `calc(${(lastWeekIndex - firstWeekIndex + 1) * 100}% - 4px)`,
+                                          top: '2px',
+                                          bottom: '2px',
+                                        }}
+                                        onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                                        title={`${event.title}\n${event.date} - ${event.endDate}\n${event.location}\n${event.networkState}`}
+                                      >
+                                        <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden flex items-center justify-center">
+                                          <div className="text-center">
+                                            <div className="font-bold truncate">{event.title}</div>
+                                            <div className="opacity-90 truncate text-[8px]">
+                                              {event.date.split('-')[2]} - {event.endDate.split('-')[2]}
+                                            </div>
+                                            <div className="opacity-75 truncate text-[7px]">
+                                              {event.location}
+                                            </div>
+                                          </div>
+                                        </div>
 
-                                {/* Duration Info */}
-                                <div className="text-center text-[10px] font-mono text-muted-foreground">
-                                  {event.date} → {event.endDate}
-                                </div>
-                              </div>
+                                        {/* Tooltip on hover */}
+                                        <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block z-20 w-48 p-2 bg-popover border-2 border-border text-popover-foreground text-xs font-mono shadow-lg">
+                                          <div className="font-bold mb-1">{event.title}</div>
+                                          <div className="space-y-0.5 text-[10px]">
+                                            <div>📅 {event.date} - {event.endDate}</div>
+                                            <div>📍 {event.location}</div>
+                                            <div>🌐 {event.networkState}</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })}
                             </div>
+                          );
+                        })}
+
+                        {/* Empty State */}
+                        {popupEvents.length === 0 && (
+                          <div className="text-center py-12 text-muted-foreground font-mono text-sm">
+                            No pop-up events found
                           </div>
-                        );
-                      });
-                    })()}
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </>
               );
@@ -924,7 +950,7 @@ export default function Home() {
       </section>
 
       {/* Events Table */}
-      <section className="space-y-6">
+      <section id="upcoming-events" className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
             <Calendar className="h-6 w-6" />
@@ -1390,7 +1416,7 @@ export default function Home() {
               <div className="flex items-center justify-between">
                 <h3 className="font-mono font-bold text-lg flex items-center gap-2">
                   <BarChart3 className="h-5 w-5" />
-                  [ EVENT TIMELINE ]
+                  [ EVENTS ]
                 </h3>
                 <div ref={timelineDropdownRef} className="relative">
                   <div className="flex items-center gap-2">
@@ -1640,130 +1666,161 @@ export default function Home() {
                   </div>
 
                   {/* Mobile Timeline View */}
-                  <div className="md:hidden p-4 space-y-6">
-                    {sortedDates.map((date: string) => {
-                      const dateEvents = eventsByDate[date] || [];
-                      if (dateEvents.length === 0) return null;
+                  <div className="md:hidden p-4 overflow-x-auto">
+                    <div className="min-w-[800px]">
+                      <div className="space-y-6">
+                        {/* Date Header */}
+                        <div className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${Math.min(dateColumns.length, 31)}, minmax(60px, 1fr))` }}>
+                          <div className="text-xs font-mono font-bold text-muted-foreground"></div>
+                          {dateColumns.slice(0, 31).map((date, idx) => {
+                            const dateStr = date.toISOString().split('T')[0];
+                            const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
+                            const dayOfMonth = date.getDate();
+                            const isToday = dateStr === today.toISOString().split('T')[0];
+                            const hasEvents = eventsByDate[dateStr];
 
-                      const eventDate = new Date(date);
-                      const dateLabel = eventDate.toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric'
-                      });
+                            return (
+                              <div
+                                key={idx}
+                                className={`text-center border-l border-border p-1 ${isToday ? 'bg-primary/10' : ''} ${hasEvents ? 'font-bold' : ''}`}
+                              >
+                                <div className="text-xs font-mono">{dayOfWeek}</div>
+                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`}>
+                                  {dayOfMonth}
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
 
-                      // Sort events by start time for this date
-                      const sortedEvents = [...dateEvents].sort((a, b) => {
-                        return getEventStartHour(a) - getEventStartHour(b);
-                      });
+                        {/* 24-hour Timeline Grid */}
+                        {Array.from({ length: 24 }, (_, hour) => {
+                          // Get events for this hour across all dates
+                          const hourEvents = sortedDates.flatMap(date => {
+                            const dateEvents = eventsByDate[date] || [];
+                            return dateEvents
+                              .filter(event => {
+                                const eventStartHour = Math.floor(getEventStartHour(event));
+                                const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                return hour >= eventStartHour && hour < eventEndHour;
+                              })
+                              .map(event => ({ ...event, date }));
+                          });
 
-                      // Calculate overlapping events and assign columns
-                      const columns: number[] = [];
-                      const eventsWithColumns = sortedEvents.map((event, idx) => {
-                        const startTime = getEventStartHour(event);
-                        const endTime = startTime + getEventDuration(event);
+                          // Only show rows with events
+                          if (hourEvents.length === 0) return null;
 
-                        // Find overlapping events before this one
-                        let column = 0;
-                        const usedColumns = new Set<number>();
+                          return (
+                            <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${Math.min(dateColumns.length, 31)}, minmax(60px, 1fr))` }}>
+                              {/* Hour Label */}
+                              <div className="text-xs font-mono text-muted-foreground flex items-center">
+                                {hour.toString().padStart(2, '0')}:00
+                              </div>
 
-                        for (let i = 0; i < idx; i++) {
-                          const otherEvent = sortedEvents[i];
-                          const otherStart = getEventStartHour(otherEvent);
-                          const otherEnd = otherStart + getEventDuration(otherEvent);
+                              {/* Date Columns */}
+                              {dateColumns.slice(0, 31).map((date, idx) => {
+                                const dateStr = date.toISOString().split('T')[0];
+                                const dayEvents = (eventsByDate[dateStr] || []).filter(event => {
+                                  const eventStartHour = Math.floor(getEventStartHour(event));
+                                  const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                  return hour >= eventStartHour && hour < eventEndHour;
+                                });
 
-                          // Check if events overlap
-                          if (startTime < otherEnd && endTime > otherStart) {
-                            usedColumns.add(columns[i]);
-                          }
-                        }
+                                // Calculate columns for overlapping events in this hour
+                                const eventsStartingThisHour = dayEvents.filter(event => Math.floor(getEventStartHour(event)) === hour);
+                                const eventColumns: number[] = [];
+                                const eventsWithCols = eventsStartingThisHour.map((event, eventIdx) => {
+                                  const startTime = getEventStartHour(event);
+                                  const endTime = startTime + getEventDuration(event);
 
-                        // Find first available column
-                        while (usedColumns.has(column)) {
-                          column++;
-                        }
+                                  let column = 0;
+                                  const usedColumns = new Set<number>();
 
-                        columns.push(column);
-                        return { event, column };
-                      });
+                                  // Check for overlaps with previously processed events
+                                  for (let i = 0; i < eventIdx; i++) {
+                                    const otherEvent = eventsStartingThisHour[i];
+                                    const otherStart = getEventStartHour(otherEvent);
+                                    const otherEnd = otherStart + getEventDuration(otherEvent);
 
-                      // Calculate max columns needed
-                      const maxColumns = Math.max(1, ...columns.map(c => c + 1));
+                                    if (startTime < otherEnd && endTime > otherStart) {
+                                      usedColumns.add(eventColumns[i]);
+                                    }
+                                  }
 
-                      // Get the hour range for this day
-                      const minHour = Math.floor(Math.min(...sortedEvents.map(e => getEventStartHour(e))));
-                      const maxHour = Math.ceil(Math.max(...sortedEvents.map(e => getEventStartHour(e) + getEventDuration(e))));
+                                  while (usedColumns.has(column)) {
+                                    column++;
+                                  }
 
-                      return (
-                        <div key={date} className="border-2 border-border bg-card">
-                          {/* Date Header */}
-                          <div className="bg-muted border-b-2 border-border p-3">
-                            <h4 className="font-mono font-bold text-sm">{dateLabel}</h4>
-                          </div>
+                                  eventColumns.push(column);
+                                  return { event, column };
+                                });
 
-                          {/* Timeline Grid */}
-                          <div className="p-3">
-                            <div className="relative">
-                              {/* Hour markers and grid */}
-                              {Array.from({ length: maxHour - minHour + 1 }, (_, i) => {
-                                const hour = minHour + i;
+                                const maxCols = eventsStartingThisHour.length > 0 ? Math.max(1, ...eventColumns.map(c => c + 1)) : 1;
+
                                 return (
-                                  <div key={hour} className="flex border-t border-border" style={{ height: '60px' }}>
-                                    {/* Hour label */}
-                                    <div className="w-12 flex-shrink-0 text-[10px] font-mono text-muted-foreground pt-1">
-                                      {hour.toString().padStart(2, '0')}:00
-                                    </div>
-                                    {/* Grid line */}
-                                    <div className="flex-1 bg-muted/20 relative"></div>
+                                  <div
+                                    key={idx}
+                                    className="relative min-h-[40px] border-l border-t border-border bg-muted/20"
+                                  >
+                                    {eventsWithCols.map(({ event, column }, eventIdx) => {
+                                      const startHour = getEventStartHour(event);
+                                      const duration = getEventDuration(event);
+
+                                      const heightInPx = Math.max(30, duration * 40);
+                                      const topOffset = ((startHour % 1) * 40);
+
+                                      // Calculate column positioning
+                                      const columnWidth = 100 / maxCols;
+                                      const leftPercent = column * columnWidth;
+
+                                      return (
+                                        <div
+                                          key={eventIdx}
+                                          className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                          style={{
+                                            top: `${topOffset}px`,
+                                            height: `${heightInPx}px`,
+                                            left: `${leftPercent}%`,
+                                            width: `calc(${columnWidth}% - 2px)`,
+                                          }}
+                                          onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
+                                          title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
+                                        >
+                                          <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden">
+                                            <div className="font-bold truncate">{event.title}</div>
+                                            <div className="opacity-90 truncate text-[8px]">{event.time}</div>
+                                            <div className="opacity-75 truncate text-[7px]">{event.networkState}</div>
+                                          </div>
+
+                                          {/* Tooltip on hover */}
+                                          <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block z-20 w-48 p-2 bg-popover border-2 border-border text-popover-foreground text-xs font-mono shadow-lg">
+                                            <div className="font-bold mb-1">{event.title}</div>
+                                            <div className="space-y-0.5 text-[10px]">
+                                              <div>📅 {event.date}</div>
+                                              <div>🕐 {event.time}</div>
+                                              <div>📍 {event.location}</div>
+                                              <div>🌐 {event.networkState}</div>
+                                              <div>🏷️ {event.type}</div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
                                   </div>
                                 );
                               })}
-
-                              {/* Events overlay */}
-                              <div className="absolute top-0 left-12 right-0 bottom-0">
-                                {eventsWithColumns.map(({ event, column }, idx) => {
-                                  const startHour = getEventStartHour(event);
-                                  const duration = getEventDuration(event);
-                                  const topPosition = (startHour - minHour) * 60;
-                                  const height = duration * 60;
-
-                                  // Calculate column width and position
-                                  const columnWidth = 100 / maxColumns;
-                                  const leftPercent = column * columnWidth;
-                                  const widthPercent = columnWidth;
-
-                                  return (
-                                    <div
-                                      key={idx}
-                                      className={`absolute ${getNetworkStateColor(event.networkState)} rounded border-2 border-border cursor-pointer hover:opacity-90 transition-opacity overflow-hidden`}
-                                      style={{
-                                        top: `${topPosition}px`,
-                                        height: `${Math.max(height, 40)}px`,
-                                        left: `${leftPercent}%`,
-                                        width: `calc(${widthPercent}% - 4px)`,
-                                      }}
-                                      onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
-                                    >
-                                      <div className="p-2 text-white h-full overflow-hidden">
-                                        <div className="font-mono font-bold text-[11px] leading-tight truncate">
-                                          {event.title}
-                                        </div>
-                                        <div className="font-mono text-[10px] opacity-90 truncate">
-                                          {event.time}
-                                        </div>
-                                        <div className="font-mono text-[9px] opacity-75 truncate">
-                                          {event.networkState}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  );
-                                })}
-                              </div>
                             </div>
+                          );
+                        })}
+
+                        {/* Empty State */}
+                        {filteredAndSortedEvents.length === 0 && (
+                          <div className="text-center py-12 text-muted-foreground font-mono text-sm">
+                            No events found in the selected date range
                           </div>
-                        </div>
-                      );
-                    })}
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </>
               );
@@ -1772,11 +1829,6 @@ export default function Home() {
         )}
       </section>
 
-      {/* Meme Section */}
-      <section className="border-2 border-border p-6 bg-card text-center overflow-x-hidden">
-        <pre className="font-mono text-xs sm:text-sm leading-relaxed opacity-80 max-w-full overflow-x-auto">
-        </pre>
-      </section>
       </div>
     </div>
   );
