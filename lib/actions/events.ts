@@ -125,7 +125,7 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
     time,
     title: dbEvent.title,
     location,
-    country: dbEvent.country || 'Unknown',
+    country: dbEvent.country || '',
     networkState,
     type,
     url: dbEvent.source_url
