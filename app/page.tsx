@@ -639,12 +639,23 @@ export default function Home() {
             {/* Timeline Legend */}
             <div className="border-b border-border bg-card p-4">
               <div className="flex flex-wrap gap-3 text-xs font-mono">
-                {popupEvents.map((event, index) => (
-                  <div key={index} className="flex items-center gap-1">
-                    <div className={`w-3 h-3 ${getPopupCityColor(index)}`}></div>
-                    <span>{event.networkState}</span>
-                  </div>
-                ))}
+                {(() => {
+                  const today = new Date();
+                  today.setHours(0, 0, 0, 0);
+                  const endDate = new Date(today.getTime() + popupZoomDays * 24 * 60 * 60 * 1000);
+
+                  return popupEvents
+                    .filter(event => {
+                      const eventStart = new Date(event.date);
+                      return eventStart <= endDate;
+                    })
+                    .map((event, index) => (
+                      <div key={index} className="flex items-center gap-1">
+                        <div className={`w-3 h-3 ${getPopupCityColor(index)}`}></div>
+                        <span>{event.networkState}</span>
+                      </div>
+                    ));
+                })()}
               </div>
             </div>
 
@@ -732,7 +743,12 @@ export default function Home() {
                         </div>
 
                         {/* Popup Event Rows */}
-                        {popupEvents.map((event, eventIdx) => {
+                        {popupEvents
+                          .filter(event => {
+                            const eventStart = new Date(event.date);
+                            return eventStart <= endDate; // Only show events starting within zoom range
+                          })
+                          .map((event, eventIdx) => {
                           const eventStart = new Date(event.date);
                           const eventEnd = new Date(event.endDate);
 
@@ -868,7 +884,12 @@ export default function Home() {
                         </div>
 
                         {/* Popup Event Rows */}
-                        {popupEvents.map((event, eventIdx) => {
+                        {popupEvents
+                          .filter(event => {
+                            const eventStart = new Date(event.date);
+                            return eventStart <= endDate; // Only show events starting within zoom range
+                          })
+                          .map((event, eventIdx) => {
                           const eventStart = new Date(event.date);
                           const eventEnd = new Date(event.endDate);
 
