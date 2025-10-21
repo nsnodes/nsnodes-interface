@@ -3,6 +3,7 @@
 import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
+import { societiesDatabase, getSocietiesByTier } from "@/lib/data/societies-database";
 
 const networkStates = [
   {
@@ -155,10 +156,15 @@ export default function Home() {
   const filtersRef = useRef<HTMLDivElement>(null);
   const timelineDropdownRef = useRef<HTMLDivElement>(null);
   const popupDropdownRef = useRef<HTMLDivElement>(null);
+  const clearButtonRef = useRef<HTMLButtonElement>(null);
 
   // Handle click outside to close all filters and dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Don't close if clicking the clear button
+      if (clearButtonRef.current && clearButtonRef.current.contains(event.target as Node)) {
+        return;
+      }
       if (filtersRef.current && !filtersRef.current.contains(event.target as Node)) {
         setAllFiltersOpen(false);
       }
@@ -1277,14 +1283,17 @@ export default function Home() {
         {/* Clear Filters Button */}
         {(selectedNetworkStates.length > 0 || selectedTypes.length > 0 || selectedLocations.length > 0 || selectedDateRange !== "upcoming") && (
           <button
+            ref={clearButtonRef}
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent event bubbling to parent elements
               setSelectedNetworkStates([]);
               setSelectedTypes([]);
               setSelectedLocations([]);
               setSelectedDateRange("upcoming");
               setCustomStartDate("");
               setCustomEndDate("");
+              setAllFiltersOpen(false); // Close the filters dropdown
             }}
             className="font-mono text-xs border-2 border-border px-4 py-2 bg-card hover:bg-accent transition-colors"
           >
