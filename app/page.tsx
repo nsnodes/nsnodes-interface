@@ -244,7 +244,7 @@ export default function Home() {
     new Set(events.map(e => e.type).filter(Boolean))
   ).sort();
   const uniqueCountries = Array.from(
-    new Set(events.map(e => e.country).filter(Boolean))
+    new Set(events.map(e => e.country).filter(c => c && c !== 'Unknown'))
   ).sort();
 
   // Filter lists based on search (with null safety)

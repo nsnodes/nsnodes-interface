@@ -38,17 +38,18 @@ function parseNetworkState(organizers: Array<{ name: string }> | string | null):
       return 'Unknown'
     }
 
-    const firstOrg = parsed[0]
+    // Network state is the LAST organizer in the array
+    const lastOrg = parsed[parsed.length - 1]
 
-    // If first item is an object with a 'name' property
-    if (typeof firstOrg === 'object' && firstOrg !== null && 'name' in firstOrg) {
-      const name = firstOrg.name
+    // If last item is an object with a 'name' property
+    if (typeof lastOrg === 'object' && lastOrg !== null && 'name' in lastOrg) {
+      const name = lastOrg.name
       return (typeof name === 'string' && name.trim()) ? name.trim() : 'Unknown'
     }
 
-    // If first item is just a string
-    if (typeof firstOrg === 'string' && firstOrg.trim()) {
-      return firstOrg.trim()
+    // If last item is just a string
+    if (typeof lastOrg === 'string' && lastOrg.trim()) {
+      return lastOrg.trim()
     }
   }
 
@@ -125,7 +126,7 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
     time,
     title: dbEvent.title,
     location,
-    country: dbEvent.country || '',
+    country: dbEvent.country || 'Unknown',
     networkState,
     type,
     url: dbEvent.source_url
