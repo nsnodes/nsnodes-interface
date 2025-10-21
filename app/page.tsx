@@ -748,6 +748,7 @@ export default function Home() {
                               <div
                                 key={idx}
                                 className={`text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
+                                suppressHydrationWarning
                               >
                                 <div className="text-xs font-mono font-bold">
                                   W{weekNumber}
@@ -883,6 +884,7 @@ export default function Home() {
                               <div
                                 key={idx}
                                 className={`text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
+                                suppressHydrationWarning
                               >
                                 <div className="text-xs font-mono font-bold">
                                   W{weekNumber}
@@ -1617,9 +1619,10 @@ export default function Home() {
                               <div
                                 key={idx}
                                 className={`text-center border-l border-border p-1 ${isToday ? 'bg-primary/10' : ''} ${hasEvents ? 'font-bold' : ''}`}
+                                suppressHydrationWarning
                               >
                                 <div className="text-xs font-mono">{dayOfWeek}</div>
-                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`}>
+                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`} suppressHydrationWarning>
                                   {dayOfMonth}
                                 </div>
                               </div>
@@ -1775,9 +1778,10 @@ export default function Home() {
                               <div
                                 key={idx}
                                 className={`text-center border-l border-border p-1 ${isToday ? 'bg-primary/10' : ''} ${hasEvents ? 'font-bold' : ''}`}
+                                suppressHydrationWarning
                               >
                                 <div className="text-xs font-mono">{dayOfWeek}</div>
-                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`}>
+                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`} suppressHydrationWarning>
                                   {dayOfMonth}
                                 </div>
                               </div>
