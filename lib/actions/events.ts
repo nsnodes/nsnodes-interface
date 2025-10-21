@@ -242,8 +242,8 @@ function transformPopupCity(dbEvent: DatabaseEvent): PopupCity {
     ? `${dbEvent.city}${dbEvent.country ? ', ' + dbEvent.country : ''}`
     : dbEvent.venue_name || dbEvent.address || 'TBD'
 
-  // Parse network state from organizers field
-  const networkState = parseNetworkState(dbEvent.organizers)
+  // Use same logic as location for network state
+  const networkState = location
 
   return {
     date,
@@ -262,6 +262,10 @@ function transformPopupCity(dbEvent: DatabaseEvent): PopupCity {
 export async function getPopupCities(): Promise<PopupCity[]> {
   try {
     const supabase = createServerClient()
+
+    // Calculate date range: events starting within next 365 days
+    const today = new Date()
+    const maxStartDate = new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000)
 
     const { data, error } = await supabase
       .from('events')
@@ -285,8 +289,10 @@ export async function getPopupCities(): Promise<PopupCity[]> {
       `)
       // Filter for events with "popup-city" tag
       .contains('tags', ['popup-city'])
-      // Show ongoing and upcoming popup cities
-      .gte('end_at', new Date().toISOString())
+      // Show popup cities that haven't ended yet
+      .gte('end_at', today.toISOString())
+      // Only show popup cities starting within the next 365 days
+      .lte('start_at', maxStartDate.toISOString())
       .order('start_at', { ascending: true })
       .limit(100)
 

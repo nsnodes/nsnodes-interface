@@ -3,7 +3,7 @@
 import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { getEvents /* , getPopupCities */ } from "@/lib/actions/events"; // getPopupCities temporarily disabled
+import { getEvents, getPopupCities } from "@/lib/actions/events";
 import type { UIEvent, PopupCity } from "@/lib/types/events";
 
 const networkStates = [
@@ -54,26 +54,13 @@ const networkStates = [
 
 ];
 
-// TODO: Remove this hardcoded data once database is fixed
-// Temporarily using hardcoded data while database is being updated
-const hardcodedPopupEvents: PopupCity[] = [
-  { date: "2025-10-27", endDate: "2025-11-23", title: "Invisible Garden Argentina", location: "Buenos Aires, Argentina", networkState: "Invisible Garden Argentina", url: "https://app.sola.day/event/invisiblegardenar" },
-  { date: "2025-10-18", endDate: "2025-11-15", title: "Edge City Patagonia", location: "San Martín, Argentina", networkState: "Edge City Patagonia", url: "https://app.sola.day/event/edgepatagonia" },
-  { date: "2025-08-28", endDate: "2025-12-31", title: "Próspera", location: "Próspera, Roatán", networkState: "Próspera", url: "https://app.sola.day/event/prospera" },
-  { date: "2025-07-19", endDate: "2025-08-01", title: "Zanzalu 2", location: "Zanzalu", networkState: "zanzalu", url: "https://app.sola.day/event/zanzalu" },
-  { date: "2025-01-09", endDate: "2025-12-31", title: "INFINITA", location: "Próspera ZEDE", networkState: "Infinita City / Community", url: "https://app.sola.day/event/infinita" },
-  { date: "2025-11-01", endDate: "2025-12-31", title: "4Seas", location: "Chiangmai, Thailand", networkState: "4Seas Community", url: "https://app.sola.day/event/4seas" }
-];
-
 type SortField = "date" | "event" | "location" | "networkState" | "type";
 type SortDirection = "asc" | "desc";
 
 export default function Home() {
   // Database state
   const [events, setEvents] = useState<UIEvent[]>([]);
-  // Temporarily using hardcoded data - uncomment below to use database
-  const [popupEvents] = useState<PopupCity[]>(hardcodedPopupEvents);
-  // const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
+  const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -126,24 +113,22 @@ export default function Home() {
       }
     }
 
-    // Temporarily disabled - using hardcoded data while database is being fixed
-    // Uncomment this function and the call below to use database
-    // async function loadPopupCities() {
-    //   try {
-    //     const fetchedPopups = await getPopupCities();
-    //
-    //     if (isMounted) {
-    //       setPopupEvents(fetchedPopups);
-    //     }
-    //   } catch (err) {
-    //     if (isMounted) {
-    //       console.error("Failed to load popup cities:", err);
-    //     }
-    //   }
-    // }
+    async function loadPopupCities() {
+      try {
+        const fetchedPopups = await getPopupCities();
+
+        if (isMounted) {
+          setPopupEvents(fetchedPopups);
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error("Failed to load popup cities:", err);
+        }
+      }
+    }
 
     loadEvents();
-    // loadPopupCities(); // Temporarily disabled
+    loadPopupCities();
 
     return () => {
       isMounted = false;
@@ -386,9 +371,24 @@ export default function Home() {
     return time;
   };
 
+  // Colors from the original hardcoded popup cities (mix of gradients and solid colors)
+  const popupCityColors = [
+    'bg-gradient-to-r from-indigo-700 to-purple-600',  // Invisible Garden Argentina
+    'bg-gradient-to-r from-green-700 to-emerald-600',  // Edge City Patagonia
+    'bg-orange-600',                                    // Próspera
+    'bg-rose-600',                                      // zanzalu
+    'bg-slate-600',                                     // Infinita City / Community
+    'bg-gradient-to-r from-cyan-700 to-blue-500',      // 4Seas Community
+  ];
+
+  // Get color for popup city by index
+  const getPopupCityColor = (index: number) => {
+    return popupCityColors[index % popupCityColors.length];
+  };
+
   const getNetworkStateColor = (networkState: string) => {
     const colors: Record<string, string> = {
-      // Network States
+      // Network States (for regular events)
       'Network School': 'bg-gray-600',
       'StarShare': 'bg-purple-600',
       'ZuCity Japan': 'bg-pink-600',
@@ -401,15 +401,6 @@ export default function Home() {
       'east2046festival': 'bg-violet-600',
       'zanzalu': 'bg-rose-600',
       'Infinita City / Community': 'bg-slate-600',
-      
-      // Popup Events - Distinct high-contrast colors
-      'Aleph Festival': 'bg-gradient-to-r from-purple-700 to-fuchsia-600',
-      'Edge City Patagonia': 'bg-gradient-to-r from-green-700 to-emerald-600',
-      'Oz City Patagonia': 'bg-gradient-to-r from-blue-700 to-cyan-500',
-      'Builder Residency': 'bg-gradient-to-r from-amber-600 to-orange-500',
-      'Regen Haus Residency': 'bg-gradient-to-r from-lime-600 to-green-500',
-      'Invisible Garden Argentina': 'bg-gradient-to-r from-indigo-700 to-purple-600',
-      '4Seas Community': 'bg-gradient-to-r from-cyan-700 to-blue-500',
     };
     return colors[networkState] || 'bg-gray-600';
   };
@@ -648,26 +639,12 @@ export default function Home() {
             {/* Timeline Legend */}
             <div className="border-b border-border bg-card p-4">
               <div className="flex flex-wrap gap-3 text-xs font-mono">
-                {(() => {
-                  // Count events per network state
-                  const networkStateCounts = popupEvents.reduce((counts, event) => {
-                    counts[event.networkState] = (counts[event.networkState] || 0) + 1;
-                    return counts;
-                  }, {} as Record<string, number>);
-                  
-                  // Sort by event count (descending) then by name
-                  const sortedNetworkStates = Object.keys(networkStateCounts).sort((a, b) => {
-                    const countDiff = networkStateCounts[b] - networkStateCounts[a];
-                    return countDiff !== 0 ? countDiff : a.localeCompare(b);
-                  });
-                  
-                  return sortedNetworkStates.map(networkState => (
-                    <div key={networkState} className="flex items-center gap-1">
-                      <div className={`w-3 h-3 ${getNetworkStateColor(networkState)}`}></div>
-                      <span>{networkState}</span>
-                    </div>
-                  ));
-                })()}
+                {popupEvents.map((event, index) => (
+                  <div key={index} className="flex items-center gap-1">
+                    <div className={`w-3 h-3 ${getPopupCityColor(index)}`}></div>
+                    <span>{event.networkState}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -676,20 +653,13 @@ export default function Home() {
               const today = new Date();
               today.setHours(0, 0, 0, 0);
               
-              // Find the latest date from all events
-              const allDates = popupEvents.flatMap(event => [
-                new Date(event.date), 
-                new Date(event.endDate)
-              ]);
-              const latestDate = new Date(Math.max(...allDates.map(d => d.getTime())));
-              
               // Start from current week (Monday of current week)
               const currentWeekStart = new Date(today);
               currentWeekStart.setDate(today.getDate() - today.getDay() + 1); // Monday
-              
-              // Generate week columns directly (avoid month-based generation to prevent duplicates)
+
+              // Generate week columns based on zoom level
               const weekColumns: { month: Date; week: Date; weekEnd: Date }[] = [];
-              const endDate = new Date(Math.max(latestDate.getTime(), today.getTime() + 90 * 24 * 60 * 60 * 1000)); // 90 days from now
+              const endDate = new Date(today.getTime() + popupZoomDays * 24 * 60 * 60 * 1000);
               
               for (let weekStart = new Date(currentWeekStart); 
                    weekStart <= endDate; 
@@ -765,7 +735,7 @@ export default function Home() {
                         {popupEvents.map((event, eventIdx) => {
                           const eventStart = new Date(event.date);
                           const eventEnd = new Date(event.endDate);
-                          
+
                           return (
                             <div key={eventIdx} className="grid gap-1" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
                               {/* Event Label */}
@@ -781,15 +751,15 @@ export default function Home() {
                               {weekColumns.map((weekData, weekIdx) => {
                                 const weekStart = weekData.week;
                                 const weekEnd = weekData.weekEnd;
-                                
+
                                 // Check if event overlaps with this week
                                 const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
-                                
+
                                 // Find the first and last weeks this event appears in
-                                const firstWeekIndex = weekColumns.findIndex(week => 
+                                const firstWeekIndex = weekColumns.findIndex(week =>
                                   eventStart <= week.weekEnd && eventEnd >= week.week
                                 );
-                                const lastWeekIndex = weekColumns.findLastIndex(week => 
+                                const lastWeekIndex = weekColumns.findLastIndex(week =>
                                   eventStart <= week.weekEnd && eventEnd >= week.week
                                 );
 
@@ -801,7 +771,7 @@ export default function Home() {
                                     {/* Only render the event bar in the first week it appears */}
                                     {isActiveInWeek && weekIdx === firstWeekIndex && (
                                       <div
-                                        className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        className={`absolute ${getPopupCityColor(eventIdx)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
                                         style={{
                                           left: '2px',
                                           width: `calc(${(lastWeekIndex - firstWeekIndex + 1) * 100}% - 4px)`,
@@ -901,7 +871,7 @@ export default function Home() {
                         {popupEvents.map((event, eventIdx) => {
                           const eventStart = new Date(event.date);
                           const eventEnd = new Date(event.endDate);
-                          
+
                           return (
                             <div key={eventIdx} className="grid gap-1" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
                               {/* Event Label */}
@@ -917,15 +887,15 @@ export default function Home() {
                               {weekColumns.map((weekData, weekIdx) => {
                                 const weekStart = weekData.week;
                                 const weekEnd = weekData.weekEnd;
-                                
+
                                 // Check if event overlaps with this week
                                 const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
-                                
+
                                 // Find the first and last weeks this event appears in
-                                const firstWeekIndex = weekColumns.findIndex(week => 
+                                const firstWeekIndex = weekColumns.findIndex(week =>
                                   eventStart <= week.weekEnd && eventEnd >= week.week
                                 );
-                                const lastWeekIndex = weekColumns.findLastIndex(week => 
+                                const lastWeekIndex = weekColumns.findLastIndex(week =>
                                   eventStart <= week.weekEnd && eventEnd >= week.week
                                 );
 
@@ -937,7 +907,7 @@ export default function Home() {
                                     {/* Only render the event bar in the first week it appears */}
                                     {isActiveInWeek && weekIdx === firstWeekIndex && (
                                       <div
-                                        className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        className={`absolute ${getPopupCityColor(eventIdx)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
                                         style={{
                                           left: '2px',
                                           width: `calc(${(lastWeekIndex - firstWeekIndex + 1) * 100}% - 4px)`,
