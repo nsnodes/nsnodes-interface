@@ -1576,7 +1576,7 @@ export default function Home() {
               
               // Generate date columns as YYYY-MM-DD strings from today to last event
               const dateColumns: string[] = [];
-              let currentDate = new Date(todayStr + 'T00:00:00');
+              const currentDate = new Date(todayStr + 'T00:00:00');
               const endDate = new Date(lastEventDateStr + 'T00:00:00');
               
               while (currentDate <= endDate) {
