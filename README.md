@@ -1,3 +1,14 @@
+ /$$   /$$  /$$$$$$  /$$   /$$  /$$$$$$  /$$$$$$$  /$$$$$$$$  /$$$$$$ 
+| $$$ | $$ /$$__  $$| $$$ | $$ /$$__  $$| $$__  $$| $$_____/ /$$__  $$
+| $$$$| $$| $$  \__/| $$$$| $$| $$  \ $$| $$  \ $$| $$      | $$  \__/
+| $$ $$ $$|  $$$$$$ | $$ $$ $$| $$  | $$| $$  | $$| $$$$$   |  $$$$$$ 
+| $$  $$$$ \____  $$| $$  $$$$| $$  | $$| $$  | $$| $$__/    \____  $$
+| $$\  $$$ /$$  \ $$| $$\  $$$| $$  | $$| $$  | $$| $$       /$$  \ $$
+| $$ \  $$|  $$$$$$/| $$ \  $$|  $$$$$$/| $$$$$$$/| $$$$$$$$|  $$$$$$/
+|__/  \__/ \______/ |__/  \__/ \______/ |_______/ |________/ \______/ 
+                                                                      
+                                                                      
+                                                                      
 # NSNodes - Network State Hub
 
 ![NSNodes](https://img.shields.io/badge/Status-Live-green) ![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black) ![License](https://img.shields.io/badge/License-MIT-blue)
@@ -15,22 +26,6 @@
 - **Funding Hub** - Grants and VC funding information
 - **Open Source Tooling** - Discover GitHub repos building the future
 - **Community Hub** - Join the Discord and connect with builders
-
-## 🎨 Design
-
-NSNodes features a unique ASCII/retro aesthetic inspired by:
-- 80s/90s BBS systems
-- Hacker culture
-- Crypto punk ethos
-- Network State vision
-
-Key design elements:
-- ASCII art and typography
-- 3D shadow effects (brutalist style)
-- Dark/light mode toggle
-- Fully responsive (mobile & desktop)
-- Monospace fonts throughout
-- Custom scrollbars and selection colors
 
 ## 🛠️ Tech Stack
 
@@ -111,15 +106,6 @@ nsnodes/
 
 Toggle between light and dark themes using the button in the navigation. Theme preference is saved to localStorage.
 
-## 🎨 Custom Styling
-
-The site includes custom CSS utilities for ASCII effects:
-
-- `.ascii-3d` - 3D text shadow effect
-- `.glitch:hover` - Glitch animation on hover
-- `.crt-effect` - Retro CRT screen flicker
-- Custom scrollbars with borders
-- ASCII box-shadow effects on cards
 
 ## 🤝 Contributing
 
@@ -141,3 +127,15 @@ Join the nsnodes Telegram: https://t.me/+RwyXfj5VsXk2NmE1
 ---
 
 **Built with ❤️ for the Network State Community**
+
+ /$$   /$$  /$$$$$$  /$$   /$$  /$$$$$$  /$$$$$$$  /$$$$$$$$  /$$$$$$ 
+| $$$ | $$ /$$__  $$| $$$ | $$ /$$__  $$| $$__  $$| $$_____/ /$$__  $$
+| $$$$| $$| $$  \__/| $$$$| $$| $$  \ $$| $$  \ $$| $$      | $$  \__/
+| $$ $$ $$|  $$$$$$ | $$ $$ $$| $$  | $$| $$  | $$| $$$$$   |  $$$$$$ 
+| $$  $$$$ \____  $$| $$  $$$$| $$  | $$| $$  | $$| $$__/    \____  $$
+| $$\  $$$ /$$  \ $$| $$\  $$$| $$  | $$| $$  | $$| $$       /$$  \ $$
+| $$ \  $$|  $$$$$$/| $$ \  $$|  $$$$$$/| $$$$$$$/| $$$$$$$$|  $$$$$$/
+|__/  \__/ \______/ |__/  \__/ \______/ |_______/ |________/ \______/ 
+                                                                      
+                                                                      
+                                                                      
