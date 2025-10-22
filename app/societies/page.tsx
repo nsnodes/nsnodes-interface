@@ -3,6 +3,7 @@
 import { Users, MapPin, ExternalLink, ChevronDown, ChevronUp, Calendar, MessageCircle, Globe } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { societiesDatabase, getDatabaseStats, SocietyDatabase } from "@/lib/data/societies-database";
 import SocietiesChart from "@/components/societies-chart";
 
@@ -211,20 +212,34 @@ export default function SocietiesPage() {
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="text-center space-y-4">
-        <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
-        </pre>
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
-          [ NETWORK STATE SOCIETIES ]
-        </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto font-mono text-sm sm:text-base">
-          Explore the emerging Network States building the decentralized future. From pop-up cities
-          to permanent communities, these are the pioneers of new forms of governance and living.
-        </p>
+      <section className="flex flex-col lg:flex-row items-center gap-8">
+        <div className="text-center lg:text-left space-y-4 flex-1">
+          <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
+          </pre>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
+            [ NETWORK STATE SOCIETIES ]
+          </h1>
+          <p className="text-muted-foreground font-mono text-sm sm:text-base">
+            Explore the emerging Network States building the decentralized future. From pop-up cities
+            to permanent communities, these are the pioneers of new forms of governance and living.
+          </p>
+          
+          {/* CTA Section */}
+          <div className="pt-4">
+            <a
+              href="mailto:nsnodes@gmail.com?subject=Network Society Listing Request&body=Hi, I'd like to list our Network State society on NSNodes. Please include: Society name, Location, Mission/description, Founding year, Number of residents, Growth rate, Website, X profile, Discord, Focus areas, and Application link."
+              className="inline-block border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            >
+              [ LIST NETWORK SOCIETY ] →
+            </a>
+          </div>
+        </div>
+        
+        {/* Societies Growth Chart */}
+        <div className="flex-shrink-0 w-full lg:w-auto">
+          <SocietiesChart />
+        </div>
       </section>
-
-      {/* Societies Growth Chart */}
-      <SocietiesChart />
 
       {/* Stats */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -415,7 +430,7 @@ export default function SocietiesPage() {
       {/* CTA Section */}
       <section className="border-2 border-border p-8 bg-card text-center space-y-4">
         <h3 className="text-xl font-bold font-mono">[ BUILD YOUR NETWORK STATE ]</h3>
-        <p className="text-sm font-mono text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-sm font-mono text-muted-foreground">
           Ready to start your own Network State? Connect with other builders, find funding,
           and join the movement reshaping how we live and govern.
         </p>

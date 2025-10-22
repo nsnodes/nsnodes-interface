@@ -66,29 +66,12 @@ export default function SocietiesChart() {
 
   return (
     <div className="border-2 border-border bg-card">
-      {/* Chart Header */}
-      <div className="border-b-2 border-border bg-muted p-4">
-        <h3 className="font-mono font-bold text-lg flex items-center gap-2">
-          <BarChart3 className="h-5 w-5" />
-          [ SOCIETIES GROWTH ]
-        </h3>
-      </div>
 
       {/* Desktop Chart */}
-      <div className="hidden md:block p-6">
+      <div className="hidden md:block p-4">
         <div className="space-y-1">
-          {/* Year Headers */}
-          <div className="grid gap-2" style={{ gridTemplateColumns: `80px repeat(${years.length}, minmax(60px, 1fr))` }}>
-            <div className="text-xs font-mono font-bold text-muted-foreground"></div>
-            {years.map((year) => (
-              <div key={year} className="text-center">
-                <div className="text-xs font-mono font-bold">{year}</div>
-              </div>
-            ))}
-          </div>
-
           {/* Bar Chart Area */}
-          <div className="grid gap-2 items-end" style={{ gridTemplateColumns: `80px repeat(${years.length}, minmax(60px, 1fr))`, minHeight: '300px' }}>
+          <div className="grid gap-2 items-end" style={{ gridTemplateColumns: `60px repeat(${years.length}, minmax(50px, 1fr))`, minHeight: '200px' }}>
             {/* Y-axis label */}
             <div className="text-xs font-mono text-muted-foreground flex items-center justify-end pr-2">
               Societies
@@ -104,7 +87,7 @@ export default function SocietiesChart() {
                 : 0;
 
               return (
-                <div key={year} className="flex flex-col justify-end items-center gap-1" style={{ height: '300px' }}>
+                <div key={year} className="flex flex-col justify-end items-center gap-1" style={{ height: '200px' }}>
                   {/* Count label above bar */}
                   <div className="text-xs font-mono font-bold text-primary mb-auto pt-2">
                     {count}
@@ -137,11 +120,21 @@ export default function SocietiesChart() {
               );
             })}
           </div>
+
+          {/* Year Headers */}
+          <div className="grid gap-2" style={{ gridTemplateColumns: `60px repeat(${years.length}, minmax(50px, 1fr))` }}>
+            <div className="text-xs font-mono font-bold text-muted-foreground"></div>
+            {years.map((year) => (
+              <div key={year} className="text-center">
+                <div className="text-xs font-mono font-bold">{year}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Mobile Chart */}
-      <div className="md:hidden p-4">
+      <div className="md:hidden p-3">
         <div className="space-y-4">
           {years.map((year, index) => {
             const count = cumulativeData[year];
@@ -179,10 +172,11 @@ export default function SocietiesChart() {
       </div>
 
       {/* Footer */}
-      <div className="border-t-2 border-border bg-muted p-4">
-        <div className="text-xs font-mono text-muted-foreground text-center">
-          Showing cumulative count of Network State societies founded by year
-        </div>
+      <div className="border-t-2 border-border bg-muted p-3">
+        <h3 className="font-mono font-bold text-sm flex items-center justify-center gap-2">
+          <BarChart3 className="h-4 w-4" />
+          [ SOCIETIES GROWTH ]
+        </h3>
       </div>
     </div>
   );

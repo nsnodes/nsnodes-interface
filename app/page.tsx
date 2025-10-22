@@ -417,8 +417,7 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="space-y-12">
+    <div className="space-y-12">
         {/* Hero Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         <div className="space-y-4 text-left">
@@ -426,7 +425,7 @@ export default function Home() {
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
             [ nsnodes.com ]
           </h1>
-          <p className="text-muted-foreground font-mono text-sm sm:text-base max-w-prose">
+          <p className="text-muted-foreground font-mono text-sm sm:text-base">
             Your central hub for Network State events, opportunities, and community updates.
           </p>
         </div>
@@ -437,7 +436,7 @@ export default function Home() {
             width={420}
             height={280}
             priority
-            className="h-auto max-w-full border-2 border-border"
+            className="h-auto max-w-full border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
           />
         </div>
       </section>
@@ -1876,7 +1875,6 @@ export default function Home() {
         )}
       </section>
 
-      </div>
     </div>
   );
 }

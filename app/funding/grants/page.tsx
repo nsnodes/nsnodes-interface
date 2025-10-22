@@ -143,7 +143,7 @@ export default function GrantsPage() {
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
           [ GRANTS ]
         </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto font-mono text-sm sm:text-base">
+        <p className="text-muted-foreground font-mono text-sm sm:text-base">
           Non-dilutive funding for Network State builders. From protocol grants to DAO funding,
           get capital without giving up equity.
         </p>

@@ -27,10 +27,8 @@ export function ThemeProvider({
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("theme") as Theme | null;
-    if (stored) {
-      setTheme(stored);
-    }
+    // Force dark mode as default, ignore stored preferences
+    setTheme("dark");
   }, []);
 
   useEffect(() => {

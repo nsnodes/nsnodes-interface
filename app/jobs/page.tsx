@@ -153,24 +153,31 @@ export default function JobsPage() {
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="text-center space-y-4">
-        <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
+      <section className="flex flex-col lg:flex-row items-center gap-8">
+        <div className="flex-1 text-center lg:text-left space-y-4">
+          <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
 
-        </pre>
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
-          [ NETWORK STATE JOBS ]
-        </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto font-mono text-sm sm:text-base">
-          Find opportunities in the emerging Network State ecosystem. From smart contracts
-          to city planning, we&apos;re building new nations.
-        </p>
-      </section>
-
-      {/* CTA Button */}
-      <section className="flex justify-center">
-        <button className="border-2 border-border px-8 py-4 bg-primary text-primary-foreground font-mono font-bold text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.3)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all">
-          [ POST A JOB ] →
-        </button>
+          </pre>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
+            [ NETWORK STATE JOBS ]
+          </h1>
+          <p className="text-muted-foreground font-mono text-sm sm:text-base">
+            Find job opportunities in the emerging Network State ecosystem. Remote as well as on-site opportunities are available.
+          </p>
+          {/* CTA Button */}
+          <div className="flex justify-center lg:justify-start pt-4">
+            <button className="border-2 border-border px-8 py-4 bg-primary text-primary-foreground font-mono font-bold text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.3)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all">
+              [ POST A JOB ] →
+            </button>
+          </div>
+        </div>
+        <div className="flex-shrink-0">
+          <img 
+            src="/job-openings-meme.png" 
+            alt="Job openings everywhere meme" 
+            className="w-full h-auto border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
+          />
+        </div>
       </section>
 
       {/* Stats */}
@@ -367,9 +374,9 @@ export default function JobsPage() {
           </h2>
           
           {/* Sorting Controls */}
-          <div className="flex items-center gap-2 text-sm font-mono">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm font-mono">
             <span className="text-muted-foreground">Sort by:</span>
-            <div className="flex gap-1">
+            <div className="flex flex-wrap gap-1">
               {[
                 { field: "title" as SortField, label: "Title" },
                 { field: "company" as SortField, label: "Company" },
@@ -380,7 +387,7 @@ export default function JobsPage() {
                 <button
                   key={field}
                   onClick={() => handleSort(field)}
-                  className={`px-2 py-1 text-xs border border-border hover:bg-accent transition-colors flex items-center gap-1 ${
+                  className={`px-2 py-1 text-xs border border-border hover:bg-accent transition-colors flex items-center gap-1 whitespace-nowrap ${
                     sortField === field ? 'bg-accent' : 'bg-background'
                   }`}
                 >
@@ -398,28 +405,28 @@ export default function JobsPage() {
           {sortedJobs.map((job, index) => (
             <div
               key={index}
-              className="border-2 border-border p-6 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4"
+              className="border-2 border-border p-6 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4 overflow-hidden"
             >
               {/* Header */}
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <div className="space-y-2">
                   <h3 className="text-xl font-bold font-mono">{job.title}</h3>
                   <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground font-mono">
-                    <span className="font-semibold bg-primary/10 text-primary px-2 py-1 rounded border border-primary/20 font-mono text-xs">
+                    <span className="font-semibold bg-primary/10 text-primary px-2 py-1 rounded border border-primary/20 font-mono text-xs truncate max-w-[200px]">
                       {job.company}
                     </span>
                     <span>•</span>
-                    <span className="flex items-center gap-1">
-                      <MapPin className="h-3 w-3" />
-                      {job.location}
+                    <span className="flex items-center gap-1 truncate max-w-[150px]">
+                      <MapPin className="h-3 w-3 flex-shrink-0" />
+                      <span className="truncate">{job.location}</span>
                     </span>
                     <span>•</span>
-                    <span>{job.type}</span>
+                    <span className="truncate">{job.type}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-green-500 font-mono text-sm sm:text-base font-bold whitespace-nowrap">
-                  <DollarSign className="h-4 w-4" />
-                  {job.salary}
+                <div className="flex items-center gap-2 text-green-500 font-mono text-sm sm:text-base font-bold">
+                  <DollarSign className="h-4 w-4 flex-shrink-0" />
+                  <span className="truncate">{job.salary}</span>
                 </div>
               </div>
 
