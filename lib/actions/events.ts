@@ -161,8 +161,8 @@ export async function getEvents(): Promise<UIEvent[]> {
         tags,
         image_url
       `)
-      // Filter for luma events only (sola.day is for popup cities)
-      .eq('source', 'luma')
+      // Exclude popup cities (they're shown in separate timeline)
+      .not('tags', 'cs', '{"popup-city"}')
       // Filter for upcoming events
       .gte('start_at', new Date().toISOString())
       .order('start_at', { ascending: true })
