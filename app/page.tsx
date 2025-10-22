@@ -3,7 +3,8 @@
 import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
-import { societiesDatabase, getSocietiesByTier } from "@/lib/data/societies-database";
+import { getEvents, getPopupCities } from "@/lib/actions/events";
+import type { UIEvent, PopupCity } from "@/lib/types/events";
 
 const networkStates = [
   {
@@ -53,99 +54,28 @@ const networkStates = [
 
 ];
 
-
-const events = [
-  // 🌿 Edge City Patagonia — Argentina
-  { date: "2025-10-19", time: "6:30 PM – 9:00 PM", title: "Opening Ceremony", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16088" },
-  { date: "2025-10-20", time: "7:00 AM – 8:00 AM", title: "Run Club", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16093" },
-  { date: "2025-10-20", time: "8:00 AM – 9:00 AM", title: "Yoga", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16167" },
-  { date: "2025-10-20", time: "10:00 AM – 12:00 PM", title: "Pomodoro Deepwork Session (Murmur Experiment)", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16114" },
-  { date: "2025-10-21", time: "8:00 AM – 9:00 AM", title: "Yoga", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16171" },
-  { date: "2025-10-21", time: "10:00 AM – 12:00 PM", title: "Pomodoro Deepwork Session (Murmur Experiment)", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16115" },
-  { date: "2025-10-22", time: "7:00 AM – 8:00 AM", title: "Run Club", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16097" },
-  { date: "2025-10-22", time: "7:15 AM – 9:00 AM", title: "Digital Detox Hike", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16140" },
-  { date: "2025-10-22", time: "8:00 AM – 9:00 AM", title: "Yoga", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16175" },
-  { date: "2025-10-22", time: "10:00 AM – 12:00 PM", title: "Pomodoro Deepwork Session (Murmur Experiment)", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16116" },
-  { date: "2025-10-22", time: "14:00 – 15:00", title: "Funding \"woo woo\" ventures", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Workshop", url: "https://app.sola.day/event/detail/16359" },
-  { date: "2025-11-10", time: "10:00 AM – 12:00 PM", title: "Pomodoro Deepwork Session (Murmur Experiment)", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Deepwork", url: "https://app.sola.day/event/detail/16135" },
-  { date: "2025-11-04", time: "18:45 – 20:00", title: "Psychedelic Movie Screening", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Screening", url: "https://app.sola.day/event/detail/16195" },
-  { date: "2025-11-06", time: "19:00 – 20:00", title: "Yoga Session", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Yoga", url: "https://app.sola.day/event/detail/16249" },
-  { date: "2025-11-04", time: "19:00 – 20:00", title: "Yoga Session", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Yoga", url: "https://app.sola.day/event/detail/16248" },
-
-  // 🌏 Chiang Mai — Thailand
-  { date: "2025-10-25", time: "10:00 – 12:00", title: "AI ENGINEERS MEETUP WEEKLY CHIANG MAI", location: "Chiang Mai, Thailand", networkState: "4Seas Community", type: "Meetup", url: "https://app.sola.day/event/detail/16278" },
-
-  // 🧘‍♀️ Network School — Forest City, Malaysia (Luma)
-  { date: "2025-10-11", time: "10:00 PM", title: "Morning Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "11:00 PM", title: "Learnathon: ML Foundations", location: "Forest City, Malaysia", networkState: "Network School", type: "Workshop", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "2:00 AM – 5:00 AM", title: "NS Badminton Club (NSBC)", location: "Forest City, Malaysia", networkState: "Network School", type: "Sports", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "2:30 AM – 5:30 AM", title: "Beach Volleyball + Cold Plunge", location: "Forest City, Malaysia", networkState: "Network School", type: "Sports", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "5:00 AM – 8:00 AM", title: "Vipassana Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-12", time: "8:00 PM", title: "NS October Mixer", location: "Forest City, Malaysia", networkState: "Network School", type: "Mixer", url: "https://lu.ma/ns" },
-  { date: "2025-10-12", time: "1:00 AM – 4:00 AM", title: "Commons: Opening Ceremony", location: "Forest City, Malaysia", networkState: "Network School", type: "Ceremony", url: "https://lu.ma/ns" },
-  { date: "2025-10-12", time: "5:00 AM – 8:00 AM", title: "Vipassana Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-13", time: "5:20 PM", title: "Morning Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-13", time: "1:00 AM – 4:00 AM", title: "Nomad Tax Reality Check – Myths, Risks & Real Solutions", location: "Forest City, Malaysia", networkState: "Network School", type: "Discussion", url: "https://lu.ma/ns" },
-  { date: "2025-10-14", time: "9:31 PM", title: "decoding VC and how you can raise your first round", location: "Forest City, Malaysia", networkState: "Network School", type: "Discussion", url: "https://lu.ma/ns" },
-  { date: "2025-10-17", time: "9:00 AM – 9:00 PM", title: "Ârc: Welcome Home at The Network State", location: "Forest City, Malaysiaa", networkState: "Network School", type: "Pop-Up", url: "https://luma.com/arc-ns" }
-]
-
-const popupEvents = [
-    {
-      date: "2025-08-25",
-      endDate: "2025-11-22",
-      title: "Aleph Festival",
-      location: "Aleph Hub, Buenos Aires, Argentina",
-      networkState: "Aleph Festival",
-      url: "https://aleph.crecimiento.build"
-    },
-    { date: "2025-10-18", endDate: "2025-11-15", title: "Edge City Patagonia", location: "San Martín, Argentina", networkState: "Edge City Patagonia", url: "https://app.sola.day/event/edgepatagonia" },
-
-    {
-      date: "2025-11-01",
-      endDate: "2025-11-16",
-      title: "The Oz City Patagonia",
-      location: "San Martín de los Andes, Patagonia, Argentina",
-      networkState: "Oz City Patagonia",
-      url: "https://www.theozcity.com"
-    },
-    {
-      date: "2025-10-24",
-      endDate: "2025-11-14",
-      title: "Builder Residency",
-      location: "Buenos Aires, Argentina",
-      networkState: "Builder Residency",
-      url: "https://www.fundingthecommons.io/builderresidency2025"
-    },
-    {
-      date: "2025-10-18",
-      endDate: "2025-11-15",
-      title: "Regen Haus Residency",
-      location: "San Martín de los Andes, Patagonia, Argentina",
-      networkState: "Regen Haus Residency",
-      url: "https://luma.com/drfil5al"
-    },
-{ date: "2025-10-27", endDate: "2025-11-23", title: "Invisible Garden Argentina", location: "Buenos Aires, Argentina", networkState: "Invisible Garden Argentina", url: "https://app.sola.day/event/invisiblegardenar" },
-  { date: "2025-11-01",   endDate: "2025-12-31", title: "4Seas", location: "Chiangmai, Thailand", networkState: "4Seas Community", url: "https://app.sola.day/event/4seas" }
-]
-
-
-
 type SortField = "date" | "event" | "location" | "networkState" | "type";
 type SortDirection = "asc" | "desc";
 
 export default function Home() {
+  // Database state
+  const [events, setEvents] = useState<UIEvent[]>([]);
+  const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // UI state
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [selectedNetworkStates, setSelectedNetworkStates] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<string>("upcoming");
   const [customStartDate, setCustomStartDate] = useState<string>("");
   const [customEndDate, setCustomEndDate] = useState<string>("");
   const [networkStateSearch, setNetworkStateSearch] = useState<string>("");
   const [typeSearch, setTypeSearch] = useState<string>("");
-  const [locationSearch, setLocationSearch] = useState<string>("");
+  const [countrySearch, setCountrySearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
   const [timelineZoomDays, setTimelineZoomDays] = useState<number>(30);
@@ -157,6 +87,53 @@ export default function Home() {
   const timelineDropdownRef = useRef<HTMLDivElement>(null);
   const popupDropdownRef = useRef<HTMLDivElement>(null);
   const clearButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Fetch events and popup cities from database on mount
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadEvents() {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const fetchedEvents = await getEvents();
+
+        if (isMounted) {
+          setEvents(fetchedEvents);
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error("Failed to load events:", err);
+          setError("Failed to load events. Please try refreshing the page.");
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    async function loadPopupCities() {
+      try {
+        const fetchedPopups = await getPopupCities();
+
+        if (isMounted) {
+          setPopupEvents(fetchedPopups);
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error("Failed to load popup cities:", err);
+        }
+      }
+    }
+
+    loadEvents();
+    loadPopupCities();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Handle click outside to close all filters and dropdowns
   useEffect(() => {
@@ -244,20 +221,26 @@ export default function Home() {
     }
   };
 
-  // Get unique values for filters
-  const uniqueNetworkStates = Array.from(new Set(events.map(e => e.networkState))).sort();
-  const uniqueTypes = Array.from(new Set(events.map(e => e.type))).sort();
-  const uniqueLocations = Array.from(new Set(events.map(e => e.location))).sort();
+  // Get unique values for filters (filter out null/undefined/empty)
+  const uniqueNetworkStates = Array.from(
+    new Set(events.map(e => e.networkState).filter(Boolean))
+  ).sort();
+  const uniqueTypes = Array.from(
+    new Set(events.map(e => e.type).filter(Boolean))
+  ).sort();
+  const uniqueCountries = Array.from(
+    new Set(events.map(e => e.country).filter(c => c && c !== 'Unknown'))
+  ).sort();
 
-  // Filter lists based on search
+  // Filter lists based on search (with null safety)
   const filteredNetworkStates = uniqueNetworkStates.filter(ns =>
-    ns.toLowerCase().includes(networkStateSearch.toLowerCase())
+    ns?.toLowerCase().includes(networkStateSearch.toLowerCase())
   );
   const filteredTypes = uniqueTypes.filter(type =>
-    type.toLowerCase().includes(typeSearch.toLowerCase())
+    type?.toLowerCase().includes(typeSearch.toLowerCase())
   );
-  const filteredLocations = uniqueLocations.filter(location =>
-    location.toLowerCase().includes(locationSearch.toLowerCase())
+  const filteredCountries = uniqueCountries.filter(country =>
+    country?.toLowerCase().includes(countrySearch.toLowerCase())
   );
 
   const toggleFilter = (value: string, filterArray: string[], setFilter: React.Dispatch<React.SetStateAction<string[]>>) => {
@@ -287,7 +270,7 @@ export default function Home() {
       if (selectedTypes.length > 0 && !selectedTypes.includes(event.type)) {
         return false;
       }
-      if (selectedLocations.length > 0 && !selectedLocations.includes(event.location)) {
+      if (selectedCountries.length > 0 && !selectedCountries.includes(event.country)) {
         return false;
       }
       return true;
@@ -388,9 +371,24 @@ export default function Home() {
     return time;
   };
 
+  // Colors from the original hardcoded popup cities (mix of gradients and solid colors)
+  const popupCityColors = [
+    'bg-gradient-to-r from-indigo-700 to-purple-600',  // Invisible Garden Argentina
+    'bg-gradient-to-r from-green-700 to-emerald-600',  // Edge City Patagonia
+    'bg-orange-600',                                    // Próspera
+    'bg-rose-600',                                      // zanzalu
+    'bg-slate-600',                                     // Infinita City / Community
+    'bg-gradient-to-r from-cyan-700 to-blue-500',      // 4Seas Community
+  ];
+
+  // Get color for popup city by index
+  const getPopupCityColor = (index: number) => {
+    return popupCityColors[index % popupCityColors.length];
+  };
+
   const getNetworkStateColor = (networkState: string) => {
     const colors: Record<string, string> = {
-      // Network States
+      // Network States (for regular events)
       'Network School': 'bg-gray-600',
       'StarShare': 'bg-purple-600',
       'ZuCity Japan': 'bg-pink-600',
@@ -403,15 +401,6 @@ export default function Home() {
       'east2046festival': 'bg-violet-600',
       'zanzalu': 'bg-rose-600',
       'Infinita City / Community': 'bg-slate-600',
-      
-      // Popup Events - Distinct high-contrast colors
-      'Aleph Festival': 'bg-gradient-to-r from-purple-700 to-fuchsia-600',
-      'Edge City Patagonia': 'bg-gradient-to-r from-green-700 to-emerald-600',
-      'Oz City Patagonia': 'bg-gradient-to-r from-blue-700 to-cyan-500',
-      'Builder Residency': 'bg-gradient-to-r from-amber-600 to-orange-500',
-      'Regen Haus Residency': 'bg-gradient-to-r from-lime-600 to-green-500',
-      'Invisible Garden Argentina': 'bg-gradient-to-r from-indigo-700 to-purple-600',
-      '4Seas Community': 'bg-gradient-to-r from-cyan-700 to-blue-500',
     };
     return colors[networkState] || 'bg-gray-600';
   };
@@ -649,26 +638,12 @@ export default function Home() {
             {/* Timeline Legend */}
             <div className="border-b border-border bg-card p-4">
               <div className="flex flex-wrap gap-3 text-xs font-mono">
-                {(() => {
-                  // Count events per network state
-                  const networkStateCounts = popupEvents.reduce((counts, event) => {
-                    counts[event.networkState] = (counts[event.networkState] || 0) + 1;
-                    return counts;
-                  }, {} as Record<string, number>);
-                  
-                  // Sort by event count (descending) then by name
-                  const sortedNetworkStates = Object.keys(networkStateCounts).sort((a, b) => {
-                    const countDiff = networkStateCounts[b] - networkStateCounts[a];
-                    return countDiff !== 0 ? countDiff : a.localeCompare(b);
-                  });
-                  
-                  return sortedNetworkStates.map(networkState => (
-                    <div key={networkState} className="flex items-center gap-1">
-                      <div className={`w-3 h-3 ${getNetworkStateColor(networkState)}`}></div>
-                      <span>{networkState}</span>
-                    </div>
-                  ));
-                })()}
+                {popupEvents.map((event, index) => (
+                  <div key={index} className="flex items-center gap-1">
+                    <div className={`w-3 h-3 ${getPopupCityColor(index)}`}></div>
+                    <span>{event.networkState}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -677,20 +652,13 @@ export default function Home() {
               const today = new Date();
               today.setHours(0, 0, 0, 0);
               
-              // Find the latest date from all events
-              const allDates = popupEvents.flatMap(event => [
-                new Date(event.date), 
-                new Date(event.endDate)
-              ]);
-              const latestDate = new Date(Math.max(...allDates.map(d => d.getTime())));
-              
               // Start from current week (Monday of current week)
               const currentWeekStart = new Date(today);
               currentWeekStart.setDate(today.getDate() - today.getDay() + 1); // Monday
-              
-              // Generate week columns directly (avoid month-based generation to prevent duplicates)
+
+              // Generate week columns based on zoom level
               const weekColumns: { month: Date; week: Date; weekEnd: Date }[] = [];
-              const endDate = new Date(Math.max(latestDate.getTime(), today.getTime() + 90 * 24 * 60 * 60 * 1000)); // 90 days from now
+              const endDate = new Date(today.getTime() + popupZoomDays * 24 * 60 * 60 * 1000);
               
               for (let weekStart = new Date(currentWeekStart); 
                    weekStart <= endDate; 
@@ -749,6 +717,7 @@ export default function Home() {
                               <div
                                 key={idx}
                                 className={`text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
+                                suppressHydrationWarning
                               >
                                 <div className="text-xs font-mono font-bold">
                                   W{weekNumber}
@@ -765,7 +734,7 @@ export default function Home() {
                         {popupEvents.map((event, eventIdx) => {
                           const eventStart = new Date(event.date);
                           const eventEnd = new Date(event.endDate);
-                          
+
                           return (
                             <div key={eventIdx} className="grid gap-1" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
                               {/* Event Label */}
@@ -781,15 +750,15 @@ export default function Home() {
                               {weekColumns.map((weekData, weekIdx) => {
                                 const weekStart = weekData.week;
                                 const weekEnd = weekData.weekEnd;
-                                
+
                                 // Check if event overlaps with this week
                                 const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
-                                
+
                                 // Find the first and last weeks this event appears in
-                                const firstWeekIndex = weekColumns.findIndex(week => 
+                                const firstWeekIndex = weekColumns.findIndex(week =>
                                   eventStart <= week.weekEnd && eventEnd >= week.week
                                 );
-                                const lastWeekIndex = weekColumns.findLastIndex(week => 
+                                const lastWeekIndex = weekColumns.findLastIndex(week =>
                                   eventStart <= week.weekEnd && eventEnd >= week.week
                                 );
 
@@ -801,7 +770,7 @@ export default function Home() {
                                     {/* Only render the event bar in the first week it appears */}
                                     {isActiveInWeek && weekIdx === firstWeekIndex && (
                                       <div
-                                        className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        className={`absolute ${getPopupCityColor(eventIdx)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
                                         style={{
                                           left: '2px',
                                           width: `calc(${(lastWeekIndex - firstWeekIndex + 1) * 100}% - 4px)`,
@@ -884,6 +853,7 @@ export default function Home() {
                               <div
                                 key={idx}
                                 className={`text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
+                                suppressHydrationWarning
                               >
                                 <div className="text-xs font-mono font-bold">
                                   W{weekNumber}
@@ -900,7 +870,7 @@ export default function Home() {
                         {popupEvents.map((event, eventIdx) => {
                           const eventStart = new Date(event.date);
                           const eventEnd = new Date(event.endDate);
-                          
+
                           return (
                             <div key={eventIdx} className="grid gap-1" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
                               {/* Event Label */}
@@ -916,15 +886,15 @@ export default function Home() {
                               {weekColumns.map((weekData, weekIdx) => {
                                 const weekStart = weekData.week;
                                 const weekEnd = weekData.weekEnd;
-                                
+
                                 // Check if event overlaps with this week
                                 const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
-                                
+
                                 // Find the first and last weeks this event appears in
-                                const firstWeekIndex = weekColumns.findIndex(week => 
+                                const firstWeekIndex = weekColumns.findIndex(week =>
                                   eventStart <= week.weekEnd && eventEnd >= week.week
                                 );
-                                const lastWeekIndex = weekColumns.findLastIndex(week => 
+                                const lastWeekIndex = weekColumns.findLastIndex(week =>
                                   eventStart <= week.weekEnd && eventEnd >= week.week
                                 );
 
@@ -936,7 +906,7 @@ export default function Home() {
                                     {/* Only render the event bar in the first week it appears */}
                                     {isActiveInWeek && weekIdx === firstWeekIndex && (
                                       <div
-                                        className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        className={`absolute ${getPopupCityColor(eventIdx)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
                                         style={{
                                           left: '2px',
                                           width: `calc(${(lastWeekIndex - firstWeekIndex + 1) * 100}% - 4px)`,
@@ -1001,9 +971,13 @@ export default function Home() {
           </h2>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-xs font-mono">
-              <span className="opacity-60">
-                Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
-              </span>
+              {isLoading ? (
+                <span className="opacity-60 animate-pulse">Loading events...</span>
+              ) : (
+                <span className="opacity-60">
+                  Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
+                </span>
+              )}
             </div>
             <div className="relative flex border-2 border-border bg-card">
               <button
@@ -1152,7 +1126,7 @@ export default function Home() {
             )}
           </div>
 
-          {/* Location Filter */}
+          {/* Country Filter */}
           <div className="border-2 border-border bg-card">
             <button
               type="button"
@@ -1161,7 +1135,7 @@ export default function Home() {
             >
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
-                [ LOCATION ]
+                [ COUNTRY ]
               </div>
               {allFiltersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
             </button>
@@ -1171,22 +1145,22 @@ export default function Home() {
                   <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 opacity-50" />
                   <input
                     type="text"
-                    value={locationSearch}
-                    onChange={(e) => setLocationSearch(e.target.value)}
-                    placeholder="Search locations..."
+                    value={countrySearch}
+                    onChange={(e) => setCountrySearch(e.target.value)}
+                    placeholder="Search countries..."
                     className="w-full pl-7 pr-2 py-1 text-xs font-mono border border-border bg-background"
                   />
                 </div>
                 <div className="max-h-48 overflow-y-auto space-y-1">
-                  {filteredLocations.map(location => (
-                    <label key={location} className="flex items-center gap-2 cursor-pointer hover:bg-accent p-1 transition-colors">
+                  {filteredCountries.map(country => (
+                    <label key={country} className="flex items-center gap-2 cursor-pointer hover:bg-accent p-1 transition-colors">
                       <input
                         type="checkbox"
-                        checked={selectedLocations.includes(location)}
-                        onChange={() => toggleFilter(location, selectedLocations, setSelectedLocations)}
+                        checked={selectedCountries.includes(country)}
+                        onChange={() => toggleFilter(country, selectedCountries, setSelectedCountries)}
                         className="cursor-pointer"
                       />
-                      <span className="text-xs font-mono">{location}</span>
+                      <span className="text-xs font-mono">{country}</span>
                     </label>
                   ))}
                 </div>
@@ -1280,7 +1254,7 @@ export default function Home() {
         </div>
 
         {/* Clear Filters Button */}
-        {(selectedNetworkStates.length > 0 || selectedTypes.length > 0 || selectedLocations.length > 0 || selectedDateRange !== "upcoming") && (
+        {(selectedNetworkStates.length > 0 || selectedTypes.length > 0 || selectedCountries.length > 0 || selectedDateRange !== "upcoming") && (
           <button
             ref={clearButtonRef}
             type="button"
@@ -1288,7 +1262,7 @@ export default function Home() {
               e.stopPropagation(); // Prevent event bubbling to parent elements
               setSelectedNetworkStates([]);
               setSelectedTypes([]);
-              setSelectedLocations([]);
+              setSelectedCountries([]);
               setSelectedDateRange("upcoming");
               setCustomStartDate("");
               setCustomEndDate("");
@@ -1300,8 +1274,51 @@ export default function Home() {
           </button>
         )}
 
+        {/* Error State */}
+        {error && (
+          <div className="border-2 border-red-500 bg-red-50 dark:bg-red-950/20 p-4">
+            <div className="flex items-start gap-3">
+              <span className="text-red-600 dark:text-red-400 text-2xl">⚠</span>
+              <div className="space-y-2">
+                <p className="font-mono text-sm text-red-600 dark:text-red-400 font-bold">
+                  Failed to load events
+                </p>
+                <p className="font-mono text-xs text-red-600/80 dark:text-red-400/80">
+                  {error}
+                </p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="font-mono text-xs border border-red-600 dark:border-red-400 px-3 py-1 hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors"
+                >
+                  [ RELOAD PAGE ]
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {isLoading && !error && (
+          <div className="border-2 border-border bg-card p-12 text-center">
+            <div className="space-y-4">
+              <div className="text-4xl animate-pulse">⏳</div>
+              <p className="font-mono text-sm opacity-60">Loading events from database...</p>
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && !error && events.length === 0 && (
+          <div className="border-2 border-border bg-card p-12 text-center">
+            <div className="space-y-4">
+              <div className="text-4xl">📭</div>
+              <p className="font-mono text-sm opacity-60">No events found in the database</p>
+            </div>
+          </div>
+        )}
+
         {/* Table View */}
-        {viewMode === "table" && (
+        {!isLoading && !error && events.length > 0 && viewMode === "table" && (
           <>
             {/* Desktop Table */}
             <div className="hidden md:block">
@@ -1455,7 +1472,7 @@ export default function Home() {
         )}
 
         {/* Timeline View */}
-        {viewMode === "gantt" && (
+        {!isLoading && !error && events.length > 0 && viewMode === "gantt" && (
           <div className="border-2 border-border bg-card">
             {/* Timeline Header */}
             <div className="border-b-2 border-border bg-muted p-4">
@@ -1571,9 +1588,10 @@ export default function Home() {
                               <div
                                 key={idx}
                                 className={`text-center border-l border-border p-1 ${isToday ? 'bg-primary/10' : ''} ${hasEvents ? 'font-bold' : ''}`}
+                                suppressHydrationWarning
                               >
                                 <div className="text-xs font-mono">{dayOfWeek}</div>
-                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`}>
+                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`} suppressHydrationWarning>
                                   {dayOfMonth}
                                 </div>
                               </div>
@@ -1729,9 +1747,10 @@ export default function Home() {
                               <div
                                 key={idx}
                                 className={`text-center border-l border-border p-1 ${isToday ? 'bg-primary/10' : ''} ${hasEvents ? 'font-bold' : ''}`}
+                                suppressHydrationWarning
                               >
                                 <div className="text-xs font-mono">{dayOfWeek}</div>
-                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`}>
+                                <div className={`text-xs font-mono ${isToday ? 'text-primary' : 'text-muted-foreground'}`} suppressHydrationWarning>
                                   {dayOfMonth}
                                 </div>
                               </div>
