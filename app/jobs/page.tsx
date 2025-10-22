@@ -171,11 +171,11 @@ export default function JobsPage() {
             </button>
           </div>
         </div>
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 w-full lg:w-auto">
           <img 
             src="/job-openings-meme.png" 
             alt="Job openings everywhere meme" 
-            className="w-full h-auto border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
+            className="w-full h-auto max-w-md lg:max-w-lg border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] mx-auto lg:mx-0"
           />
         </div>
       </section>

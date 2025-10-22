@@ -161,6 +161,16 @@
 }
 
 @layer utilities {
+  /* Thin scrollbar utility */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
   /* ASCII 3D effect utilities */
   .ascii-3d {
     text-shadow:

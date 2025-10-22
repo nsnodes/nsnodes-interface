@@ -78,7 +78,7 @@ export default function Home() {
   const [countrySearch, setCountrySearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
-  const [timelineZoomDays, setTimelineZoomDays] = useState<number>(30);
+  const [timelineZoomDays, setTimelineZoomDays] = useState<number>(7);
   const [isTimelineDropdownOpen, setIsTimelineDropdownOpen] = useState<boolean>(false);
   const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">("gantt");
   const [popupZoomDays, setPopupZoomDays] = useState<number>(365);
@@ -389,7 +389,7 @@ export default function Home() {
   const getNetworkStateColor = (networkState: string) => {
     const colors: Record<string, string> = {
       // Network States (for regular events)
-      'Network School': 'bg-gray-600',
+      'Network School': 'bg-blue-600',
       'StarShare': 'bg-purple-600',
       'ZuCity Japan': 'bg-pink-600',
       'Próspera': 'bg-orange-600',
@@ -1489,7 +1489,7 @@ export default function Home() {
                       className="text-xs font-mono border border-border bg-background px-2 py-1 min-w-[80px] text-left flex items-center justify-between hover:bg-accent transition-colors"
                       aria-label="Timeline zoom level"
                     >
-                      <span>{timelineZoomDays} days</span>
+                      <span>{timelineZoomDays} {timelineZoomDays === 1 ? 'day' : 'days'}</span>
                       <ChevronDown className={`h-3 w-3 transition-transform ${isTimelineDropdownOpen ? 'rotate-180' : ''}`} />
                     </button>
                   </div>
@@ -1497,7 +1497,7 @@ export default function Home() {
                   {/* Custom Dropdown */}
                   {isTimelineDropdownOpen && (
                     <div className="absolute top-full right-0 mt-1 bg-background border-2 border-border shadow-lg z-50 min-w-[80px]">
-                      {[7, 14, 30, 60, 90].map((days) => (
+                      {[1, 3, 7, 14, 30, 60, 90].map((days) => (
                         <button
                           key={days}
                           onClick={() => {
@@ -1508,7 +1508,7 @@ export default function Home() {
                             timelineZoomDays === days ? 'bg-accent' : ''
                           }`}
                         >
-                          {days} days
+                          {days} {days === 1 ? 'day' : 'days'}
                         </button>
                       ))}
                     </div>
@@ -1555,18 +1555,59 @@ export default function Home() {
 
               // Get sorted unique dates
               const sortedDates = Object.keys(eventsByDate).sort();
-
-              // Calculate date range
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              const endDate = new Date(today);
-              endDate.setDate(endDate.getDate() + timelineZoomDays);
-
-              // Generate date columns for the timeline
-              const dateColumns: Date[] = [];
-              for (let d = new Date(today); d <= endDate; d.setDate(d.getDate() + 1)) {
-                dateColumns.push(new Date(d));
+              
+              // Debug: log events grouped by date
+              if (typeof window !== 'undefined') {
+                console.log('Timeline Debug - Events by date:', eventsByDate);
+                console.log('Timeline Debug - Sorted dates:', sortedDates);
               }
+
+              // Calculate date range - show ALL upcoming events
+              // Get today's date in local timezone as YYYY-MM-DD string
+              const now = new Date();
+              const todayStr = now.getFullYear() + '-' + 
+                String(now.getMonth() + 1).padStart(2, '0') + '-' + 
+                String(now.getDate()).padStart(2, '0');
+              
+              // Find the last event date string
+              const lastEventDateStr = filteredAndSortedEvents.length > 0
+                ? filteredAndSortedEvents.reduce((latest, e) => e.date > latest ? e.date : latest, todayStr)
+                : todayStr;
+              
+              // Generate date columns as YYYY-MM-DD strings from today to last event
+              const dateColumns: string[] = [];
+              let currentDate = new Date(todayStr + 'T00:00:00');
+              const endDate = new Date(lastEventDateStr + 'T00:00:00');
+              
+              while (currentDate <= endDate) {
+                const dateStr = currentDate.getFullYear() + '-' + 
+                  String(currentDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                  String(currentDate.getDate()).padStart(2, '0');
+                dateColumns.push(dateStr);
+                currentDate.setDate(currentDate.getDate() + 1);
+              }
+              
+              // Debug: log date columns
+              if (typeof window !== 'undefined') {
+                console.log('Timeline Debug - Date columns:', dateColumns);
+                console.log('Timeline Debug - Today:', todayStr);
+              }
+
+              // Calculate column width based on zoom level
+              const getColumnWidth = (zoomDays: number): number => {
+                switch (zoomDays) {
+                  case 1: return 500;  // Extra wide for detailed view
+                  case 3: return 250;  // Very wide
+                  case 7: return 150;  // Wide
+                  case 14: return 100; // Medium
+                  case 30: return 80;  // Standard
+                  case 60: return 60;  // Compact
+                  case 90: return 40;  // Very compact
+                  default: return 80;
+                }
+              };
+
+              const columnWidth = getColumnWidth(timelineZoomDays);
 
               return (
                 <>
@@ -1575,13 +1616,13 @@ export default function Home() {
                     <div className="min-w-[800px]">
                       <div className="space-y-6">
                         {/* Date Header */}
-                        <div className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${Math.min(dateColumns.length, 31)}, minmax(80px, 1fr))` }}>
+                        <div className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${dateColumns.length}, ${columnWidth}px)` }}>
                           <div className="text-xs font-mono font-bold text-muted-foreground"></div>
-                          {dateColumns.slice(0, 31).map((date, idx) => {
-                            const dateStr = date.toISOString().split('T')[0];
+                          {dateColumns.map((dateStr, idx) => {
+                            const date = new Date(dateStr + 'T00:00:00');
                             const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
                             const dayOfMonth = date.getDate();
-                            const isToday = dateStr === today.toISOString().split('T')[0];
+                            const isToday = dateStr === todayStr;
                             const hasEvents = eventsByDate[dateStr];
 
                             return (
@@ -1617,15 +1658,14 @@ export default function Home() {
                           if (hourEvents.length === 0) return null;
 
                           return (
-                            <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${Math.min(dateColumns.length, 31)}, minmax(80px, 1fr))` }}>
+                            <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${dateColumns.length}, ${columnWidth}px)` }}>
                               {/* Hour Label */}
                               <div className="text-xs font-mono text-muted-foreground flex items-center">
                                 {hour.toString().padStart(2, '0')}:00
                               </div>
 
                               {/* Date Columns */}
-                              {dateColumns.slice(0, 31).map((date, idx) => {
-                                const dateStr = date.toISOString().split('T')[0];
+                              {dateColumns.map((dateStr, idx) => {
                                 const dayEvents = (eventsByDate[dateStr] || []).filter(event => {
                                   const eventStartHour = Math.floor(getEventStartHour(event));
                                   const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
@@ -1734,13 +1774,13 @@ export default function Home() {
                     <div className="min-w-[800px]">
                       <div className="space-y-6">
                         {/* Date Header */}
-                        <div className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${Math.min(dateColumns.length, 31)}, minmax(60px, 1fr))` }}>
+                        <div className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
                           <div className="text-xs font-mono font-bold text-muted-foreground"></div>
-                          {dateColumns.slice(0, 31).map((date, idx) => {
-                            const dateStr = date.toISOString().split('T')[0];
+                          {dateColumns.map((dateStr, idx) => {
+                            const date = new Date(dateStr + 'T00:00:00');
                             const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'short' });
                             const dayOfMonth = date.getDate();
-                            const isToday = dateStr === today.toISOString().split('T')[0];
+                            const isToday = dateStr === todayStr;
                             const hasEvents = eventsByDate[dateStr];
 
                             return (
@@ -1776,15 +1816,14 @@ export default function Home() {
                           if (hourEvents.length === 0) return null;
 
                           return (
-                            <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${Math.min(dateColumns.length, 31)}, minmax(60px, 1fr))` }}>
+                            <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
                               {/* Hour Label */}
                               <div className="text-xs font-mono text-muted-foreground flex items-center">
                                 {hour.toString().padStart(2, '0')}:00
                               </div>
 
                               {/* Date Columns */}
-                              {dateColumns.slice(0, 31).map((date, idx) => {
-                                const dateStr = date.toISOString().split('T')[0];
+                              {dateColumns.map((dateStr, idx) => {
                                 const dayEvents = (eventsByDate[dateStr] || []).filter(event => {
                                   const eventStartHour = Math.floor(getEventStartHour(event));
                                   const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));

@@ -16,6 +16,18 @@ export interface SocietyDatabase {
 export const societiesDatabase: SocietyDatabase[] = [
   // ----- Tier 1 -----
   {
+    name: "The Network School",
+    url: "https://ns.com/",
+    type: "Physical",
+    tier: 1,
+    x: "https://x.com/balajis",
+    discord: "",
+    mission:
+      "A startup society for tech founders, AI creators, and remote workers.",
+    application: "https://ns.com/apply",
+    location: "Malaysia",
+  },
+  {
     name: "4seas",
     url: "https://www.4seas.xyz/",
     type: "Popup",
@@ -219,18 +231,6 @@ export const societiesDatabase: SocietyDatabase[] = [
     mission: "Enable individuals to declare personal sovereignty on-chain.",
     application: "http://sovs.xyz/",
     location: "Global",
-  },
-  {
-    name: "The Network School",
-    url: "https://ns.com/",
-    type: "Physical",
-    tier: 1,
-    x: "https://x.com/balajis",
-    discord: "",
-    mission:
-      "A startup society for tech founders, AI creators, and remote workers.",
-    application: "https://ns.com/apply",
-    location: "Malaysia",
   },
   {
     name: "VDAO",

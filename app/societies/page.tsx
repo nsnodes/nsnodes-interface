@@ -1,11 +1,14 @@
 "use client";
 
 import { Users, MapPin, ExternalLink, ChevronDown, ChevronUp, Calendar, MessageCircle, Globe } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { societiesDatabase, getDatabaseStats, SocietyDatabase } from "@/lib/data/societies-database";
 import SocietiesChart from "@/components/societies-chart";
+import { getEvents } from "@/lib/actions/events";
+import type { UIEvent } from "@/lib/types/events";
+import { societyNamesMatch } from "@/lib/utils/society-matcher";
 
 // Custom SVG icons
 const XIcon = ({ className }: { className?: string }) => (
@@ -174,34 +177,32 @@ const getFocusFromSociety = (society: SocietyDatabase) => {
 
 const networkStates = transformSocietiesData();
 
-// Events data
-const events = [
-  // Edge City Patagonia
-  { date: "2025-10-19", time: "6:30 PM – 9:00 PM", title: "Opening Ceremony", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16088" },
-  { date: "2025-10-20", time: "7:00 AM – 8:00 AM", title: "Run Club", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16093" },
-  { date: "2025-10-20", time: "8:00 AM – 9:00 AM", title: "Yoga", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Event", url: "https://app.sola.day/event/detail/16167" },
-  { date: "2025-10-22", time: "14:00 – 15:00", title: "Funding \"woo woo\" ventures", location: "San Martín de los Andes, Argentina", networkState: "Edge City Patagonia", type: "Workshop", url: "https://app.sola.day/event/detail/16359" },
-
-  // 4Seas Community
-  { date: "2025-10-25", time: "10:00 – 12:00", title: "AI ENGINEERS MEETUP WEEKLY CHIANG MAI", location: "Chiang Mai, Thailand", networkState: "4Seas Community", type: "Meetup", url: "https://app.sola.day/event/detail/16278" },
-
-  // Network School
-  { date: "2025-10-11", time: "10:00 PM", title: "Morning Meditation", location: "Forest City, Malaysia", networkState: "Network School", type: "Meditation", url: "https://lu.ma/ns" },
-  { date: "2025-10-11", time: "11:00 PM", title: "Learnathon: ML Foundations", location: "Forest City, Malaysia", networkState: "Network School", type: "Workshop", url: "https://lu.ma/ns" },
-  { date: "2025-10-12", time: "8:00 PM", title: "NS October Mixer", location: "Forest City, Malaysia", networkState: "Network School", type: "Mixer", url: "https://lu.ma/ns" },
-  { date: "2025-10-14", time: "9:30 PM", title: "decoding VC and how you can raise your first round", location: "Forest City, Malaysia", networkState: "Network School", type: "Discussion", url: "https://lu.ma/ns" },
-];
-
 export default function SocietiesPage() {
   const [expandedSociety, setExpandedSociety] = useState<string | null>(null);
+  const [events, setEvents] = useState<UIEvent[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const stats = getDatabaseStats();
+
+  // Fetch events on component mount
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const fetchedEvents = await getEvents();
+        setEvents(fetchedEvents);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   // Get events for a specific network state
   const getEventsForNetworkState = (networkStateName: string) => {
-    // Match variations of names (e.g., "Edge City" matches "Edge City Patagonia")
     return events.filter(event =>
-      event.networkState.toLowerCase().includes(networkStateName.toLowerCase()) ||
-      networkStateName.toLowerCase().includes(event.networkState.toLowerCase())
+      societyNamesMatch(event.networkState, networkStateName)
     );
   };
 
@@ -371,7 +372,7 @@ export default function SocietiesPage() {
                 </div>
 
                 {/* Events Dropdown */}
-                {societyEvents.length > 0 && (
+                {!isLoading && societyEvents.length > 0 && (
                   <div className="pt-2 border-t border-border">
                     <button
                       type="button"
@@ -387,13 +388,15 @@ export default function SocietiesPage() {
 
                     {isExpanded && (
                       <div className="mt-2 space-y-2 p-4 bg-muted/50 border border-border">
-                        {societyEvents.map((event, eventIndex) => (
+                        {societyEvents.slice(0, 6).map((event, eventIndex) => (
                           <a
                             key={eventIndex}
                             href={event.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block p-3 border border-border bg-background hover:bg-accent transition-colors"
+                            className={`block p-3 border border-border bg-background hover:bg-accent transition-colors ${
+                              eventIndex >= 4 ? 'opacity-40 blur-[0.5px]' : ''
+                            }`}
                           >
                             <div className="space-y-1">
                               <div className="flex items-start justify-between gap-2">
@@ -411,12 +414,14 @@ export default function SocietiesPage() {
                             </div>
                           </a>
                         ))}
-                        <Link
-                          href="/#upcoming-events"
-                          className="block text-center text-xs font-mono text-primary hover:underline mt-3"
-                        >
-                          View all events on homepage →
-                        </Link>
+                        {societyEvents.length > 4 && (
+                          <Link
+                            href="/#upcoming-events"
+                            className="block text-center text-xs font-mono text-primary hover:underline mt-3 pt-2 border-t border-border"
+                          >
+                            View all {societyEvents.length} events on homepage →
+                          </Link>
+                        )}
                       </div>
                     )}
                   </div>

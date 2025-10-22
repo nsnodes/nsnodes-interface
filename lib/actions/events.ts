@@ -98,14 +98,24 @@ function formatTime(date: Date): string {
 }
 
 /**
+ * Extract date in local timezone from ISO timestamp
+ * This preserves the original date without UTC conversion
+ */
+function extractLocalDate(isoTimestamp: string): string {
+  // Extract just the date part from ISO timestamp (YYYY-MM-DD)
+  // This avoids timezone conversion issues
+  return isoTimestamp.split('T')[0]
+}
+
+/**
  * Transform a database event to UI format
  */
 function transformEvent(dbEvent: DatabaseEvent): UIEvent {
   const startDate = new Date(dbEvent.start_at)
   const endDate = new Date(dbEvent.end_at)
 
-  // Format date as YYYY-MM-DD (UTC)
-  const date = startDate.toISOString().split('T')[0]
+  // Extract date in local timezone (preserves original date without UTC shift)
+  const date = extractLocalDate(dbEvent.start_at)
 
   // Format time range (UTC)
   const startTime = formatTime(startDate)
@@ -230,12 +240,9 @@ export async function getEventsByOrganizer(organizerSlug: string): Promise<UIEve
  * Transform a database event to popup city format
  */
 function transformPopupCity(dbEvent: DatabaseEvent): PopupCity {
-  const startDate = new Date(dbEvent.start_at)
-  const endDate = new Date(dbEvent.end_at)
-
-  // Format dates as YYYY-MM-DD (UTC)
-  const date = startDate.toISOString().split('T')[0]
-  const endDateStr = endDate.toISOString().split('T')[0]
+  // Extract dates in local timezone (preserves original dates without UTC shift)
+  const date = extractLocalDate(dbEvent.start_at)
+  const endDateStr = extractLocalDate(dbEvent.end_at)
 
   // Format location (prefer city, fallback to venue_name, address)
   const location = dbEvent.city
@@ -252,6 +259,33 @@ function transformPopupCity(dbEvent: DatabaseEvent): PopupCity {
     location,
     networkState,
     url: dbEvent.source_url
+  }
+}
+
+/**
+ * Debug function to get raw event data
+ */
+export async function getAllEventsDebug() {
+  try {
+    const supabase = createServerClient()
+
+    const { data, error } = await supabase
+      .from('events')
+      .select('*')
+      .eq('source', 'luma')
+      .gte('start_at', new Date().toISOString())
+      .order('start_at', { ascending: true })
+      .limit(50)
+
+    if (error) {
+      console.error('Error fetching debug events:', error)
+      return { error: error.message, data: null }
+    }
+
+    return { error: null, data }
+  } catch (error) {
+    console.error('Error in getAllEventsDebug:', error)
+    return { error: String(error), data: null }
   }
 }
 
