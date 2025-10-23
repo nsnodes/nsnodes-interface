@@ -829,7 +829,7 @@ export default function Home() {
                   </div>
 
                   {/* Mobile Timeline View */}
-                  <div className="md:hidden p-4 overflow-x-auto">
+                  <div className="md:hidden p-4 overflow-x-auto overscroll-x-contain touch-pan-x">
                     <div className="min-w-[800px]">
                       <div className="space-y-1">
                         {/* Week Header Row */}
@@ -1778,7 +1778,7 @@ export default function Home() {
                   </div>
 
                   {/* Mobile Timeline View */}
-                  <div className="md:hidden p-4 overflow-x-auto">
+                  <div className="md:hidden p-4 overflow-x-auto overscroll-x-contain touch-pan-x">
                     <div className="min-w-[800px]">
                       <div className="space-y-6">
                         {/* Date Header */}
