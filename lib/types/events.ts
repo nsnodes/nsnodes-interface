@@ -20,13 +20,14 @@ export interface DatabaseEvent {
   lng: number | null
 
   // Source
-  source: string // e.g., "luma"
+  source: string // e.g., "luma", "soladay"
   source_url: string
 
   // Metadata
   organizers: Array<{ name: string }> | string | null // Supabase auto-parses JSON
   tags: string[] | null
   image_url: string | null
+  status: string // e.g., "scheduled", "tentative", "cancelled"
 }
 
 // Type for the transformed event used in the UI

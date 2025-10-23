@@ -388,18 +388,26 @@ export default function Home() {
 
   const getNetworkStateColor = (networkState: string) => {
     const colors: Record<string, string> = {
-      // Network States (for regular events)
+      // High contrast color palette for better visual distinction
+      'edgpatagonia': 'bg-emerald-500',
       'Network School': 'bg-blue-600',
+      '4Seas': 'bg-cyan-500',
+      'Próspera': 'bg-orange-500',
+      'INFINITA': 'bg-fuchsia-500',
+      'Invisible Garden Argentina': 'bg-lime-500',
+      'Software Zuzalu': 'bg-violet-600',
+      'Tomek ⚡ K': 'bg-amber-500',
+      'Andrea S.': 'bg-rose-500',
+      // Legacy network states (in case they appear)
       'StarShare': 'bg-purple-600',
       'ZuCity Japan': 'bg-pink-600',
-      'Próspera': 'bg-orange-600',
       'ShanhaiWoo': 'bg-red-600',
-      'Edge City': 'bg-emerald-600',
-      'ETH Safari': 'bg-yellow-600',
-      'Web3 META Hub': 'bg-teal-600',
+      'Edge City': 'bg-teal-600',
+      'ETH Safari': 'bg-yellow-500',
+      'Web3 META Hub': 'bg-indigo-600',
       'ShanhaiWoo · Singapore': 'bg-red-500',
-      'east2046festival': 'bg-violet-600',
-      'zanzalu': 'bg-rose-600',
+      'east2046festival': 'bg-purple-500',
+      'zanzalu': 'bg-pink-500',
       'Infinita City / Community': 'bg-slate-600',
     };
     return colors[networkState] || 'bg-gray-600';
@@ -1596,10 +1604,10 @@ export default function Home() {
               // Calculate column width based on zoom level
               const getColumnWidth = (zoomDays: number): number => {
                 switch (zoomDays) {
-                  case 1: return 500;  // Extra wide for detailed view
-                  case 3: return 250;  // Very wide
-                  case 7: return 150;  // Wide
-                  case 14: return 100; // Medium
+                  case 1: return 800;  // Extra wide for detailed view
+                  case 3: return 350;  // Very wide
+                  case 7: return 180;  // Wide
+                  case 14: return 120; // Medium
                   case 30: return 80;  // Standard
                   case 60: return 60;  // Compact
                   case 90: return 40;  // Very compact

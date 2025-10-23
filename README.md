@@ -1,3 +1,14 @@
+```
+ /$$   /$$  /$$$$$$  /$$   /$$  /$$$$$$  /$$$$$$$  /$$$$$$$$  /$$$$$$ 
+| $$$ | $$ /$$__  $$| $$$ | $$ /$$__  $$| $$__  $$| $$_____/ /$$__  $$
+| $$$$| $$| $$  \__/| $$$$| $$| $$  \ $$| $$  \ $$| $$      | $$  \__/
+| $$ $$ $$|  $$$$$$ | $$ $$ $$| $$  | $$| $$  | $$| $$$$$   |  $$$$$$ 
+| $$  $$$$ \____  $$| $$  $$$$| $$  | $$| $$  | $$| $$__/    \____  $$
+| $$\  $$$ /$$  \ $$| $$\  $$$| $$  | $$| $$  | $$| $$       /$$  \ $$
+| $$ \  $$|  $$$$$$/| $$ \  $$|  $$$$$$/| $$$$$$$/| $$$$$$$$|  $$$$$$/
+|__/  \__/ \______/ |__/  \__/ \______/ |_______/ |________/ \______/ 
+```
+
 # NSNodes - Network State Hub
 
 ![NSNodes](https://img.shields.io/badge/Status-Live-green) ![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black) ![License](https://img.shields.io/badge/License-MIT-blue)
@@ -10,24 +21,11 @@
 - **Jobs Board** - Find opportunities in the Network State ecosystem
 - **Content Creators** - Follow the best thinkers and builders in the space
 - **VC Directory** - Connect with crypto-native venture capital firms
+- **Investment DAO** - Explore decentralized investment opportunities
+- **Societies** - Discover Network State societies and communities
+- **Funding Hub** - Grants and VC funding information
 - **Open Source Tooling** - Discover GitHub repos building the future
 - **Community Hub** - Join the Discord and connect with builders
-
-## 🎨 Design
-
-NSNodes features a unique ASCII/retro aesthetic inspired by:
-- 80s/90s BBS systems
-- Hacker culture
-- Crypto punk ethos
-- Balaji's vision for Network States
-
-Key design elements:
-- ASCII art and typography
-- 3D shadow effects (brutalist style)
-- Dark/light mode toggle
-- Fully responsive (mobile & desktop)
-- Monospace fonts throughout
-- Custom scrollbars and selection colors
 
 ## 🛠️ Tech Stack
 
@@ -38,6 +36,8 @@ Key design elements:
 - **Icons:** Lucide React
 - **Fonts:** Geist Sans & Geist Mono
 - **Bundler:** Turbopack
+- **Database:** Supabase (with dynamic events sync)
+- **Deployment:** Vercel
 
 ## 🏃 Getting Started
 
@@ -69,6 +69,9 @@ nsnodes/
 │   ├── jobs/              # Jobs page
 │   ├── content/           # Content creators page
 │   ├── vc/                # Venture capital page
+│   ├── investment-dao/    # Investment DAO page
+│   ├── societies/         # Societies page
+│   ├── funding/           # Funding hub (grants & VC)
 │   ├── tooling/           # GitHub tooling page
 │   ├── contact/           # Contact/community page
 │   ├── layout.tsx         # Root layout with nav
@@ -76,8 +79,13 @@ nsnodes/
 ├── components/            # React components
 │   ├── ascii-logo.tsx     # NSNodes ASCII logo
 │   ├── ascii-nav.tsx      # Navigation with dark mode
+│   ├── societies-chart.tsx # Societies visualization
 │   └── theme-provider.tsx # Theme context
-├── lib/                   # Utilities
+├── lib/                   # Utilities and data
+│   ├── actions/           # Server actions (events, etc.)
+│   ├── data/              # Database files
+│   ├── supabase/          # Supabase client
+│   ├── types/             # TypeScript types (events, etc.)
 │   └── utils.ts          # cn() helper for Tailwind
 └── public/               # Static assets
 ```
@@ -88,22 +96,27 @@ nsnodes/
 2. **/jobs** - Network State job listings with CTA to post jobs
 3. **/content** - Content creators, influencers, and essential reading
 4. **/vc** - Venture capital firms funding the Network State movement
-5. **/tooling** - Open-source GitHub repos and tools
-6. **/contact** - Discord link and mission statement
+5. **/investment-dao** - Decentralized investment opportunities
+6. **/societies** - Network State societies and communities
+7. **/funding** - Grants and VC funding information
+8. **/tooling** - Open-source GitHub repos and tools
+9. **/contact** - Discord link and mission statement
 
 ## 🌙 Dark Mode
 
 Toggle between light and dark themes using the button in the navigation. Theme preference is saved to localStorage.
 
-## 🎨 Custom Styling
+## 📅 Dynamic Events Integration
 
-The site includes custom CSS utilities for ASCII effects:
+The platform now features dynamic event synchronization with Supabase:
 
-- `.ascii-3d` - 3D text shadow effect
-- `.glitch:hover` - Glitch animation on hover
-- `.crt-effect` - Retro CRT screen flicker
-- Custom scrollbars with borders
-- ASCII box-shadow effects on cards
+- **Real-time Events**: Events are loaded dynamically from the database
+- **Popup Cities**: Special long-running events tagged as 'popup-city'
+- **Event Filtering**: Filter by country, source, tags, and date ranges
+- **Server Actions**: Efficient server-side data fetching
+- **Type Safety**: Full TypeScript support for events
+
+See `EVENTS_SETUP.md` for configuration details.
 
 ## 🤝 Contributing
 
@@ -120,12 +133,19 @@ MIT License - Fork it, improve it, ship it.
 
 ## 🌐 Community
 
-Join the NSNodes Discord: [discord.gg/nsnodes](https://discord.gg/nsnodes)
+Join the nsnodes Telegram: https://t.me/+RwyXfj5VsXk2NmE1
 
 ---
 
 **Built with ❤️ for the Network State Community**
 
-*"The future is decentralized" - Balaji Srinivasan*
-
-[ gm ] [ wagmi ] [ lfg ] [ iykyk ]
+```
+ /$$   /$$  /$$$$$$  /$$   /$$  /$$$$$$  /$$$$$$$  /$$$$$$$$  /$$$$$$ 
+| $$$ | $$ /$$__  $$| $$$ | $$ /$$__  $$| $$__  $$| $$_____/ /$$__  $$
+| $$$$| $$| $$  \__/| $$$$| $$| $$  \ $$| $$  \ $$| $$      | $$  \__/
+| $$ $$ $$|  $$$$$$ | $$ $$ $$| $$  | $$| $$  | $$| $$$$$   |  $$$$$$ 
+| $$  $$$$ \____  $$| $$  $$$$| $$  | $$| $$  | $$| $$__/    \____  $$
+| $$\  $$$ /$$  \ $$| $$\  $$$| $$  | $$| $$  | $$| $$       /$$  \ $$
+| $$ \  $$|  $$$$$$/| $$ \  $$|  $$$$$$/| $$$$$$$/| $$$$$$$$|  $$$$$$/
+|__/  \__/ \______/ |__/  \__/ \______/ |_______/ |________/ \______/ 
+```

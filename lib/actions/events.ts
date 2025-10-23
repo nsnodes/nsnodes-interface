@@ -169,14 +169,18 @@ export async function getEvents(): Promise<UIEvent[]> {
         source_url,
         organizers,
         tags,
-        image_url
+        image_url,
+        status
       `)
-      // Filter for luma events only (sola.day is for popup cities)
-      .eq('source', 'luma')
-      // Filter for upcoming events
+      // Filter for upcoming events from both Luma and Sola.day
+      // Exclude popup cities (they have their own section)
+      .in('source', ['luma', 'soladay'])
+      .not('tags', 'cs', '{popup-city}')
+      // Include both scheduled and tentative events
+      .in('status', ['scheduled', 'tentative'])
       .gte('start_at', new Date().toISOString())
       .order('start_at', { ascending: true })
-      .limit(100)
+      .limit(500)
 
     if (error) {
       console.error('Error fetching events from Supabase:', error)

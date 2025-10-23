@@ -1,8 +1,7 @@
 "use client";
 
-import { TrendingUp, ExternalLink, Target, User, Globe } from "lucide-react";
+import { TrendingUp, ExternalLink, DollarSign, Target, User, Globe } from "lucide-react";
 import { vcDatabase, getVCDatabaseStats } from "@/lib/data/vc-database";
-import Image from "next/image";
 
 export default function VCPage() {
   const stats = getVCDatabaseStats();
@@ -10,39 +9,16 @@ export default function VCPage() {
   return (
     <div className="space-y-12">
       {/* Hero Section */}
-      <section className="flex flex-col lg:flex-row items-center gap-8">
-        <div className="text-center lg:text-left space-y-4 flex-1">
-          <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
-          </pre>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
-            [ VENTURE CAPITAL ]
-          </h1>
-          <p className="text-muted-foreground font-mono text-sm sm:text-base">
-            The VCs funding the Network State revolution. These firms back crypto infrastructure,
-            decentralized governance, and the future of coordination.
-          </p>
-          
-          {/* CTA Section */}
-          <div className="pt-4">
-            <a
-              href="mailto:nsnodes@gmail.com?subject=VC Listing Request&body=Hi, I'd like to list our VC firm on NSNodes. Please include: Firm name, Contact person, Description, Focus areas, Notable investments, Check size, Website, and X profile."
-              className="inline-block border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
-            >
-              [ LIST VC ] →
-            </a>
-          </div>
-        </div>
-        
-        {/* VC Brand Image */}
-        <div className="flex-shrink-0">
-          <Image 
-            src="/vc-brand.png" 
-            alt="VC brand meme" 
-            width={400}
-            height={300}
-            className="w-full h-auto border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
-          />
-        </div>
+      <section className="text-center space-y-4">
+        <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
+        </pre>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
+          [ VENTURE CAPITAL ]
+        </h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto font-mono text-sm sm:text-base">
+          The VCs funding the Network State revolution. These firms back crypto infrastructure,
+          decentralized governance, and the future of coordination.
+        </p>
       </section>
 
       {/* Stats */}
@@ -81,18 +57,7 @@ export default function VCPage() {
                   {vc.contact && (
                     <p className="text-sm font-mono text-muted-foreground flex items-center gap-1">
                       <User className="h-3 w-3" />
-                      {vc.contactX ? (
-                        <a
-                          href={vc.contactX}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="hover:text-primary transition-colors"
-                        >
-                          {vc.contact}
-                        </a>
-                      ) : (
-                        vc.contact
-                      )}
+                      {vc.contact}
                     </p>
                   )}
                 </div>
@@ -162,7 +127,7 @@ export default function VCPage() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-sm font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                   >
-                    X
+                    X (TWITTER)
                     <ExternalLink className="h-3 w-3" />
                   </a>
                 )}
@@ -170,21 +135,6 @@ export default function VCPage() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="border-2 border-border p-8 bg-card text-center space-y-4">
-        <h3 className="text-xl font-bold font-mono">[ LIST YOUR VC ]</h3>
-        <p className="text-sm font-mono text-muted-foreground">
-          Running a VC firm that backs Network State projects? Get listed and connect
-          with the builders shaping the future of governance and coordination.
-        </p>
-        <a
-          href="mailto:nsnodes@gmail.com?subject=VC Listing Request&body=Hi, I'd like to list our VC firm on NSNodes. Please include: Firm name, Contact person, Description, Focus areas, Notable investments, Check size, Website, and X profile."
-          className="inline-block border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
-        >
-          [ LIST VC ] →
-        </a>
       </section>
 
       {/* Meme Section */}
