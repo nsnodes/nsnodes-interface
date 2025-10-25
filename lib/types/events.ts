@@ -40,6 +40,7 @@ export interface UIEvent {
   networkState: string
   type: string
   url: string
+  mapsLink?: string // Optional Google Maps link
 }
 
 // Type for popup cities (long-running events with date ranges)

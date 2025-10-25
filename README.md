@@ -118,10 +118,6 @@ The platform now features dynamic event synchronization with Supabase:
 
 See `EVENTS_SETUP.md` for configuration details.
 
-## 🔌 Browser Extension Compatibility
-
-NSNodes is fully compatible with crypto wallet extensions (Phantom, MetaMask, Coinbase Wallet, etc.). We've implemented a global error handler to suppress harmless wallet injection warnings in the console. See `docs/BROWSER_EXTENSIONS.md` for details.
-
 ## 🤝 Contributing
 
 We're building in public! Contributions welcome:

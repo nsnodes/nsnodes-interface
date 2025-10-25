@@ -108,6 +108,227 @@ function extractLocalDate(isoTimestamp: string): string {
 }
 
 /**
+ * Detect if event is from Ipê City based on title or location
+ */
+function isIpeCityEvent(title: string, city: string | null, address: string | null): boolean {
+  const searchText = `${title} ${city || ''} ${address || ''}`.toLowerCase()
+  return /ip[eê]\s*city|ip[eê]\s*village|ip[eê]\s*breakfast/i.test(searchText)
+}
+
+/**
+ * Detect if event is from Logos based on title or organizers
+ */
+function isLogosEvent(title: string, organizers: Array<{ name: string }> | string | null): boolean {
+  // Check title for Logos Circle or Logos-related keywords (including Spanish "Círculo Logos")
+  if (/logos\s*circle|c[íi]rculo\s*logos|parallel\s*society\s*festival/i.test(title)) {
+    return true
+  }
+
+  // Check if any organizer contains "Logos" or is a known Logos organizer
+  if (organizers) {
+    let parsed = organizers
+    if (typeof organizers === 'string') {
+      try {
+        parsed = JSON.parse(organizers)
+      } catch {
+        return false
+      }
+    }
+
+    if (Array.isArray(parsed)) {
+      return parsed.some(org => {
+        const name = typeof org === 'object' && org.name ? org.name : org
+        if (typeof name === 'string') {
+          const nameLower = name.toLowerCase()
+          // Check for "Logos" in name or known Logos organizers
+          return nameLower.includes('logos') || nameLower.includes('isaac warburton')
+        }
+        return false
+      })
+    }
+  }
+
+  return false
+}
+
+/**
+ * Organization slug to location mapping for Sola.day events
+ */
+const ORGANIZATION_LOCATIONS: Record<string, { city: string; country: string }> = {
+  'edgepatagonia': { city: 'El Chaltén', country: 'Argentina' },
+  '4seas': { city: 'Chiang Mai', country: 'Thailand' },
+  'prospera': { city: 'Próspera', country: 'Honduras' },
+  'Prospera-events': { city: 'Próspera', country: 'Honduras' },
+  'infinitacity': { city: 'INFINITA City', country: 'Argentina' },
+  'zuzalucity': { city: 'Zuzalu City', country: 'Montenegro' },
+  'invisiblegardenar': { city: 'Invisible Garden', country: 'Argentina' }
+}
+
+/**
+ * Generate Google Maps link from location data
+ */
+function generateMapsLink(dbEvent: DatabaseEvent): string | null {
+  // Priority 1: Use lat/lng if available (most accurate)
+  if (dbEvent.lat && dbEvent.lng) {
+    return `https://www.google.com/maps?q=${dbEvent.lat},${dbEvent.lng}`
+  }
+
+  // Priority 2: Use exact address for Luma events
+  if (dbEvent.source === 'luma' && dbEvent.address && !dbEvent.address.includes('http')) {
+    let query = ''
+
+    // Check if address already contains full details (has comma or is long)
+    const isDetailedAddress = dbEvent.address.includes(',') || dbEvent.address.length > 50
+
+    if (isDetailedAddress) {
+      // Address already has full details, use it as-is
+      query = dbEvent.address
+    } else {
+      // Address is just venue/building name, combine with city and country
+      // Don't duplicate venue_name if it's the same as address
+      const parts = []
+
+      if (dbEvent.address && dbEvent.address !== dbEvent.venue_name) {
+        parts.push(dbEvent.address)
+      } else if (dbEvent.venue_name) {
+        parts.push(dbEvent.venue_name)
+      }
+
+      // Add city and country if address doesn't already contain them
+      if (dbEvent.city && !dbEvent.address.toLowerCase().includes(dbEvent.city.toLowerCase())) {
+        parts.push(dbEvent.city)
+      }
+      if (dbEvent.country && !dbEvent.address.toLowerCase().includes(dbEvent.country.toLowerCase())) {
+        parts.push(dbEvent.country)
+      }
+
+      query = parts.join(', ')
+    }
+
+    if (query) {
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+    }
+  }
+
+  // Priority 3: Use organization location for Sola.day events
+  if (dbEvent.source === 'soladay' && dbEvent.city) {
+    const orgLocation = ORGANIZATION_LOCATIONS[dbEvent.city]
+    if (orgLocation) {
+      const query = encodeURIComponent(`${orgLocation.city}, ${orgLocation.country}`)
+      return `https://www.google.com/maps/search/?api=1&query=${query}`
+    }
+  }
+
+  return null
+}
+
+/**
+ * Organization slugs/keywords that Luma uses in city field (not real cities)
+ * These indicate the event is associated with an organization, not a physical location
+ */
+const LUMA_ORG_KEYWORDS = ['ipecity', 'logos', 'networkschool', 'prospera']
+
+/**
+ * Check if a city value is actually an organization slug or contains org keywords
+ */
+function isOrgSlug(city: string | null): boolean {
+  if (!city) return false
+  const cityLower = city.toLowerCase()
+  
+  // Check if city exactly matches or contains any org keyword
+  return LUMA_ORG_KEYWORDS.some(keyword => 
+    cityLower === keyword || cityLower.includes(keyword)
+  )
+}
+
+/**
+ * Check if an event has any real physical location data
+ */
+function hasPhysicalLocation(dbEvent: DatabaseEvent): boolean {
+  // Check if venue name exists and is not a URL
+  const hasValidVenue = !!(dbEvent.venue_name && 
+                        !dbEvent.venue_name.includes('http') && 
+                        dbEvent.venue_name.trim().length > 0)
+  
+  // Check if address exists and is not a URL
+  const hasValidAddress = !!(dbEvent.address && 
+                          !dbEvent.address.includes('http') && 
+                          dbEvent.address.trim().length > 0)
+  
+  // Check if city exists, is not a URL, and is not an org slug
+  const hasValidCity = !!(dbEvent.city && 
+                       !dbEvent.city.includes('http') && 
+                       dbEvent.city.trim().length > 0 &&
+                       !isOrgSlug(dbEvent.city))
+  
+  return hasValidVenue || hasValidAddress || hasValidCity
+}
+
+/**
+ * Format location string for display, with truncation
+ */
+function formatLocation(dbEvent: DatabaseEvent, maxLength: number = 40): string {
+  let location = ''
+
+  // For Luma events with venue name
+  if (dbEvent.venue_name && !dbEvent.venue_name.includes('http')) {
+    location = dbEvent.venue_name
+  }
+  // For Luma events with address
+  else if (dbEvent.address && !dbEvent.address.includes('http')) {
+    location = dbEvent.address
+  }
+  // For Sola.day events, use mapped location
+  else if (dbEvent.source === 'soladay' && dbEvent.city) {
+    const orgLocation = ORGANIZATION_LOCATIONS[dbEvent.city]
+    if (orgLocation) {
+      location = orgLocation.city
+    } else {
+      location = dbEvent.city
+    }
+  }
+  // Fallback to city (but skip organization slugs)
+  else if (dbEvent.city && !dbEvent.city.includes('http') && !isOrgSlug(dbEvent.city)) {
+    location = dbEvent.city
+  }
+  // For Luma (and other sources), if no physical location data exists, mark as Virtual
+  else if (!hasPhysicalLocation(dbEvent)) {
+    location = 'Virtual'
+  }
+  // Final fallback
+  else {
+    location = 'TBD'
+  }
+
+  // Truncate if too long
+  if (location.length > maxLength) {
+    location = location.substring(0, maxLength) + '...'
+  }
+
+  return location
+}
+
+/**
+ * Get country for event (with Sola.day organization mapping)
+ */
+function getCountry(dbEvent: DatabaseEvent): string {
+  // Luma events usually have country
+  if (dbEvent.country) {
+    return dbEvent.country
+  }
+
+  // For Sola.day events, map from organization slug
+  if (dbEvent.source === 'soladay' && dbEvent.city) {
+    const orgLocation = ORGANIZATION_LOCATIONS[dbEvent.city]
+    if (orgLocation) {
+      return orgLocation.country
+    }
+  }
+
+  return 'Unknown'
+}
+
+/**
  * Transform a database event to UI format
  */
 function transformEvent(dbEvent: DatabaseEvent): UIEvent {
@@ -122,11 +343,23 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
   const endTime = formatTime(endDate)
   const time = `${startTime} – ${endTime}`
 
-  // Format location (prefer venue_name, fallback to city, address)
-  const location = dbEvent.venue_name || dbEvent.city || dbEvent.address || 'TBD'
+  // Format location with truncation
+  const location = formatLocation(dbEvent)
+
+  // Generate Google Maps link
+  const mapsLink = generateMapsLink(dbEvent)
+
+  // Get country (with Sola.day organization mapping)
+  const country = getCountry(dbEvent)
 
   // Parse network state from organizers field
-  const networkState = parseNetworkState(dbEvent.organizers)
+  // Override with specific network states for special cases
+  let networkState = parseNetworkState(dbEvent.organizers)
+  if (isIpeCityEvent(dbEvent.title, dbEvent.city, dbEvent.address)) {
+    networkState = 'Ipê City'
+  } else if (isLogosEvent(dbEvent.title, dbEvent.organizers)) {
+    networkState = 'Logos'
+  }
 
   // Infer event type from title and description
   const type = inferEventType(dbEvent.title, dbEvent.description)
@@ -136,10 +369,11 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
     time,
     title: dbEvent.title,
     location,
-    country: dbEvent.country || 'Unknown',
+    country,
     networkState,
     type,
-    url: dbEvent.source_url
+    url: dbEvent.source_url,
+    mapsLink: mapsLink || undefined
   }
 }
 

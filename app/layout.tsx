@@ -4,7 +4,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AsciiNav } from "@/components/ascii-nav";
-import { ErrorHandler } from "./error-handler";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,7 +76,6 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden flex flex-col dark`}
       >
-        <ErrorHandler />
         <ThemeProvider defaultTheme="dark">
           <div className="relative z-50">
             <AsciiNav />
@@ -86,24 +84,18 @@ export default async function RootLayout({
           <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 overflow-x-hidden flex-1 w-full">{children}</main>
           <footer className="border-t-2 border-border py-4 sm:py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center">
-                {/* Mobile-friendly ASCII art */}
-                <div className="hidden sm:block">
-                  <pre className="font-mono text-[10px] sm:text-xs opacity-60 max-w-full overflow-x-auto whitespace-pre">{`╔═══════════════════════════════════════════════════════════╗
-║  Built with ❤️ for the Network State Community           ║
-║  "The future is decentralized" - Balaji Srinivasan       ║
-╚═══════════════════════════════════════════════════════════╝`}</pre>
+              <div className="text-center space-y-2">
+                <div className="font-mono text-xs opacity-60">
+                  Built with ❤️ for the Network State Community
                 </div>
-                
-                {/* Mobile version - simpler text */}
-                <div className="sm:hidden space-y-2">
-                  <div className="font-mono text-xs opacity-60">
-                    Built with ❤️ for the Network State Community
-                  </div>
-                  <div className="font-mono text-[10px] opacity-50 italic">
-                    &quot;The future is decentralized&quot; - Balaji Srinivasan
-                  </div>
-                </div>
+                <a 
+                  href="https://github.com/orgs/nsnodes/repositories" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs opacity-60 hover:opacity-100 hover:text-primary transition-all block"
+                >
+                  GitHub
+                </a>
               </div>
             </div>
           </footer>

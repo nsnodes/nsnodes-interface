@@ -20,25 +20,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  
-  // Suppress browser extension warnings in development
-  reactStrictMode: true,
-  
-  // Improve compatibility with browser extensions
-  experimental: {
-    // Turbopack specific optimizations
-    turbo: {
-      resolveExtensions: [
-        '.mdx',
-        '.tsx',
-        '.ts',
-        '.jsx',
-        '.js',
-        '.mjs',
-        '.json',
-      ],
-    },
-  },
 };
 
 export default nextConfig;

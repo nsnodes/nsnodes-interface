@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table } from "lucide-react";
+import { Calendar, TrendingUp, Users, ExternalLink, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table, Monitor } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import { getEvents, getPopupCities } from "@/lib/actions/events";
@@ -228,9 +228,21 @@ export default function Home() {
   const uniqueTypes = Array.from(
     new Set(events.map(e => e.type).filter(Boolean))
   ).sort();
-  const uniqueCountries = Array.from(
-    new Set(events.map(e => e.country).filter(c => c && c !== 'Unknown'))
-  ).sort();
+  
+  // Create locations list (includes "Virtual" from event.location and countries)
+  const uniqueLocations = Array.from(
+    new Set([
+      // Add "Virtual" if any events have it as location
+      ...events.filter(e => e.location === 'Virtual').map(() => 'Virtual'),
+      // Add all countries
+      ...events.map(e => e.country).filter(c => c && c !== 'Unknown')
+    ])
+  ).sort((a, b) => {
+    // Always put "Virtual" first
+    if (a === 'Virtual') return -1;
+    if (b === 'Virtual') return 1;
+    return a.localeCompare(b);
+  });
 
   // Filter lists based on search (with null safety)
   const filteredNetworkStates = uniqueNetworkStates.filter(ns =>
@@ -239,8 +251,8 @@ export default function Home() {
   const filteredTypes = uniqueTypes.filter(type =>
     type?.toLowerCase().includes(typeSearch.toLowerCase())
   );
-  const filteredCountries = uniqueCountries.filter(country =>
-    country?.toLowerCase().includes(countrySearch.toLowerCase())
+  const filteredCountries = uniqueLocations.filter(location =>
+    location?.toLowerCase().includes(countrySearch.toLowerCase())
   );
 
   const toggleFilter = (value: string, filterArray: string[], setFilter: React.Dispatch<React.SetStateAction<string[]>>) => {
@@ -270,8 +282,17 @@ export default function Home() {
       if (selectedTypes.length > 0 && !selectedTypes.includes(event.type)) {
         return false;
       }
-      if (selectedCountries.length > 0 && !selectedCountries.includes(event.country)) {
-        return false;
+      // Location filter: check both "Virtual" location and country
+      if (selectedCountries.length > 0) {
+        const matchesLocation = selectedCountries.some(selected => {
+          if (selected === 'Virtual') {
+            return event.location === 'Virtual';
+          }
+          return event.country === selected;
+        });
+        if (!matchesLocation) {
+          return false;
+        }
       }
       return true;
     })
@@ -286,7 +307,14 @@ export default function Home() {
           compareValue = a.title.localeCompare(b.title);
           break;
         case "location":
-          compareValue = a.location.localeCompare(b.location);
+          // Prioritize "Virtual" at the top (or bottom depending on sort direction)
+          if (a.location === "Virtual" && b.location !== "Virtual") {
+            compareValue = -1; // Virtual comes first
+          } else if (a.location !== "Virtual" && b.location === "Virtual") {
+            compareValue = 1; // Virtual comes first
+          } else {
+            compareValue = a.location.localeCompare(b.location);
+          }
           break;
         case "networkState":
           compareValue = a.networkState.localeCompare(b.networkState);
@@ -1134,7 +1162,7 @@ export default function Home() {
             )}
           </div>
 
-          {/* Country Filter */}
+          {/* Location Filter */}
           <div className="border-2 border-border bg-card">
             <button
               type="button"
@@ -1143,7 +1171,7 @@ export default function Home() {
             >
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
-                [ COUNTRY ]
+                [ LOCATION ]
               </div>
               {allFiltersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
             </button>
@@ -1155,7 +1183,7 @@ export default function Home() {
                     type="text"
                     value={countrySearch}
                     onChange={(e) => setCountrySearch(e.target.value)}
-                    placeholder="Search countries..."
+                    placeholder="Search locations..."
                     className="w-full pl-7 pr-2 py-1 text-xs font-mono border border-border bg-background"
                   />
                 </div>
@@ -1168,7 +1196,14 @@ export default function Home() {
                         onChange={() => toggleFilter(country, selectedCountries, setSelectedCountries)}
                         className="cursor-pointer"
                       />
-                      <span className="text-xs font-mono">{country}</span>
+                      {country === 'Virtual' ? (
+                        <span className="text-xs font-mono flex items-center gap-1.5">
+                          <Monitor className="h-3.5 w-3.5 text-primary" />
+                          {country}
+                        </span>
+                      ) : (
+                        <span className="text-xs font-mono">{country}</span>
+                      )}
                     </label>
                   ))}
                 </div>
@@ -1410,8 +1445,17 @@ export default function Home() {
                                   <div className="text-xs text-muted-foreground whitespace-nowrap">{event.time}</div>
                                 </div>
                               </td>
-                              <td className="p-4 font-semibold">{event.title}</td>
-                              <td className="p-4">{event.location}</td>
+                            <td className="p-4 font-semibold">{event.title}</td>
+                            <td className="p-4">
+                              {event.location === 'Virtual' ? (
+                                <span className="flex items-center gap-1.5">
+                                  <Monitor className="h-3.5 w-3.5 text-primary" />
+                                  {event.location}
+                                </span>
+                              ) : (
+                                event.location
+                              )}
+                            </td>
                               <td className="p-4">
                                 <span className="px-2 py-1 bg-primary/10 border border-primary/20 text-xs">
                                   {event.networkState}
@@ -1464,8 +1508,17 @@ export default function Home() {
                               {event.type}
                             </span>
                           </div>
-                          <h3 className="font-mono font-bold text-sm">{event.title}</h3>
-                          <p className="text-xs font-mono text-muted-foreground">{event.location}</p>
+                        <h3 className="font-mono font-bold text-sm">{event.title}</h3>
+                        <p className="text-xs font-mono text-muted-foreground">
+                          {event.location === 'Virtual' ? (
+                            <span className="flex items-center gap-1.5">
+                              <Monitor className="h-3.5 w-3.5 text-primary" />
+                              {event.location}
+                            </span>
+                          ) : (
+                            event.location
+                          )}
+                        </p>
                           <span className="inline-block px-2 py-1 bg-primary/10 border border-primary/20 text-xs font-mono">
                             {event.networkState}
                           </span>
