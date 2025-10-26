@@ -4,12 +4,27 @@
  */
 
 /**
+ * Special mappings for event network states to society names
+ * These handle specific cases where event network state names differ from society names
+ */
+const NETWORK_STATE_MAPPINGS: Record<string, string> = {
+  'edgepatagonia': 'edge city',
+  'edgpatagonia': 'edge city', // Typo variant
+};
+
+/**
  * Normalize society name for matching
  * Removes common prefixes and suffixes to improve matching
  */
 export const normalizeSocietyName = (name: string): string => {
-  return name
-    .toLowerCase()
+  const lowercased = name.toLowerCase().trim();
+
+  // Check for special mappings first
+  if (NETWORK_STATE_MAPPINGS[lowercased]) {
+    return NETWORK_STATE_MAPPINGS[lowercased];
+  }
+
+  return lowercased
     .replace(/^the\s+/i, '') // Remove "The" prefix
     .replace(/\s+community$/i, '') // Remove "Community" suffix
     .replace(/\s+society$/i, '') // Remove "Society" suffix

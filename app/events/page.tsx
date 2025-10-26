@@ -12,6 +12,18 @@ export default function EventsPage() {
   const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [networkStateParam, setNetworkStateParam] = useState<string | null>(null);
+
+  // Read URL parameters on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const networkState = params.get('networkState');
+      console.log('URL params:', window.location.search);
+      console.log('Network state from URL:', networkState);
+      setNetworkStateParam(networkState);
+    }
+  }, []);
 
   // Fetch events and popup cities on component mount
   useEffect(() => {
@@ -129,7 +141,12 @@ export default function EventsPage() {
       <PopupSection popupEvents={popupEvents} />
 
       {/* Events Table */}
-      <UpcomingEventsSection events={events} isLoading={isLoading} error={error} />
+      <UpcomingEventsSection
+        events={events}
+        isLoading={isLoading}
+        error={error}
+        initialNetworkState={networkStateParam || undefined}
+      />
 
       {/* CTA Section */}
       <section className="border-2 border-border p-8 bg-card text-center space-y-4">

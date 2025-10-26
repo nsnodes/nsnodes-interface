@@ -2,17 +2,38 @@
 
 import { Calendar, BarChart3, ChevronDown, Table } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import type { PopupCity } from "@/lib/types/events";
 
 interface PopupSectionProps {
   popupEvents: PopupCity[];
+  showOnlyOngoing?: boolean; // New prop to control filtering
 }
 
-export function PopupSection({ popupEvents }: PopupSectionProps) {
+export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSectionProps) {
   const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">("gantt");
   const [popupZoomDays, setPopupZoomDays] = useState<number>(365);
   const [isPopupDropdownOpen, setIsPopupDropdownOpen] = useState<boolean>(false);
   const popupDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Separate ongoing and upcoming events
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const ongoingEvents = popupEvents.filter(event => {
+    const startDate = new Date(event.date);
+    const endDate = new Date(event.endDate);
+    return startDate <= today && endDate >= today;
+  });
+
+  const upcomingEvents = popupEvents.filter(event => {
+    const startDate = new Date(event.date);
+    return startDate > today;
+  });
+
+  // Determine which events to display
+  const displayEvents = showOnlyOngoing ? ongoingEvents : popupEvents;
+  const hasUpcomingEvents = showOnlyOngoing && upcomingEvents.length > 0;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -48,12 +69,16 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
           <Calendar className="h-6 w-6" />
-          [ POP-UP]
+          {showOnlyOngoing ? '[ ONGOING POP-UPs ]' : '[ POP-UP ]'}
         </h2>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-xs font-mono">
             <span className="opacity-60">
-              Listing {popupEvents.length} {popupEvents.length === 1 ? 'event' : 'events'}
+              {showOnlyOngoing ? (
+                <>Listing {displayEvents.length} ongoing {displayEvents.length === 1 ? 'event' : 'events'}</>
+              ) : (
+                <>Listing {displayEvents.length} {displayEvents.length === 1 ? 'event' : 'events'}</>
+              )}
             </span>
           </div>
           <div className="relative flex border-2 border-border bg-card">
@@ -103,7 +128,7 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
                   </tr>
                 </thead>
                 <tbody>
-                  {popupEvents.map((event, index) => (
+                  {displayEvents.map((event, index) => (
                     <tr
                       key={index}
                       className="border-b border-border hover:bg-accent transition-colors cursor-pointer"
@@ -131,7 +156,7 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
 
           {/* Mobile Cards */}
           <div className="md:hidden space-y-4">
-            {popupEvents.map((event, index) => (
+            {displayEvents.map((event, index) => (
               <div
                 key={index}
                 className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
@@ -151,6 +176,57 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
               </div>
             ))}
           </div>
+
+          {/* Upcoming Events - Blurred Section for Table View (only shown on homepage) */}
+          {hasUpcomingEvents && (
+            <div className="mt-4">
+              {/* Blurred Preview - Single Row */}
+              <div className="filter blur-[2px] pointer-events-none opacity-50 select-none">
+                {/* Desktop Table Row */}
+                <div className="hidden md:block border-2 border-border">
+                  <table className="w-full font-mono text-sm">
+                    <tbody>
+                      <tr className="border-b border-border">
+                        <td className="p-4 whitespace-nowrap">
+                          <div className="space-y-0.5">
+                            <div className="font-semibold">{upcomingEvents[0]?.date}</div>
+                            <div className="text-xs text-muted-foreground">{upcomingEvents[0]?.endDate}</div>
+                          </div>
+                        </td>
+                        <td className="p-4 font-semibold">{upcomingEvents[0]?.title}</td>
+                        <td className="p-4">{upcomingEvents[0]?.location}</td>
+                        <td className="p-4">
+                          <span className="px-2 py-1 bg-primary/10 border border-primary/20 text-xs">
+                            {upcomingEvents[0]?.networkState}
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Card */}
+                <div className="md:hidden border-2 border-border p-4 bg-card">
+                  <div className="space-y-0.5">
+                    <div className="text-xs font-mono text-muted-foreground">{upcomingEvents[0]?.date}</div>
+                    <div className="text-xs font-mono text-muted-foreground">{upcomingEvents[0]?.endDate}</div>
+                  </div>
+                  <h3 className="font-mono font-bold text-sm mt-2">{upcomingEvents[0]?.title}</h3>
+                  <p className="text-xs font-mono text-muted-foreground mt-1">{upcomingEvents[0]?.location}</p>
+                </div>
+              </div>
+
+              {/* Text Link Below */}
+              <div className="pt-2">
+                <Link
+                  href="/events"
+                  className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                >
+                  See upcoming pop-ups -&gt;
+                </Link>
+              </div>
+            </div>
+          )}
         </>
       )}
 
@@ -162,7 +238,7 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
             <div className="flex items-center justify-between">
               <h3 className="font-mono font-bold text-lg flex items-center gap-2">
                 <BarChart3 className="h-5 w-5" />
-                [ POP-UP ]
+                {showOnlyOngoing ? '[ ONGOING POP-UPs ]' : '[ POP-UP ]'}
               </h3>
               <div ref={popupDropdownRef} className="relative">
                 <div className="flex items-center gap-2">
@@ -203,7 +279,7 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
           {/* Timeline Legend */}
           <div className="border-b border-border bg-card p-4">
             <div className="flex flex-wrap gap-3 text-xs font-mono">
-              {popupEvents.map((event, index) => (
+              {displayEvents.map((event, index) => (
                 <div key={index} className="flex items-center gap-1">
                   <div className={`w-3 h-3 ${getPopupCityColor(index)}`}></div>
                   <span>{event.networkState}</span>
@@ -295,7 +371,7 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
                       </div>
 
                       {/* Popup Event Rows */}
-                      {popupEvents.map((event, eventIdx) => {
+                      {displayEvents.map((event, eventIdx) => {
                         const eventStart = new Date(event.date);
                         const eventEnd = new Date(event.endDate);
 
@@ -375,10 +451,97 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
                       })}
 
                       {/* Empty State */}
-                      {popupEvents.length === 0 && (
+                      {displayEvents.length === 0 && (
                         <div className="text-center py-12 text-muted-foreground font-mono text-sm">
                           No pop-up events found
                         </div>
+                      )}
+
+                      {/* Upcoming Events - Blurred Row (Desktop) */}
+                      {hasUpcomingEvents && upcomingEvents[0] && (
+                        <>
+                          {/* Blurred Preview Row */}
+                          <div className="filter blur-[2px] pointer-events-none opacity-50 select-none">
+                            {(() => {
+                              const upcomingEvent = upcomingEvents[0];
+                              const upcomingEventIdx = displayEvents.length; // Use next index for color
+                              const eventStart = new Date(upcomingEvent.date);
+                              const eventEnd = new Date(upcomingEvent.endDate);
+
+                              return (
+                                <div className="grid gap-1" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
+                                  {/* Event Label */}
+                                  <div className="text-xs font-mono text-muted-foreground flex items-center p-2 border-t border-border">
+                                    <div className="space-y-1">
+                                      <div className="font-bold">{upcomingEvent.title}</div>
+                                      <div className="text-[10px] opacity-75">{upcomingEvent.networkState}</div>
+                                      <div className="text-[10px] opacity-75">{upcomingEvent.date} - {upcomingEvent.endDate}</div>
+                                    </div>
+                                  </div>
+
+                                  {/* Week Columns */}
+                                  {weekColumns.map((weekData, weekIdx) => {
+                                    const weekStart = weekData.week;
+                                    const weekEnd = weekData.weekEnd;
+
+                                    // Check if event overlaps with this week
+                                    const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
+
+                                    // Find the first and last weeks this event appears in
+                                    const firstWeekIndex = weekColumns.findIndex(week =>
+                                      eventStart <= week.weekEnd && eventEnd >= week.week
+                                    );
+                                    const lastWeekIndex = weekColumns.findLastIndex(week =>
+                                      eventStart <= week.weekEnd && eventEnd >= week.week
+                                    );
+
+                                    return (
+                                      <div
+                                        key={weekIdx}
+                                        className="relative min-h-[80px] border-l border-t border-border bg-muted/20"
+                                      >
+                                        {/* Only render the event bar in the first week it appears */}
+                                        {isActiveInWeek && weekIdx === firstWeekIndex && (
+                                          <div
+                                            className={`absolute ${getPopupCityColor(upcomingEventIdx)} rounded border border-border overflow-hidden`}
+                                            style={{
+                                              left: '2px',
+                                              width: `calc(${(lastWeekIndex - firstWeekIndex + 1) * 100}% - 4px)`,
+                                              top: '2px',
+                                              bottom: '2px',
+                                            }}
+                                          >
+                                            <div className="p-2 text-white text-[10px] font-mono leading-tight h-full overflow-hidden flex items-center justify-center">
+                                              <div className="text-center">
+                                                <div className="font-bold truncate">{upcomingEvent.title}</div>
+                                                <div className="opacity-90 truncate text-[9px]">
+                                                  {upcomingEvent.date.split('-')[2]} - {upcomingEvent.endDate.split('-')[2]}
+                                                </div>
+                                                <div className="opacity-75 truncate text-[8px]">
+                                                  {upcomingEvent.location}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              );
+                            })()}
+                          </div>
+
+                          {/* Text Link Below */}
+                          <div className="pt-2">
+                            <Link
+                              href="/events"
+                              className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                            >
+                              See upcoming pop-ups -&gt;
+                            </Link>
+                          </div>
+                        </>
                       )}
                     </div>
                   </div>
@@ -431,7 +594,7 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
                       </div>
 
                       {/* Popup Event Rows */}
-                      {popupEvents.map((event, eventIdx) => {
+                      {displayEvents.map((event, eventIdx) => {
                         const eventStart = new Date(event.date);
                         const eventEnd = new Date(event.endDate);
 
@@ -511,10 +674,97 @@ export function PopupSection({ popupEvents }: PopupSectionProps) {
                       })}
 
                       {/* Empty State */}
-                      {popupEvents.length === 0 && (
+                      {displayEvents.length === 0 && (
                         <div className="text-center py-12 text-muted-foreground font-mono text-sm">
                           No pop-up events found
                         </div>
+                      )}
+
+                      {/* Upcoming Events - Blurred Row (Mobile) */}
+                      {hasUpcomingEvents && upcomingEvents[0] && (
+                        <>
+                          {/* Blurred Preview Row */}
+                          <div className="filter blur-[2px] pointer-events-none opacity-50 select-none">
+                            {(() => {
+                              const upcomingEvent = upcomingEvents[0];
+                              const upcomingEventIdx = displayEvents.length; // Use next index for color
+                              const eventStart = new Date(upcomingEvent.date);
+                              const eventEnd = new Date(upcomingEvent.endDate);
+
+                              return (
+                                <div className="grid gap-1" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
+                                  {/* Event Label */}
+                                  <div className="text-xs font-mono text-muted-foreground flex items-center p-2 border-t border-border">
+                                    <div className="space-y-1">
+                                      <div className="font-bold">{upcomingEvent.title}</div>
+                                      <div className="text-[10px] opacity-75">{upcomingEvent.networkState}</div>
+                                      <div className="text-[10px] opacity-75">{upcomingEvent.date} - {upcomingEvent.endDate}</div>
+                                    </div>
+                                  </div>
+
+                                  {/* Week Columns */}
+                                  {weekColumns.map((weekData, weekIdx) => {
+                                    const weekStart = weekData.week;
+                                    const weekEnd = weekData.weekEnd;
+
+                                    // Check if event overlaps with this week
+                                    const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
+
+                                    // Find the first and last weeks this event appears in
+                                    const firstWeekIndex = weekColumns.findIndex(week =>
+                                      eventStart <= week.weekEnd && eventEnd >= week.week
+                                    );
+                                    const lastWeekIndex = weekColumns.findLastIndex(week =>
+                                      eventStart <= week.weekEnd && eventEnd >= week.week
+                                    );
+
+                                    return (
+                                      <div
+                                        key={weekIdx}
+                                        className="relative min-h-[60px] border-l border-t border-border bg-muted/20"
+                                      >
+                                        {/* Only render the event bar in the first week it appears */}
+                                        {isActiveInWeek && weekIdx === firstWeekIndex && (
+                                          <div
+                                            className={`absolute ${getPopupCityColor(upcomingEventIdx)} rounded border border-border overflow-hidden`}
+                                            style={{
+                                              left: '2px',
+                                              width: `calc(${(lastWeekIndex - firstWeekIndex + 1) * 100}% - 4px)`,
+                                              top: '2px',
+                                              bottom: '2px',
+                                            }}
+                                          >
+                                            <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden flex items-center justify-center">
+                                              <div className="text-center">
+                                                <div className="font-bold truncate">{upcomingEvent.title}</div>
+                                                <div className="opacity-90 truncate text-[8px]">
+                                                  {upcomingEvent.date.split('-')[2]} - {upcomingEvent.endDate.split('-')[2]}
+                                                </div>
+                                                <div className="opacity-75 truncate text-[7px]">
+                                                  {upcomingEvent.location}
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              );
+                            })()}
+                          </div>
+
+                          {/* Text Link Below */}
+                          <div className="pt-2">
+                            <Link
+                              href="/events"
+                              className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                            >
+                              See upcoming pop-ups -&gt;
+                            </Link>
+                          </div>
+                        </>
                       )}
                     </div>
                   </div>

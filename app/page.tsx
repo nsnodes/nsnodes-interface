@@ -185,10 +185,10 @@ export default function Home() {
 
 
       {/* Pop-Up Timeline */}
-      <PopupSection popupEvents={popupEvents} />
+      <PopupSection popupEvents={popupEvents} showOnlyOngoing={true} />
 
       {/* Events Table */}
-      <UpcomingEventsSection events={events} isLoading={isLoading} error={error} />
+      <UpcomingEventsSection events={events} isLoading={isLoading} error={error} showOnlyToday={true} hideFilters={true} />
 
     </div>
   );

@@ -2,7 +2,9 @@
 
 import { Calendar, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table, Monitor } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 import type { UIEvent } from "@/lib/types/events";
+import { societyNamesMatch } from "@/lib/utils/society-matcher";
 
 type SortField = "date" | "event" | "location" | "networkState" | "type";
 type SortDirection = "asc" | "desc";
@@ -11,9 +13,12 @@ interface UpcomingEventsSectionProps {
   events: UIEvent[];
   isLoading: boolean;
   error: string | null;
+  showOnlyToday?: boolean; // New prop to show only today's events
+  hideFilters?: boolean; // New prop to hide filters and sorting
+  initialNetworkState?: string; // Pre-select network state filter
 }
 
-export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEventsSectionProps) {
+export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState }: UpcomingEventsSectionProps) {
   // UI state
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
@@ -28,12 +33,50 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
   const [countrySearch, setCountrySearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
-  const [timelineZoomDays, setTimelineZoomDays] = useState<number>(7);
+  const [timelineZoomDays, setTimelineZoomDays] = useState<number>(showOnlyToday ? 1 : 7);
   const [isTimelineDropdownOpen, setIsTimelineDropdownOpen] = useState<boolean>(false);
 
   const filtersRef = useRef<HTMLDivElement>(null);
   const timelineDropdownRef = useRef<HTMLDivElement>(null);
   const clearButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Handle initial network state filter and scroll
+  useEffect(() => {
+    if (initialNetworkState && !isLoading && events.length > 0) {
+      console.log('Initial network state:', initialNetworkState);
+      console.log('Events loaded:', events.length);
+
+      // Get unique network states from events
+      const uniqueNetworkStates = Array.from(
+        new Set(events.map(e => e.networkState).filter(Boolean))
+      ).sort();
+
+      console.log('Unique network states:', uniqueNetworkStates);
+
+      // Find matching network state(s) from the actual event data
+      const matchingStates = uniqueNetworkStates.filter(ns =>
+        societyNamesMatch(ns, initialNetworkState)
+      );
+
+      console.log('Matching states for', initialNetworkState, ':', matchingStates);
+
+      // Set the network state filter with the actual network state names from events
+      if (matchingStates.length > 0) {
+        setSelectedNetworkStates(matchingStates);
+      }
+
+      // Open filters to show the pre-selected network state
+      setAllFiltersOpen(true);
+
+      // Scroll to the events section after a short delay to allow content to render
+      setTimeout(() => {
+        const element = document.getElementById('upcoming-events');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500);
+    }
+  }, [initialNetworkState, isLoading, events.length]);
 
   // Handle click outside to close filters and dropdowns
   useEffect(() => {
@@ -150,7 +193,27 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
     }
   };
 
-  const filteredAndSortedEvents = [...events]
+  // First, separate today's events from tomorrow's events if showOnlyToday is enabled
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowEnd = new Date(tomorrow);
+  tomorrowEnd.setHours(23, 59, 59, 999);
+
+  const todayEvents = showOnlyToday ? events.filter(event => {
+    const eventDate = new Date(event.date);
+    eventDate.setHours(0, 0, 0, 0);
+    return eventDate.getTime() === today.getTime();
+  }) : events;
+
+  const tomorrowEvents = showOnlyToday ? events.filter(event => {
+    const eventDate = new Date(event.date);
+    eventDate.setHours(0, 0, 0, 0);
+    return eventDate.getTime() === tomorrow.getTime();
+  }).sort((a, b) => a.date.localeCompare(b.date)) : [];
+
+  const filteredAndSortedEvents = [...(showOnlyToday ? todayEvents : events)]
     .filter(event => {
       if (selectedDateRange) {
         const dateRange = getDateRange(selectedDateRange);
@@ -162,8 +225,13 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
         }
       }
 
-      if (selectedNetworkStates.length > 0 && !selectedNetworkStates.includes(event.networkState)) {
-        return false;
+      if (selectedNetworkStates.length > 0) {
+        const matchesNetworkState = selectedNetworkStates.some(selected =>
+          societyNamesMatch(event.networkState, selected)
+        );
+        if (!matchesNetworkState) {
+          return false;
+        }
       }
       if (selectedTypes.length > 0 && !selectedTypes.includes(event.type)) {
         return false;
@@ -210,6 +278,8 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
 
       return sortDirection === "asc" ? compareValue : -compareValue;
     });
+
+  const hasTomorrowEvents = showOnlyToday && tomorrowEvents.length > 0;
 
   // Helper function to get date group label
   const getDateGroupLabel = (dateString: string) => {
@@ -300,7 +370,7 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
           <Calendar className="h-6 w-6" />
-          [ UPCOMING EVENTS ]
+          {showOnlyToday ? '[ EVENTS TODAY ]' : '[ UPCOMING EVENTS ]'}
         </h2>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 text-xs font-mono">
@@ -344,6 +414,8 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
       </div>
 
       {/* Filters */}
+      {!hideFilters && (
+      <>
       <div ref={filtersRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Date Filter */}
         <div className="border-2 border-border bg-card">
@@ -613,6 +685,8 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
           [ CLEAR ALL FILTERS ]
         </button>
       )}
+      </>
+      )}
 
       {/* Error State */}
       {error && (
@@ -771,6 +845,67 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
                 </tbody>
               </table>
             </div>
+
+            {/* Link to Events Page */}
+            {showOnlyToday && (
+              <div className="mt-4">
+                <Link
+                  href="/events"
+                  className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                >
+                  See all events -&gt;
+                </Link>
+              </div>
+            )}
+
+            {/* Blurred Tomorrow Event - Desktop */}
+            {!showOnlyToday && hasTomorrowEvents && tomorrowEvents[0] && (
+              <div className="mt-4">
+                <div className="overflow-x-auto border-2 border-border">
+                  <table className="w-full font-mono text-sm">
+                    <tbody>
+                      <tr className="filter blur-[2px] pointer-events-none opacity-50 select-none border-b border-border">
+                        <td className="p-4 whitespace-nowrap">
+                          <div className="space-y-0.5">
+                            <div className="font-semibold">{tomorrowEvents[0].date}</div>
+                            <div className="text-xs text-muted-foreground whitespace-nowrap">{tomorrowEvents[0].time}</div>
+                          </div>
+                        </td>
+                        <td className="p-4 font-semibold">{tomorrowEvents[0].title}</td>
+                        <td className="p-4">
+                          {tomorrowEvents[0].location === 'Virtual' ? (
+                            <span className="flex items-center gap-1.5">
+                              <Monitor className="h-3.5 w-3.5 text-primary" />
+                              {tomorrowEvents[0].location}
+                            </span>
+                          ) : (
+                            tomorrowEvents[0].location
+                          )}
+                        </td>
+                        <td className="p-4">
+                          <span className="px-2 py-1 bg-primary/10 border border-primary/20 text-xs">
+                            {tomorrowEvents[0].networkState}
+                          </span>
+                        </td>
+                        <td className="p-4 whitespace-nowrap">
+                          <span className="text-muted-foreground text-xs">
+                            {tomorrowEvents[0].type}
+                          </span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="pt-2">
+                  <Link
+                    href="/events"
+                    className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                  >
+                    See all events -&gt;
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Mobile Cards */}
@@ -825,6 +960,57 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
                 </React.Fragment>
               );
             })}
+
+            {/* Link to Events Page - Mobile */}
+            {showOnlyToday && (
+              <div>
+                <Link
+                  href="/events"
+                  className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                >
+                  See all events -&gt;
+                </Link>
+              </div>
+            )}
+
+            {/* Blurred Tomorrow Event - Mobile */}
+            {!showOnlyToday && hasTomorrowEvents && tomorrowEvents[0] && (
+              <div className="space-y-2">
+                <div className="filter blur-[2px] pointer-events-none opacity-50 select-none border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2">
+                  <div className="flex items-start justify-between">
+                    <div className="space-y-0.5">
+                      <div className="text-xs font-mono text-muted-foreground">{tomorrowEvents[0].date}</div>
+                      <div className="text-xs font-mono text-muted-foreground">{tomorrowEvents[0].time}</div>
+                    </div>
+                    <span className="text-xs font-mono px-2 py-1 border border-border bg-muted">
+                      {tomorrowEvents[0].type}
+                    </span>
+                  </div>
+                  <h3 className="font-mono font-bold text-sm">{tomorrowEvents[0].title}</h3>
+                  <p className="text-xs font-mono text-muted-foreground">
+                    {tomorrowEvents[0].location === 'Virtual' ? (
+                      <span className="flex items-center gap-1.5">
+                        <Monitor className="h-3.5 w-3.5 text-primary" />
+                        {tomorrowEvents[0].location}
+                      </span>
+                    ) : (
+                      tomorrowEvents[0].location
+                    )}
+                  </p>
+                  <span className="inline-block px-2 py-1 bg-primary/10 border border-primary/20 text-xs font-mono">
+                    {tomorrowEvents[0].networkState}
+                  </span>
+                </div>
+                <div>
+                  <Link
+                    href="/events"
+                    className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                  >
+                    See all events -&gt;
+                  </Link>
+                </div>
+              </div>
+            )}
           </div>
         </>
       )}
@@ -839,6 +1025,7 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
                 <BarChart3 className="h-5 w-5" />
                 [ EVENTS ]
               </h3>
+              {!showOnlyToday && (
               <div ref={timelineDropdownRef} className="relative">
                 <div className="flex items-center gap-2">
                   <label className="text-xs font-mono text-muted-foreground">View:</label>
@@ -872,6 +1059,7 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
                   </div>
                 )}
               </div>
+              )}
             </div>
           </div>
 
@@ -959,7 +1147,7 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
               <>
                 {/* Desktop Timeline Grid */}
                 <div className="hidden md:block p-4 overflow-x-auto">
-                  <div className="min-w-[800px]">
+                  <div className={`${showOnlyToday ? 'max-w-3xl mx-auto' : 'min-w-[800px]'}`}>
                     <div className="space-y-6">
                       {/* Date Header */}
                       <div className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${dateColumns.length}, ${columnWidth}px)` }}>
@@ -1111,13 +1299,56 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
                           No events found in the selected date range
                         </div>
                       )}
+
+                      {/* Link to Events Page - Desktop Timeline */}
+                      {showOnlyToday && (
+                        <div className="mt-6">
+                          <Link
+                            href="/events"
+                            className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                          >
+                            See all events -&gt;
+                          </Link>
+                        </div>
+                      )}
+
+                      {/* Blurred Tomorrow Event - Desktop Timeline */}
+                      {!showOnlyToday && hasTomorrowEvents && tomorrowEvents[0] && (
+                        <div className="mt-6 space-y-2">
+                          <div className="filter blur-[2px] pointer-events-none opacity-50 select-none border-2 border-border p-4 bg-card space-y-2">
+                            <div className="font-mono font-bold text-sm">{tomorrowEvents[0].title}</div>
+                            <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                              <div>
+                                <span className="text-muted-foreground">Date:</span> {tomorrowEvents[0].date}
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground">Time:</span> {tomorrowEvents[0].time}
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground">Location:</span> {tomorrowEvents[0].location}
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground">Type:</span> {tomorrowEvents[0].type}
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <Link
+                              href="/events"
+                              className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                            >
+                              See all events -&gt;
+                            </Link>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
 
                 {/* Mobile Timeline View */}
                 <div className="md:hidden p-4 overflow-x-auto overscroll-x-contain touch-pan-x">
-                  <div className="min-w-[800px]">
+                  <div className={`${showOnlyToday ? 'max-w-xl mx-auto' : 'min-w-[800px]'}`}>
                     <div className="space-y-6">
                       {/* Date Header */}
                       <div className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
@@ -1267,6 +1498,49 @@ export function UpcomingEventsSection({ events, isLoading, error }: UpcomingEven
                       {filteredAndSortedEvents.length === 0 && (
                         <div className="text-center py-12 text-muted-foreground font-mono text-sm">
                           No events found in the selected date range
+                        </div>
+                      )}
+
+                      {/* Link to Events Page - Mobile Timeline */}
+                      {showOnlyToday && (
+                        <div className="mt-6">
+                          <Link
+                            href="/events"
+                            className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                          >
+                            See all events -&gt;
+                          </Link>
+                        </div>
+                      )}
+
+                      {/* Blurred Tomorrow Event - Mobile Timeline */}
+                      {!showOnlyToday && hasTomorrowEvents && tomorrowEvents[0] && (
+                        <div className="mt-6 space-y-2">
+                          <div className="filter blur-[2px] pointer-events-none opacity-50 select-none border-2 border-border p-4 bg-card space-y-2">
+                            <div className="font-mono font-bold text-sm">{tomorrowEvents[0].title}</div>
+                            <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+                              <div>
+                                <span className="text-muted-foreground">Date:</span> {tomorrowEvents[0].date}
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground">Time:</span> {tomorrowEvents[0].time}
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground">Location:</span> {tomorrowEvents[0].location}
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground">Type:</span> {tomorrowEvents[0].type}
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <Link
+                              href="/events"
+                              className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
+                            >
+                              See all events -&gt;
+                            </Link>
+                          </div>
                         </div>
                       )}
                     </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, MapPin, ExternalLink, ChevronDown, ChevronUp, Calendar, MessageCircle, Globe } from "lucide-react";
+import { Users, MapPin, ExternalLink, ChevronDown, ChevronUp, Calendar, MessageCircle, Globe, Tag } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -181,6 +181,10 @@ export default function SocietiesPage() {
   const [expandedSociety, setExpandedSociety] = useState<string | null>(null);
   const [events, setEvents] = useState<UIEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
   const stats = getDatabaseStats();
 
   // Fetch events on component mount
@@ -209,6 +213,60 @@ export default function SocietiesPage() {
   const toggleSociety = (societyName: string) => {
     setExpandedSociety(expandedSociety === societyName ? null : societyName);
   };
+
+  // Get upcoming events count for each society
+  const getUpcomingEventsCount = (networkStateName: string) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate >= today && societyNamesMatch(event.networkState, networkStateName);
+    }).length;
+  };
+
+  // Get unique locations and types for filters
+  const uniqueLocations = Array.from(new Set(networkStates.map(s => s.location))).sort();
+  const uniqueTypes = Array.from(new Set(networkStates.map(s => s.type))).sort();
+
+  // Toggle filter helpers
+  const toggleLocation = (location: string) => {
+    setSelectedLocations(prev =>
+      prev.includes(location) ? prev.filter(l => l !== location) : [...prev, location]
+    );
+  };
+
+  const toggleType = (type: string) => {
+    setSelectedTypes(prev =>
+      prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
+    );
+  };
+
+  // Filter and sort societies
+  const filteredAndSortedSocieties = [...networkStates]
+    .filter(society => {
+      // Search filter
+      if (searchTerm && !society.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+        return false;
+      }
+
+      // Location filter
+      if (selectedLocations.length > 0 && !selectedLocations.includes(society.location)) {
+        return false;
+      }
+
+      // Type filter
+      if (selectedTypes.length > 0 && !selectedTypes.includes(society.type)) {
+        return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      const countA = getUpcomingEventsCount(a.name);
+      const countB = getUpcomingEventsCount(b.name);
+      return countB - countA; // Descending order by event count
+    });
 
   return (
     <div className="space-y-12">
@@ -260,13 +318,136 @@ export default function SocietiesPage() {
 
       {/* Network States List */}
       <section className="space-y-6">
-        <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
-          <Users className="h-6 w-6" />
-          [ ALL SOCIETIES ]
-        </h2>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
+            <Users className="h-6 w-6" />
+            [ ALL SOCIETIES ]
+          </h2>
+          <div className="text-xs font-mono opacity-60">
+            Showing {filteredAndSortedSocieties.length} of {networkStates.length} societies
+          </div>
+        </div>
+
+        {/* Search and Filters */}
+        <div className="space-y-4">
+          {/* Search Bar */}
+          <div className="border-2 border-border bg-card p-4">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                placeholder="Search societies..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="flex-1 bg-background border-2 border-border px-4 py-2 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="px-4 py-2 border-2 border-border bg-muted hover:bg-accent transition-colors font-mono text-sm"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Location Filter */}
+            <div className="border-2 border-border bg-card">
+              <button
+                type="button"
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                className="w-full p-4 font-mono font-bold text-sm flex items-center justify-between hover:bg-accent transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  [ LOCATION ]
+                  {selectedLocations.length > 0 && (
+                    <span className="text-xs px-2 py-0.5 bg-primary text-primary-foreground">
+                      {selectedLocations.length}
+                    </span>
+                  )}
+                </div>
+                {filtersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </button>
+              {filtersOpen && (
+                <div className="px-4 pb-4 space-y-2 max-h-64 overflow-y-auto">
+                  {uniqueLocations.map(location => (
+                    <label
+                      key={location}
+                      className="flex items-center gap-2 cursor-pointer hover:bg-accent p-1 transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedLocations.includes(location)}
+                        onChange={() => toggleLocation(location)}
+                        className="cursor-pointer"
+                      />
+                      <span className="text-xs font-mono">{location}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Type Filter */}
+            <div className="border-2 border-border bg-card">
+              <button
+                type="button"
+                onClick={() => setFiltersOpen(!filtersOpen)}
+                className="w-full p-4 font-mono font-bold text-sm flex items-center justify-between hover:bg-accent transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <Tag className="h-4 w-4" />
+                  [ TYPE ]
+                  {selectedTypes.length > 0 && (
+                    <span className="text-xs px-2 py-0.5 bg-primary text-primary-foreground">
+                      {selectedTypes.length}
+                    </span>
+                  )}
+                </div>
+                {filtersOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </button>
+              {filtersOpen && (
+                <div className="px-4 pb-4 space-y-2">
+                  {uniqueTypes.map(type => (
+                    <label
+                      key={type}
+                      className="flex items-center gap-2 cursor-pointer hover:bg-accent p-1 transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={selectedTypes.includes(type)}
+                        onChange={() => toggleType(type)}
+                        className="cursor-pointer"
+                      />
+                      <span className="text-xs font-mono">{type}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Clear Filters Button */}
+          {(selectedLocations.length > 0 || selectedTypes.length > 0 || searchTerm) && (
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedLocations([]);
+                setSelectedTypes([]);
+                setSearchTerm("");
+              }}
+              className="font-mono text-xs border-2 border-border px-4 py-2 bg-card hover:bg-accent transition-colors"
+            >
+              [ CLEAR ALL FILTERS ]
+            </button>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 gap-6">
-          {networkStates.map((society, index) => {
+          {filteredAndSortedSocieties.map((society, index) => {
             const societyEvents = getEventsForNetworkState(society.name);
             const isExpanded = expandedSociety === society.name;
 
@@ -277,9 +458,17 @@ export default function SocietiesPage() {
               >
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold font-mono">{society.name}</h3>
-                    <div className="flex flex-wrap items-center gap-3 text-sm font-mono text-muted-foreground">
+                  <div className="flex gap-4">
+                    {/* Logo Placeholder */}
+                    <div className="flex-shrink-0 w-16 h-16 rounded-full border-2 border-border bg-muted flex items-center justify-center">
+                      <span className="text-2xl font-bold font-mono text-primary">
+                        {society.name.substring(0, 2).toUpperCase()}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <h3 className="text-xl font-bold font-mono">{society.name}</h3>
+                      <div className="flex flex-wrap items-center gap-3 text-sm font-mono text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <MapPin className="h-3 w-3" />
                         <span>{society.location}</span>
@@ -289,8 +478,9 @@ export default function SocietiesPage() {
                         <span>{society.residents} residents</span>
                       </div>
                       <div className="flex items-center gap-1">
-                        
+
                       </div>
+                    </div>
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -414,14 +604,15 @@ export default function SocietiesPage() {
                             </div>
                           </a>
                         ))}
-                        {societyEvents.length > 4 && (
-                          <Link
-                            href="/#upcoming-events"
-                            className="block text-center text-xs font-mono text-primary hover:underline mt-3 pt-2 border-t border-border"
-                          >
-                            View all {societyEvents.length} events on homepage →
-                          </Link>
-                        )}
+                        <Link
+                          href={`/events?networkState=${encodeURIComponent(society.name)}#upcoming-events`}
+                          className="block text-center text-xs font-mono text-primary hover:underline mt-3 pt-2 border-t border-border"
+                        >
+                          {societyEvents.length > 4 
+                            ? `View all ${societyEvents.length} events →`
+                            : `See events on calendar →`
+                          }
+                        </Link>
                       </div>
                     )}
                   </div>
