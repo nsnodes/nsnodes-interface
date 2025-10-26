@@ -15,7 +15,7 @@ export function AsciiNav() {
   const fundingDropdownRef = useRef<HTMLDivElement>(null);
 
   const navItems = [
-    { href: "/", label: "[ HOME ]" },
+    { href: "/events", label: "[ EVENTS ]" },
     { href: "/societies", label: "[ SOCIETIES ]" },
     { href: "/jobs", label: "[ JOBS ]" },
     { href: "/content", label: "[ CONTENT ]" },
@@ -32,17 +32,18 @@ export function AsciiNav() {
     { href: "/contact", label: "[ CONTACT ]" },
   ];
 
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside (desktop only)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (fundingDropdownRef.current && !fundingDropdownRef.current.contains(event.target as Node)) {
+      // Only run on desktop (check if mobile menu is closed)
+      if (!mobileMenuOpen && fundingDropdownRef.current && !fundingDropdownRef.current.contains(event.target as Node)) {
         setFundingDropdownOpen(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [mobileMenuOpen]);
 
   return (
     <nav className="border-b-2 border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
@@ -53,7 +54,7 @@ export function AsciiNav() {
             {/* Mobile: Logo on left, controls on right */}
             <div className="flex items-center justify-between w-full md:hidden">
               <Link href="/" className="hover:opacity-80 transition-opacity block">
-                <LogoImage width={160} height={32} />
+                <LogoImage width={120} height={24} />
               </Link>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button
@@ -177,7 +178,6 @@ export function AsciiNav() {
                       <button
                         type="button"
                         onClick={(e) => {
-                          e.preventDefault();
                           e.stopPropagation();
                           setFundingDropdownOpen(!fundingDropdownOpen);
                         }}
@@ -191,17 +191,22 @@ export function AsciiNav() {
                         <ChevronDown className={`h-3 w-3 transition-transform ${fundingDropdownOpen ? 'rotate-180' : ''}`} />
                       </button>
                       {fundingDropdownOpen && (
-                        <div className="flex flex-col gap-2 pl-4 bg-muted/50 p-2 rounded border border-border">
+                        <div 
+                          className="flex flex-col gap-2 pl-4 bg-muted/50 p-2 rounded border border-border"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           {item.dropdown.map((subItem) => (
                             <Link
                               key={subItem.href}
                               href={subItem.href}
+                              prefetch={true}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setMobileMenuOpen(false);
+                                // Close menus immediately - Next.js will handle navigation
                                 setFundingDropdownOpen(false);
+                                setMobileMenuOpen(false);
                               }}
-                              className={`block px-4 py-2 font-mono text-sm border-2 border-border text-center min-h-[44px] flex items-center justify-center ${
+                              className={`px-4 py-2 font-mono text-sm border-2 border-border text-center min-h-[44px] flex items-center justify-center touch-manipulation ${
                                 pathname === subItem.href
                                   ? "bg-primary text-primary-foreground"
                                   : "bg-background hover:bg-accent active:bg-accent"
