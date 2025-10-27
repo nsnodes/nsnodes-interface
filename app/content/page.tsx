@@ -99,13 +99,7 @@ export default function ContentPage() {
       {/* Hero Section */}
       <section className="text-center space-y-4">
         <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
-{`
-╔══════════════════════════════════════════════════════════════════╗
-║                                                                  ║
-║       "Content is the new oil. Attention is the currency."      ║
-║                                                                  ║
-╚══════════════════════════════════════════════════════════════════╝
-`}
+
         </pre>
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
           [ CONTENT CREATORS ]
@@ -247,16 +241,7 @@ export default function ContentPage() {
       {/* Meme Section */}
       <section className="border-2 border-border p-6 bg-card text-center">
         <pre className="font-mono text-xs sm:text-sm leading-relaxed opacity-80">
-{`
-    ┌─────────────────────────────────────────────────┐
-    │                                                 │
-    │  "Touch grass? No anon, BUILD a new nation     │
-    │   on the grass."                               │
-    │                                                 │
-    │  [ read. learn. build. exit. ]                 │
-    │                                                 │
-    └─────────────────────────────────────────────────┘
-`}
+
         </pre>
       </section>
     </div>

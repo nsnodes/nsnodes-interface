@@ -116,6 +116,10 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+  
   html,
   body {
     @apply bg-background text-foreground;
@@ -157,6 +161,16 @@
 }
 
 @layer utilities {
+  /* Thin scrollbar utility */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
   /* ASCII 3D effect utilities */
   .ascii-3d {
     text-shadow:
@@ -226,5 +240,24 @@
     100% {
       opacity: 0.97;
     }
+  }
+}
+
+/* Mobile Timeline Scroll Optimization */
+@media (max-width: 768px) {
+  /* Improve horizontal scroll performance on mobile */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Prevent vertical scroll lock when horizontally scrolling */
+  .touch-pan-x {
+    touch-action: pan-x pan-y;
+  }
+
+  .overscroll-x-contain {
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: auto;
   }
 }

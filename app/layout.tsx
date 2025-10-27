@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AsciiNav } from "@/components/ascii-nav";
+import { BlurOverlay } from "@/components/blur-overlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +25,7 @@ export const metadata: Metadata = {
     title: "nsnodes.com - Network State Hub for Network Societies Builders",
     description: "Hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
     url: "https://nsnodes.com",
-    siteName: "nsnodes.com",
+    siteName: "NSNodes",
     images: [
       {
         url: "/featured-image.png",
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NSNodes - Network State Hub for Network Societies builders",
+    title: "NSNodes - Network State Hub for Crypto Builders",
     description: "The ultimate hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
     images: ["/featured-image.png"],
   },
@@ -56,7 +57,7 @@ export default async function RootLayout({
   const isStaging = host === "test.nsnodes.com";
 
   return (
-    <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
+    <html lang="en" suppressHydrationWarning className="overflow-x-hidden dark">
       <head>
         {isStaging && (
           <>
@@ -70,28 +71,45 @@ export default async function RootLayout({
             />
           </>
         )}
+        {/* Canonical: always point to production host to avoid duplicate content */}
+        <link rel="canonical" href="https://nsnodes.com" />
+        {/* Set dark mode as default before hydration to prevent flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.classList.remove('light', 'dark');
+                document.documentElement.classList.add(theme);
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden flex flex-col`}
       >
         <ThemeProvider defaultTheme="dark">
           <div className="relative z-50">
             <AsciiNav />
           </div>
-          {/* Full-screen overlay: blur background and show Coming Soon */}
-          <div className="fixed inset-0 z-40 backdrop-blur-md bg-background/70 flex items-center justify-center">
-            <div className="text-center space-y-2">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">Coming Soon</h1>
-              <p className="text-muted-foreground font-mono text-sm">We&apos;re getting things ready.</p>
-            </div>
-          </div>
-          <main className="container mx-auto px-4 py-8 max-w-full overflow-x-hidden">{children}</main>
-          <footer className="border-t-2 border-border mt-16 py-8">
-            <div className="container mx-auto px-4">
-              <pre className="text-center font-mono text-[10px] sm:text-xs opacity-60 max-w-full overflow-x-auto whitespace-pre">{`╔═══════════════════════════════════════════════════════════╗
-║  Built with ❤️ for the Network State Community           ║
-║  "The future is decentralized" - Balaji Srinivasan       ║
-╚═══════════════════════════════════════════════════════════╝`}</pre>
+          <BlurOverlay />
+          <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 overflow-x-hidden flex-1 w-full">{children}</main>
+          <footer className="border-t-2 border-border py-4 sm:py-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center space-y-2">
+                <div className="font-mono text-xs opacity-60">
+                  Built with ❤️ for the Network State Community
+                </div>
+                <a 
+                  href="https://github.com/orgs/nsnodes/repositories" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="font-mono text-xs opacity-60 hover:opacity-100 hover:text-primary transition-all block"
+                >
+                  GitHub
+                </a>
+              </div>
             </div>
           </footer>
         </ThemeProvider>

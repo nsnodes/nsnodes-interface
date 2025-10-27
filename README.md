@@ -36,7 +36,7 @@
 - **Icons:** Lucide React
 - **Fonts:** Geist Sans & Geist Mono
 - **Bundler:** Turbopack
-- **Database:** Supabase
+- **Database:** Supabase (with dynamic events sync)
 - **Deployment:** Vercel
 
 ## 🏃 Getting Started
@@ -82,10 +82,10 @@ nsnodes/
 │   ├── societies-chart.tsx # Societies visualization
 │   └── theme-provider.tsx # Theme context
 ├── lib/                   # Utilities and data
-│   ├── actions/           # Server actions
+│   ├── actions/           # Server actions (events, etc.)
 │   ├── data/              # Database files
 │   ├── supabase/          # Supabase client
-│   ├── types/             # TypeScript types
+│   ├── types/             # TypeScript types (events, etc.)
 │   └── utils.ts          # cn() helper for Tailwind
 └── public/               # Static assets
 ```
@@ -106,6 +106,17 @@ nsnodes/
 
 Toggle between light and dark themes using the button in the navigation. Theme preference is saved to localStorage.
 
+## 📅 Dynamic Events Integration
+
+The platform now features dynamic event synchronization with Supabase:
+
+- **Real-time Events**: Events are loaded dynamically from the database
+- **Popup Cities**: Special long-running events tagged as 'popup-city'
+- **Event Filtering**: Filter by country, source, tags, and date ranges
+- **Server Actions**: Efficient server-side data fetching
+- **Type Safety**: Full TypeScript support for events
+
+See `EVENTS_SETUP.md` for configuration details.
 
 ## 🤝 Contributing
 

@@ -27,9 +27,10 @@ export function ThemeProvider({
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem("theme") as Theme | null;
-    if (stored) {
-      setTheme(stored);
+    // Load theme from localStorage or use default
+    const storedTheme = localStorage.getItem("theme") as Theme | null;
+    if (storedTheme && (storedTheme === "dark" || storedTheme === "light")) {
+      setTheme(storedTheme);
     }
   }, []);
 

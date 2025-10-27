@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "next/core-web-vitals"
+  ],
+  "rules": {
+    "react/no-unescaped-entities": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "no-unused-vars": "off"
+  }
+}
