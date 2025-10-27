@@ -577,33 +577,6 @@ function transformPopupCity(dbEvent: DatabaseEvent): PopupCity {
 }
 
 /**
- * Debug function to get raw event data
- */
-export async function getAllEventsDebug() {
-  try {
-    const supabase = createServerClient()
-
-    const { data, error } = await supabase
-      .from('events')
-      .select('*')
-      .eq('source', 'luma')
-      .gte('start_at', new Date().toISOString())
-      .order('start_at', { ascending: true })
-      .limit(50)
-
-    if (error) {
-      console.error('Error fetching debug events:', error)
-      return { error: error.message, data: null }
-    }
-
-    return { error: null, data }
-  } catch (error) {
-    console.error('Error in getAllEventsDebug:', error)
-    return { error: String(error), data: null }
-  }
-}
-
-/**
  * Fetch popup cities from Supabase
  * Filters by the "popup-city" tag
  */
