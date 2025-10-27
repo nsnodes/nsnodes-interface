@@ -7,6 +7,7 @@ import { getEvents, getPopupCities } from "@/lib/actions/events";
 import type { UIEvent, PopupCity } from "@/lib/types/events";
 import { PopupSection } from "@/components/popup-section";
 import { UpcomingEventsSection } from "@/components/upcoming-events-section";
+import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
 
 const networkStates = [
   {
@@ -62,6 +63,9 @@ export default function Home() {
   const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Apply client-side timezone conversion
+  const clientEvents = useClientTimezone(events);
 
   // Fetch events and popup cities from database on mount
   useEffect(() => {
@@ -188,7 +192,7 @@ export default function Home() {
       <PopupSection popupEvents={popupEvents} showOnlyOngoing={true} />
 
       {/* Events Table */}
-      <UpcomingEventsSection events={events} isLoading={isLoading} error={error} showOnlyToday={true} hideFilters={true} />
+      <UpcomingEventsSection events={clientEvents} isLoading={isLoading} error={error} showOnlyToday={true} hideFilters={true} />
 
     </div>
   );

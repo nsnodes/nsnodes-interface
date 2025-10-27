@@ -6,6 +6,7 @@ import { getEvents, getPopupCities } from "@/lib/actions/events";
 import type { UIEvent, PopupCity } from "@/lib/types/events";
 import { PopupSection } from "@/components/popup-section";
 import { UpcomingEventsSection } from "@/components/upcoming-events-section";
+import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
 
 export default function EventsPage() {
   const [events, setEvents] = useState<UIEvent[]>([]);
@@ -13,6 +14,9 @@ export default function EventsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [networkStateParam, setNetworkStateParam] = useState<string | null>(null);
+
+  // Apply client-side timezone conversion
+  const clientEvents = useClientTimezone(events);
 
   // Read URL parameters on mount
   useEffect(() => {
@@ -72,15 +76,15 @@ export default function EventsPage() {
     };
   }, []);
 
-  // Calculate stats
-  const uniqueNetworkStates = Array.from(new Set(events.map(e => e.networkState).filter(Boolean)));
-  const uniqueLocations = Array.from(new Set(events.map(e => e.country).filter(c => c && c !== 'Unknown')));
+  // Calculate stats (use clientEvents for correct timezone)
+  const uniqueNetworkStates = Array.from(new Set(clientEvents.map(e => e.networkState).filter(Boolean)));
+  const uniqueLocations = Array.from(new Set(clientEvents.map(e => e.country).filter(c => c && c !== 'Unknown')));
 
   const stats = {
-    totalEvents: events.length,
+    totalEvents: clientEvents.length,
     uniqueNetworkStates: uniqueNetworkStates.length,
     uniqueLocations: uniqueLocations.length,
-    thisWeek: events.filter(event => {
+    thisWeek: clientEvents.filter(event => {
       const eventDate = new Date(event.date);
       const today = new Date();
       const weekFromNow = new Date();
@@ -142,7 +146,7 @@ export default function EventsPage() {
 
       {/* Events Table */}
       <UpcomingEventsSection
-        events={events}
+        events={clientEvents}
         isLoading={isLoading}
         error={error}
         initialNetworkState={networkStateParam || undefined}

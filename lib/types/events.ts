@@ -32,8 +32,8 @@ export interface DatabaseEvent {
 
 // Type for the transformed event used in the UI
 export interface UIEvent {
-  date: string // YYYY-MM-DD format
-  time: string // Human-readable time range
+  date: string // YYYY-MM-DD format (client-side computed)
+  time: string // Human-readable time range (client-side computed)
   title: string
   location: string
   country: string
@@ -41,6 +41,9 @@ export interface UIEvent {
   type: string
   url: string
   mapsLink?: string // Optional Google Maps link
+  // Raw timestamps for client-side timezone conversion
+  start_at: string // ISO timestamp
+  end_at: string // ISO timestamp
 }
 
 // Type for popup cities (long-running events with date ranges)

@@ -353,16 +353,15 @@ function getCountry(dbEvent: DatabaseEvent): string {
 
 /**
  * Transform a database event to UI format
+ * Date and time are formatted on client-side to ensure correct timezone
  */
 function transformEvent(dbEvent: DatabaseEvent): UIEvent {
   const startDate = new Date(dbEvent.start_at)
   const endDate = new Date(dbEvent.end_at)
 
-  // Extract date in local timezone (preserves original date without UTC shift)
+  // Temporary server-side date/time formatting (will be replaced client-side)
+  // These are just placeholders that will be overridden on the client
   const date = extractLocalDate(dbEvent.start_at)
-
-  // Format time range (preserves local time from ISO timestamp)
-  // Parse directly from ISO strings to avoid server timezone issues
   const startTime = formatTime(dbEvent.start_at, startDate)
   const endTime = formatTime(dbEvent.end_at, endDate)
   const time = `${startTime} – ${endTime}`
@@ -397,7 +396,10 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
     networkState,
     type,
     url: dbEvent.source_url,
-    mapsLink: mapsLink || undefined
+    mapsLink: mapsLink || undefined,
+    // Include raw timestamps for client-side timezone conversion
+    start_at: dbEvent.start_at,
+    end_at: dbEvent.end_at
   }
 }
 

@@ -7,6 +7,7 @@ import type { UIEvent } from "@/lib/types/events";
 import { UpcomingEventsSection } from "@/components/upcoming-events-section";
 import { NSEventsGraph } from "@/components/ns-events-graph";
 import { LiveEventCounter } from "@/components/live-event-counter";
+import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
 
 export default function NetworkSchoolEventsPage() {
   const [events, setEvents] = useState<UIEvent[]>([]);
@@ -16,6 +17,10 @@ export default function NetworkSchoolEventsPage() {
   const [showMoreStats, setShowMoreStats] = useState(false);
   const moreStatsRef = useRef<HTMLDivElement>(null);
   const statsBoxRef = useRef<HTMLDivElement>(null);
+
+  // Apply client-side timezone conversion
+  const clientEvents = useClientTimezone(events);
+  const clientAllEvents = useClientTimezone(allEvents);
 
   // Fetch events on component mount
   useEffect(() => {
@@ -53,27 +58,27 @@ export default function NetworkSchoolEventsPage() {
     };
   }, []);
 
-  // Calculate stats from all events (historic + future)
+  // Calculate stats from all events (historic + future) - use client-side timezone
   const stats = useMemo(() => {
-    const nsEvents = events.filter(event => event.networkState === "Network School");
-    
+    const nsEvents = clientEvents.filter(event => event.networkState === "Network School");
+
     // Stats from all time data
-    const totalAllTime = allEvents.length;
-    const allCountries = new Set(allEvents.map(e => e.country).filter(Boolean));
-    const allCities = new Set(allEvents.map(e => e.location).filter(c => c !== 'Virtual' && c !== 'TBD'));
-    
+    const totalAllTime = clientAllEvents.length;
+    const allCountries = new Set(clientAllEvents.map(e => e.country).filter(Boolean));
+    const allCities = new Set(clientAllEvents.map(e => e.location).filter(c => c !== 'Virtual' && c !== 'TBD'));
+
     // Split past and upcoming
     const today = new Date();
-    const pastEvents = allEvents.filter(e => new Date(e.date) < today);
+    const pastEvents = clientAllEvents.filter(e => new Date(e.date) < today);
     const upcomingEvents = nsEvents
       .filter(e => new Date(e.date) >= today)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-    
+
     // Next upcoming event
     const nextEvent = upcomingEvents[0];
 
     // Find most popular event type from all events
-    const typeCounts = allEvents.reduce((acc, event) => {
+    const typeCounts = clientAllEvents.reduce((acc, event) => {
       acc[event.type] = (acc[event.type] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
@@ -81,7 +86,7 @@ export default function NetworkSchoolEventsPage() {
       .sort(([, a], [, b]) => b - a)[0]?.[0] || 'Event';
 
     // Find most active city
-    const cityCounts = allEvents
+    const cityCounts = clientAllEvents
       .filter(e => e.location !== 'Virtual' && e.location !== 'TBD')
       .reduce((acc, event) => {
         acc[event.location] = (acc[event.location] || 0) + 1;
@@ -98,13 +103,13 @@ export default function NetworkSchoolEventsPage() {
       cities: allCities.size,
       mostPopularType,
       mostActiveCity,
-      nextEvent: nextEvent ? new Date(nextEvent.date).toLocaleDateString('en-US', { 
-        month: 'short', 
+      nextEvent: nextEvent ? new Date(nextEvent.date).toLocaleDateString('en-US', {
+        month: 'short',
         day: 'numeric',
         year: 'numeric'
       }) : null
     };
-  }, [events, allEvents]);
+  }, [clientEvents, clientAllEvents]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -162,7 +167,7 @@ export default function NetworkSchoolEventsPage() {
             <div ref={statsBoxRef} className="border-2 border-border bg-card p-6">
               <div className="space-y-2">
                 {/* Live Event Counter */}
-                <LiveEventCounter allEvents={allEvents} />
+                <LiveEventCounter allEvents={clientAllEvents} />
 
                 {/* Upcoming Events */}
                 <div className="border-2 border-border p-3 text-center bg-background">
@@ -194,7 +199,7 @@ export default function NetworkSchoolEventsPage() {
       </section>
 
       {/* See More Stats Dropdown */}
-      {showMoreStats && !isLoading && !error && allEvents.length > 0 && (
+      {showMoreStats && !isLoading && !error && clientAllEvents.length > 0 && (
         <section ref={moreStatsRef} className="border-2 border-border bg-card p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold font-mono">
@@ -207,13 +212,13 @@ export default function NetworkSchoolEventsPage() {
               Close
             </button>
           </div>
-          <NSEventsGraph allEvents={allEvents} />
+          <NSEventsGraph allEvents={clientAllEvents} />
         </section>
       )}
 
       {/* Events Table with Network School pre-selected */}
       <UpcomingEventsSection
-        events={events}
+        events={clientEvents}
         isLoading={isLoading}
         error={error}
         initialNetworkState="Network School"
