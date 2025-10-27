@@ -184,7 +184,7 @@ export default function NetworkSchoolEventsPage() {
               </div>
 
               {/* See More Stats Link */}
-              <div className="mt-4 pt-4 border-t-2 border-border">
+              <div className="mt-4">
                 <button
                   onClick={() => setShowMoreStats(!showMoreStats)}
                   className="w-full flex items-center justify-between font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
