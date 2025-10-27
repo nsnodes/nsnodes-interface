@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AsciiNav } from "@/components/ascii-nav";
+import { BlurOverlay } from "@/components/blur-overlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,7 +57,7 @@ export default async function RootLayout({
   const isStaging = host === "test.nsnodes.com";
 
   return (
-    <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
+    <html lang="en" suppressHydrationWarning className="overflow-x-hidden dark">
       <head>
         {isStaging && (
           <>
@@ -72,15 +73,27 @@ export default async function RootLayout({
         )}
         {/* Canonical: always point to production host to avoid duplicate content */}
         <link rel="canonical" href="https://nsnodes.com" />
+        {/* Set dark mode as default before hydration to prevent flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const theme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.classList.remove('light', 'dark');
+                document.documentElement.classList.add(theme);
+              } catch (e) {}
+            `,
+          }}
+        />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden flex flex-col dark`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-x-hidden flex flex-col`}
       >
         <ThemeProvider defaultTheme="dark">
           <div className="relative z-50">
             <AsciiNav />
           </div>
-          {/* Removed coming soon overlay */}
+          <BlurOverlay />
           <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 overflow-x-hidden flex-1 w-full">{children}</main>
           <footer className="border-t-2 border-border py-4 sm:py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
