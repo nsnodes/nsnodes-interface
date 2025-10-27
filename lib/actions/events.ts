@@ -103,50 +103,30 @@ function inferEventType(title: string, description: string | null): string {
 
 /**
  * Format time in 12-hour format from date
- * Uses local time methods to preserve the original event time
+ * Converts UTC timestamp to user's local timezone
  */
 function formatTime(isoTimestamp: string, date?: Date): string {
-  // Parse time directly from ISO string to avoid server timezone issues
-  // ISO format: "2024-01-15T14:00:00-05:00" or "2024-01-15T14:00:00Z"
-  const timeMatch = isoTimestamp.match(/T(\d{2}):(\d{2})(?::(\d{2}))?/)
-  
-  if (timeMatch) {
-    const [, hoursStr, minutesStr] = timeMatch
-    const hours = parseInt(hoursStr, 10)
-    const minutes = parseInt(minutesStr, 10)
-    const period = hours >= 12 ? 'PM' : 'AM'
-    const hours12 = hours % 12 || 12
-    const paddedMinutes = minutes.toString().padStart(2, '0')
-    return `${hours12}:${paddedMinutes} ${period}`
-  }
-  
-  // Fallback to Date object if parsing fails
-  if (date) {
-    const hours = date.getHours()
-    const minutes = date.getMinutes()
-    const period = hours >= 12 ? 'PM' : 'AM'
-    const hours12 = hours % 12 || 12
-    const paddedMinutes = minutes.toString().padStart(2, '0')
-    return `${hours12}:${paddedMinutes} ${period}`
-  }
-  
-  return '12:00 PM'
+  // Use Date object to convert UTC timestamp to local timezone
+  const dateObj = date || new Date(isoTimestamp)
+
+  const hours = dateObj.getHours()
+  const minutes = dateObj.getMinutes()
+  const period = hours >= 12 ? 'PM' : 'AM'
+  const hours12 = hours % 12 || 12
+  const paddedMinutes = minutes.toString().padStart(2, '0')
+
+  return `${hours12}:${paddedMinutes} ${period}`
 }
 
 /**
- * Extract date from ISO timestamp
- * This ensures dates are consistent across different server timezones
- * by using the timezone information embedded in the ISO string
+ * Extract date in user's local timezone from ISO timestamp
+ * Converts the UTC timestamp to the user's timezone and returns YYYY-MM-DD
  */
 function extractLocalDate(isoTimestamp: string): string {
-  // The ISO timestamp includes timezone, so parse the actual date from it
   const date = new Date(isoTimestamp)
-  
-  // Use the date components as they appear in the timezone
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, '0')
   const day = String(date.getDate()).padStart(2, '0')
-  
   return `${year}-${month}-${day}`
 }
 
