@@ -5,6 +5,7 @@ import { DatabaseEvent, UIEvent, PopupCity } from '@/lib/types/events'
 
 /**
  * Parse network state from organizers field
+ * Checks if any organizer contains specific network names
  * Supabase auto-parses JSON columns, so it can be:
  * - Already an array: [{"name": "Network School"}]
  * - A JSON string: '[{"name": "Network School"}]'
@@ -27,7 +28,11 @@ function parseNetworkState(organizers: Array<{ name: string }> | string | null):
     try {
       parsed = JSON.parse(organizers)
     } catch {
-      // If parsing fails, return the raw string
+      // If parsing fails, check if string contains Network School
+      const orgLower = organizers.toLowerCase()
+      if (orgLower.includes('network') && orgLower.includes('school')) {
+        return 'Network School'
+      }
       return organizers.trim()
     }
   }
@@ -38,7 +43,18 @@ function parseNetworkState(organizers: Array<{ name: string }> | string | null):
       return 'Unknown'
     }
 
-    // Network state is the LAST organizer in the array
+    // Check ALL organizers for Network School (not just the last one)
+    for (const org of parsed) {
+      const name = typeof org === 'object' && org !== null && 'name' in org ? org.name : org
+      if (typeof name === 'string') {
+        const nameLower = name.toLowerCase()
+        if (nameLower.includes('network') && nameLower.includes('school')) {
+          return 'Network School'
+        }
+      }
+    }
+
+    // If no Network School found, return the LAST organizer in the array
     const lastOrg = parsed[parsed.length - 1]
 
     // If last item is an object with a 'name' property
@@ -86,11 +102,12 @@ function inferEventType(title: string, description: string | null): string {
 }
 
 /**
- * Format time in 12-hour format from UTC date
+ * Format time in 12-hour format from date
+ * Uses local time methods to preserve the original event time
  */
 function formatTime(date: Date): string {
-  const hours = date.getUTCHours()
-  const minutes = date.getUTCMinutes()
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
   const period = hours >= 12 ? 'PM' : 'AM'
   const hours12 = hours % 12 || 12
   const minutesStr = minutes.toString().padStart(2, '0')
@@ -98,13 +115,15 @@ function formatTime(date: Date): string {
 }
 
 /**
- * Extract date in local timezone from ISO timestamp
- * This preserves the original date without UTC conversion
+ * Extract date in user's local timezone from ISO timestamp
+ * Converts the UTC timestamp to the user's timezone and returns YYYY-MM-DD
  */
 function extractLocalDate(isoTimestamp: string): string {
-  // Extract just the date part from ISO timestamp (YYYY-MM-DD)
-  // This avoids timezone conversion issues
-  return isoTimestamp.split('T')[0]
+  const date = new Date(isoTimestamp)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
 }
 
 /**
@@ -338,7 +357,7 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
   // Extract date in local timezone (preserves original date without UTC shift)
   const date = extractLocalDate(dbEvent.start_at)
 
-  // Format time range (UTC)
+  // Format time range (preserves local time from ISO timestamp)
   const startTime = formatTime(startDate)
   const endTime = formatTime(endDate)
   const time = `${startTime} – ${endTime}`
@@ -378,12 +397,66 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
 }
 
 /**
+ * Fetch all Network School events (past and future) for stats
+ * Server Action that can be called from Client Components
+ */
+export async function getAllNetworkSchoolEvents(): Promise<UIEvent[]> {
+  try {
+    const supabase = createServerClient()
+
+    const { data, error } = await supabase
+      .from('events')
+      .select(`
+        title,
+        description,
+        start_at,
+        end_at,
+        timezone,
+        venue_name,
+        address,
+        city,
+        country,
+        lat,
+        lng,
+        source,
+        source_url,
+        organizers,
+        tags,
+        image_url,
+        status
+      `)
+      .in('source', ['luma', 'soladay'])
+      .not('tags', 'cs', '{popup-city}')
+      .in('status', ['scheduled', 'tentative'])
+      .order('start_at', { ascending: false })
+      .limit(2000)
+
+    if (error) {
+      console.error('Error fetching all NS events from Supabase:', error)
+      return []
+    }
+
+    // Transform all events - parseNetworkState will now correctly identify NS events
+    const allEvents = (data as DatabaseEvent[]).map(transformEvent)
+    // Filter for Network School events only
+    return allEvents.filter(event => event.networkState === 'Network School')
+  } catch (error) {
+    console.error('Error in getAllNetworkSchoolEvents:', error)
+    return []
+  }
+}
+
+/**
  * Fetch events from Supabase
  * Server Action that can be called from Client Components
  */
 export async function getEvents(): Promise<UIEvent[]> {
   try {
     const supabase = createServerClient()
+
+    // Calculate the cutoff date (2 days ago)
+    const twoDaysAgo = new Date()
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
 
     const { data, error } = await supabase
       .from('events')
@@ -412,7 +485,10 @@ export async function getEvents(): Promise<UIEvent[]> {
       .not('tags', 'cs', '{popup-city}')
       // Include both scheduled and tentative events
       .in('status', ['scheduled', 'tentative'])
-      .gte('start_at', new Date().toISOString())
+      // Include events that haven't ended yet (includes both upcoming and currently live events)
+      .gte('end_at', new Date().toISOString())
+      // Exclude events that started more than 2 days ago
+      .gte('start_at', twoDaysAgo.toISOString())
       .order('start_at', { ascending: true })
       .limit(500)
 

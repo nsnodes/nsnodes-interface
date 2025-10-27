@@ -19,6 +19,52 @@ interface UpcomingEventsSectionProps {
 }
 
 export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState }: UpcomingEventsSectionProps) {
+  // Helper function to check if an event is currently live
+  const isEventLive = (event: UIEvent): boolean => {
+    try {
+      const now = new Date();
+      const today = now.toISOString().split('T')[0]; // YYYY-MM-DD format
+
+      // Only check events that are happening today
+      if (event.date !== today) {
+        return false;
+      }
+
+      const timeStr = event.time;
+
+      // Parse the time string (e.g., "10:00 AM – 12:00 PM")
+      const parts = timeStr.split(' – ');
+      if (parts.length !== 2) return false;
+
+      const [startTime, endTime] = parts.map(t => t.trim());
+
+      // Convert to 24-hour format and create Date objects for today
+      const parseTime = (timeStr: string): Date => {
+        const timeParts = timeStr.split(' ');
+        if (timeParts.length !== 2) throw new Error('Invalid time format');
+
+        const [time, period] = timeParts;
+        const [hours, minutes] = time.split(':').map(Number);
+        let hour24 = hours;
+
+        if (period === 'PM' && hours !== 12) hour24 += 12;
+        if (period === 'AM' && hours === 12) hour24 = 0;
+
+        const date = new Date();
+        date.setHours(hour24, minutes, 0, 0);
+        return date;
+      };
+
+      const startDate = parseTime(startTime);
+      const endDate = parseTime(endTime);
+
+      return now >= startDate && now <= endDate;
+    } catch (error) {
+      console.error('Error checking if event is live:', error, event);
+      return false;
+    }
+  };
+
   // UI state
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
@@ -67,14 +113,6 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
       // Open filters to show the pre-selected network state
       setAllFiltersOpen(true);
-
-      // Scroll to the events section after a short delay to allow content to render
-      setTimeout(() => {
-        const element = document.getElementById('upcoming-events');
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 500);
     }
   }, [initialNetworkState, isLoading, events.length]);
 
@@ -254,7 +292,21 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
       switch (sortField) {
         case "date":
+          // First compare dates
           compareValue = a.date.localeCompare(b.date);
+          // If dates are equal, compare start times
+          if (compareValue === 0) {
+            const parseTimeForSort = (timeStr: string): number => {
+              const startTime = timeStr.split(' – ')[0].trim();
+              const [time, period] = startTime.split(' ');
+              const [hours, minutes] = time.split(':').map(Number);
+              let hour24 = hours;
+              if (period === 'PM' && hours !== 12) hour24 += 12;
+              if (period === 'AM' && hours === 12) hour24 = 0;
+              return hour24 * 60 + minutes;
+            };
+            compareValue = parseTimeForSort(a.time) - parseTimeForSort(b.time);
+          }
           break;
         case "event":
           compareValue = a.title.localeCompare(b.title);
@@ -816,7 +868,18 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                 <div className="text-xs text-muted-foreground whitespace-nowrap">{event.time}</div>
                               </div>
                             </td>
-                          <td className="p-4 font-semibold">{event.title}</td>
+                          <td className="p-4 font-semibold">
+                            <div className="flex items-center gap-2">
+                              {event.title}
+                              {isEventLive(event) && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
+                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
+                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                  LIVE
+                                </span>
+                              )}
+                            </div>
+                          </td>
                           <td className="p-4">
                             {event.location === 'Virtual' ? (
                               <span className="flex items-center gap-1.5">
@@ -940,7 +1003,16 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             {event.type}
                           </span>
                         </div>
-                      <h3 className="font-mono font-bold text-sm">{event.title}</h3>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="font-mono font-bold text-sm">{event.title}</h3>
+                        {isEventLive(event) && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
+                            <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
+                            <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                            LIVE
+                          </span>
+                        )}
+                      </div>
                       <p className="text-xs font-mono text-muted-foreground">
                         {event.location === 'Virtual' ? (
                           <span className="flex items-center gap-1.5">
@@ -1267,7 +1339,16 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
                                       >
                                         <div className="p-1 text-white text-[10px] font-mono leading-tight h-full overflow-hidden">
-                                          <div className="font-bold truncate">{event.title}</div>
+                                          <div className="font-bold truncate flex items-center gap-1">
+                                            {event.title}
+                                            {isEventLive(event) && (
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-red-500 text-white text-[8px] font-bold rounded">
+                                                <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
+                                                <span className="w-1 h-1 bg-white rounded-full"></span>
+                                                LIVE
+                                              </span>
+                                            )}
+                                          </div>
                                           <div className="opacity-90 truncate">{event.time}</div>
                                           <div className="opacity-75 truncate text-[9px]">{event.networkState}</div>
                                         </div>
@@ -1468,7 +1549,16 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
                                       >
                                         <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden">
-                                          <div className="font-bold truncate">{event.title}</div>
+                                          <div className="font-bold truncate flex items-center gap-1">
+                                            {event.title}
+                                            {isEventLive(event) && (
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-red-500 text-white text-[7px] font-bold rounded">
+                                                <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
+                                                <span className="w-1 h-1 bg-white rounded-full"></span>
+                                                LIVE
+                                              </span>
+                                            )}
+                                          </div>
                                           <div className="opacity-90 truncate text-[8px]">{event.time}</div>
                                           <div className="opacity-75 truncate text-[7px]">{event.networkState}</div>
                                         </div>
