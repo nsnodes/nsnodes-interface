@@ -173,7 +173,7 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
                 {countdown}
               </div>
               <div className="text-xs font-mono text-muted-foreground mb-1">
-                UNTIL NEXT
+                UNTIL NEXT EVENT
               </div>
               <div className="text-xs font-mono font-bold truncate">
                 {nextEvent.title}

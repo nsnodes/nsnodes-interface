@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, ExternalLink, MapPin, Globe, Users, TrendingUp, ChevronDown } from "lucide-react";
+import { Calendar, ExternalLink, ChevronDown } from "lucide-react";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { getEvents, getAllNetworkSchoolEvents } from "@/lib/actions/events";
 import type { UIEvent } from "@/lib/types/events";
@@ -163,7 +163,7 @@ export default function NetworkSchoolEventsPage() {
 
         {/* Right side - Stats */}
         {!isLoading && !error && (
-          <div className="lg:w-80">
+          <div className="lg:w-96">
             <div ref={statsBoxRef} className="border-2 border-border bg-card p-6">
               <div className="space-y-2">
                 {/* Live Event Counter */}
@@ -212,7 +212,9 @@ export default function NetworkSchoolEventsPage() {
               Close
             </button>
           </div>
-          <NSEventsGraph allEvents={clientAllEvents} />
+          <div className="mt-6">
+            <NSEventsGraph allEvents={clientAllEvents} />
+          </div>
         </section>
       )}
 

@@ -404,6 +404,54 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
 }
 
 /**
+ * Fetch all events (past and future) for stats
+ * Server Action that can be called from Client Components
+ */
+export async function getAllEvents(): Promise<UIEvent[]> {
+  try {
+    const supabase = createServerClient()
+
+    const { data, error } = await supabase
+      .from('events')
+      .select(`
+        title,
+        description,
+        start_at,
+        end_at,
+        timezone,
+        venue_name,
+        address,
+        city,
+        country,
+        lat,
+        lng,
+        source,
+        source_url,
+        organizers,
+        tags,
+        image_url,
+        status
+      `)
+      .in('source', ['luma', 'soladay'])
+      .not('tags', 'cs', '{popup-city}')
+      .in('status', ['scheduled', 'tentative'])
+      .order('start_at', { ascending: false })
+      .limit(2000)
+
+    if (error) {
+      console.error('Error fetching all events from Supabase:', error)
+      return []
+    }
+
+    // Transform all events
+    return (data as DatabaseEvent[]).map(transformEvent)
+  } catch (error) {
+    console.error('Error in getAllEvents:', error)
+    return []
+  }
+}
+
+/**
  * Fetch all Network School events (past and future) for stats
  * Server Action that can be called from Client Components
  */

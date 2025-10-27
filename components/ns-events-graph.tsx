@@ -65,10 +65,6 @@ export function NSEventsGraph({ allEvents }: NSEventsGraphProps) {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-bold font-mono text-center">
-        [ EVENTS PER DAY ]
-      </h3>
-
       <div className="border-2 border-border bg-background p-6">
         {/* Vertical bar chart */}
         <div className="flex items-end justify-between gap-1" style={{ height: '350px' }}>
