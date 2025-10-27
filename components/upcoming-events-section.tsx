@@ -119,6 +119,14 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   // Handle click outside to close filters and dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      // Don't close filters if clicking on an event row (they have cursor-pointer class and onClick handlers)
+      // This allows event navigation to work without closing filters first
+      if (target.closest('tr.cursor-pointer') || target.closest('div.cursor-pointer')) {
+        return;
+      }
+
       if (clearButtonRef.current && clearButtonRef.current.contains(event.target as Node)) {
         return;
       }

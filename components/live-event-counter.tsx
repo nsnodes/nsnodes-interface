@@ -158,7 +158,7 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
             {liveCount}
           </div>
           <div className="text-xs font-mono text-muted-foreground">
-            LIVE NOW
+            {liveCount === 1 ? 'EVENT LIVE NOW' : 'EVENTS LIVE NOW'}
           </div>
         </>
       ) : (

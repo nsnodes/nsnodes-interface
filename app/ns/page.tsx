@@ -141,8 +141,8 @@ export default function NetworkSchoolEventsPage() {
             [ NETWORK SCHOOL EVENTS ]
           </h1>
           <p className="text-muted-foreground font-mono text-sm sm:text-base max-w-3xl">
-            Discover upcoming events from Network School. Join conferences, workshops, 
-            meetups and gatherings across the Network School ecosystem.
+            Discover upcoming events from Network School. Join workshops, 
+            talks and gatherings across the Network School ecosystem.
           </p>
 
           {/* CTA Button */}
@@ -178,7 +178,7 @@ export default function NetworkSchoolEventsPage() {
                     {stats.totalUpcoming}
                   </div>
                   <div className="text-xs font-mono text-muted-foreground">
-                    UPCOMING
+                    UPCOMING EVENTS
                   </div>
                 </div>
               </div>
