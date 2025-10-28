@@ -1527,7 +1527,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                 </div>
 
                 {/* Mobile Timeline View */}
-                <div className="md:hidden p-4 overflow-x-auto">
+                <div className="md:hidden p-4 overflow-x-auto" style={{ touchAction: 'pan-x pan-y' }}>
                   <div className={showOnlyToday ? 'max-w-xl mx-auto' : ''}>
                     <div className="space-y-6">
                       {/* Date Header */}
