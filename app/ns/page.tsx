@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, ExternalLink, ChevronDown } from "lucide-react";
+import { Calendar, ChevronDown, ExternalLink } from "lucide-react";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { getEvents, getAllNetworkSchoolEvents } from "@/lib/actions/events";
 import type { UIEvent } from "@/lib/types/events";
@@ -151,12 +151,10 @@ export default function NetworkSchoolEventsPage() {
               href="https://ns.com/wiki"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
             >
-              <span className="flex items-center gap-2">
-                [ SUBMIT EVENT ]
-                <ExternalLink className="h-4 w-4" />
-              </span>
+              [ SUBMIT EVENT ]
+              <ExternalLink className="h-4 w-4" />
             </a>
           </div>
         </div>

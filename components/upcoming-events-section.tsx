@@ -180,9 +180,6 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       if (matchingStates.length > 0) {
         setSelectedNetworkStates(matchingStates);
       }
-
-      // Open filters to show the pre-selected network state
-      setAllFiltersOpen(true);
     }
   }, [initialNetworkState, isLoading, events.length]);
 
@@ -502,7 +499,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
           <Calendar className="h-6 w-6" />
           {showOnlyToday ? '[ EVENTS TODAY ]' : '[ UPCOMING EVENTS ]'}
         </h2>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center sm:justify-end justify-between gap-4 w-full sm:w-auto">
           <div className="flex items-center gap-2 text-xs font-mono">
             {isLoading ? (
               <span className="opacity-60 animate-pulse">Loading events...</span>
@@ -942,28 +939,28 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           >
                             <td className="p-4 whitespace-nowrap">
                               <div className="space-y-0.5">
-                                <div className="font-semibold">{event.date}</div>
+                                <div className="font-semibold flex items-center gap-2">
+                                  {event.date}
+                                  {isEventLive(event) && (
+                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
+                                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
+                                      <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                      LIVE
+                                    </span>
+                                  )}
+                                  {!isEventLive(event) && isNextUpcomingEvent(event) && (
+                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
+                                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
+                                      <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                      UPCOMING
+                                    </span>
+                                  )}
+                                </div>
                                 <div className="text-xs text-muted-foreground whitespace-nowrap">{event.time}</div>
                               </div>
                             </td>
                           <td className="p-4 font-semibold">
-                            <div className="flex items-center gap-2">
-                              {event.title}
-                              {isEventLive(event) && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-                                  LIVE
-                                </span>
-                              )}
-                              {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-                                  UPCOMING
-                                </span>
-                              )}
-                            </div>
+                            {event.title}
                           </td>
                           <td className="p-4">
                             {event.location === 'Virtual' ? (
@@ -1081,29 +1078,31 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                       >
                         <div className="flex items-start justify-between">
                           <div className="space-y-0.5">
-                            <div className="text-xs font-mono text-muted-foreground">{event.date}</div>
+                            <div className="text-xs font-mono text-muted-foreground flex items-center gap-2">
+                              {event.date}
+                              {isEventLive(event) && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
+                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
+                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                  LIVE
+                                </span>
+                              )}
+                              {!isEventLive(event) && isNextUpcomingEvent(event) && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
+                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
+                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                  UPCOMING
+                                </span>
+                              )}
+                            </div>
                             <div className="text-xs font-mono text-muted-foreground">{event.time}</div>
                           </div>
                           <span className="text-xs font-mono px-2 py-1 border border-border bg-muted">
                             {event.type}
                           </span>
                         </div>
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div>
                         <h3 className="font-mono font-bold text-sm">{event.title}</h3>
-                        {isEventLive(event) && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
-                            <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                            <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-                            LIVE
-                          </span>
-                        )}
-                        {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
-                            <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                            <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
-                            UPCOMING
-                          </span>
-                        )}
                       </div>
                       <p className="text-xs font-mono text-muted-foreground">
                         {event.location === 'Virtual' ? (
@@ -1431,24 +1430,25 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
                                       >
                                         <div className="p-1 text-white text-[10px] font-mono leading-tight h-full overflow-hidden">
-                                          <div className="font-bold truncate flex items-center gap-1">
-                                            {event.title}
+                                          <div className="truncate flex items-center gap-1">
+                                            <span className="opacity-90">{event.date}</span>
                                             {isEventLive(event) && (
-                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-red-500 text-white text-[8px] font-bold rounded">
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-red-500 text-white text-[8px] font-bold rounded flex-shrink-0">
                                                 <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
                                                 <span className="w-1 h-1 bg-white rounded-full"></span>
                                                 LIVE
                                               </span>
                                             )}
                                             {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-[#f7931a] text-white text-[8px] font-bold rounded animate-pulse">
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-[#f7931a] text-white text-[8px] font-bold rounded animate-pulse flex-shrink-0">
                                                 <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
                                                 <span className="w-1 h-1 bg-white rounded-full"></span>
                                                 UPCOMING
                                               </span>
                                             )}
                                           </div>
-                                          <div className="opacity-90 truncate">{event.time}</div>
+                                          <div className="font-bold truncate">{event.title}</div>
+                                          <div className="opacity-90 truncate text-[9px]">{event.time}</div>
                                           <div className="opacity-75 truncate text-[9px]">{event.networkState}</div>
                                         </div>
 
@@ -1528,10 +1528,10 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
                 {/* Mobile Timeline View */}
                 <div className="md:hidden p-4 overflow-x-auto">
-                  <div className={`${showOnlyToday ? 'max-w-xl mx-auto' : 'min-w-[800px]'}`}>
+                  <div className={showOnlyToday ? 'max-w-xl mx-auto' : ''}>
                     <div className="space-y-6">
                       {/* Date Header */}
-                      <div className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
+                      <div className="grid gap-1" style={{ gridTemplateColumns: timelineZoomDays <= 7 ? `80px repeat(${dateColumns.length}, calc((100vw - 80px - 2rem) / ${timelineZoomDays}))` : `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
                         <div className="text-xs font-mono font-bold text-muted-foreground"></div>
                         {dateColumns.map((dateStr, idx) => {
                           const date = new Date(dateStr + 'T00:00:00');
@@ -1573,7 +1573,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                         if (hourEvents.length === 0) return null;
 
                         return (
-                          <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
+                          <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: timelineZoomDays <= 7 ? `80px repeat(${dateColumns.length}, calc((100vw - 80px - 2rem) / ${timelineZoomDays}))` : `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
                             {/* Hour Label */}
                             <div className="text-xs font-mono text-muted-foreground flex items-center">
                               {hour.toString().padStart(2, '0')}:00
@@ -1648,23 +1648,24 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
                                       >
                                         <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden">
-                                          <div className="font-bold truncate flex items-center gap-1">
-                                            {event.title}
+                                          <div className="truncate flex items-center gap-1">
+                                            <span className="opacity-90">{event.date}</span>
                                             {isEventLive(event) && (
-                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-red-500 text-white text-[7px] font-bold rounded">
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-red-500 text-white text-[7px] font-bold rounded flex-shrink-0">
                                                 <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
                                                 <span className="w-1 h-1 bg-white rounded-full"></span>
                                                 LIVE
                                               </span>
                                             )}
                                             {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-[#f7931a] text-white text-[7px] font-bold rounded animate-pulse">
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-[#f7931a] text-white text-[7px] font-bold rounded animate-pulse flex-shrink-0">
                                                 <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
                                                 <span className="w-1 h-1 bg-white rounded-full"></span>
                                                 UPCOMING
                                               </span>
                                             )}
                                           </div>
+                                          <div className="font-bold truncate">{event.title}</div>
                                           <div className="opacity-90 truncate text-[8px]">{event.time}</div>
                                           <div className="opacity-75 truncate text-[7px]">{event.networkState}</div>
                                         </div>
