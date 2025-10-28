@@ -60,33 +60,39 @@ export default function NetworkSchoolEventsPage() {
 
   // Calculate stats from all events (historic + future) - use client-side timezone
   const stats = useMemo(() => {
-    const nsEvents = clientEvents.filter(event => event.networkState === "Network School");
+    // Filter for both Network School and Ârc events
+    const nsAndArcEvents = clientEvents.filter(event => 
+      event.networkState === "Network School" || event.networkState === "Ârc"
+    );
 
-    // Stats from all time data
-    const totalAllTime = clientAllEvents.length;
-    const allCountries = new Set(clientAllEvents.map(e => e.country).filter(Boolean));
-    const allCities = new Set(clientAllEvents.map(e => e.location).filter(c => c !== 'Virtual' && c !== 'TBD'));
+    // Stats from all time data (Network School and Ârc)
+    const allNSAndArcEvents = clientAllEvents.filter(event => 
+      event.networkState === "Network School" || event.networkState === "Ârc"
+    );
+    const totalAllTime = allNSAndArcEvents.length;
+    const allCountries = new Set(allNSAndArcEvents.map(e => e.country).filter(Boolean));
+    const allCities = new Set(allNSAndArcEvents.map(e => e.location).filter(c => c !== 'Virtual' && c !== 'TBD'));
 
     // Split past and upcoming
     const today = new Date();
-    const pastEvents = clientAllEvents.filter(e => new Date(e.date) < today);
-    const upcomingEvents = nsEvents
+    const pastEvents = allNSAndArcEvents.filter(e => new Date(e.date) < today);
+    const upcomingEvents = nsAndArcEvents
       .filter(e => new Date(e.date) >= today)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     // Next upcoming event
     const nextEvent = upcomingEvents[0];
 
-    // Find most popular event type from all events
-    const typeCounts = clientAllEvents.reduce((acc, event) => {
+    // Find most popular event type from Network School and Ârc events
+    const typeCounts = allNSAndArcEvents.reduce((acc, event) => {
       acc[event.type] = (acc[event.type] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     const mostPopularType = Object.entries(typeCounts)
       .sort(([, a], [, b]) => b - a)[0]?.[0] || 'Event';
 
-    // Find most active city
-    const cityCounts = clientAllEvents
+    // Find most active city from Network School and Ârc events
+    const cityCounts = allNSAndArcEvents
       .filter(e => e.location !== 'Virtual' && e.location !== 'TBD')
       .reduce((acc, event) => {
         acc[event.location] = (acc[event.location] || 0) + 1;
@@ -165,7 +171,9 @@ export default function NetworkSchoolEventsPage() {
             <div ref={statsBoxRef} className="border-2 border-border bg-card p-6">
               <div className="space-y-2">
                 {/* Live Event Counter */}
-                <LiveEventCounter allEvents={clientAllEvents} />
+                <LiveEventCounter allEvents={clientAllEvents.filter(event => 
+                  event.networkState === "Network School" || event.networkState === "Ârc"
+                )} />
 
                 {/* Upcoming Events */}
                 <div className="border-2 border-border p-3 text-center bg-background">
@@ -211,17 +219,19 @@ export default function NetworkSchoolEventsPage() {
             </button>
           </div>
           <div className="mt-6">
-            <NSEventsGraph allEvents={clientAllEvents} />
+            <NSEventsGraph allEvents={clientAllEvents.filter(event => 
+              event.networkState === "Network School" || event.networkState === "Ârc"
+            )} />
           </div>
         </section>
       )}
 
-      {/* Events Table with Network School pre-selected */}
+      {/* Events Table with Network School and Ârc pre-selected */}
       <UpcomingEventsSection
         events={clientEvents}
         isLoading={isLoading}
         error={error}
-        initialNetworkState="Network School"
+        initialNetworkStates={["Network School", "Ârc"]}
       />
 
       {/* CTA Section */}

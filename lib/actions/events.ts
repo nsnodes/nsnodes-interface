@@ -175,6 +175,62 @@ function isLogosEvent(title: string, organizers: Array<{ name: string }> | strin
 }
 
 /**
+ * Detect if event is from Arc based on organizers or title
+ */
+function isArcEvent(title: string, organizers: Array<{ name: string }> | string | null): boolean {
+  // Check title for Arc-specific patterns (handles events with missing organizer data)
+  const titleLower = title.toLowerCase()
+  const titleNormalized = titleLower.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  
+  // Arc-specific title patterns (excluding "architect" terms)
+  if (
+    (titleNormalized.includes('arc ascend') || 
+     titleNormalized.includes('arc accelerat') ||
+     titleLower.startsWith('ârc:') ||
+     titleLower.startsWith('ârc -') ||
+     titleLower.startsWith('[ârc') ||
+     titleLower.startsWith('startup societies:') ||
+     titleLower.startsWith('startup societies series:') ||
+     (titleLower.includes('how to raise money') && !titleLower.includes('for your token')) ||
+     titleLower === 'how to raise money') &&
+    !titleNormalized.includes('architect') &&
+    !titleNormalized.includes('architecture')
+  ) {
+    return true
+  }
+
+  // Check if any organizer contains "Arc" (case-insensitive, excluding architectural terms)
+  if (organizers) {
+    let parsed = organizers
+    if (typeof organizers === 'string') {
+      try {
+        parsed = JSON.parse(organizers)
+      } catch {
+        return false
+      }
+    }
+
+    if (Array.isArray(parsed)) {
+      return parsed.some(org => {
+        const name = typeof org === 'object' && org.name ? org.name : org
+        if (typeof name === 'string') {
+          const nameLower = name.toLowerCase()
+          // Normalize accented characters (Ârc -> arc)
+          const normalized = nameLower.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+          // Check for "arc" but not "architect" or "architecture"
+          if (normalized.includes('arc') && !normalized.includes('architect') && !normalized.includes('architecture')) {
+            return true
+          }
+        }
+        return false
+      })
+    }
+  }
+
+  return false
+}
+
+/**
  * Organization slug to location mapping for Sola.day events
  */
 const ORGANIZATION_LOCATIONS: Record<string, { city: string; country: string }> = {
@@ -378,10 +434,18 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
   // Parse network state from organizers field
   // Override with specific network states for special cases
   let networkState = parseNetworkState(dbEvent.organizers)
-  if (isIpeCityEvent(dbEvent.title, dbEvent.city, dbEvent.address)) {
+  
+  // Check for Commons events by tag
+  const isCommonsEvent = dbEvent.tags && Array.isArray(dbEvent.tags) && dbEvent.tags.includes('commons')
+  
+  if (isCommonsEvent) {
+    networkState = 'Commons'
+  } else if (isIpeCityEvent(dbEvent.title, dbEvent.city, dbEvent.address)) {
     networkState = 'Ipê City'
   } else if (isLogosEvent(dbEvent.title, dbEvent.organizers)) {
     networkState = 'Logos'
+  } else if (isArcEvent(dbEvent.title, dbEvent.organizers)) {
+    networkState = 'Ârc'
   }
 
   // Infer event type from title and description

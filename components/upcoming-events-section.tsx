@@ -15,10 +15,11 @@ interface UpcomingEventsSectionProps {
   error: string | null;
   showOnlyToday?: boolean; // New prop to show only today's events
   hideFilters?: boolean; // New prop to hide filters and sorting
-  initialNetworkState?: string; // Pre-select network state filter
+  initialNetworkState?: string; // Pre-select network state filter (deprecated, use initialNetworkStates)
+  initialNetworkStates?: string[]; // Pre-select multiple network state filters
 }
 
-export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState }: UpcomingEventsSectionProps) {
+export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates }: UpcomingEventsSectionProps) {
   // State for tracking current time to make live/upcoming checks reactive
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -100,9 +101,10 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   const isNextUpcomingEvent = (event: UIEvent): boolean => {
     const now = currentTime;
 
-    // If there's an initialNetworkState filter (like on /ns page), only check events from that network state
-    const eventsToCheck = initialNetworkState
-      ? events.filter(e => societyNamesMatch(e.networkState, initialNetworkState))
+    // If there's an initialNetworkState(s) filter (like on /ns page), only check events from those network states
+    const networkStatesToFilter = initialNetworkStates || (initialNetworkState ? [initialNetworkState] : null);
+    const eventsToCheck = networkStatesToFilter
+      ? events.filter(e => networkStatesToFilter.some(filterState => societyNamesMatch(e.networkState, filterState)))
       : events;
 
     // Check if there are any live events in the filtered set
@@ -140,7 +142,15 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   const [countrySearch, setCountrySearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
-  const [timelineZoomDays, setTimelineZoomDays] = useState<number>(showOnlyToday ? 1 : 7);
+  // Default to 1 day for mobile, 7 days for desktop
+  const getInitialZoomDays = () => {
+    if (showOnlyToday) return 1;
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 ? 1 : 7; // md breakpoint is 768px
+    }
+    return 7;
+  };
+  const [timelineZoomDays, setTimelineZoomDays] = useState<number>(getInitialZoomDays());
   const [isTimelineDropdownOpen, setIsTimelineDropdownOpen] = useState<boolean>(false);
 
   const filtersRef = useRef<HTMLDivElement>(null);
@@ -158,8 +168,11 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
   // Handle initial network state filter and scroll
   useEffect(() => {
-    if (initialNetworkState && !isLoading && events.length > 0) {
-      console.log('Initial network state:', initialNetworkState);
+    // Support both single initialNetworkState and array initialNetworkStates
+    const networkStatesToFilter = initialNetworkStates || (initialNetworkState ? [initialNetworkState] : null);
+    
+    if (networkStatesToFilter && !isLoading && events.length > 0) {
+      console.log('Initial network states:', networkStatesToFilter);
       console.log('Events loaded:', events.length);
 
       // Get unique network states from events
@@ -171,17 +184,17 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
       // Find matching network state(s) from the actual event data
       const matchingStates = uniqueNetworkStates.filter(ns =>
-        societyNamesMatch(ns, initialNetworkState)
+        networkStatesToFilter.some(filterState => societyNamesMatch(ns, filterState))
       );
 
-      console.log('Matching states for', initialNetworkState, ':', matchingStates);
+      console.log('Matching states for', networkStatesToFilter, ':', matchingStates);
 
       // Set the network state filter with the actual network state names from events
       if (matchingStates.length > 0) {
         setSelectedNetworkStates(matchingStates);
       }
     }
-  }, [initialNetworkState, isLoading, events.length]);
+  }, [initialNetworkState, initialNetworkStates, isLoading, events.length]);
 
   // Handle click outside to close filters and dropdowns
   useEffect(() => {
