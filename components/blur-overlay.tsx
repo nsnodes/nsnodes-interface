@@ -19,8 +19,7 @@ export function BlurOverlay() {
             Coming Soon
           </h1>
           <p className="text-muted-foreground font-mono text-sm">
-            We&apos;re getting things ready. Want to help out? Fill in this form:
-
+            Want to help out? Fill in this form:
           </p>
         </div>
 
