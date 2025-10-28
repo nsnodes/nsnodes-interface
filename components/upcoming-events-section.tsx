@@ -538,7 +538,13 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
     if (startPeriod?.toUpperCase() === 'AM' && startTime === 12) startTime = 0;
     if (endPeriod?.toUpperCase() === 'AM' && endTime === 12) endTime = 0;
 
-    return Math.max(1, endTime - startTime);
+    // Handle cross-midnight events (e.g., 11 PM - 1 AM)
+    let duration = endTime - startTime;
+    if (duration < 0) {
+      duration += 24; // Add 24 hours for events that cross midnight
+    }
+
+    return Math.max(1, duration);
   };
 
   const getEventStartHour = (event: typeof events[0]) => {
@@ -1647,7 +1653,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                 </div>
 
                 {/* Mobile Timeline View */}
-                <div className="md:hidden p-4 overflow-x-auto">
+                <div className="md:hidden p-4 overflow-x-auto overscroll-x-contain touch-pan-x">
                   <div className={showOnlyToday ? 'max-w-xl mx-auto' : ''}>
                     <div className="space-y-6">
                       {/* Date Header */}
