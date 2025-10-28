@@ -60,39 +60,43 @@ export default function NetworkSchoolEventsPage() {
 
   // Calculate stats from all events (historic + future) - use client-side timezone
   const stats = useMemo(() => {
-    // Filter for both Network School and Ârc events
-    const nsAndArcEvents = clientEvents.filter(event => 
-      event.networkState === "Network School" || event.networkState === "Ârc"
+    // Filter for Network School, Ârc, and Commons events
+    const nsArcCommonsEvents = clientEvents.filter(event => 
+      event.networkState === "Network School" || 
+      event.networkState === "Ârc" || 
+      event.networkState === "Commons"
     );
 
-    // Stats from all time data (Network School and Ârc)
-    const allNSAndArcEvents = clientAllEvents.filter(event => 
-      event.networkState === "Network School" || event.networkState === "Ârc"
+    // Stats from all time data (Network School, Ârc, and Commons)
+    const allNSArcCommonsEvents = clientAllEvents.filter(event => 
+      event.networkState === "Network School" || 
+      event.networkState === "Ârc" || 
+      event.networkState === "Commons"
     );
-    const totalAllTime = allNSAndArcEvents.length;
-    const allCountries = new Set(allNSAndArcEvents.map(e => e.country).filter(Boolean));
-    const allCities = new Set(allNSAndArcEvents.map(e => e.location).filter(c => c !== 'Virtual' && c !== 'TBD'));
+    const totalAllTime = allNSArcCommonsEvents.length;
+    const allCountries = new Set(allNSArcCommonsEvents.map(e => e.country).filter(Boolean));
+    const allCities = new Set(allNSArcCommonsEvents.map(e => e.location).filter(c => c !== 'Virtual' && c !== 'TBD'));
 
     // Split past and upcoming
     const today = new Date();
-    const pastEvents = allNSAndArcEvents.filter(e => new Date(e.date) < today);
-    const upcomingEvents = nsAndArcEvents
+    const pastEvents = allNSArcCommonsEvents.filter(e => new Date(e.date) < today);
+    const upcomingEvents = nsArcCommonsEvents
       .filter(e => new Date(e.date) >= today)
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     // Next upcoming event
     const nextEvent = upcomingEvents[0];
 
-    // Find most popular event type from Network School and Ârc events
-    const typeCounts = allNSAndArcEvents.reduce((acc, event) => {
+    // Find most popular event type from Network School, Ârc, and Commons events
+    const typeCounts = allNSArcCommonsEvents.reduce((acc, event) => {
       acc[event.type] = (acc[event.type] || 0) + 1;
       return acc;
     }, {} as Record<string, number>);
     const mostPopularType = Object.entries(typeCounts)
       .sort(([, a], [, b]) => b - a)[0]?.[0] || 'Event';
 
-    // Find most active city from Network School and Ârc events
-    const cityCounts = allNSAndArcEvents
+    // Find most active city from Network School, Ârc, and Commons events
+    const cityCounts = allNSArcCommonsEvents
       .filter(e => e.location !== 'Virtual' && e.location !== 'TBD')
       .reduce((acc, event) => {
         acc[event.location] = (acc[event.location] || 0) + 1;
@@ -171,9 +175,11 @@ export default function NetworkSchoolEventsPage() {
             <div ref={statsBoxRef} className="border-2 border-border bg-card p-6">
               <div className="space-y-2">
                 {/* Live Event Counter */}
-                <LiveEventCounter allEvents={clientAllEvents.filter(event => 
-                  event.networkState === "Network School" || event.networkState === "Ârc"
-                )} />
+          <LiveEventCounter allEvents={clientAllEvents.filter(event => 
+            event.networkState === "Network School" || 
+            event.networkState === "Ârc" || 
+            event.networkState === "Commons"
+          )} />
 
                 {/* Upcoming Events */}
                 <div className="border-2 border-border p-3 text-center bg-background">
@@ -220,18 +226,20 @@ export default function NetworkSchoolEventsPage() {
           </div>
           <div className="mt-6">
             <NSEventsGraph allEvents={clientAllEvents.filter(event => 
-              event.networkState === "Network School" || event.networkState === "Ârc"
+              event.networkState === "Network School" || 
+              event.networkState === "Ârc" || 
+              event.networkState === "Commons"
             )} />
           </div>
         </section>
       )}
 
-      {/* Events Table with Network School and Ârc pre-selected */}
+      {/* Events Table with Network School, Ârc, and Commons pre-selected */}
       <UpcomingEventsSection
         events={clientEvents}
         isLoading={isLoading}
         error={error}
-        initialNetworkStates={["Network School", "Ârc"]}
+        initialNetworkStates={["Network School", "Ârc", "Commons"]}
       />
 
       {/* CTA Section */}
