@@ -41,9 +41,12 @@ export interface UIEvent {
   type: string
   url: string
   mapsLink?: string // Optional Google Maps link
+  tags: string[] | null // Event tags (e.g., "commons", "arc")
   // Raw timestamps for client-side timezone conversion
   start_at: string // ISO timestamp
   end_at: string // ISO timestamp
+  lat: number | null
+  lng: number | null
 }
 
 // Type for popup cities (long-running events with date ranges)

@@ -240,7 +240,8 @@ const ORGANIZATION_LOCATIONS: Record<string, { city: string; country: string }> 
   'Prospera-events': { city: 'Próspera', country: 'Honduras' },
   'infinitacity': { city: 'INFINITA City', country: 'Argentina' },
   'zuzalucity': { city: 'Zuzalu City', country: 'Montenegro' },
-  'invisiblegardenar': { city: 'Invisible Garden', country: 'Argentina' }
+  'invisiblegardenar': { city: 'Invisible Garden', country: 'Argentina' },
+  'arc': { city: 'Various', country: 'Global' }, // Arc events are typically global
 }
 
 /**
@@ -434,13 +435,10 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
   // Parse network state from organizers field
   // Override with specific network states for special cases
   let networkState = parseNetworkState(dbEvent.organizers)
-  
-  // Check for Commons events by tag
-  const isCommonsEvent = dbEvent.tags && Array.isArray(dbEvent.tags) && dbEvent.tags.includes('commons')
-  
-  if (isCommonsEvent) {
-    networkState = 'Commons'
-  } else if (isIpeCityEvent(dbEvent.title, dbEvent.city, dbEvent.address)) {
+
+  // Don't override networkState for Commons - we'll show it as a badge instead
+  // This prevents duplication of "Commons" text
+  if (isIpeCityEvent(dbEvent.title, dbEvent.city, dbEvent.address)) {
     networkState = 'Ipê City'
   } else if (isLogosEvent(dbEvent.title, dbEvent.organizers)) {
     networkState = 'Logos'
@@ -461,9 +459,12 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
     type,
     url: dbEvent.source_url,
     mapsLink: mapsLink || undefined,
+    tags: dbEvent.tags,
     // Include raw timestamps for client-side timezone conversion
     start_at: dbEvent.start_at,
-    end_at: dbEvent.end_at
+    end_at: dbEvent.end_at,
+    lat: dbEvent.lat,
+    lng: dbEvent.lng
   }
 }
 

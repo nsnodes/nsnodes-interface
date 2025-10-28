@@ -128,10 +128,29 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
     return false;
   };
 
+  // Helper function to check if event has Commons tag
+  const hasCommonsTag = (event: UIEvent): boolean => {
+    return event.tags && Array.isArray(event.tags) && event.tags.includes('commons');
+  };
+
+  // Helper function to check if event is Arc event
+  const isArcEvent = (event: UIEvent): boolean => {
+    return event.networkState === 'Ârc';
+  };
+
+  // Helper function to get the display network state for coloring
+  // Returns "Commons" for events with commons tag, otherwise returns the actual networkState
+  const getDisplayNetworkState = (event: UIEvent): string => {
+    if (hasCommonsTag(event)) {
+      return 'Commons';
+    }
+    return event.networkState;
+  };
+
   // UI state
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  const [selectedNetworkStates, setSelectedNetworkStates] = useState<string[]>([]);
+  const [selectedNetworkStates, setSelectedNetworkStates] = useState<string[]>(['Network School', 'Ârc', 'Commons']);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<string>("upcoming");
@@ -170,14 +189,18 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   useEffect(() => {
     // Support both single initialNetworkState and array initialNetworkStates
     const networkStatesToFilter = initialNetworkStates || (initialNetworkState ? [initialNetworkState] : null);
-    
+
     if (networkStatesToFilter && !isLoading && events.length > 0) {
       console.log('Initial network states:', networkStatesToFilter);
       console.log('Events loaded:', events.length);
 
       // Get unique network states from events
       const uniqueNetworkStates = Array.from(
-        new Set(events.map(e => e.networkState).filter(Boolean))
+        new Set([
+          ...events.map(e => e.networkState).filter(Boolean),
+          // Add "Commons" if any event has the commons tag
+          ...events.filter(e => hasCommonsTag(e)).map(() => 'Commons')
+        ])
       ).sort();
 
       console.log('Unique network states:', uniqueNetworkStates);
@@ -283,7 +306,11 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
   // Get unique values for filters
   const uniqueNetworkStates = Array.from(
-    new Set(events.map(e => e.networkState).filter(Boolean))
+    new Set([
+      ...events.map(e => e.networkState).filter(Boolean),
+      // Add "Commons" if any event has the commons tag
+      ...events.filter(e => hasCommonsTag(e)).map(() => 'Commons')
+    ])
   ).sort();
   const uniqueTypes = Array.from(
     new Set(events.map(e => e.type).filter(Boolean))
@@ -352,9 +379,13 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       }
 
       if (selectedNetworkStates.length > 0) {
-        const matchesNetworkState = selectedNetworkStates.some(selected =>
-          societyNamesMatch(event.networkState, selected)
-        );
+        const matchesNetworkState = selectedNetworkStates.some(selected => {
+          // Check if "Commons" is selected and event has commons tag
+          if (selected === 'Commons' && hasCommonsTag(event)) {
+            return true;
+          }
+          return societyNamesMatch(event.networkState, selected);
+        });
         if (!matchesNetworkState) {
           return false;
         }
@@ -501,6 +532,8 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       'Software Zuzalu': 'bg-violet-600',
       'Tomek ⚡ K': 'bg-amber-500',
       'Andrea S.': 'bg-rose-500',
+      'Ârc': 'bg-purple-600',
+      'Commons': 'bg-green-600',
     };
     return colors[networkState] || 'bg-slate-500';
   };
@@ -750,7 +783,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                   <label key={ns} className="flex items-center gap-2 cursor-pointer hover:bg-accent p-1 transition-colors">
                     <input
                       type="checkbox"
-                      checked={selectedNetworkStates.includes(ns)}
+                      checked={selectedNetworkStates.some(selected => societyNamesMatch(selected, ns))}
                       onChange={() => toggleFilter(ns, selectedNetworkStates, setSelectedNetworkStates)}
                       className="cursor-pointer"
                     />
@@ -986,9 +1019,21 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             )}
                           </td>
                             <td className="p-4">
-                              <span className="px-2 py-1 bg-primary/10 border border-primary/20 text-xs">
-                                {event.networkState}
-                              </span>
+                              <div className="flex items-center gap-2 flex-wrap">
+                                {hasCommonsTag(event) ? (
+                                  <span className="inline-flex items-center px-2 py-0.5 bg-green-600 text-white text-xs font-bold rounded">
+                                    COMMONS
+                                  </span>
+                                ) : isArcEvent(event) ? (
+                                  <span className="inline-flex items-center px-2 py-0.5 bg-purple-600 text-white text-xs font-bold rounded">
+                                    ÂRC
+                                  </span>
+                                ) : (
+                                  <span className="px-2 py-1 bg-primary/10 border border-primary/20 text-xs">
+                                    {event.networkState}
+                                  </span>
+                                )}
+                              </div>
                             </td>
                             <td className="p-4 whitespace-nowrap">
                               <span className="text-muted-foreground text-xs">
@@ -1127,9 +1172,21 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           event.location
                         )}
                       </p>
-                        <span className="inline-block px-2 py-1 bg-primary/10 border border-primary/20 text-xs font-mono">
-                          {event.networkState}
-                        </span>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {hasCommonsTag(event) ? (
+                            <span className="inline-flex items-center px-2 py-0.5 bg-green-600 text-white text-xs font-bold rounded">
+                              COMMONS
+                            </span>
+                          ) : isArcEvent(event) ? (
+                            <span className="inline-flex items-center px-2 py-0.5 bg-purple-600 text-white text-xs font-bold rounded">
+                              ÂRC
+                            </span>
+                          ) : (
+                            <span className="inline-block px-2 py-1 bg-primary/10 border border-primary/20 text-xs font-mono">
+                              {event.networkState}
+                            </span>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -1351,24 +1408,40 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                       </div>
 
                       {/* 24-hour Timeline Grid */}
-                      {Array.from({ length: 24 }, (_, hour) => {
-                        // Get events for this hour across all dates
-                        const hourEvents = sortedDates.flatMap(date => {
+                      {(() => {
+                        // Calculate min and max hours from all events
+                        const allEventHours: number[] = [];
+                        sortedDates.forEach(date => {
                           const dateEvents = eventsByDate[date] || [];
-                          return dateEvents
-                            .filter(event => {
-                              const eventStartHour = Math.floor(getEventStartHour(event));
-                              const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
-                              return hour >= eventStartHour && hour < eventEndHour;
-                            })
-                            .map(event => ({ ...event, date }));
+                          dateEvents.forEach(event => {
+                            const startHour = Math.floor(getEventStartHour(event));
+                            const endHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                            allEventHours.push(startHour, endHour);
+                          });
                         });
 
-                        // Only show rows with events
-                        if (hourEvents.length === 0) return null;
+                        const minHour = allEventHours.length > 0 ? Math.max(0, Math.min(...allEventHours) - 1) : 8;
+                        const maxHour = allEventHours.length > 0 ? Math.min(23, Math.max(...allEventHours) + 1) : 18;
 
-                        return (
-                          <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${dateColumns.length}, ${columnWidth}px)` }}>
+                        return Array.from({ length: maxHour - minHour + 1 }, (_, i) => {
+                          const hour = minHour + i;
+                          // Get events for this hour across all dates
+                          const hourEvents = sortedDates.flatMap(date => {
+                            const dateEvents = eventsByDate[date] || [];
+                            return dateEvents
+                              .filter(event => {
+                                const eventStartHour = Math.floor(getEventStartHour(event));
+                                const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                return hour >= eventStartHour && hour < eventEndHour;
+                              })
+                              .map(event => ({ ...event, date }));
+                          });
+
+                          // Only show rows with events
+                          if (hourEvents.length === 0) return null;
+
+                          return (
+                            <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${dateColumns.length}, ${columnWidth}px)` }}>
                             {/* Hour Label */}
                             <div className="text-xs font-mono text-muted-foreground flex items-center">
                               {hour.toString().padStart(2, '0')}:00
@@ -1432,7 +1505,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                     return (
                                       <div
                                         key={eventIdx}
-                                        className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        className={`absolute ${getNetworkStateColor(getDisplayNetworkState(event))} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
                                         style={{
                                           top: `${topOffset}px`,
                                           height: `${heightInPx}px`,
@@ -1484,7 +1557,8 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             })}
                           </div>
                         );
-                      })}
+                        });
+                      })()}
 
                       {/* Empty State */}
                       {filteredAndSortedEvents.length === 0 && (
@@ -1569,24 +1643,40 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                       </div>
 
                       {/* 24-hour Timeline Grid */}
-                      {Array.from({ length: 24 }, (_, hour) => {
-                        // Get events for this hour across all dates
-                        const hourEvents = sortedDates.flatMap(date => {
+                      {(() => {
+                        // Calculate min and max hours from all events
+                        const allEventHours: number[] = [];
+                        sortedDates.forEach(date => {
                           const dateEvents = eventsByDate[date] || [];
-                          return dateEvents
-                            .filter(event => {
-                              const eventStartHour = Math.floor(getEventStartHour(event));
-                              const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
-                              return hour >= eventStartHour && hour < eventEndHour;
-                            })
-                            .map(event => ({ ...event, date }));
+                          dateEvents.forEach(event => {
+                            const startHour = Math.floor(getEventStartHour(event));
+                            const endHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                            allEventHours.push(startHour, endHour);
+                          });
                         });
 
-                        // Only show rows with events
-                        if (hourEvents.length === 0) return null;
+                        const minHour = allEventHours.length > 0 ? Math.max(0, Math.min(...allEventHours) - 1) : 8;
+                        const maxHour = allEventHours.length > 0 ? Math.min(23, Math.max(...allEventHours) + 1) : 18;
 
-                        return (
-                          <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: timelineZoomDays <= 7 ? `80px repeat(${dateColumns.length}, calc((100vw - 80px - 2rem) / ${timelineZoomDays}))` : `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
+                        return Array.from({ length: maxHour - minHour + 1 }, (_, i) => {
+                          const hour = minHour + i;
+                          // Get events for this hour across all dates
+                          const hourEvents = sortedDates.flatMap(date => {
+                            const dateEvents = eventsByDate[date] || [];
+                            return dateEvents
+                              .filter(event => {
+                                const eventStartHour = Math.floor(getEventStartHour(event));
+                                const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                return hour >= eventStartHour && hour < eventEndHour;
+                              })
+                              .map(event => ({ ...event, date }));
+                          });
+
+                          // Only show rows with events
+                          if (hourEvents.length === 0) return null;
+
+                          return (
+                            <div key={hour} className="grid gap-1" style={{ gridTemplateColumns: timelineZoomDays <= 7 ? `80px repeat(${dateColumns.length}, calc((100vw - 80px - 2rem) / ${timelineZoomDays}))` : `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
                             {/* Hour Label */}
                             <div className="text-xs font-mono text-muted-foreground flex items-center">
                               {hour.toString().padStart(2, '0')}:00
@@ -1650,7 +1740,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                     return (
                                       <div
                                         key={eventIdx}
-                                        className={`absolute ${getNetworkStateColor(event.networkState)} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        className={`absolute ${getNetworkStateColor(getDisplayNetworkState(event))} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
                                         style={{
                                           top: `${topOffset}px`,
                                           height: `${heightInPx}px`,
@@ -1702,7 +1792,8 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             })}
                           </div>
                         );
-                      })}
+                        });
+                      })()}
 
                       {/* Empty State */}
                       {filteredAndSortedEvents.length === 0 && (
