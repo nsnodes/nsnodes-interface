@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "nsnodes.com - Network State Hub for Network Societies Builders",
   description:
-    "Hub for Network State events, jobs, content creators, VCs, and tooling. Built for the decentralized future.",
+    "Hub for Network State events, jobs, content creators, VCs, and tooling.",
   metadataBase: new URL("https://nsnodes.com"),
   openGraph: {
     title: "nsnodes.com - Network State Hub for Network Societies Builders",
