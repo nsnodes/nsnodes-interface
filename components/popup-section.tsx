@@ -14,6 +14,7 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
   const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">("gantt");
   const [popupZoomDays, setPopupZoomDays] = useState<number>(365);
   const [isPopupDropdownOpen, setIsPopupDropdownOpen] = useState<boolean>(false);
+  const [showAllEvents, setShowAllEvents] = useState<boolean>(false);
   const popupDropdownRef = useRef<HTMLDivElement>(null);
 
   // Separate ongoing and upcoming events
@@ -32,7 +33,9 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
   });
 
   // Determine which events to display
-  const displayEvents = showOnlyOngoing ? ongoingEvents : popupEvents;
+  const allDisplayEvents = showOnlyOngoing ? ongoingEvents : popupEvents;
+  const displayEvents = showAllEvents ? allDisplayEvents : allDisplayEvents.slice(0, 4);
+  const hasMoreEvents = allDisplayEvents.length > 4;
   const hasUpcomingEvents = showOnlyOngoing && upcomingEvents.length > 0;
 
   // Close dropdown when clicking outside
@@ -71,7 +74,7 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
           <Calendar className="h-6 w-6" />
           {showOnlyOngoing ? '[ ONGOING POP-UPs ]' : '[ POP-UP ]'}
         </h2>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center sm:justify-end justify-between gap-4 w-full sm:w-auto">
           <div className="flex items-center gap-2 text-xs font-mono">
             <span className="opacity-60">
               {showOnlyOngoing ? (
@@ -176,6 +179,19 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
               </div>
             ))}
           </div>
+
+          {/* Show All Button */}
+          {!showAllEvents && hasMoreEvents && (
+            <div className="mt-4 text-center">
+              <button
+                type="button"
+                onClick={() => setShowAllEvents(true)}
+                className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors"
+              >
+                [ SHOW ALL ({allDisplayEvents.length}) ]
+              </button>
+            </div>
+          )}
 
           {/* Upcoming Events - Blurred Section for Table View (only shown on homepage) */}
           {hasUpcomingEvents && (
@@ -457,6 +473,19 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
                         </div>
                       )}
 
+                      {/* Show All Button - Desktop Timeline */}
+                      {!showAllEvents && hasMoreEvents && (
+                        <div className="pt-4 text-center">
+                          <button
+                            type="button"
+                            onClick={() => setShowAllEvents(true)}
+                            className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors"
+                          >
+                            [ SHOW ALL ({allDisplayEvents.length}) ]
+                          </button>
+                        </div>
+                      )}
+
                       {/* Upcoming Events - Blurred Row (Desktop) */}
                       {hasUpcomingEvents && upcomingEvents[0] && (
                         <>
@@ -677,6 +706,19 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
                       {displayEvents.length === 0 && (
                         <div className="text-center py-12 text-muted-foreground font-mono text-sm">
                           No pop-up events found
+                        </div>
+                      )}
+
+                      {/* Show All Button - Mobile Timeline */}
+                      {!showAllEvents && hasMoreEvents && (
+                        <div className="pt-4 text-center">
+                          <button
+                            type="button"
+                            onClick={() => setShowAllEvents(true)}
+                            className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors"
+                          >
+                            [ SHOW ALL ({allDisplayEvents.length}) ]
+                          </button>
                         </div>
                       )}
 

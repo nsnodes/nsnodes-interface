@@ -47,7 +47,13 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
       };
 
       const startDate = parseTime(startTime);
-      const endDate = parseTime(endTime);
+      let endDate = parseTime(endTime);
+
+      // If end time is before start time, event spans to next day
+      if (endDate <= startDate) {
+        endDate = new Date(endDate);
+        endDate.setDate(endDate.getDate() + 1);
+      }
 
       return now >= startDate && now <= endDate;
     } catch (error) {

@@ -7,6 +7,7 @@ import type { UIEvent, PopupCity } from "@/lib/types/events";
 import { PopupSection } from "@/components/popup-section";
 import { UpcomingEventsSection } from "@/components/upcoming-events-section";
 import { LiveEventCounter } from "@/components/live-event-counter";
+import { NSEventsGraph } from "@/components/ns-events-graph";
 import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
 
 export default function EventsPage() {
@@ -137,9 +138,9 @@ export default function EventsPage() {
           <div className="pt-4">
             <a
               href="mailto:nsnodes@gmail.com?subject=Event Listing Request&body=Hi, I'd like to list an event on NSNodes. Please include: Event name, Date, Time, Location, Description, and Registration link."
-              className="inline-block border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="block w-full sm:inline-block sm:w-auto text-center border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
             >
-              <span className="flex items-center gap-2">
+              <span className="flex items-center justify-center gap-2">
                 [ SUBMIT EVENT ]
                 <ExternalLink className="h-4 w-4" />
               </span>
@@ -168,10 +169,43 @@ export default function EventsPage() {
                   </div>
                 </div>
               </div>
+
+              {/* See More Stats Link */}
+              <div className="mt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowMoreStats(!showMoreStats)}
+                  className="w-full flex items-center justify-between font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <span>See more stats</span>
+                  <ChevronDown className={`h-4 w-4 transition-transform ${showMoreStats ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
             </div>
           </div>
         )}
       </section>
+
+      {/* See More Stats Dropdown */}
+      {showMoreStats && !isLoading && !error && clientAllEvents.length > 0 && (
+        <section ref={moreStatsRef} className="border-2 border-border bg-card p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold font-mono">
+              [ EVENTS PER DAY ]
+            </h2>
+            <button
+              type="button"
+              onClick={() => setShowMoreStats(false)}
+              className="font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Close
+            </button>
+          </div>
+          <div className="mt-6">
+            <NSEventsGraph allEvents={clientAllEvents} />
+          </div>
+        </section>
+      )}
 
       {/* Pop-Up Timeline */}
       <PopupSection popupEvents={popupEvents} />

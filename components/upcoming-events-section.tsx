@@ -60,7 +60,13 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       };
 
       const startDate = parseTime(startTime);
-      const endDate = parseTime(endTime);
+      let endDate = parseTime(endTime);
+
+      // If end time is before start time, event spans to next day
+      if (endDate <= startDate) {
+        endDate = new Date(endDate);
+        endDate.setDate(endDate.getDate() + 1);
+      }
 
       return now >= startDate && now <= endDate;
     } catch (error) {
@@ -150,7 +156,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   // UI state
   const [sortField, setSortField] = useState<SortField>("date");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  const [selectedNetworkStates, setSelectedNetworkStates] = useState<string[]>(['Network School', 'Ârc', 'Commons']);
+  const [selectedNetworkStates, setSelectedNetworkStates] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedDateRange, setSelectedDateRange] = useState<string>("upcoming");
@@ -206,9 +212,15 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       console.log('Unique network states:', uniqueNetworkStates);
 
       // Find matching network state(s) from the actual event data
-      const matchingStates = uniqueNetworkStates.filter(ns =>
-        networkStatesToFilter.some(filterState => societyNamesMatch(ns, filterState))
-      );
+      const matchingStates = uniqueNetworkStates.filter(ns => {
+        return networkStatesToFilter.some(filterState => {
+          // Special handling for "Commons" - it matches if ns is "Commons"
+          if (filterState === 'Commons' && ns === 'Commons') {
+            return true;
+          }
+          return societyNamesMatch(ns, filterState);
+        });
+      });
 
       console.log('Matching states for', networkStatesToFilter, ':', matchingStates);
 
@@ -311,10 +323,25 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       // Add "Commons" if any event has the commons tag
       ...events.filter(e => hasCommonsTag(e)).map(() => 'Commons')
     ])
-  ).sort();
+  ).sort((a, b) => {
+    // Sort selected items to the top
+    const aSelected = selectedNetworkStates.some(selected => societyNamesMatch(selected, a));
+    const bSelected = selectedNetworkStates.some(selected => societyNamesMatch(selected, b));
+    if (aSelected && !bSelected) return -1;
+    if (!aSelected && bSelected) return 1;
+    return a.localeCompare(b);
+  });
+
   const uniqueTypes = Array.from(
     new Set(events.map(e => e.type).filter(Boolean))
-  ).sort();
+  ).sort((a, b) => {
+    // Sort selected items to the top
+    const aSelected = selectedTypes.includes(a);
+    const bSelected = selectedTypes.includes(b);
+    if (aSelected && !bSelected) return -1;
+    if (!aSelected && bSelected) return 1;
+    return a.localeCompare(b);
+  });
 
   const uniqueLocations = Array.from(
     new Set([
@@ -322,6 +349,12 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       ...events.map(e => e.country).filter(c => c && c !== 'Unknown')
     ])
   ).sort((a, b) => {
+    // Sort selected items to the top first
+    const aSelected = selectedCountries.includes(a);
+    const bSelected = selectedCountries.includes(b);
+    if (aSelected && !bSelected) return -1;
+    if (!aSelected && bSelected) return 1;
+    // Then Virtual at top
     if (a === 'Virtual') return -1;
     if (b === 'Virtual') return 1;
     return a.localeCompare(b);
