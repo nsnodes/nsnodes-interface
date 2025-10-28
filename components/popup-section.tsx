@@ -1,20 +1,23 @@
 "use client";
 
-import { Calendar, BarChart3, ChevronDown, Table } from "lucide-react";
+import { Calendar, BarChart3, ChevronDown, Table, Loader2 } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import type { PopupCity } from "@/lib/types/events";
 
 interface PopupSectionProps {
   popupEvents: PopupCity[];
+  isLoading?: boolean; // Loading state from database fetch
+  error?: string | null; // Error state from database fetch
   showOnlyOngoing?: boolean; // New prop to control filtering
 }
 
-export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSectionProps) {
+export function PopupSection({ popupEvents, isLoading = false, error = null, showOnlyOngoing = false }: PopupSectionProps) {
   const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">("gantt");
   const [popupZoomDays, setPopupZoomDays] = useState<number>(365);
   const [isPopupDropdownOpen, setIsPopupDropdownOpen] = useState<boolean>(false);
   const [showAllEvents, setShowAllEvents] = useState<boolean>(false);
+  const [isLoadingAll, setIsLoadingAll] = useState<boolean>(false);
   const popupDropdownRef = useRef<HTMLDivElement>(null);
 
   // Separate ongoing and upcoming events
@@ -67,6 +70,16 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
     return popupCityColors[index % popupCityColors.length];
   };
 
+  // Handle show all with loading animation
+  const handleShowAll = () => {
+    setIsLoadingAll(true);
+    // Simulate loading to allow rendering of more events
+    setTimeout(() => {
+      setShowAllEvents(true);
+      setIsLoadingAll(false);
+    }, 300);
+  };
+
   return (
     <section className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -76,13 +89,17 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
         </h2>
         <div className="flex items-center sm:justify-end justify-between gap-4 w-full sm:w-auto">
           <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="opacity-60">
-              {showOnlyOngoing ? (
-                <>Listing {displayEvents.length} ongoing {displayEvents.length === 1 ? 'event' : 'events'}</>
-              ) : (
-                <>Listing {displayEvents.length} {displayEvents.length === 1 ? 'event' : 'events'}</>
-              )}
-            </span>
+            {isLoading ? (
+              <span className="opacity-60 animate-pulse">Loading events...</span>
+            ) : (
+              <span className="opacity-60">
+                {showOnlyOngoing ? (
+                  <>Listing {displayEvents.length} ongoing {displayEvents.length === 1 ? 'event' : 'events'}</>
+                ) : (
+                  <>Listing {displayEvents.length} {displayEvents.length === 1 ? 'event' : 'events'}</>
+                )}
+              </span>
+            )}
           </div>
           <div className="relative flex border-2 border-border bg-card">
             <button
@@ -107,8 +124,38 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
         </div>
       </div>
 
+      {/* Loading State */}
+      {isLoading && !error && (
+        <div className="border-2 border-border bg-card p-12 text-center">
+          <div className="space-y-4">
+            <div className="text-4xl animate-pulse">⏳</div>
+            <p className="font-mono text-sm opacity-60">Loading pop-up events from database...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Error State */}
+      {!isLoading && error && (
+        <div className="border-2 border-border bg-card p-12 text-center">
+          <div className="space-y-4">
+            <div className="text-4xl">❌</div>
+            <p className="font-mono text-sm text-red-500">{error}</p>
+          </div>
+        </div>
+      )}
+
+      {/* No Events */}
+      {!isLoading && !error && popupEvents.length === 0 && (
+        <div className="border-2 border-border bg-card p-12 text-center">
+          <div className="space-y-4">
+            <div className="text-4xl">📭</div>
+            <p className="font-mono text-sm opacity-60">No pop-up events found</p>
+          </div>
+        </div>
+      )}
+
       {/* Table View */}
-      {popupViewMode === "table" && (
+      {!isLoading && !error && popupEvents.length > 0 && popupViewMode === "table" && (
         <>
           {/* Desktop Table */}
           <div className="hidden md:block">
@@ -182,13 +229,21 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
 
           {/* Show All Button */}
           {!showAllEvents && hasMoreEvents && (
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-left sm:text-center">
               <button
                 type="button"
-                onClick={() => setShowAllEvents(true)}
-                className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors"
+                onClick={handleShowAll}
+                disabled={isLoadingAll}
+                className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
-                [ SHOW ALL ({allDisplayEvents.length}) ]
+                {isLoadingAll ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    LOADING...
+                  </>
+                ) : (
+                  `[ SHOW ALL (${allDisplayEvents.length}) ]`
+                )}
               </button>
             </div>
           )}
@@ -247,7 +302,7 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
       )}
 
       {/* Timeline View */}
-      {popupViewMode === "gantt" && (
+      {!isLoading && !error && popupEvents.length > 0 && popupViewMode === "gantt" && (
         <div className="border-2 border-border bg-card">
           {/* Timeline Header */}
           <div className="border-b-2 border-border bg-muted p-4">
@@ -475,13 +530,21 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
 
                       {/* Show All Button - Desktop Timeline */}
                       {!showAllEvents && hasMoreEvents && (
-                        <div className="pt-4 text-center">
+                        <div className="pt-4 text-left sm:text-center">
                           <button
                             type="button"
-                            onClick={() => setShowAllEvents(true)}
-                            className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors"
+                            onClick={handleShowAll}
+                            disabled={isLoadingAll}
+                            className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                           >
-                            [ SHOW ALL ({allDisplayEvents.length}) ]
+                            {isLoadingAll ? (
+                              <>
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                                LOADING...
+                              </>
+                            ) : (
+                              `[ SHOW ALL (${allDisplayEvents.length}) ]`
+                            )}
                           </button>
                         </div>
                       )}
@@ -711,13 +774,21 @@ export function PopupSection({ popupEvents, showOnlyOngoing = false }: PopupSect
 
                       {/* Show All Button - Mobile Timeline */}
                       {!showAllEvents && hasMoreEvents && (
-                        <div className="pt-4 text-center">
+                        <div className="pt-4 text-left sm:text-center">
                           <button
                             type="button"
-                            onClick={() => setShowAllEvents(true)}
-                            className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors"
+                            onClick={handleShowAll}
+                            disabled={isLoadingAll}
+                            className="font-mono text-sm border-2 border-border px-6 py-2 bg-card hover:bg-accent transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                           >
-                            [ SHOW ALL ({allDisplayEvents.length}) ]
+                            {isLoadingAll ? (
+                              <>
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                                LOADING...
+                              </>
+                            ) : (
+                              `[ SHOW ALL (${allDisplayEvents.length}) ]`
+                            )}
                           </button>
                         </div>
                       )}

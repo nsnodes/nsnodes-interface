@@ -1454,7 +1454,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           const dateEvents = eventsByDate[date] || [];
                           dateEvents.forEach(event => {
                             const startHour = Math.floor(getEventStartHour(event));
-                            const endHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                            const duration = getEventDuration(event);
+                            // Cap end hour at 23 (midnight) for events that cross into next day
+                            const endHour = Math.min(23, Math.floor(getEventStartHour(event) + duration));
                             allEventHours.push(startHour, endHour);
                           });
                         });
@@ -1470,7 +1472,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             return dateEvents
                               .filter(event => {
                                 const eventStartHour = Math.floor(getEventStartHour(event));
-                                const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                const duration = getEventDuration(event);
+                                // Cap end hour at 24 (midnight) for events that cross into next day
+                                const eventEndHour = Math.min(24, Math.floor(getEventStartHour(event) + duration));
                                 return hour >= eventStartHour && hour < eventEndHour;
                               })
                               .map(event => ({ ...event, date }));
@@ -1490,7 +1494,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             {dateColumns.map((dateStr, idx) => {
                               const dayEvents = (eventsByDate[dateStr] || []).filter(event => {
                                 const eventStartHour = Math.floor(getEventStartHour(event));
-                                const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                const duration = getEventDuration(event);
+                                // Cap end hour at 24 (midnight) for events that cross into next day
+                                const eventEndHour = Math.min(24, Math.floor(getEventStartHour(event) + duration));
                                 return hour >= eventStartHour && hour < eventEndHour;
                               });
 
@@ -1534,7 +1540,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                     const startHour = getEventStartHour(event);
                                     const duration = getEventDuration(event);
 
-                                    const heightInPx = Math.max(40, duration * 60);
+                                    // Cap duration so event doesn't visually extend past midnight (23:59)
+                                    const displayDuration = Math.min(duration, 24 - startHour);
+                                    const heightInPx = Math.max(40, displayDuration * 60);
                                     const topOffset = ((startHour % 1) * 60);
 
                                     // Calculate column positioning
@@ -1689,7 +1697,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           const dateEvents = eventsByDate[date] || [];
                           dateEvents.forEach(event => {
                             const startHour = Math.floor(getEventStartHour(event));
-                            const endHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                            const duration = getEventDuration(event);
+                            // Cap end hour at 23 (midnight) for events that cross into next day
+                            const endHour = Math.min(23, Math.floor(getEventStartHour(event) + duration));
                             allEventHours.push(startHour, endHour);
                           });
                         });
@@ -1705,7 +1715,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             return dateEvents
                               .filter(event => {
                                 const eventStartHour = Math.floor(getEventStartHour(event));
-                                const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                const duration = getEventDuration(event);
+                                // Cap end hour at 24 (midnight) for events that cross into next day
+                                const eventEndHour = Math.min(24, Math.floor(getEventStartHour(event) + duration));
                                 return hour >= eventStartHour && hour < eventEndHour;
                               })
                               .map(event => ({ ...event, date }));
@@ -1725,7 +1737,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             {dateColumns.map((dateStr, idx) => {
                               const dayEvents = (eventsByDate[dateStr] || []).filter(event => {
                                 const eventStartHour = Math.floor(getEventStartHour(event));
-                                const eventEndHour = Math.floor(getEventStartHour(event) + getEventDuration(event));
+                                const duration = getEventDuration(event);
+                                // Cap end hour at 24 (midnight) for events that cross into next day
+                                const eventEndHour = Math.min(24, Math.floor(getEventStartHour(event) + duration));
                                 return hour >= eventStartHour && hour < eventEndHour;
                               });
 
@@ -1769,7 +1783,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                     const startHour = getEventStartHour(event);
                                     const duration = getEventDuration(event);
 
-                                    const heightInPx = Math.max(30, duration * 40);
+                                    // Cap duration so event doesn't visually extend past midnight (23:59)
+                                    const displayDuration = Math.min(duration, 24 - startHour);
+                                    const heightInPx = Math.max(30, displayDuration * 40);
                                     const topOffset = ((startHour % 1) * 40);
 
                                     // Calculate column positioning

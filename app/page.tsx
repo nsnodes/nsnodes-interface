@@ -63,6 +63,8 @@ export default function Home() {
   const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isLoadingPopups, setIsLoadingPopups] = useState(true);
+  const [popupError, setPopupError] = useState<string | null>(null);
 
   // Apply client-side timezone conversion
   const clientEvents = useClientTimezone(events);
@@ -94,6 +96,8 @@ export default function Home() {
 
     async function loadPopupCities() {
       try {
+        setIsLoadingPopups(true);
+        setPopupError(null);
         const fetchedPopups = await getPopupCities();
 
         if (isMounted) {
@@ -102,6 +106,11 @@ export default function Home() {
       } catch (err) {
         if (isMounted) {
           console.error("Failed to load popup cities:", err);
+          setPopupError("Failed to load pop-up events. Please try refreshing the page.");
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingPopups(false);
         }
       }
     }

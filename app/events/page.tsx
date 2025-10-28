@@ -16,6 +16,8 @@ export default function EventsPage() {
   const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isLoadingPopups, setIsLoadingPopups] = useState(true);
+  const [popupError, setPopupError] = useState<string | null>(null);
   const [networkStateParam, setNetworkStateParam] = useState<string | null>(null);
   const [showMoreStats, setShowMoreStats] = useState(false);
   const moreStatsRef = useRef<HTMLDivElement>(null);
@@ -67,6 +69,8 @@ export default function EventsPage() {
 
     async function loadPopupCities() {
       try {
+        setIsLoadingPopups(true);
+        setPopupError(null);
         const fetchedPopups = await getPopupCities();
 
         if (isMounted) {
@@ -75,6 +79,11 @@ export default function EventsPage() {
       } catch (err) {
         if (isMounted) {
           console.error("Failed to load popup cities:", err);
+          setPopupError("Failed to load pop-up events. Please try refreshing the page.");
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingPopups(false);
         }
       }
     }
@@ -208,7 +217,11 @@ export default function EventsPage() {
       )}
 
       {/* Pop-Up Timeline */}
-      <PopupSection popupEvents={popupEvents} />
+      <PopupSection 
+        popupEvents={popupEvents} 
+        isLoading={isLoadingPopups}
+        error={popupError}
+      />
 
       {/* Events Table */}
       <UpcomingEventsSection
