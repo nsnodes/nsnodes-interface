@@ -130,7 +130,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
   // Helper function to check if event has Commons tag
   const hasCommonsTag = (event: UIEvent): boolean => {
-    return event.tags && Array.isArray(event.tags) && event.tags.includes('commons');
+    return !!(event.tags && Array.isArray(event.tags) && event.tags.includes('commons'));
   };
 
   // Helper function to check if event is Arc event
