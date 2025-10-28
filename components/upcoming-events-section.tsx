@@ -1404,7 +1404,6 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                 <div
                                   key={idx}
                                   className="relative min-h-[60px] border-l border-t border-border bg-muted/20"
-                                  style={{ touchAction: 'pan-y' }}
                                 >
                                   {eventsWithCols.map(({ event, column }, eventIdx) => {
                                     const startHour = getEventStartHour(event);
@@ -1426,7 +1425,6 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                           height: `${heightInPx}px`,
                                           left: `${leftPercent}%`,
                                           width: `calc(${columnWidth}% - 2px)`,
-                                          touchAction: 'pan-y',
                                         }}
                                         onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                                         title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
@@ -1529,7 +1527,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                 </div>
 
                 {/* Mobile Timeline View */}
-                <div className="md:hidden p-4 overflow-x-auto" style={{ touchAction: 'manipulation' }}>
+                <div className="md:hidden p-4 overflow-x-auto" style={{ touchAction: 'pan-x pan-y' }}>
                   <div className={showOnlyToday ? 'max-w-xl mx-auto' : ''}>
                     <div className="space-y-6">
                       {/* Date Header */}
@@ -1624,7 +1622,6 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                 <div
                                   key={idx}
                                   className="relative min-h-[40px] border-l border-t border-border bg-muted/20"
-                                  style={{ touchAction: 'pan-y' }}
                                 >
                                   {eventsWithCols.map(({ event, column }, eventIdx) => {
                                     const startHour = getEventStartHour(event);
@@ -1646,7 +1643,6 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                           height: `${heightInPx}px`,
                                           left: `${leftPercent}%`,
                                           width: `calc(${columnWidth}% - 2px)`,
-                                          touchAction: 'pan-y',
                                         }}
                                         onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                                         title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
