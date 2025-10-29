@@ -6,6 +6,18 @@ const isStagingEnv =
   process.env.NEXT_PUBLIC_SITE_ENV === "staging";
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'dl.airtable.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.airtableusercontent.com',
+      },
+    ],
+  },
   async headers() {
     if (!isStagingEnv) return [];
     return [
