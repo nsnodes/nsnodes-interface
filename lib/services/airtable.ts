@@ -43,7 +43,7 @@ export async function fetchSocietiesFromAirtable(): Promise<SocietyDatabase[]> {
     const base = getAirtableClient();
     const tableName = process.env.AIRTABLE_TABLE_NAME || 'Societies';
 
-    const records: AirtableRecord[] = await base(tableName)
+    const records = await base(tableName)
       .select({
         // Fetch all records
         view: 'Grid view', // You can customize this to use a specific view
@@ -109,7 +109,7 @@ export async function testAirtableConnection(): Promise<boolean> {
     const tableName = process.env.AIRTABLE_TABLE_NAME || 'Societies';
     
     // Try to fetch one record to test the connection
-    const records = await base(tableName)
+    await base(tableName)
       .select({
         maxRecords: 1,
       })

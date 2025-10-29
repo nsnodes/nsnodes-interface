@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import type { SocietyDatabase } from "@/lib/data/societies-database";
 import { BarChart3, ChevronDown, TrendingUp } from "lucide-react";
 
