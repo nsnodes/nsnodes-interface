@@ -14,27 +14,6 @@ function getAirtableClient() {
   return base;
 }
 
-// Map Airtable field names to our application structure
-// Adjust these field names to match your actual Airtable column names
-interface AirtableRecord {
-  id: string;
-  fields: {
-    Name?: string;
-    URL?: string;
-    Icon?: Array<{ url: string }>; // Airtable attachment field
-    Type?: string;
-    Category?: string;
-    Location?: string;
-    Mission?: string;
-    Founded?: string | number;
-    Tier?: number;
-    X?: string;
-    Discord?: string;
-    Application?: string;
-    Telegram?: string;
-  };
-}
-
 /**
  * Fetch all societies from Airtable
  */
@@ -54,42 +33,61 @@ export async function fetchSocietiesFromAirtable(): Promise<SocietyDatabase[]> {
     const societies: SocietyDatabase[] = records
       .filter((record) => {
         // Filter out records without required fields
-        return record.fields.Name && record.fields.URL;
+        const name = record.fields.Name;
+        const url = record.fields.URL;
+        return name && url && typeof name === 'string' && typeof url === 'string';
       })
       .map((record) => {
         const fields = record.fields;
 
+        // Safely extract and type-check fields
+        const name = typeof fields.Name === 'string' ? fields.Name : '';
+        const url = typeof fields.URL === 'string' ? fields.URL : '';
+        const type = typeof fields.Type === 'string' ? fields.Type : 'Online';
+        const mission = typeof fields.Mission === 'string' ? fields.Mission : '';
+        const x = typeof fields.X === 'string' ? fields.X : '';
+        const discord = typeof fields.Discord === 'string' ? fields.Discord : '';
+        const application = typeof fields.Application === 'string' ? fields.Application : '';
+        const location = typeof fields.Location === 'string' ? fields.Location : undefined;
+        const category = typeof fields.Category === 'string' ? fields.Category : undefined;
+        const telegram = typeof fields.Telegram === 'string' ? fields.Telegram : undefined;
+
         // Extract icon URL from Airtable attachment field
         let iconUrl: string | undefined;
         if (fields.Icon && Array.isArray(fields.Icon) && fields.Icon.length > 0) {
-          iconUrl = fields.Icon[0].url;
+          const icon = fields.Icon[0];
+          if (icon && typeof icon === 'object' && 'url' in icon && typeof icon.url === 'string') {
+            iconUrl = icon.url;
+          }
         }
 
         // Handle Founded field - can be string or number
         let founded: string | undefined;
         if (fields.Founded !== undefined && fields.Founded !== null) {
-          founded = typeof fields.Founded === 'number' 
-            ? fields.Founded.toString() 
-            : fields.Founded.toString();
+          if (typeof fields.Founded === 'number') {
+            founded = fields.Founded.toString();
+          } else if (typeof fields.Founded === 'string') {
+            founded = fields.Founded;
+          }
         }
 
         // Handle Tier - default to 3 if not provided
-        const tier = fields.Tier && typeof fields.Tier === 'number' ? fields.Tier : 3;
+        const tier = typeof fields.Tier === 'number' ? fields.Tier : 3;
 
         return {
-          name: fields.Name || '',
-          url: fields.URL || '',
-          type: fields.Type || 'Online',
+          name,
+          url,
+          type,
           tier,
-          x: fields.X || '',
-          discord: fields.Discord || '',
-          mission: fields.Mission || '',
-          application: fields.Application || '',
-          location: fields.Location || undefined,
+          x,
+          discord,
+          mission,
+          application,
+          location,
           icon: iconUrl,
-          category: fields.Category || undefined,
-          telegram: fields.Telegram || undefined,
-          founded: founded || undefined,
+          category,
+          telegram,
+          founded,
         };
       });
 

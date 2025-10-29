@@ -56,7 +56,7 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
       }
 
       return now >= startDate && now <= endDate;
-    } catch (error) {
+    } catch {
       return false;
     }
   };
@@ -84,7 +84,7 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
       const eventDateTime = new Date(year, month - 1, day, hour24, minutes, 0, 0);
 
       return eventDateTime;
-    } catch (error) {
+    } catch {
       return null;
     }
   };
@@ -146,6 +146,7 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
     const interval = setInterval(updateStatus, 1000);
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allEvents]);
 
   return (
