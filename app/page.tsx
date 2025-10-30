@@ -16,30 +16,6 @@ import { jobsDatabase, type Job } from "@/lib/data/jobs-database";
 import { vcDatabase, type VCFirm } from "@/lib/data/vc-database";
 
 // Helper functions for event status detection
-const getEventStartDateTime = (event: UIEvent): Date | null => {
-  try {
-    const timeMatch = event.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-    if (!timeMatch) return null;
-
-    let hours = parseInt(timeMatch[1]);
-    const minutes = parseInt(timeMatch[2]);
-    const period = timeMatch[3].toUpperCase();
-
-    if (period === "PM" && hours !== 12) {
-      hours += 12;
-    } else if (period === "AM" && hours === 12) {
-      hours = 0;
-    }
-
-    const [year, month, day] = event.date.split("-").map(Number);
-    const startDate = new Date(year, month - 1, day, hours, minutes, 0);
-
-    return startDate;
-  } catch {
-    return null;
-  }
-};
-
 const isEventLive = (event: UIEvent): boolean => {
   try {
     const now = new Date();
@@ -77,22 +53,6 @@ const isEventLive = (event: UIEvent): boolean => {
   }
 };
 
-const isEventStartingWithinHour = (event: UIEvent): boolean => {
-  try {
-    const now = new Date();
-    const startDateTime = getEventStartDateTime(event);
-
-    if (!startDateTime) return false;
-
-    const timeUntilEvent = startDateTime.getTime() - now.getTime();
-    const oneHour = 60 * 60 * 1000;
-
-    return timeUntilEvent > 0 && timeUntilEvent <= oneHour;
-  } catch {
-    return false;
-  }
-};
-
 const isEventToday = (event: UIEvent): boolean => {
   try {
     const now = new Date();
@@ -107,10 +67,6 @@ const hasLiveEvents = (events: UIEvent[]): boolean => {
   return events.some(event => isEventLive(event));
 };
 
-const hasUpcomingEvents = (events: UIEvent[]): boolean => {
-  return events.some(event => isEventStartingWithinHour(event));
-};
-
 const hasTodayEvents = (events: UIEvent[]): boolean => {
   return events.some(event => isEventToday(event));
 };
@@ -118,10 +74,6 @@ const hasTodayEvents = (events: UIEvent[]): boolean => {
 // Count event types for badge display
 const countLiveEvents = (events: UIEvent[]): number => {
   return events.filter(event => isEventLive(event)).length;
-};
-
-const countUpcomingEvents = (events: UIEvent[]): number => {
-  return events.filter(event => isEventStartingWithinHour(event)).length;
 };
 
 const countTodayEvents = (events: UIEvent[]): number => {
@@ -295,13 +247,39 @@ export default function Home() {
             <Link
               key={society.name}
               href="/societies"
-              className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block"
+              className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block relative"
             >
-              <div className="space-y-2">
-                {/* Name with rank */}
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs opacity-60">#{index + 1}</span>
-                  <h3 className="font-mono font-bold text-xs line-clamp-1">{society.name}</h3>
+              {/* Logo - left on mobile (absolute), right on desktop (in title row) */}
+              {society.icon && (
+                <div className="absolute top-1/2 -translate-y-1/2 left-2 w-12 h-12 sm:hidden flex items-center justify-center">
+                  <Image
+                    src={society.icon}
+                    alt={`${society.name} logo`}
+                    width={48}
+                    height={48}
+                    className="object-contain rounded-full"
+                  />
+                </div>
+              )}
+              <div className="space-y-2 pl-16 sm:pl-0">
+                {/* Name with rank and logo */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <span className="font-mono text-xs opacity-60">#{index + 1}</span>
+                    <h3 className="font-mono font-bold text-xs line-clamp-1">{society.name}</h3>
+                  </div>
+                  {/* Logo on the right - desktop only */}
+                  {society.icon && (
+                    <div className="hidden sm:flex w-6 h-6 items-center justify-center flex-shrink-0">
+                      <Image
+                        src={society.icon}
+                        alt={`${society.name} logo`}
+                        width={24}
+                        height={24}
+                        className="object-contain rounded-full"
+                      />
+                    </div>
+                  )}
                 </div>
                 {/* Location */}
                 <div className="flex items-center gap-1.5 text-muted-foreground">
@@ -316,7 +294,7 @@ export default function Home() {
                       {society.eventCount} {society.eventCount === 1 ? 'event' : 'events'}
                     </span>
                   </div>
-                  {/* Event status badge on the right */}
+                  {/* Event status badge on the right - horizontally aligned with logo */}
                   {hasLiveEvents(society.events) ? (
                     <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
                       <span className="relative flex h-1 w-1">
@@ -324,10 +302,6 @@ export default function Home() {
                         <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
                       </span>
                       {countLiveEvents(society.events)} Live
-                    </span>
-                  ) : hasUpcomingEvents(society.events) ? (
-                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
-                      {countUpcomingEvents(society.events)} Upcoming
                     </span>
                   ) : hasTodayEvents(society.events) ? (
                     <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-white text-black text-[10px] font-bold rounded border border-border">
