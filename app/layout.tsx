@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
-import { GoogleAnalytics } from "next/third-parties/google";
+import Script from "next/script";
 import GAListener from "@/components/ga-listener";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -117,7 +117,19 @@ export default async function RootLayout({
         </ThemeProvider>
         {!isStaging && process.env.NEXT_PUBLIC_GA_ID && (
           <>
-            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+            <Script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+              `}
+            </Script>
             <GAListener />
           </>
         )}
