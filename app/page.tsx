@@ -207,9 +207,9 @@ export default function Home() {
     };
   }, []);
 
-  // Helper function to get events for a society
+  // Helper function to get events for a society (use clientEvents for timezone conversion)
   const getEventsForSociety = (societyName: string): UIEvent[] => {
-    return events.filter(event =>
+    return clientEvents.filter(event =>
       societyNamesMatch(event.networkState, societyName)
     );
   };
@@ -219,13 +219,13 @@ export default function Home() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    return events.filter(event => {
+    return clientEvents.filter(event => {
       const eventDate = new Date(event.date);
       return eventDate >= today && societyNamesMatch(event.networkState, societyName);
     }).length;
   };
 
-  // Get top 5 societies by upcoming event count
+  // Get top 5 societies by upcoming event count (dependent on currentTime for real-time updates)
   const topSocieties = [...societies]
     .map(society => ({
       ...society,
@@ -289,7 +289,7 @@ export default function Home() {
                 {/* Name with rank */}
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-xs opacity-60">#{index + 1}</span>
-                  <h3 className="font-mono font-bold text-sm sm:text-base">{society.name}</h3>
+                  <h3 className="font-mono font-bold text-xs line-clamp-1">{society.name}</h3>
                 </div>
                 {/* Location */}
                 <div className="flex items-center gap-1.5 text-muted-foreground">
