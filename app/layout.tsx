@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleAnalytics } from "next/third-parties/google";
+import GAListener from "@/components/ga-listener";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AsciiNav } from "@/components/ascii-nav";
@@ -113,6 +115,12 @@ export default async function RootLayout({
             </div>
           </footer>
         </ThemeProvider>
+        {!isStaging && process.env.NEXT_PUBLIC_GA_ID && (
+          <>
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+            <GAListener />
+          </>
+        )}
       </body>
     </html>
   );
