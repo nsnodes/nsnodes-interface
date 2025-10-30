@@ -85,7 +85,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
           <Calendar className="h-6 w-6" />
-          {showOnlyOngoing ? '[ ONGOING POP-UPs ]' : '[ POP-UP ]'}
+          {showOnlyOngoing ? "[ LIVE POP-UP'S ]" : '[ POP-UP ]'}
         </h2>
         <div className="flex items-center sm:justify-end justify-between gap-4 w-full sm:w-auto">
           <div className="flex items-center gap-2 text-xs font-mono">
@@ -309,7 +309,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
             <div className="flex items-center justify-between">
               <h3 className="font-mono font-bold text-lg flex items-center gap-2">
                 <BarChart3 className="h-5 w-5" />
-                {showOnlyOngoing ? '[ ONGOING POP-UPs ]' : '[ POP-UP ]'}
+                {showOnlyOngoing ? "[ LIVE POP-UP'S ]" : '[ POP-UP ]'}
               </h3>
               <div ref={popupDropdownRef} className="relative">
                 <div className="flex items-center gap-2">

@@ -243,6 +243,25 @@
   }
 }
 
+/* Nation to Network Strikethrough - Static */
+.strikethrough-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.strikethrough-base {
+  opacity: 0.3;
+  text-decoration: line-through;
+  text-decoration-color: rgb(239 68 68); /* red-500 */
+  text-decoration-thickness: 2px;
+}
+
+.overlay-text {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
 /* Mobile Timeline Scroll Optimization */
 @media (max-width: 768px) {
   /* Improve horizontal scroll performance on mobile */

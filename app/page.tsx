@@ -115,6 +115,19 @@ const hasTodayEvents = (events: UIEvent[]): boolean => {
   return events.some(event => isEventToday(event));
 };
 
+// Count event types for badge display
+const countLiveEvents = (events: UIEvent[]): number => {
+  return events.filter(event => isEventLive(event)).length;
+};
+
+const countUpcomingEvents = (events: UIEvent[]): number => {
+  return events.filter(event => isEventStartingWithinHour(event)).length;
+};
+
+const countTodayEvents = (events: UIEvent[]): number => {
+  return events.filter(event => isEventToday(event)).length;
+};
+
 
 export default function Home() {
   // Database state
@@ -253,12 +266,11 @@ export default function Home() {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
         <div className="space-y-4 text-left">
           <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80"></pre>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
-            [ nsnodes.com ]
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono uppercase">
+            [ Making Network States Default ]
           </h1>
           <p className="text-muted-foreground font-mono text-sm sm:text-base">
-            Your central hub for Network State events, opportunities, and community updates.
-          </p>
+          We aggregate, analyze and accelerate the movement of building new countries.           </p>
         </div>
         <div className="w-full flex justify-start md:justify-end">
           <Image
@@ -311,15 +323,15 @@ export default function Home() {
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
                       </span>
-                      LIVE
+                      {countLiveEvents(society.events)} Live
                     </span>
                   ) : hasUpcomingEvents(society.events) ? (
                     <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
-                      UPCOMING
+                      {countUpcomingEvents(society.events)} Upcoming
                     </span>
                   ) : hasTodayEvents(society.events) ? (
                     <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-white text-black text-[10px] font-bold rounded border border-border">
-                      TODAY
+                      {countTodayEvents(society.events)} Today
                     </span>
                   ) : null}
                 </div>

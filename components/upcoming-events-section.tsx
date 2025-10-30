@@ -580,48 +580,51 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
   return (
     <section id="upcoming-events" className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      {/* Header - always visible */}
+      <div className="flex items-center gap-2">
         <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
           <Calendar className="h-6 w-6" />
           {showOnlyToday ? '[ EVENTS TODAY ]' : '[ UPCOMING EVENTS ]'}
         </h2>
-        <div className="flex items-center sm:justify-end justify-between gap-4 w-full sm:w-auto">
-          <div className="flex items-center gap-2 text-xs font-mono">
-            {isLoading ? (
-              <span className="opacity-60 animate-pulse">Loading events...</span>
-            ) : (
-              <span className="opacity-60">
-                Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
-              </span>
-            )}
-          </div>
-          <div className="relative flex border-2 border-border bg-card">
-            <button
-              onClick={() => setViewMode("table")}
-              className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-                viewMode === "table" ? "bg-accent" : "hover:bg-accent"
-              }`}
-            >
-              <Table className="h-3 w-3" />
-              TABLE
-            </button>
-            <button
-              onClick={() => setViewMode("gantt")}
-              className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-                viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
-              }`}
-            >
-              <BarChart3 className="h-3 w-3" />
-              TIMELINE
-            </button>
+      </div>
 
-            {/* ASCII Arrow Callout */}
-            <div className="hidden lg:block absolute -top-10 -right-2 pointer-events-none">
-              <pre className="text-xs leading-tight font-mono opacity-70 whitespace-pre">
+      {/* Event count and view toggle - hidden on mobile, shown on desktop before filters */}
+      <div className="hidden sm:flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs font-mono">
+          {isLoading ? (
+            <span className="opacity-60 animate-pulse">Loading events...</span>
+          ) : (
+            <span className="opacity-60">
+              Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
+            </span>
+          )}
+        </div>
+        <div className="relative flex border-2 border-border bg-card">
+          <button
+            onClick={() => setViewMode("table")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "table" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <Table className="h-3 w-3" />
+            TABLE
+          </button>
+          <button
+            onClick={() => setViewMode("gantt")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <BarChart3 className="h-3 w-3" />
+            TIMELINE
+          </button>
+
+          {/* ASCII Arrow Callout */}
+          <div className="hidden lg:block absolute -top-10 -right-2 pointer-events-none">
+            <pre className="text-xs leading-tight font-mono opacity-70 whitespace-pre">
 {`Try this!
     ↓`}
-              </pre>
-            </div>
+            </pre>
           </div>
         </div>
       </div>
@@ -900,6 +903,39 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       )}
       </>
       )}
+
+      {/* Event count and view toggle - shown on mobile after filters */}
+      <div className="sm:hidden flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs font-mono">
+          {isLoading ? (
+            <span className="opacity-60 animate-pulse">Loading events...</span>
+          ) : (
+            <span className="opacity-60">
+              Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
+            </span>
+          )}
+        </div>
+        <div className="relative flex border-2 border-border bg-card">
+          <button
+            onClick={() => setViewMode("table")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "table" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <Table className="h-3 w-3" />
+            TABLE
+          </button>
+          <button
+            onClick={() => setViewMode("gantt")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <BarChart3 className="h-3 w-3" />
+            TIMELINE
+          </button>
+        </div>
+      </div>
 
       {/* Error State */}
       {error && (
