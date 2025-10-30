@@ -563,19 +563,27 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
   const getNetworkStateColor = (networkState: string) => {
     const colors: Record<string, string> = {
-      'edgpatagonia': 'bg-emerald-500',
+      'edgpatagonia': 'bg-emerald-600',
       'Network School': 'bg-blue-600',
-      '4Seas': 'bg-cyan-500',
-      'Próspera': 'bg-orange-500',
-      'INFINITA': 'bg-fuchsia-500',
-      'Invisible Garden Argentina': 'bg-lime-500',
+      '4Seas': 'bg-cyan-600',
+      'Próspera': 'bg-orange-600',
+      'INFINITA': 'bg-fuchsia-600',
+      'Invisible Garden Argentina': 'bg-lime-600',
       'Software Zuzalu': 'bg-violet-600',
-      'Tomek ⚡ K': 'bg-amber-500',
-      'Andrea S.': 'bg-rose-500',
+      'Tomek ⚡ K': 'bg-amber-600',
+      'Andrea S.': 'bg-rose-600',
       'Ârc': 'bg-purple-600',
-      'Commons': 'bg-green-600',
+      'Commons': 'bg-green-700',
+      'Edge City': 'bg-teal-600',
+      'Logos': 'bg-indigo-600',
+      'Ipê City': 'bg-pink-600',
+      'Build_Republic': 'bg-red-600',
+      'Infinita': 'bg-fuchsia-600',
+      'Crecimiento': 'bg-yellow-600',
+      'Aleph Crecimiento': 'bg-sky-600',
+      'Montelibero': 'bg-stone-600',
     };
-    return colors[networkState] || 'bg-slate-500';
+    return colors[networkState] || 'bg-slate-600';
   };
 
   return (

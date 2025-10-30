@@ -20,7 +20,13 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/robots.txt") ||
     /\.(?:png|jpg|jpeg|gif|svg|webp|ico|css|js|map|txt|woff2?)$/i.test(pathname);
 
+  // Disable auth for test.nsnodes.com - allow public access
   if (!isStagingHost || isPublicAsset) {
+    return NextResponse.next();
+  }
+
+  // Skip authentication for test.nsnodes.com
+  if (isStagingHost) {
     return NextResponse.next();
   }
 
