@@ -1,75 +1,145 @@
 "use client";
 
-import { Calendar, TrendingUp, Users, ExternalLink } from "lucide-react";
+import { Calendar, TrendingUp, ExternalLink, MapPin, Briefcase, DollarSign } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { getEvents, getPopupCities } from "@/lib/actions/events";
+import { getSocieties } from "@/lib/actions/societies";
 import type { UIEvent, PopupCity } from "@/lib/types/events";
+import type { SocietyDatabase } from "@/lib/data/societies-database";
 import { PopupSection } from "@/components/popup-section";
 import { UpcomingEventsSection } from "@/components/upcoming-events-section";
 import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
+import { societyNamesMatch } from "@/lib/utils/society-matcher";
+import { jobsDatabase, type Job } from "@/lib/data/jobs-database";
+import { vcDatabase, type VCFirm } from "@/lib/data/vc-database";
 
-const networkStates = [
-  {
-    name: "Network School",
-    location: "Forest City, Malaysia",                    // Location on xyz.city:contentReference[oaicite:2]{index=2}
-    residents: "100-500",                                 // Residents range:contentReference[oaicite:3]{index=3}
-    growth: "+23%",
-    website: "https://ns.com/?utm_source=nsnodes.com",    // Added tracking parameter
-    x: "https://x.com/balajis",
-  },
-  {
-    name: "Próspera",
-    location: "Roatán, Honduras",                         // Location on xyz.city:contentReference[oaicite:4]{index=4}
-    residents: "500-2500",                                // Residents range:contentReference[oaicite:5]{index=5}
-    growth: "+18%",
-    website: "https://www.prospera.co/?utm_source=nsnodes.com",
-    x: "https://x.com/prosperaglobal",
-    discord: "https://discord.com/invite/FKSGnQWxXp",
-  },
-  {
-    name: "ZuCity Japan",
-    location: "Nagano, Japan",                            // Location on xyz.city:contentReference[oaicite:6]{index=6}
-    residents: "100-500",                                 // Residents range:contentReference[oaicite:7]{index=7}
-    growth: "+15%",
-    website: "https://zucity.org/?utm_source=nsnodes.com",
-    x: "https://x.com/zucity_japan",
-    discord: "https://discord.com/invite/vqkUaSpDhf",
-  },
-  {
-    name: "Edge City",
-    location: "San Martín de los Andes, Argentina",       // Location on xyz.city:contentReference[oaicite:8]{index=8}
-    residents: "100-500",                                 // Residents range:contentReference[oaicite:9]{index=9}
-    growth: "+31%",
-    website: "https://www.edgecity.live/?utm_source=nsnodes.com",
-    x: "https://x.com/joinedgecity",
-    // No Discord link provided on xyz.city.
-  },
-  {
-    name: "ShanhaiWoo",
-    location: "Innovis, Singapore",                       // Location on xyz.city:contentReference[oaicite:10]{index=10}
-    residents: "100-500",                                 // Residents range:contentReference[oaicite:11]{index=11}
-    growth: "+27%",
-    website: "https://www.shanhaiwoo.com/?utm_source=nsnodes.com",
-    x: "https://x.com/shanhaiwoo",
-    // Only a Telegram link is available; no Discord.
-  },
+// Helper functions for event status detection
+const getEventStartDateTime = (event: UIEvent): Date | null => {
+  try {
+    const timeMatch = event.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (!timeMatch) return null;
 
-];
+    let hours = parseInt(timeMatch[1]);
+    const minutes = parseInt(timeMatch[2]);
+    const period = timeMatch[3].toUpperCase();
+
+    if (period === "PM" && hours !== 12) {
+      hours += 12;
+    } else if (period === "AM" && hours === 12) {
+      hours = 0;
+    }
+
+    const [year, month, day] = event.date.split("-").map(Number);
+    const startDate = new Date(year, month - 1, day, hours, minutes, 0);
+
+    return startDate;
+  } catch {
+    return null;
+  }
+};
+
+const isEventLive = (event: UIEvent): boolean => {
+  try {
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+
+    if (event.date !== today) return false;
+
+    const timeMatch = event.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)\s*[–-]\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (!timeMatch) return false;
+
+    let startHours = parseInt(timeMatch[1]);
+    const startMinutes = parseInt(timeMatch[2]);
+    const startPeriod = timeMatch[3].toUpperCase();
+
+    let endHours = parseInt(timeMatch[4]);
+    const endMinutes = parseInt(timeMatch[5]);
+    const endPeriod = timeMatch[6].toUpperCase();
+
+    if (startPeriod === "PM" && startHours !== 12) startHours += 12;
+    else if (startPeriod === "AM" && startHours === 12) startHours = 0;
+
+    if (endPeriod === "PM" && endHours !== 12) endHours += 12;
+    else if (endPeriod === "AM" && endHours === 12) endHours = 0;
+
+    const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHours, startMinutes, 0);
+    let endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHours, endMinutes, 0);
+
+    if (endDate < startDate) {
+      endDate = new Date(endDate.getTime() + 24 * 60 * 60 * 1000);
+    }
+
+    return now >= startDate && now <= endDate;
+  } catch {
+    return false;
+  }
+};
+
+const isEventStartingWithinHour = (event: UIEvent): boolean => {
+  try {
+    const now = new Date();
+    const startDateTime = getEventStartDateTime(event);
+
+    if (!startDateTime) return false;
+
+    const timeUntilEvent = startDateTime.getTime() - now.getTime();
+    const oneHour = 60 * 60 * 1000;
+
+    return timeUntilEvent > 0 && timeUntilEvent <= oneHour;
+  } catch {
+    return false;
+  }
+};
+
+const isEventToday = (event: UIEvent): boolean => {
+  try {
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    return event.date === today;
+  } catch {
+    return false;
+  }
+};
+
+const hasLiveEvents = (events: UIEvent[]): boolean => {
+  return events.some(event => isEventLive(event));
+};
+
+const hasUpcomingEvents = (events: UIEvent[]): boolean => {
+  return events.some(event => isEventStartingWithinHour(event));
+};
+
+const hasTodayEvents = (events: UIEvent[]): boolean => {
+  return events.some(event => isEventToday(event));
+};
+
 
 export default function Home() {
   // Database state
   const [events, setEvents] = useState<UIEvent[]>([]);
+  const [societies, setSocieties] = useState<SocietyDatabase[]>([]);
   const [popupEvents, setPopupEvents] = useState<PopupCity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isLoadingPopups, setIsLoadingPopups] = useState(true);
   const [popupError, setPopupError] = useState<string | null>(null);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   // Apply client-side timezone conversion
   const clientEvents = useClientTimezone(events);
 
-  // Fetch events and popup cities from database on mount
+  // Update current time every second for real-time badge updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Fetch events, societies, and popup cities from database on mount
   useEffect(() => {
     let isMounted = true;
 
@@ -90,6 +160,19 @@ export default function Home() {
       } finally {
         if (isMounted) {
           setIsLoading(false);
+        }
+      }
+    }
+
+    async function loadSocieties() {
+      try {
+        const fetchedSocieties = await getSocieties();
+        if (isMounted) {
+          setSocieties(fetchedSocieties);
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error("Failed to load societies:", err);
         }
       }
     }
@@ -116,12 +199,53 @@ export default function Home() {
     }
 
     loadEvents();
+    loadSocieties();
     loadPopupCities();
 
     return () => {
       isMounted = false;
     };
   }, []);
+
+  // Helper function to get events for a society
+  const getEventsForSociety = (societyName: string): UIEvent[] => {
+    return events.filter(event =>
+      societyNamesMatch(event.networkState, societyName)
+    );
+  };
+
+  // Helper function to get upcoming event count for a society
+  const getUpcomingEventsCount = (societyName: string): number => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate >= today && societyNamesMatch(event.networkState, societyName);
+    }).length;
+  };
+
+  // Get top 5 societies by upcoming event count
+  const topSocieties = [...societies]
+    .map(society => ({
+      ...society,
+      eventCount: getUpcomingEventsCount(society.name),
+      events: getEventsForSociety(society.name),
+    }))
+    .sort((a, b) => b.eventCount - a.eventCount)
+    .slice(0, 5);
+
+  // Get one job per employer
+  const jobsByEmployer = jobsDatabase.reduce((acc: { [key: string]: Job }, job) => {
+    if (!acc[job.company]) {
+      acc[job.company] = job;
+    }
+    return acc;
+  }, {});
+  const featuredJobs = Object.values(jobsByEmployer);
+
+  // Get featured VCs (first 6)
+  const featuredVCs = vcDatabase.slice(0, 6);
 
   return (
     <div className="space-y-12">
@@ -155,53 +279,169 @@ export default function Home() {
           [ TOP NETWORK STATES ]
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {networkStates.map((ns, index) => (
-            <a
-              key={ns.name}
-              href={ns.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Visit ${ns.name} website`}
+          {topSocieties.map((society, index) => (
+            <Link
+              key={society.name}
+              href="/societies"
               className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block"
             >
-              <div className="space-y-3">
-                <div className="flex items-start justify-between">
+              <div className="space-y-2">
+                {/* Name with rank */}
+                <div className="flex items-center gap-2">
                   <span className="font-mono text-xs opacity-60">#{index + 1}</span>
-                  <span className="text-xs font-mono text-green-500">{ns.growth}</span>
+                  <h3 className="font-mono font-bold text-sm sm:text-base">{society.name}</h3>
                 </div>
-                <div className="space-y-1">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-mono font-bold text-sm sm:text-base">{ns.name}</h3>
-                    <ExternalLink className="h-3 w-3 opacity-60 flex-shrink-0 mt-0.5" />
+                {/* Location */}
+                <div className="flex items-center gap-1.5 text-muted-foreground">
+                  <MapPin className="h-3 w-3" />
+                  <p className="text-xs font-mono">{society.location || 'Global'}</p>
+                </div>
+                {/* Event count with badge */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Calendar className="h-3.5 w-3.5" />
+                    <span className="text-xs font-mono">
+                      {society.eventCount} {society.eventCount === 1 ? 'event' : 'events'}
+                    </span>
                   </div>
-                  <p className="text-xs font-mono text-muted-foreground">{ns.location}</p>
-                </div>
-                <div className="flex items-center gap-2 text-muted-foreground">
-                  <Users className="h-4 w-4" />
-                  <span className="text-xs font-mono">{ns.residents} residents</span>
+                  {/* Event status badge on the right */}
+                  {hasLiveEvents(society.events) ? (
+                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                      <span className="relative flex h-1 w-1">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
+                      </span>
+                      LIVE
+                    </span>
+                  ) : hasUpcomingEvents(society.events) ? (
+                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
+                      UPCOMING
+                    </span>
+                  ) : hasTodayEvents(society.events) ? (
+                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-white text-black text-[10px] font-bold rounded border border-border">
+                      TODAY
+                    </span>
+                  ) : null}
                 </div>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
         <div className="flex justify-start">
-          <a
-            href="https://www.xyz.city/?utm_source=nsnodes.com"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/societies"
             className="font-mono text-xs underline underline-offset-4"
           >
-            View full list -&gt;
-          </a>
+            View all societies →
+          </Link>
         </div>
       </section>
-
 
       {/* Pop-Up Timeline */}
       <PopupSection popupEvents={popupEvents} showOnlyOngoing={true} />
 
       {/* Events Table */}
       <UpcomingEventsSection events={clientEvents} isLoading={isLoading} error={error} showOnlyToday={true} hideFilters={true} />
+
+      {/* Network State Jobs */}
+      <section className="space-y-6">
+        <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
+          <Briefcase className="h-6 w-6" />
+          [ NETWORK STATE JOBS ]
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {featuredJobs.map((job, index) => (
+            <a
+              key={index}
+              href={job.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block"
+            >
+              <div className="space-y-3">
+                {/* Company name as header */}
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-mono font-bold text-sm">{job.company}</h3>
+                  <ExternalLink className="h-3 w-3 opacity-60" />
+                </div>
+                {/* Job title */}
+                <p className="text-xs font-mono font-semibold line-clamp-2">{job.title}</p>
+                {/* Location */}
+                <div className="flex items-center gap-1.5 text-muted-foreground">
+                  <MapPin className="h-3 w-3 flex-shrink-0" />
+                  <p className="text-xs font-mono line-clamp-1">{job.location}</p>
+                </div>
+                {/* Job type and salary */}
+                <div className="flex flex-col gap-1 text-xs font-mono text-muted-foreground">
+                  <span>{job.type}</span>
+                  <span className="text-green-500 font-bold line-clamp-1">{job.salary}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div className="flex justify-start">
+          <Link
+            href="/jobs"
+            className="font-mono text-xs underline underline-offset-4"
+          >
+            See all {jobsDatabase.length} Network State Jobs →
+          </Link>
+        </div>
+      </section>
+
+      {/* Network State VCs */}
+      <section className="space-y-6">
+        <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
+          <DollarSign className="h-6 w-6" />
+          [ VC ]
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {featuredVCs.map((vc, index) => (
+            <a
+              key={index}
+              href={vc.platforms.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block"
+            >
+              <div className="space-y-3">
+                {/* VC name as header */}
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-mono font-bold text-sm">{vc.name}</h3>
+                  <ExternalLink className="h-3 w-3 opacity-60" />
+                </div>
+                {/* Description */}
+                <p className="text-xs font-mono text-muted-foreground line-clamp-2">{vc.description}</p>
+                {/* Check size */}
+                <div className="flex items-center gap-2">
+                  <DollarSign className="h-3 w-3 text-green-500" />
+                  <span className="text-xs font-mono font-bold text-green-500">{vc.checkSize}</span>
+                </div>
+                {/* Topics */}
+                <div className="flex flex-wrap gap-1">
+                  {vc.topics.slice(0, 3).map((topic, topicIndex) => (
+                    <span
+                      key={topicIndex}
+                      className="px-2 py-0.5 text-[10px] font-mono border border-border bg-muted"
+                    >
+                      {topic}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div className="flex justify-start">
+          <Link
+            href="/vc"
+            className="font-mono text-xs underline underline-offset-4"
+          >
+            See all {vcDatabase.length} VCs →
+          </Link>
+        </div>
+      </section>
 
     </div>
   );

@@ -1005,6 +1005,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                     const groupEvents = groupedEvents[groupLabel];
                     if (!groupEvents || groupEvents.length === 0) return null;
 
+                    // Limit to 6 events when showOnlyToday (5 clear + 1 blurred)
+                    const displayEvents = showOnlyToday ? groupEvents.slice(0, 6) : groupEvents;
+
                     return (
                       <React.Fragment key={groupLabel}>
                         {/* Group Header Row */}
@@ -1017,10 +1020,12 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           </td>
                         </tr>
                         {/* Group Events */}
-                        {groupEvents.map((event, index) => (
+                        {displayEvents.map((event, index) => (
                           <tr
                             key={`${groupLabel}-${index}`}
-                            className="border-b border-border hover:bg-accent transition-colors cursor-pointer"
+                            className={`border-b border-border hover:bg-accent transition-colors cursor-pointer ${
+                              showOnlyToday && index === 5 ? 'filter blur-[1px] opacity-60' : ''
+                            }`}
                             onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                           >
                             <td className="p-4 whitespace-nowrap">
@@ -1096,7 +1101,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                   href="/events"
                   className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
-                  See all events -&gt;
+                  See all {events.length} events -&gt;
                 </Link>
               </div>
             )}
@@ -1157,6 +1162,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
               const groupEvents = groupedEvents[groupLabel];
               if (!groupEvents || groupEvents.length === 0) return null;
 
+              // Limit to 6 events when showOnlyToday (5 clear + 1 blurred)
+              const displayEvents = showOnlyToday ? groupEvents.slice(0, 6) : groupEvents;
+
               return (
                 <React.Fragment key={groupLabel}>
                   {/* Group Header */}
@@ -1168,10 +1176,12 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                   </div>
                   {/* Group Events */}
                   <div className="space-y-4">
-                    {groupEvents.map((event, index) => (
+                    {displayEvents.map((event, index) => (
                       <div
                         key={`${groupLabel}-${index}`}
-                        className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+                        className={`border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${
+                          showOnlyToday && index === 5 ? 'filter blur-[1px] opacity-60' : ''
+                        }`}
                         onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                       >
                         <div className="flex items-start justify-between">
@@ -1241,7 +1251,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                   href="/events"
                   className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
-                  See all events -&gt;
+                  See all {filteredAndSortedEvents.length} events -&gt;
                 </Link>
               </div>
             )}
@@ -1622,7 +1632,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             href="/events"
                             className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                           >
-                            See all events -&gt;
+                            See all {filteredAndSortedEvents.length} events -&gt;
                           </Link>
                         </div>
                       )}
@@ -1865,7 +1875,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             href="/events"
                             className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                           >
-                            See all events -&gt;
+                            See all {filteredAndSortedEvents.length} events -&gt;
                           </Link>
                         </div>
                       )}
