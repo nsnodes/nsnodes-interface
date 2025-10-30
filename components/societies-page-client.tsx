@@ -24,6 +24,117 @@ const DiscordIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+// Helper functions for event status badges
+const getEventStartDateTime = (event: UIEvent): Date | null => {
+  try {
+    // Parse the event.time string which is in format like "10:00 AM – 12:00 PM"
+    const timeMatch = event.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (!timeMatch) return null;
+
+    let hours = parseInt(timeMatch[1]);
+    const minutes = parseInt(timeMatch[2]);
+    const period = timeMatch[3].toUpperCase();
+
+    // Convert to 24-hour format
+    if (period === "PM" && hours !== 12) {
+      hours += 12;
+    } else if (period === "AM" && hours === 12) {
+      hours = 0;
+    }
+
+    // Create date object from event.date (YYYY-MM-DD format)
+    const [year, month, day] = event.date.split("-").map(Number);
+    const startDate = new Date(year, month - 1, day, hours, minutes, 0);
+
+    return startDate;
+  } catch {
+    return null;
+  }
+};
+
+const isEventLive = (event: UIEvent): boolean => {
+  try {
+    const now = new Date();
+    const today = now.toISOString().split("T")[0]; // YYYY-MM-DD
+
+    // First check if the event is today
+    if (event.date !== today) return false;
+
+    // Parse the time string (format: "10:00 AM – 12:00 PM")
+    const timeMatch = event.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)\s*[–-]\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (!timeMatch) return false;
+
+    // Parse start time
+    let startHours = parseInt(timeMatch[1]);
+    const startMinutes = parseInt(timeMatch[2]);
+    const startPeriod = timeMatch[3].toUpperCase();
+
+    // Parse end time
+    let endHours = parseInt(timeMatch[4]);
+    const endMinutes = parseInt(timeMatch[5]);
+    const endPeriod = timeMatch[6].toUpperCase();
+
+    // Convert to 24-hour format
+    if (startPeriod === "PM" && startHours !== 12) startHours += 12;
+    else if (startPeriod === "AM" && startHours === 12) startHours = 0;
+
+    if (endPeriod === "PM" && endHours !== 12) endHours += 12;
+    else if (endPeriod === "AM" && endHours === 12) endHours = 0;
+
+    // Create date objects with today's date
+    const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHours, startMinutes, 0);
+    let endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHours, endMinutes, 0);
+
+    // Handle events that cross midnight
+    if (endDate < startDate) {
+      endDate = new Date(endDate.getTime() + 24 * 60 * 60 * 1000);
+    }
+
+    return now >= startDate && now <= endDate;
+  } catch {
+    return false;
+  }
+};
+
+const isEventStartingWithinHour = (event: UIEvent): boolean => {
+  try {
+    const now = new Date();
+    const startDateTime = getEventStartDateTime(event);
+
+    if (!startDateTime) return false;
+
+    // Event is in the future and starts within the next hour
+    const timeUntilEvent = startDateTime.getTime() - now.getTime();
+    const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+
+    return timeUntilEvent > 0 && timeUntilEvent <= oneHour;
+  } catch {
+    return false;
+  }
+};
+
+const isEventToday = (event: UIEvent): boolean => {
+  try {
+    const now = new Date();
+    const today = now.toISOString().split("T")[0]; // YYYY-MM-DD
+    return event.date === today;
+  } catch {
+    return false;
+  }
+};
+
+const hasLiveEvents = (events: UIEvent[]): boolean => {
+  return events.some(event => isEventLive(event));
+};
+
+const hasUpcomingEvents = (events: UIEvent[]): boolean => {
+  return events.some(event => isEventStartingWithinHour(event));
+};
+
+const hasTodayEvents = (events: UIEvent[]): boolean => {
+  return events.some(event => isEventToday(event));
+};
+
 interface TransformedSociety {
   name: string;
   location: string;
@@ -189,24 +300,32 @@ const getFocusFromSociety = (society: SocietyDatabase) => {
 
 // Transform societies database to match the UI structure
 const transformSocietiesData = (societies: SocietyDatabase[]): TransformedSociety[] => {
-  return societies.map(society => ({
-    name: society.name,
-    location: getLocationFromSociety(society),
-    residents: getResidentsFromSociety(society),
-    growth: getGrowthFromSociety(society),
-    founded: getFoundedFromSociety(society),
-    description: society.mission,
-    website: society.url,
-    x: society.x,
-    discord: society.discord,
-    telegram: society.telegram || null,
-    focus: getFocusFromSociety(society),
-    tier: society.tier,
-    type: society.type,
-    application: society.application,
-    icon: society.icon,
-    category: society.category,
-  }));
+  return societies.map(society => {
+    // Override type for specific societies
+    let societyType = society.type;
+    if (society.name.toLowerCase().includes('infinita')) {
+      societyType = 'Physical';
+    }
+
+    return {
+      name: society.name,
+      location: getLocationFromSociety(society),
+      residents: getResidentsFromSociety(society),
+      growth: getGrowthFromSociety(society),
+      founded: getFoundedFromSociety(society),
+      description: society.mission,
+      website: society.url,
+      x: society.x,
+      discord: society.discord,
+      telegram: society.telegram || null,
+      focus: getFocusFromSociety(society),
+      tier: society.tier,
+      type: societyType,
+      application: society.application,
+      icon: society.icon,
+      category: society.category,
+    };
+  });
 };
 
 export default function SocietiesPageClient({ societies }: SocietiesPageClientProps) {
@@ -218,8 +337,18 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
   const [showGrowthChart, setShowGrowthChart] = useState<boolean>(false);
-  
+  const [currentTime, setCurrentTime] = useState(new Date());
+
   const networkStates = transformSocietiesData(societies);
+
+  // Update current time every second for real-time badge updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Fetch events on component mount
   useEffect(() => {
@@ -631,6 +760,24 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4" />
                         <span>[ UPCOMING EVENTS ] ({societyEvents.length})</span>
+                        {/* Priority: Live > Upcoming > Today - only show one badge */}
+                        {hasLiveEvents(societyEvents) ? (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                            <span className="relative flex h-1 w-1">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
+                            </span>
+                            LIVE
+                          </span>
+                        ) : hasUpcomingEvents(societyEvents) ? (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
+                            UPCOMING
+                          </span>
+                        ) : hasTodayEvents(societyEvents) ? (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-white text-black text-[10px] font-bold rounded border border-border">
+                            TODAY
+                          </span>
+                        ) : null}
                       </div>
                       {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
                     </button>
@@ -649,7 +796,31 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                           >
                             <div className="space-y-1">
                               <div className="flex items-start justify-between gap-2">
-                                <div className="font-mono font-bold text-sm">{event.title}</div>
+                                <div className="flex-1">
+                                  {/* Event Status Badges */}
+                                  <div className="flex items-center gap-2 mb-1.5">
+                                    {isEventLive(event) && (
+                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
+                                        <span className="relative flex h-1.5 w-1.5">
+                                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
+                                        </span>
+                                        LIVE
+                                      </span>
+                                    )}
+                                    {!isEventLive(event) && isEventStartingWithinHour(event) && (
+                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
+                                        UPCOMING
+                                      </span>
+                                    )}
+                                    {!isEventLive(event) && !isEventStartingWithinHour(event) && isEventToday(event) && (
+                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-white text-black text-xs font-bold rounded border border-border">
+                                        TODAY
+                                      </span>
+                                    )}
+                                  </div>
+                                  <div className="font-mono font-bold text-sm">{event.title}</div>
+                                </div>
                                 <span className="text-xs font-mono px-2 py-0.5 border border-border bg-muted whitespace-nowrap">
                                   {event.type}
                                 </span>

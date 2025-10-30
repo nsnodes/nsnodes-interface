@@ -1028,16 +1028,16 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                 <div className="font-semibold flex items-center gap-2">
                                   {event.date}
                                   {isEventLive(event) && (
-                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
-                                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                      <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                                      <span className="relative flex h-1 w-1">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
+                                      </span>
                                       LIVE
                                     </span>
                                   )}
                                   {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
-                                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                      <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
                                       UPCOMING
                                     </span>
                                   )}
@@ -1179,16 +1179,16 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             <div className="text-xs font-mono text-muted-foreground flex items-center gap-2">
                               {event.date}
                               {isEventLive(event) && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                                  <span className="relative flex h-1 w-1">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
+                                  </span>
                                   LIVE
                                 </span>
                               )}
                               {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
                                   UPCOMING
                                 </span>
                               )}
