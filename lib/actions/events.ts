@@ -2,6 +2,7 @@
 
 import { createServerClient } from '@/lib/supabase/server'
 import { DatabaseEvent, UIEvent, PopupCity } from '@/lib/types/events'
+import { normalizeSocietyName } from '@/lib/utils/society-matcher'
 
 /**
  * Parse network state from organizers field
@@ -445,6 +446,10 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
   } else if (isArcEvent(dbEvent.title, dbEvent.organizers)) {
     networkState = 'Ârc'
   }
+
+  // Apply network state name normalization/mapping
+  // This ensures organizer names like "Angelo" get mapped to "build_republic"
+  networkState = normalizeSocietyName(networkState)
 
   // Infer event type from title and description
   const type = inferEventType(dbEvent.title, dbEvent.description)

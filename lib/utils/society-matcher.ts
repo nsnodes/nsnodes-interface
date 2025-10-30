@@ -8,23 +8,54 @@
  * These handle specific cases where event network state names differ from society names
  */
 const NETWORK_STATE_MAPPINGS: Record<string, string> = {
-  'edgepatagonia': 'edge city',
-  'edgpatagonia': 'edge city', // Typo variant
+  'edgepatagonia': 'Edge City',
+  'edgpatagonia': 'Edge City', // Typo variant
+
+  // User/organizer name mappings
+  'angelo': 'Build_Republic',
+  'gabrielnovak.eth': 'Ipê City',
+  'gabrielnovak': 'Ipê City',
+
+  // INFINITA variants - normalize to "Infinita"
+  'infinita city': 'Infinita',
+  'infinita': 'Infinita',
+  'infinita ': 'Infinita', // With trailing space
+
+  // Ipê City variants
+  'ipê': 'Ipê City',
+  'ipê city': 'Ipê City',
+
+  // Crecimiento variants
+  'matias nisenson': 'Crecimiento',
+  'paisanos.io': 'Crecimiento',
+  'paisanos': 'Crecimiento',
+  'fhenix': 'Crecimiento',
+  'fhenix ‎': 'Crecimiento', // With invisible character
+
+  // Aleph Crecimiento variants
+  'whabbit': 'Aleph Crecimiento',
+  'alexis': 'Aleph Crecimiento',
+  'alexis | lisk': 'Aleph Crecimiento',
+
+  // Montelibero variants
+  'ми': 'Montelibero', // Cyrillic "Mi"
 };
 
 /**
  * Normalize society name for matching
  * Removes common prefixes and suffixes to improve matching
+ * Returns the mapped name with proper capitalization if found in NETWORK_STATE_MAPPINGS
  */
 export const normalizeSocietyName = (name: string): string => {
   const lowercased = name.toLowerCase().trim();
 
-  // Check for special mappings first
+  // Check for special mappings first - these preserve capitalization
   if (NETWORK_STATE_MAPPINGS[lowercased]) {
     return NETWORK_STATE_MAPPINGS[lowercased];
   }
 
-  return lowercased
+  // For non-mapped names, normalize and return as-is (preserving original case where possible)
+  const normalized = name.trim()
     .replace(/^the\s+/i, '') // Remove "The" prefix
     .replace(/\s+community$/i, '') // Remove "Community" suffix
     .replace(/\s+society$/i, '') // Remove "Society" suffix
@@ -34,12 +65,14 @@ export const normalizeSocietyName = (name: string): string => {
     .replace(/\.com$/i, '') // Remove ".com" suffix
     .replace(/\.io$/i, '') // Remove ".io" suffix
     .trim();
+
+  return normalized;
 };
 
 /**
  * Check if two society names match (handles variations)
  * Returns true if the names are considered equivalent
- * 
+ *
  * @example
  * societyNamesMatch("Network School", "The Network School") // true
  * societyNamesMatch("Edge City", "Edge City Patagonia") // true
@@ -48,23 +81,27 @@ export const normalizeSocietyName = (name: string): string => {
 export const societyNamesMatch = (name1: string, name2: string): boolean => {
   const normalized1 = normalizeSocietyName(name1);
   const normalized2 = normalizeSocietyName(name2);
-  
+
+  // Case-insensitive comparison
+  const lower1 = normalized1.toLowerCase();
+  const lower2 = normalized2.toLowerCase();
+
   // Direct match after normalization
-  if (normalized1 === normalized2) return true;
-  
+  if (lower1 === lower2) return true;
+
   // One contains the other
-  if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) return true;
+  if (lower1.includes(lower2) || lower2.includes(lower1)) return true;
   
   // Check for common abbreviations
   // e.g., "NS" matches "Network School"
-  const words1 = normalized1.split(/\s+/);
-  const words2 = normalized2.split(/\s+/);
-  
+  const words1 = lower1.split(/\s+/);
+  const words2 = lower2.split(/\s+/);
+
   // Check if one is an acronym of the other
   const acronym1 = words1.map(w => w[0]).join('');
   const acronym2 = words2.map(w => w[0]).join('');
-  
-  if (normalized1 === acronym2 || normalized2 === acronym1) return true;
+
+  if (lower1 === acronym2 || lower2 === acronym1) return true;
   
   return false;
 };
