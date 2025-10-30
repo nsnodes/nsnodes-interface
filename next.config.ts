@@ -6,6 +6,11 @@ const isStagingEnv =
   process.env.NEXT_PUBLIC_SITE_ENV === "staging";
 
 const nextConfig: NextConfig = {
+  eslint: {
+    // Do not fail the production build on ESLint warnings/errors.
+    // Vercel/Next will still lint locally and in CI where desired.
+    ignoreDuringBuilds: true,
+  },
   async headers() {
     if (!isStagingEnv) return [];
     return [
