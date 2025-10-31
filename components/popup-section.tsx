@@ -367,7 +367,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
-            let weekColumns: { month: Date; week: Date; weekEnd: Date }[] = [];
+            const weekColumns: { month: Date; week: Date; weekEnd: Date }[] = [];
 
             if (startFromEarliestEvent) {
               // Find the earliest event start date
