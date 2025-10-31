@@ -197,9 +197,9 @@ export default function EventsPage() {
 
       {/* See More Stats Dropdown */}
       {showMoreStats && !isLoading && !error && clientAllEvents.length > 0 && (
-        <section ref={moreStatsRef} className="border-2 border-border bg-card p-6">
+        <section ref={moreStatsRef} className="border-2 border-border bg-card p-3 sm:p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold font-mono">
+            <h2 className="text-base sm:text-lg font-bold font-mono">
               [ EVENTS PER DAY ]
             </h2>
             <button
@@ -210,7 +210,7 @@ export default function EventsPage() {
               Close
             </button>
           </div>
-          <div className="mt-6">
+          <div className="mt-4 sm:mt-6">
             <NSEventsGraph allEvents={clientAllEvents} />
           </div>
         </section>
