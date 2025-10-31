@@ -324,7 +324,7 @@ export default function Home() {
       </section>
 
       {/* Pop-Up Timeline */}
-      <PopupSection popupEvents={popupEvents} showOnlyOngoing={true} />
+      <PopupSection popupEvents={popupEvents} showOnlyOngoing={true} hideShowAllButton={true} />
 
       {/* Events Table */}
       <UpcomingEventsSection events={clientEvents} isLoading={isLoading} error={error} showOnlyToday={true} hideFilters={true} />

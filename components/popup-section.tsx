@@ -13,9 +13,10 @@ interface PopupSectionProps {
   title?: string; // Optional custom title for the section
   startFromEarliestEvent?: boolean; // If true, timeline starts from earliest event instead of current week
   showAllByDefault?: boolean; // If true, show all events by default instead of limiting to 4
+  hideShowAllButton?: boolean; // If true, hide the "Show All" button completely
 }
 
-export function PopupSection({ popupEvents, isLoading = false, error = null, showOnlyOngoing = false, title, startFromEarliestEvent = false, showAllByDefault = false }: PopupSectionProps) {
+export function PopupSection({ popupEvents, isLoading = false, error = null, showOnlyOngoing = false, title, startFromEarliestEvent = false, showAllByDefault = false, hideShowAllButton = false }: PopupSectionProps) {
   const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">("gantt");
   const [popupZoomDays, setPopupZoomDays] = useState<number>(365);
   const [isPopupDropdownOpen, setIsPopupDropdownOpen] = useState<boolean>(false);
@@ -231,7 +232,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
           </div>
 
           {/* Show All Button */}
-          {!showAllEvents && hasMoreEvents && (
+          {!hideShowAllButton && !showAllEvents && hasMoreEvents && (
             <div className="mt-4 text-left sm:text-center">
               <button
                 type="button"
@@ -597,7 +598,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                       )}
 
                       {/* Show All Button - Desktop Timeline */}
-                      {!showAllEvents && hasMoreEvents && (
+                      {!hideShowAllButton && !showAllEvents && hasMoreEvents && (
                         <div className="pt-4 text-left sm:text-center">
                           <button
                             type="button"
@@ -862,7 +863,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                       )}
 
                       {/* Show All Button - Mobile Timeline */}
-                      {!showAllEvents && hasMoreEvents && (
+                      {!hideShowAllButton && !showAllEvents && hasMoreEvents && (
                         <div className="pt-4 text-left sm:text-center">
                           <button
                             type="button"
