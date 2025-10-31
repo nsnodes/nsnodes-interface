@@ -6,9 +6,10 @@ import type { UIEvent } from "@/lib/types/events";
 
 interface LiveEventCounterProps {
   allEvents: UIEvent[];
+  hideNoEvents?: boolean; // Optional: hide "NO EVENTS SCHEDULED" message
 }
 
-export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
+export function LiveEventCounter({ allEvents, hideNoEvents = false }: LiveEventCounterProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [liveCount, setLiveCount] = useState(0);
   const [nextEvent, setNextEvent] = useState<UIEvent | null>(null);
@@ -149,6 +150,11 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allEvents]);
 
+  // If hideNoEvents is true and there are no live events and no next event, don't render anything
+  if (hideNoEvents && liveCount === 0 && !nextEvent) {
+    return null;
+  }
+
   return (
     <div className="border-2 border-border p-3 text-center bg-background relative overflow-hidden">
       {liveCount > 0 ? (
@@ -186,7 +192,7 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
                 {nextEvent.title}
               </div>
             </>
-          ) : (
+          ) : !hideNoEvents ? (
             <>
               <div className="text-base font-bold font-mono mb-0.5">
                 NO EVENTS
@@ -195,7 +201,7 @@ export function LiveEventCounter({ allEvents }: LiveEventCounterProps) {
                 SCHEDULED
               </div>
             </>
-          )}
+          ) : null}
         </>
       )}
     </div>

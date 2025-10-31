@@ -10,13 +10,16 @@ interface PopupSectionProps {
   isLoading?: boolean; // Loading state from database fetch
   error?: string | null; // Error state from database fetch
   showOnlyOngoing?: boolean; // New prop to control filtering
+  title?: string; // Optional custom title for the section
+  startFromEarliestEvent?: boolean; // If true, timeline starts from earliest event instead of current week
+  showAllByDefault?: boolean; // If true, show all events by default instead of limiting to 4
 }
 
-export function PopupSection({ popupEvents, isLoading = false, error = null, showOnlyOngoing = false }: PopupSectionProps) {
+export function PopupSection({ popupEvents, isLoading = false, error = null, showOnlyOngoing = false, title, startFromEarliestEvent = false, showAllByDefault = false }: PopupSectionProps) {
   const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">("gantt");
   const [popupZoomDays, setPopupZoomDays] = useState<number>(365);
   const [isPopupDropdownOpen, setIsPopupDropdownOpen] = useState<boolean>(false);
-  const [showAllEvents, setShowAllEvents] = useState<boolean>(false);
+  const [showAllEvents, setShowAllEvents] = useState<boolean>(showAllByDefault);
   const [isLoadingAll, setIsLoadingAll] = useState<boolean>(false);
   const popupDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -85,7 +88,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
           <Calendar className="h-6 w-6" />
-          {showOnlyOngoing ? "[ LIVE POP-UP'S ]" : '[ POP-UP ]'}
+          {title || (showOnlyOngoing ? "[ LIVE POP-UP'S ]" : '[ POP-UP ]')}
         </h2>
         <div className="flex items-center sm:justify-end justify-between gap-4 w-full sm:w-auto">
           <div className="flex items-center gap-2 text-xs font-mono">
@@ -309,7 +312,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
             <div className="flex items-center justify-between">
               <h3 className="font-mono font-bold text-lg flex items-center gap-2">
                 <BarChart3 className="h-5 w-5" />
-                {showOnlyOngoing ? "[ LIVE POP-UP'S ]" : '[ POP-UP ]'}
+                {title || (showOnlyOngoing ? "[ LIVE POP-UP'S ]" : '[ POP-UP ]')}
               </h3>
               <div ref={popupDropdownRef} className="relative">
                 <div className="flex items-center gap-2">
@@ -360,32 +363,76 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
           </div>
 
           {(() => {
-            // Calculate date range - start from current week
+            // Calculate date range
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
-            // Start from current week (Monday of current week)
-            const currentWeekStart = new Date(today);
-            currentWeekStart.setDate(today.getDate() - today.getDay() + 1); // Monday
+            let weekColumns: { month: Date; week: Date; weekEnd: Date }[] = [];
 
-            // Generate week columns based on zoom level
-            const weekColumns: { month: Date; week: Date; weekEnd: Date }[] = [];
-            const endDate = new Date(today.getTime() + popupZoomDays * 24 * 60 * 60 * 1000);
+            if (startFromEarliestEvent) {
+              // Find the earliest event start date
+              const earliestEventDate = displayEvents.length > 0
+                ? new Date(Math.min(...displayEvents.map(e => new Date(e.date).getTime())))
+                : today;
+              
+              // Find the latest event end date
+              const latestEventEndDate = displayEvents.length > 0
+                ? new Date(Math.max(...displayEvents.map(e => new Date(e.endDate).getTime())))
+                : today;
 
-            for (let weekStart = new Date(currentWeekStart);
-                 weekStart <= endDate;
-                 weekStart.setDate(weekStart.getDate() + 7)) {
-              const weekEnd = new Date(weekStart);
-              weekEnd.setDate(weekEnd.getDate() + 6);
+              // Start from Monday of the week containing the earliest event (no empty weeks before)
+              const earliestWeekStart = new Date(earliestEventDate);
+              const dayOfWeek = earliestWeekStart.getDay();
+              const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+              earliestWeekStart.setDate(earliestWeekStart.getDate() - daysToMonday);
+              earliestWeekStart.setHours(0, 0, 0, 0);
 
-              // Determine which month this week belongs to (use the month of the week start)
-              const weekMonth = new Date(weekStart.getFullYear(), weekStart.getMonth(), 1);
+              // Calculate end date - extend to either latest event end date or zoom level, whichever is later
+              const endDateFromZoom = new Date(today.getTime() + popupZoomDays * 24 * 60 * 60 * 1000);
+              const endDate = latestEventEndDate > endDateFromZoom ? latestEventEndDate : endDateFromZoom;
+              // Add some buffer after the latest event (at least 4 weeks)
+              const bufferWeeks = 4;
+              endDate.setDate(endDate.getDate() + bufferWeeks * 7);
 
-              weekColumns.push({
-                month: weekMonth,
-                week: new Date(weekStart),
-                weekEnd: new Date(weekEnd)
-              });
+              // Generate week columns from earliest week to end date
+              for (let weekStart = new Date(earliestWeekStart);
+                   weekStart <= endDate;
+                   weekStart.setDate(weekStart.getDate() + 7)) {
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekEnd.getDate() + 6);
+
+                // Determine which month this week belongs to (use the month of the week start)
+                const weekMonth = new Date(weekStart.getFullYear(), weekStart.getMonth(), 1);
+
+                weekColumns.push({
+                  month: weekMonth,
+                  week: new Date(weekStart),
+                  weekEnd: new Date(weekEnd)
+                });
+              }
+            } else {
+              // Original behavior: start from current week
+              const currentWeekStart = new Date(today);
+              currentWeekStart.setDate(today.getDate() - today.getDay() + 1); // Monday
+
+              // Generate week columns based on zoom level
+              const endDate = new Date(today.getTime() + popupZoomDays * 24 * 60 * 60 * 1000);
+
+              for (let weekStart = new Date(currentWeekStart);
+                   weekStart <= endDate;
+                   weekStart.setDate(weekStart.getDate() + 7)) {
+                const weekEnd = new Date(weekStart);
+                weekEnd.setDate(weekEnd.getDate() + 6);
+
+                // Determine which month this week belongs to (use the month of the week start)
+                const weekMonth = new Date(weekStart.getFullYear(), weekStart.getMonth(), 1);
+
+                weekColumns.push({
+                  month: weekMonth,
+                  week: new Date(weekStart),
+                  weekEnd: new Date(weekEnd)
+                });
+              }
             }
 
             // Helper function to get month key
@@ -400,7 +447,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                   <div className="min-w-[1200px]">
                     <div className="space-y-1">
                       {/* Week Header Row */}
-                      <div className="grid gap-1" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
+                      <div className="grid gap-1 relative" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
                         <div className="text-xs font-mono font-bold text-muted-foreground p-2">POP-UP EVENTS</div>
                         {weekColumns.map((weekData, idx) => {
                           const weekStart = weekData.week;
@@ -427,9 +474,19 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                           return (
                             <div
                               key={idx}
-                              className={`text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
+                              className={`relative text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
                               suppressHydrationWarning
                             >
+                              {/* Today indicator line - show if today falls in this week */}
+                              {isCurrentWeek && (
+                                <div 
+                                  className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-20"
+                                  style={{
+                                    left: `${((today.getTime() - weekStart.getTime()) / (weekEnd.getTime() - weekStart.getTime())) * 100}%`
+                                  }}
+                                  title="Today"
+                                />
+                              )}
                               <div className="text-xs font-mono font-bold">
                                 W{weekNumber}
                               </div>
@@ -447,7 +504,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                         const eventEnd = new Date(event.endDate);
 
                         return (
-                          <div key={eventIdx} className="grid gap-1" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
+                          <div key={eventIdx} className="grid gap-1 relative" style={{ gridTemplateColumns: `200px repeat(${weekColumns.length}, minmax(80px, 1fr))` }}>
                             {/* Event Label */}
                             <div className="text-xs font-mono text-muted-foreground flex items-center p-2 border-t border-border">
                               <div className="space-y-1">
@@ -461,6 +518,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                             {weekColumns.map((weekData, weekIdx) => {
                               const weekStart = weekData.week;
                               const weekEnd = weekData.weekEnd;
+                              const isCurrentWeek = weekStart <= today && weekEnd >= today;
 
                               // Check if event overlaps with this week
                               const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
@@ -478,6 +536,16 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                                   key={weekIdx}
                                   className="relative min-h-[80px] border-l border-t border-border bg-muted/20"
                                 >
+                                  {/* Today indicator line - show if today falls in this week */}
+                                  {isCurrentWeek && (
+                                    <div 
+                                      className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-30"
+                                      style={{
+                                        left: `${((today.getTime() - weekStart.getTime()) / (weekEnd.getTime() - weekStart.getTime())) * 100}%`
+                                      }}
+                                      title="Today"
+                                    />
+                                  )}
                                   {/* Only render the event bar in the first week it appears */}
                                   {isActiveInWeek && weekIdx === firstWeekIndex && (
                                     <div
@@ -493,7 +561,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                                     >
                                       <div className="p-2 text-white text-[10px] font-mono leading-tight h-full overflow-hidden flex items-center justify-center">
                                         <div className="text-center">
-                                          <div className="font-bold truncate">{event.title}</div>
+                                          <div className="font-bold break-words line-clamp-2">{event.title}</div>
                                           <div className="opacity-90 truncate text-[9px]">
                                             {event.date.split('-')[2]} - {event.endDate.split('-')[2]}
                                           </div>
@@ -605,7 +673,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                                           >
                                             <div className="p-2 text-white text-[10px] font-mono leading-tight h-full overflow-hidden flex items-center justify-center">
                                               <div className="text-center">
-                                                <div className="font-bold truncate">{upcomingEvent.title}</div>
+                                                <div className="font-bold break-words line-clamp-2">{upcomingEvent.title}</div>
                                                 <div className="opacity-90 truncate text-[9px]">
                                                   {upcomingEvent.date.split('-')[2]} - {upcomingEvent.endDate.split('-')[2]}
                                                 </div>
@@ -644,7 +712,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                   <div className="min-w-[800px]">
                     <div className="space-y-1">
                       {/* Week Header Row */}
-                      <div className="grid gap-1" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
+                      <div className="grid gap-1 relative" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
                         <div className="text-xs font-mono font-bold text-muted-foreground p-2">POP-UP EVENTS</div>
                         {weekColumns.map((weekData, idx) => {
                           const weekStart = weekData.week;
@@ -671,9 +739,19 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                           return (
                             <div
                               key={idx}
-                              className={`text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
+                              className={`relative text-center border-l border-border p-1 ${isCurrentWeek ? 'bg-primary/20' : isCurrentMonth ? 'bg-primary/10' : 'bg-muted/50'}`}
                               suppressHydrationWarning
                             >
+                              {/* Today indicator line - show if today falls in this week */}
+                              {isCurrentWeek && (
+                                <div 
+                                  className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-20"
+                                  style={{
+                                    left: `${((today.getTime() - weekStart.getTime()) / (weekEnd.getTime() - weekStart.getTime())) * 100}%`
+                                  }}
+                                  title="Today"
+                                />
+                              )}
                               <div className="text-xs font-mono font-bold">
                                 W{weekNumber}
                               </div>
@@ -691,7 +769,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                         const eventEnd = new Date(event.endDate);
 
                         return (
-                          <div key={eventIdx} className="grid gap-1" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
+                          <div key={eventIdx} className="grid gap-1 relative" style={{ gridTemplateColumns: `150px repeat(${weekColumns.length}, minmax(60px, 1fr))` }}>
                             {/* Event Label */}
                             <div className="text-xs font-mono text-muted-foreground flex items-center p-2 border-t border-border">
                               <div className="space-y-1">
@@ -705,6 +783,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                             {weekColumns.map((weekData, weekIdx) => {
                               const weekStart = weekData.week;
                               const weekEnd = weekData.weekEnd;
+                              const isCurrentWeek = weekStart <= today && weekEnd >= today;
 
                               // Check if event overlaps with this week
                               const isActiveInWeek = eventStart <= weekEnd && eventEnd >= weekStart;
@@ -722,6 +801,16 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                                   key={weekIdx}
                                   className="relative min-h-[60px] border-l border-t border-border bg-muted/20"
                                 >
+                                  {/* Today indicator line - show if today falls in this week */}
+                                  {isCurrentWeek && (
+                                    <div 
+                                      className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-30"
+                                      style={{
+                                        left: `${((today.getTime() - weekStart.getTime()) / (weekEnd.getTime() - weekStart.getTime())) * 100}%`
+                                      }}
+                                      title="Today"
+                                    />
+                                  )}
                                   {/* Only render the event bar in the first week it appears */}
                                   {isActiveInWeek && weekIdx === firstWeekIndex && (
                                     <div
@@ -737,7 +826,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                                     >
                                       <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden flex items-center justify-center">
                                         <div className="text-center">
-                                          <div className="font-bold truncate">{event.title}</div>
+                                          <div className="font-bold break-words line-clamp-2">{event.title}</div>
                                           <div className="opacity-90 truncate text-[8px]">
                                             {event.date.split('-')[2]} - {event.endDate.split('-')[2]}
                                           </div>
@@ -849,7 +938,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                                           >
                                             <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden flex items-center justify-center">
                                               <div className="text-center">
-                                                <div className="font-bold truncate">{upcomingEvent.title}</div>
+                                                <div className="font-bold break-words line-clamp-2">{upcomingEvent.title}</div>
                                                 <div className="opacity-90 truncate text-[8px]">
                                                   {upcomingEvent.date.split('-')[2]} - {upcomingEvent.endDate.split('-')[2]}
                                                 </div>

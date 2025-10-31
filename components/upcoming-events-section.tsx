@@ -17,9 +17,10 @@ interface UpcomingEventsSectionProps {
   hideFilters?: boolean; // New prop to hide filters and sorting
   initialNetworkState?: string; // Pre-select network state filter (deprecated, use initialNetworkStates)
   initialNetworkStates?: string[]; // Pre-select multiple network state filters
+  customNetworkStateOrder?: string[]; // Custom order for network states (events will be pre-sorted by this order)
 }
 
-export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates }: UpcomingEventsSectionProps) {
+export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder }: UpcomingEventsSectionProps) {
   // State for tracking current time to make live/upcoming checks reactive
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -447,7 +448,24 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
         case "date":
           // First compare dates
           compareValue = a.date.localeCompare(b.date);
-          // If dates are equal, compare start times
+          // If dates are equal, compare by custom network state order if provided
+          if (compareValue === 0 && customNetworkStateOrder && customNetworkStateOrder.length > 0) {
+            const indexA = customNetworkStateOrder.findIndex(ns => societyNamesMatch(a.networkState, ns));
+            const indexB = customNetworkStateOrder.findIndex(ns => societyNamesMatch(b.networkState, ns));
+            
+            // If both are in the custom order, sort by their position
+            if (indexA !== -1 && indexB !== -1) {
+              compareValue = indexA - indexB;
+            } else if (indexA !== -1) {
+              // A is in custom order, B is not - A comes first
+              compareValue = -1;
+            } else if (indexB !== -1) {
+              // B is in custom order, A is not - B comes first
+              compareValue = 1;
+            }
+            // If neither is in custom order, compareValue stays 0 and we'll compare by time below
+          }
+          // If dates are still equal (and no custom order or custom order didn't apply), compare start times
           if (compareValue === 0) {
             const parseTimeForSort = (timeStr: string): number => {
               const startTime = timeStr.split(' – ')[0].trim();
@@ -474,7 +492,23 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
           }
           break;
         case "networkState":
-          compareValue = a.networkState.localeCompare(b.networkState);
+          // Use custom order if provided
+          if (customNetworkStateOrder && customNetworkStateOrder.length > 0) {
+            const indexA = customNetworkStateOrder.findIndex(ns => societyNamesMatch(a.networkState, ns));
+            const indexB = customNetworkStateOrder.findIndex(ns => societyNamesMatch(b.networkState, ns));
+            
+            if (indexA !== -1 && indexB !== -1) {
+              compareValue = indexA - indexB;
+            } else if (indexA !== -1) {
+              compareValue = -1;
+            } else if (indexB !== -1) {
+              compareValue = 1;
+            } else {
+              compareValue = a.networkState.localeCompare(b.networkState);
+            }
+          } else {
+            compareValue = a.networkState.localeCompare(b.networkState);
+          }
           break;
         case "type":
           compareValue = a.type.localeCompare(b.type);
@@ -640,7 +674,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       {/* Filters */}
       {!hideFilters && (
       <>
-      <div ref={filtersRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div ref={filtersRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Date Filter */}
         <div className="border-2 border-border bg-card">
           <button
@@ -1016,7 +1050,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                       </div>
                     </th>
                     <th
-                      className="text-left p-4 font-bold cursor-pointer hover:bg-accent transition-colors"
+                      className="text-left p-4 font-bold whitespace-nowrap cursor-pointer hover:bg-accent transition-colors"
                       onClick={() => handleSort("location")}
                     >
                       <div className="flex items-center gap-2">

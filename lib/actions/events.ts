@@ -3,6 +3,8 @@
 import { createServerClient } from '@/lib/supabase/server'
 import { DatabaseEvent, UIEvent, PopupCity } from '@/lib/types/events'
 import { normalizeSocietyName } from '@/lib/utils/society-matcher'
+import { manualPopupEvents } from '@/lib/data/manual-popup-events'
+import { argentinaPopupEvents } from '@/lib/data/argentina-popup-events'
 
 /**
  * Parse network state from organizers field
@@ -702,10 +704,19 @@ function transformPopupCity(dbEvent: DatabaseEvent): PopupCity {
 }
 
 /**
- * Fetch popup cities from Supabase
+ * Fetch popup cities from Supabase and merge with manual events
  * Filters by the "popup-city" tag
+ * @param pageFilter Optional page name to filter events (e.g., 'argentina'). Events without showInPages appear on all pages.
  */
-export async function getPopupCities(): Promise<PopupCity[]> {
+export async function getPopupCities(pageFilter?: string): Promise<PopupCity[]> {
+  // For Argentina page, return only Argentina-specific events (no database events)
+  if (pageFilter === 'argentina') {
+    // Sort by start date (ascending - earliest first)
+    return [...argentinaPopupEvents].sort((a, b) => 
+      new Date(a.date).getTime() - new Date(b.date).getTime()
+    )
+  }
+
   try {
     const supabase = createServerClient()
 
@@ -744,13 +755,56 @@ export async function getPopupCities(): Promise<PopupCity[]> {
 
     if (error) {
       console.error('Error fetching popup cities from Supabase:', error)
-      return []
+      // Still apply page filter to manual events if there's an error
+      if (pageFilter) {
+        return manualPopupEvents.filter(event => {
+          if (event.showInPages && event.showInPages.length > 0) {
+            return event.showInPages.includes(pageFilter)
+          }
+          return true
+        })
+      }
+      return manualPopupEvents // Return manual events if database fails
     }
 
     // Transform database events to popup city format
-    return (data as DatabaseEvent[]).map(transformPopupCity)
+    const databaseEvents = (data as DatabaseEvent[]).map(transformPopupCity)
+
+    // Merge database events with manual events for other pages
+    const allEvents = [...databaseEvents, ...manualPopupEvents]
+
+    // Sort by start date (ascending)
+    allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
+    // Remove duplicates based on title and date
+    const uniqueEvents = allEvents.filter((event, index, self) =>
+      index === self.findIndex((e) => e.title === event.title && e.date === event.date)
+    )
+
+    // Filter by page if specified (only for non-Argentina pages, Argentina was handled above)
+    if (pageFilter && pageFilter !== 'argentina') {
+      return uniqueEvents.filter(event => {
+        // If event has showInPages, only include if pageFilter is in the list
+        if (event.showInPages && event.showInPages.length > 0) {
+          return event.showInPages.includes(pageFilter)
+        }
+        // If event doesn't have showInPages, include it on all pages
+        return true
+      })
+    }
+
+    return uniqueEvents
   } catch (error) {
     console.error('Error in getPopupCities:', error)
-    return []
+    // Still apply page filter to manual events if there's an error
+    if (pageFilter) {
+      return manualPopupEvents.filter(event => {
+        if (event.showInPages && event.showInPages.length > 0) {
+          return event.showInPages.includes(pageFilter)
+        }
+        return true
+      })
+    }
+    return manualPopupEvents // Return manual events if there's an error
   }
 }

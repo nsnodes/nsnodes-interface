@@ -57,4 +57,5 @@ export interface PopupCity {
   location: string
   networkState: string
   url: string
+  showInPages?: string[] // Optional: array of page names where this event should appear (e.g., ['argentina', 'ns']). If omitted, event appears on all pages.
 }
