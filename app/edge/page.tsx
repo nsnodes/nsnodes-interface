@@ -5,11 +5,15 @@ import { useState, useEffect } from "react";
 import { getEvents } from "@/lib/actions/events";
 import type { UIEvent } from "@/lib/types/events";
 import { UpcomingEventsSection } from "@/components/upcoming-events-section";
+import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
 
 export default function EdgePatagoniaEventsPage() {
   const [events, setEvents] = useState<UIEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Apply client-side timezone conversion
+  const clientEvents = useClientTimezone(events);
 
   // Fetch events on component mount
   useEffect(() => {
@@ -73,7 +77,7 @@ export default function EdgePatagoniaEventsPage() {
 
       {/* Events Table with edgepatagonia pre-selected */}
       <UpcomingEventsSection
-        events={events}
+        events={clientEvents}
         isLoading={isLoading}
         error={error}
         initialNetworkState="edgepatagonia"
