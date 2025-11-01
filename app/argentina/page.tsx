@@ -127,6 +127,7 @@ export default function ArgentinaPage() {
           networkState: popup.networkState,
           type: 'Pop-Up',
           url: popup.url,
+          status: 'scheduled',
           tags: null,
           start_at: `${dateStr}T12:00:00Z`,
           end_at: `${dateStr}T23:59:59Z`,
