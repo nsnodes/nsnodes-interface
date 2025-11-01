@@ -107,7 +107,7 @@ export default function EventsPage() {
     return {
       totalUpcoming: upcomingEvents.length,
     };
-  }, [clientEvents, clientAllEvents]);
+  }, [clientEvents]);
 
   // Handle click outside to close dropdown
   useEffect(() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getEvents } from "@/lib/actions/events";
 import type { UIEvent } from "@/lib/types/events";
