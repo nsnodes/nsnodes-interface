@@ -46,6 +46,7 @@ export interface UIEvent {
   // Raw timestamps for client-side timezone conversion
   start_at: string // ISO timestamp
   end_at: string // ISO timestamp
+  timezone?: string // Event's timezone (e.g., "America/New_York")
   lat: number | null
   lng: number | null
 }

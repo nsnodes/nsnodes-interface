@@ -471,6 +471,7 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
     // Include raw timestamps for client-side timezone conversion
     start_at: dbEvent.start_at,
     end_at: dbEvent.end_at,
+    timezone: dbEvent.timezone,
     lat: dbEvent.lat,
     lng: dbEvent.lng
   }

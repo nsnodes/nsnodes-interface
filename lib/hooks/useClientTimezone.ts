@@ -14,11 +14,11 @@ export function useClientTimezone(events: UIEvent[]): UIEvent[] {
     // Mark that we're on the client
     setIsClient(true)
 
-    // Convert all event times to user's local timezone
+    // Convert all event times to event's timezone (if available) or user's local timezone
     const convertedEvents = events.map(event => ({
       ...event,
-      date: extractLocalDate(event.start_at),
-      time: formatTimeRange(event.start_at, event.end_at)
+      date: extractLocalDate(event.start_at, event.timezone),
+      time: formatTimeRange(event.start_at, event.end_at, event.timezone)
     }))
 
     setClientEvents(convertedEvents)
