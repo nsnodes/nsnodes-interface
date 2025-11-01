@@ -170,13 +170,13 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   const [countrySearch, setCountrySearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"table" | "gantt">(defaultViewMode);
-  // Default to 1 day for mobile, 7 days for desktop
+  // Default to 1 day for mobile, 3 days for desktop
   const getInitialZoomDays = () => {
     if (showOnlyToday) return 1;
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768 ? 1 : 7; // md breakpoint is 768px
+      return window.innerWidth < 768 ? 1 : 3; // md breakpoint is 768px
     }
-    return 7;
+    return 3;
   };
   const [timelineZoomDays, setTimelineZoomDays] = useState<number>(getInitialZoomDays());
   const [isTimelineDropdownOpen, setIsTimelineDropdownOpen] = useState<boolean>(false);
