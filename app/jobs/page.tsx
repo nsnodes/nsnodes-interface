@@ -3,12 +3,27 @@
 import { Briefcase, ExternalLink, MapPin, DollarSign, Search, ChevronDown, ChevronUp, Building2, Tag, ArrowUpDown } from "lucide-react";
 import { jobsDatabase } from "@/lib/data/jobs-database";
 import { useState, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { societyNamesMatch } from "@/lib/utils/society-matcher";
 
 type SortField = "title" | "company" | "location" | "type" | "salary";
 type SortDirection = "asc" | "desc";
 
 export default function JobsPage() {
-  const [selectedEmployers, setSelectedEmployers] = useState<string[]>([]);
+  const searchParams = useSearchParams();
+  const employerParam = searchParams?.get('employer');
+  
+  // Initialize with employer from URL if present
+  const [selectedEmployers, setSelectedEmployers] = useState<string[]>(() => {
+    if (employerParam) {
+      // Find matching employer from jobs database
+      const matchingEmployer = jobsDatabase.find(job => 
+        societyNamesMatch(job.company, employerParam)
+      )?.company;
+      return matchingEmployer ? [matchingEmployer] : [];
+    }
+    return [];
+  });
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [employerSearch, setEmployerSearch] = useState<string>("");

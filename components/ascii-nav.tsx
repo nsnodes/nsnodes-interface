@@ -18,17 +18,17 @@ export function AsciiNav() {
     { href: "/events", label: "[ EVENTS ]" },
     { href: "/societies", label: "[ SOCIETIES ]" },
     { href: "/jobs", label: "[ JOBS ]" },
-    { href: "/content", label: "[ CONTENT ]" },
     {
       href: "/funding",
       label: "[ FUNDING ]",
       dropdown: [
         { href: "/funding/vc", label: "[ VC ]" },
-        { href: "/funding/grants", label: "[ GRANTS ]" },
+        { href: "/funding/grants", label: "[ GRANTS ]", comingSoon: true },
+        { href: "/investment-dao", label: "[ INVESTMENT DAO ]", comingSoon: true },
       ]
     },
-    { href: "/tooling", label: "[ TOOLING ]" },
-    { href: "/investment-dao", label: "[ INVESTMENT DAO ]" },
+    { href: "/content", label: "[ CONTENT ]", comingSoon: true },
+    { href: "/tooling", label: "[ TOOLING ]", comingSoon: true },
     { href: "/contact", label: "[ CONTACT ]" },
   ];
 
@@ -140,7 +140,12 @@ export function AsciiNav() {
                                 pathname === subItem.href ? "bg-primary/10" : ""
                               }`}
                             >
-                              {subItem.label}
+                              <span className="flex items-center gap-2">
+                                {subItem.label}
+                                {subItem.comingSoon && (
+                                  <span className="text-[8px] px-1 py-0.5 bg-yellow-500 text-black font-bold rounded">SOON</span>
+                                )}
+                              </span>
                             </Link>
                           ))}
                         </div>
@@ -153,13 +158,18 @@ export function AsciiNav() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`px-4 py-2 font-mono text-sm border-2 border-border transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none ${
+                    className={`px-4 py-2 font-mono text-sm border-2 border-border transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none relative ${
                       pathname === item.href
                         ? "bg-primary text-primary-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
                         : "bg-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
                     }`}
                   >
-                    {item.label}
+                    <span className="flex items-center gap-2">
+                      {item.label}
+                      {item.comingSoon && (
+                        <span className="text-[8px] px-1 py-0.5 bg-yellow-500 text-black font-bold rounded">SOON</span>
+                      )}
+                    </span>
                   </Link>
                 );
               })}
@@ -212,7 +222,12 @@ export function AsciiNav() {
                                   : "bg-background hover:bg-accent active:bg-accent"
                               }`}
                             >
-                              {subItem.label}
+                              <span className="flex items-center gap-2">
+                                {subItem.label}
+                                {subItem.comingSoon && (
+                                  <span className="text-[8px] px-1 py-0.5 bg-yellow-500 text-black font-bold rounded">SOON</span>
+                                )}
+                              </span>
                             </Link>
                           ))}
                         </div>
@@ -232,7 +247,12 @@ export function AsciiNav() {
                         : "bg-background hover:bg-accent"
                     }`}
                   >
-                    {item.label}
+                    <span className="flex items-center justify-center gap-2">
+                      {item.label}
+                      {item.comingSoon && (
+                        <span className="text-[8px] px-1 py-0.5 bg-yellow-500 text-black font-bold rounded">SOON</span>
+                      )}
+                    </span>
                   </Link>
                 );
               })}

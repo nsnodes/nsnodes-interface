@@ -40,11 +40,13 @@ export interface UIEvent {
   networkState: string
   type: string
   url: string
+  status: string // e.g., "scheduled", "tentative"
   mapsLink?: string // Optional Google Maps link
   tags: string[] | null // Event tags (e.g., "commons", "arc")
   // Raw timestamps for client-side timezone conversion
   start_at: string // ISO timestamp
   end_at: string // ISO timestamp
+  timezone?: string // Event's timezone (e.g., "America/New_York")
   lat: number | null
   lng: number | null
 }
@@ -57,4 +59,5 @@ export interface PopupCity {
   location: string
   networkState: string
   url: string
+  showInPages?: string[] // Optional: array of page names where this event should appear (e.g., ['argentina', 'ns']). If omitted, event appears on all pages.
 }

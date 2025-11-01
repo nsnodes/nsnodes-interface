@@ -1,41 +1,82 @@
 "use client";
 
-import { societiesDatabase, SocietyDatabase } from "@/lib/data/societies-database";
-import { BarChart3 } from "lucide-react";
+import { useState, useRef } from "react";
+import type { SocietyDatabase } from "@/lib/data/societies-database";
+import { BarChart3, ChevronDown, TrendingUp } from "lucide-react";
+
+interface SocietiesChartProps {
+  societies: SocietyDatabase[];
+}
 
 // Helper function to get founding year for a society
-const getFoundedFromSociety = (society: SocietyDatabase) => {
-  // Estimate founding year based on tier and known societies
-  if (society.name.includes("Próspera")) return "2020";
-  if (society.name.includes("Sealand")) return "1967";
-  if (society.name.includes("Liberland")) return "2015";
-  if (society.name.includes("Network School") || society.name.includes("The Network School")) return "2023";
-  if (society.name.includes("Edge City")) return "2023";
-  if (society.name.includes("Don't Die")) return "2023";
-  if (society.name.includes("Zuzalu")) return "2023";
-  if (society.name.includes("Logos")) return "2022";
-  if (society.name.includes("VDAO")) return "2023";
+// Returns the chart year (may be adjusted to 2010+ for pre-2010 societies)
+const getFoundedFromSociety = (society: SocietyDatabase): string => {
+  let foundedYear: string | null = null;
 
-  // Default based on tier
-  if (society.tier === 1) return "2023";
-  if (society.tier === 2) return "2022";
-  if (society.tier === 3) return "2021";
-  return "2023";
+  // Prioritize founded field from Airtable (live synced data)
+  if (society.founded) {
+    const foundedYearStr = society.founded.toString().trim();
+    
+    // Skip "Unknown" or invalid values
+    if (foundedYearStr.toLowerCase() !== "unknown" && foundedYearStr !== "" && foundedYearStr !== "null") {
+      // Validate it's a reasonable year (between 1900 and current year + 1)
+      const yearNum = parseInt(foundedYearStr, 10);
+      const currentYear = new Date().getFullYear();
+      if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= currentYear + 1) {
+        foundedYear = foundedYearStr;
+      }
+    }
+  }
+
+  // Fallback: Estimate founding year based on tier and known societies
+  // This only runs if Airtable data is missing or invalid
+  if (!foundedYear) {
+    if (society.name.includes("Próspera")) foundedYear = "2020";
+    else if (society.name.includes("Sealand")) foundedYear = "1967";
+    else if (society.name.includes("Liberland")) foundedYear = "2015";
+    else if (society.name.includes("Network School") || society.name.includes("The Network School")) foundedYear = "2023";
+    else if (society.name.includes("Edge City")) foundedYear = "2023";
+    else if (society.name.includes("Don't Die")) foundedYear = "2023";
+    else if (society.name.includes("Zuzalu")) foundedYear = "2023";
+    else if (society.name.includes("Logos")) foundedYear = "2022";
+    else if (society.name.includes("VDAO")) foundedYear = "2023";
+    else if (society.tier === 1) foundedYear = "2023";
+    else if (society.tier === 2) foundedYear = "2022";
+    else if (society.tier === 3) foundedYear = "2021";
+    else foundedYear = "2023";
+  }
+
+  // Convert pre-2010 years to 2010 for chart purposes
+  if (foundedYear) {
+    const yearNum = parseInt(foundedYear, 10);
+    if (!isNaN(yearNum) && yearNum < 2010) {
+      return "2010";
+    }
+  }
+
+  return foundedYear || "2023";
 };
 
 // Generate chart data
-const generateChartData = () => {
+const generateChartData = (societies: SocietyDatabase[]) => {
   const yearData: { [year: string]: number } = {};
 
-  // Count societies by founding year
-  societiesDatabase.forEach(society => {
+  // Count societies by founding year (using live synced Airtable data)
+  societies.forEach(society => {
     const year = getFoundedFromSociety(society);
-    yearData[year] = (yearData[year] || 0) + 1;
+    if (year) {
+      yearData[year] = (yearData[year] || 0) + 1;
+    }
   });
 
-  // Start from 2019
-  const minYear = 2019;
-  const maxYear = Math.max(...Object.keys(yearData).map(Number));
+  // Chart starts from 2010 (pre-2010 societies are counted in 2010)
+  const minYear = 2010;
+  const maxYear = Math.max(
+    ...Object.keys(yearData)
+      .map(Number)
+      .filter(y => !isNaN(y) && y >= minYear),
+    new Date().getFullYear()
+  );
 
   // Fill in missing years with 0
   for (let year = minYear; year <= maxYear; year++) {
@@ -52,23 +93,102 @@ const generateChartData = () => {
     cumulativeData[year.toString()] = cumulative;
   }
 
+  // Calculate stats
+  const currentYear = new Date().getFullYear().toString();
+  const thisYear = yearData[currentYear] || 0;
+  const total = societies.length;
+  const latestCumulative = cumulativeData[Object.keys(cumulativeData).sort().pop() || currentYear] || 0;
+
   return {
     yearData,
     cumulativeData,
     years: Object.keys(cumulativeData).sort(),
-    maxCount: Math.max(...Object.values(cumulativeData))
+    maxCount: Math.max(...Object.values(cumulativeData)),
+    thisYear,
+    total,
+    latestCumulative,
   };
 };
 
-export default function SocietiesChart() {
-  const chartData = generateChartData();
+interface SocietiesChartProps {
+  societies: SocietyDatabase[];
+  onToggleChart?: (show: boolean) => void;
+  showChart?: boolean;
+}
+
+export function SocietiesChartStats({ societies, onToggleChart, showChart }: { societies: SocietyDatabase[]; onToggleChart?: (show: boolean) => void; showChart?: boolean }) {
+  const chartData = generateChartData(societies);
+  const { thisYear, total } = chartData;
+
+  const handleToggle = () => {
+    onToggleChart?.(!showChart);
+  };
+
+  return (
+    <div className="border-2 border-border bg-card p-6">
+      <div className="space-y-2">
+        {/* Total Societies */}
+        <div className="border-2 border-border p-3 text-center bg-background">
+          <div className="flex justify-center mb-1">
+            <BarChart3 className="h-4 w-4" />
+          </div>
+          <div className="text-xl font-bold font-mono mb-0.5">
+            {total}
+          </div>
+          <div className="text-xs font-mono text-muted-foreground">
+            TOTAL SOCIETIES
+          </div>
+        </div>
+
+        {/* New This Year */}
+        <div className="border-2 border-border p-3 text-center bg-background">
+          <div className="flex justify-center mb-1">
+            <TrendingUp className="h-4 w-4" />
+          </div>
+          <div className="text-xl font-bold font-mono mb-0.5">
+            {thisYear}
+          </div>
+          <div className="text-xs font-mono text-muted-foreground">
+            NEW THIS YEAR
+          </div>
+        </div>
+      </div>
+
+      {/* See More Stats Link */}
+      <div className="mt-4">
+        <button
+          onClick={handleToggle}
+          className="w-full flex items-center justify-between font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          <span>See growth chart</span>
+          <ChevronDown className={`h-4 w-4 transition-transform ${showChart ? 'rotate-180' : ''}`} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function SocietiesChartGraph({ societies, onClose }: { societies: SocietyDatabase[]; onClose?: () => void }) {
+  const moreStatsRef = useRef<HTMLDivElement>(null);
+  const chartData = generateChartData(societies);
   const { cumulativeData, years, maxCount } = chartData;
 
   return (
-    <div className="border-2 border-border bg-card">
+    <section ref={moreStatsRef} className="border-2 border-border bg-card p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-bold font-mono">
+          [ SOCIETIES GROWTH ]
+        </h2>
+        <button
+          onClick={onClose}
+          className="font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+        >
+          Close
+        </button>
+      </div>
 
       {/* Desktop Chart */}
-      <div className="hidden md:block p-4">
+      <div className="hidden md:block mt-6">
         <div className="space-y-1">
           {/* Bar Chart Area */}
           <div className="grid gap-2 items-end" style={{ gridTemplateColumns: `60px repeat(${years.length}, minmax(50px, 1fr))`, minHeight: '200px' }}>
@@ -134,7 +254,7 @@ export default function SocietiesChart() {
       </div>
 
       {/* Mobile Chart */}
-      <div className="md:hidden p-3">
+      <div className="md:hidden mt-6">
         <div className="space-y-4">
           {years.map((year, index) => {
             const count = cumulativeData[year];
@@ -170,14 +290,20 @@ export default function SocietiesChart() {
           })}
         </div>
       </div>
+    </section>
+  );
+}
 
-      {/* Footer */}
-      <div className="border-t-2 border-border bg-muted p-3">
-        <h3 className="font-mono font-bold text-sm flex items-center justify-center gap-2">
-          <BarChart3 className="h-4 w-4" />
-          [ SOCIETIES GROWTH ]
-        </h3>
-      </div>
-    </div>
+// Default export for backwards compatibility
+export default function SocietiesChart({ societies }: SocietiesChartProps) {
+  const [showMoreStats, setShowMoreStats] = useState(false);
+
+  return (
+    <>
+      <SocietiesChartStats societies={societies} onToggleChart={setShowMoreStats} />
+      {showMoreStats && (
+        <SocietiesChartGraph societies={societies} onClose={() => setShowMoreStats(false)} />
+      )}
+    </>
   );
 }

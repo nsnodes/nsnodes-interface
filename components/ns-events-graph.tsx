@@ -65,51 +65,53 @@ export function NSEventsGraph({ allEvents }: NSEventsGraphProps) {
 
   return (
     <div className="space-y-4">
-      <div className="border-2 border-border bg-background p-6">
-        {/* Vertical bar chart */}
-        <div className="flex items-end justify-between gap-1" style={{ height: '350px' }}>
-          {dailyData.map(({ date, count }) => {
-            const heightPercent = maxCount > 0 ? (count / maxCount) * 100 : 0;
-            const barHeight = count > 0 ? `${heightPercent}%` : '0%';
+      <div className="border-2 border-border bg-background p-3 sm:p-6">
+        {/* Vertical bar chart with horizontal scroll on mobile */}
+        <div className="overflow-x-auto -mx-3 sm:mx-0 px-3 sm:px-0">
+          <div className="flex items-end justify-between gap-1 min-w-[600px]" style={{ height: '350px' }}>
+            {dailyData.map(({ date, count }) => {
+              const heightPercent = maxCount > 0 ? (count / maxCount) * 100 : 0;
+              const barHeight = count > 0 ? `${heightPercent}%` : '0%';
 
-            return (
-              <div key={date} className="flex flex-col items-center justify-end flex-1" style={{ height: '100%' }}>
-                {/* Bar container with count on top */}
-                <div className="w-full flex flex-col items-center justify-end" style={{ height: '270px' }}>
-                  {/* Count label on top of bar */}
-                  {count > 0 && (
-                    <div className="text-xs font-mono font-bold text-center mb-1">
-                      {count}
+              return (
+                <div key={date} className="flex flex-col items-center justify-end flex-1" style={{ height: '100%' }}>
+                  {/* Bar container with count on top */}
+                  <div className="w-full flex flex-col items-center justify-end" style={{ height: '270px' }}>
+                    {/* Count label on top of bar */}
+                    {count > 0 && (
+                      <div className="text-xs font-mono font-bold text-center mb-1">
+                        {count}
+                      </div>
+                    )}
+                    {/* Bar */}
+                    {count > 0 && (
+                      <div
+                        className="bg-primary transition-all hover:opacity-80 w-full max-w-[40px]"
+                        style={{ height: barHeight }}
+                        title={`${getDayName(date)}, ${formatDate(date)}: ${count} events`}
+                      />
+                    )}
+                  </div>
+                  {/* Date and day labels */}
+                  <div className="flex flex-col items-center mt-2 gap-0.5">
+                    <div className="text-[10px] font-mono font-bold text-center whitespace-nowrap">
+                      {formatDate(date)}
                     </div>
-                  )}
-                  {/* Bar */}
-                  {count > 0 && (
-                    <div
-                      className="bg-primary transition-all hover:opacity-80 w-full max-w-[40px]"
-                      style={{ height: barHeight }}
-                      title={`${getDayName(date)}, ${formatDate(date)}: ${count} events`}
-                    />
-                  )}
-                </div>
-                {/* Date and day labels */}
-                <div className="flex flex-col items-center mt-2 gap-0.5">
-                  <div className="text-[10px] font-mono font-bold text-center whitespace-nowrap">
-                    {formatDate(date)}
-                  </div>
-                  <div className="text-[9px] font-mono text-muted-foreground text-center">
-                    {getDayName(date)}
+                    <div className="text-[9px] font-mono text-muted-foreground text-center">
+                      {getDayName(date)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         <div className="mt-6 pt-4 border-t-2 border-border">
-          <div className="flex justify-between text-xs font-mono text-muted-foreground">
-            <span>Total Days: {dailyData.length}</span>
-            <span>Peak Day: {maxCount} events</span>
-            <span>Total Events: {dailyData.reduce((sum, d) => sum + d.count, 0)}</span>
+          <div className="flex flex-col sm:flex-row sm:justify-between gap-2 sm:gap-0 text-xs font-mono text-muted-foreground">
+            <span className="text-center sm:text-left">Total Days: {dailyData.length}</span>
+            <span className="text-center sm:text-left">Peak Day: {maxCount} events</span>
+            <span className="text-center sm:text-left">Total Events: {dailyData.reduce((sum, d) => sum + d.count, 0)}</span>
           </div>
         </div>
       </div>

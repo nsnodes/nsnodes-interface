@@ -3,11 +3,20 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
+// Pages marked as "soon" in the navigation
+const SOON_PAGES = [
+  "/funding",
+  "/funding/grants",
+  "/investment-dao",
+  "/content",
+  "/tooling",
+];
+
 export function BlurOverlay() {
   const pathname = usePathname();
 
-  // Don't show blur overlay on /ns page
-  if (pathname === "/ns") {
+  // Only show blur overlay on pages marked as "soon"
+  if (!SOON_PAGES.includes(pathname)) {
     return null;
   }
 

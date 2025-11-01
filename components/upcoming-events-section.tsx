@@ -17,9 +17,12 @@ interface UpcomingEventsSectionProps {
   hideFilters?: boolean; // New prop to hide filters and sorting
   initialNetworkState?: string; // Pre-select network state filter (deprecated, use initialNetworkStates)
   initialNetworkStates?: string[]; // Pre-select multiple network state filters
+  customNetworkStateOrder?: string[]; // Custom order for network states (events will be pre-sorted by this order)
+  defaultViewMode?: "table" | "gantt"; // Default view mode (table or gantt/timeline)
+  hideViewModeToggle?: boolean; // If true, hide the TABLE/TIMELINE toggle buttons
 }
 
-export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates }: UpcomingEventsSectionProps) {
+export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder, defaultViewMode = "table", hideViewModeToggle = false }: UpcomingEventsSectionProps) {
   // State for tracking current time to make live/upcoming checks reactive
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -98,7 +101,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       const eventDateTime = new Date(year, month - 1, day, hour24, minutes, 0, 0);
 
       return eventDateTime;
-    } catch (error) {
+    } catch {
       return null;
     }
   };
@@ -166,7 +169,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   const [typeSearch, setTypeSearch] = useState<string>("");
   const [countrySearch, setCountrySearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
+  const [viewMode, setViewMode] = useState<"table" | "gantt">(defaultViewMode);
   // Default to 1 day for mobile, 7 days for desktop
   const getInitialZoomDays = () => {
     if (showOnlyToday) return 1;
@@ -229,6 +232,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
         setSelectedNetworkStates(matchingStates);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialNetworkState, initialNetworkStates, isLoading, events.length]);
 
   // Handle click outside to close filters and dropdowns
@@ -446,7 +450,24 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
         case "date":
           // First compare dates
           compareValue = a.date.localeCompare(b.date);
-          // If dates are equal, compare start times
+          // If dates are equal, compare by custom network state order if provided
+          if (compareValue === 0 && customNetworkStateOrder && customNetworkStateOrder.length > 0) {
+            const indexA = customNetworkStateOrder.findIndex(ns => societyNamesMatch(a.networkState, ns));
+            const indexB = customNetworkStateOrder.findIndex(ns => societyNamesMatch(b.networkState, ns));
+            
+            // If both are in the custom order, sort by their position
+            if (indexA !== -1 && indexB !== -1) {
+              compareValue = indexA - indexB;
+            } else if (indexA !== -1) {
+              // A is in custom order, B is not - A comes first
+              compareValue = -1;
+            } else if (indexB !== -1) {
+              // B is in custom order, A is not - B comes first
+              compareValue = 1;
+            }
+            // If neither is in custom order, compareValue stays 0 and we'll compare by time below
+          }
+          // If dates are still equal (and no custom order or custom order didn't apply), compare start times
           if (compareValue === 0) {
             const parseTimeForSort = (timeStr: string): number => {
               const startTime = timeStr.split(' – ')[0].trim();
@@ -473,7 +494,23 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
           }
           break;
         case "networkState":
-          compareValue = a.networkState.localeCompare(b.networkState);
+          // Use custom order if provided
+          if (customNetworkStateOrder && customNetworkStateOrder.length > 0) {
+            const indexA = customNetworkStateOrder.findIndex(ns => societyNamesMatch(a.networkState, ns));
+            const indexB = customNetworkStateOrder.findIndex(ns => societyNamesMatch(b.networkState, ns));
+            
+            if (indexA !== -1 && indexB !== -1) {
+              compareValue = indexA - indexB;
+            } else if (indexA !== -1) {
+              compareValue = -1;
+            } else if (indexB !== -1) {
+              compareValue = 1;
+            } else {
+              compareValue = a.networkState.localeCompare(b.networkState);
+            }
+          } else {
+            compareValue = a.networkState.localeCompare(b.networkState);
+          }
           break;
         case "type":
           compareValue = a.type.localeCompare(b.type);
@@ -562,73 +599,86 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
   const getNetworkStateColor = (networkState: string) => {
     const colors: Record<string, string> = {
-      'edgpatagonia': 'bg-emerald-500',
+      'edgpatagonia': 'bg-emerald-600',
       'Network School': 'bg-blue-600',
-      '4Seas': 'bg-cyan-500',
-      'Próspera': 'bg-orange-500',
-      'INFINITA': 'bg-fuchsia-500',
-      'Invisible Garden Argentina': 'bg-lime-500',
+      '4Seas': 'bg-cyan-600',
+      'Próspera': 'bg-orange-600',
+      'INFINITA': 'bg-fuchsia-600',
+      'Invisible Garden Argentina': 'bg-lime-600',
       'Software Zuzalu': 'bg-violet-600',
-      'Tomek ⚡ K': 'bg-amber-500',
-      'Andrea S.': 'bg-rose-500',
+      'Tomek ⚡ K': 'bg-amber-600',
+      'Andrea S.': 'bg-rose-600',
       'Ârc': 'bg-purple-600',
-      'Commons': 'bg-green-600',
+      'Commons': 'bg-green-700',
+      'Edge City': 'bg-teal-600',
+      'Logos': 'bg-indigo-600',
+      'Ipê City': 'bg-pink-600',
+      'Build_Republic': 'bg-red-600',
+      'Infinita': 'bg-fuchsia-600',
+      'Crecimiento': 'bg-yellow-600',
+      'Aleph Crecimiento': 'bg-sky-600',
+      'Montelibero': 'bg-stone-600',
     };
-    return colors[networkState] || 'bg-slate-500';
+    return colors[networkState] || 'bg-slate-600';
   };
 
   return (
     <section id="upcoming-events" className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      {/* Header - always visible */}
+      <div className="flex items-center gap-2">
         <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
           <Calendar className="h-6 w-6" />
           {showOnlyToday ? '[ EVENTS TODAY ]' : '[ UPCOMING EVENTS ]'}
         </h2>
-        <div className="flex items-center sm:justify-end justify-between gap-4 w-full sm:w-auto">
-          <div className="flex items-center gap-2 text-xs font-mono">
-            {isLoading ? (
-              <span className="opacity-60 animate-pulse">Loading events...</span>
-            ) : (
-              <span className="opacity-60">
-                Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
-              </span>
-            )}
-          </div>
-          <div className="relative flex border-2 border-border bg-card">
-            <button
-              onClick={() => setViewMode("table")}
-              className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-                viewMode === "table" ? "bg-accent" : "hover:bg-accent"
-              }`}
-            >
-              <Table className="h-3 w-3" />
-              TABLE
-            </button>
-            <button
-              onClick={() => setViewMode("gantt")}
-              className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-                viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
-              }`}
-            >
-              <BarChart3 className="h-3 w-3" />
-              TIMELINE
-            </button>
+      </div>
 
-            {/* ASCII Arrow Callout */}
-            <div className="hidden lg:block absolute -top-10 -right-2 pointer-events-none">
-              <pre className="text-xs leading-tight font-mono opacity-70 whitespace-pre">
+      {/* Event count and view toggle - hidden on mobile, shown on desktop before filters */}
+      {!hideViewModeToggle && (
+      <div className="hidden sm:flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs font-mono">
+          {isLoading ? (
+            <span className="opacity-60 animate-pulse">Loading events...</span>
+          ) : (
+            <span className="opacity-60">
+              Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
+            </span>
+          )}
+        </div>
+        <div className="relative flex border-2 border-border bg-card">
+          <button
+            onClick={() => setViewMode("table")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "table" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <Table className="h-3 w-3" />
+            TABLE
+          </button>
+          <button
+            onClick={() => setViewMode("gantt")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <BarChart3 className="h-3 w-3" />
+            TIMELINE
+          </button>
+
+          {/* ASCII Arrow Callout */}
+          <div className="hidden lg:block absolute -top-10 -right-2 pointer-events-none">
+            <pre className="text-xs leading-tight font-mono opacity-70 whitespace-pre">
 {`Try this!
     ↓`}
-              </pre>
-            </div>
+            </pre>
           </div>
         </div>
       </div>
+      )}
 
       {/* Filters */}
       {!hideFilters && (
       <>
-      <div ref={filtersRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div ref={filtersRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Date Filter */}
         <div className="border-2 border-border bg-card">
           <button
@@ -900,6 +950,41 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       </>
       )}
 
+      {/* Event count and view toggle - shown on mobile after filters */}
+      {!hideViewModeToggle && (
+      <div className="sm:hidden flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-xs font-mono">
+          {isLoading ? (
+            <span className="opacity-60 animate-pulse">Loading events...</span>
+          ) : (
+            <span className="opacity-60">
+              Listing {filteredAndSortedEvents.length} {filteredAndSortedEvents.length === 1 ? 'event' : 'events'}
+            </span>
+          )}
+        </div>
+        <div className="relative flex border-2 border-border bg-card">
+          <button
+            onClick={() => setViewMode("table")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "table" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <Table className="h-3 w-3" />
+            TABLE
+          </button>
+          <button
+            onClick={() => setViewMode("gantt")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <BarChart3 className="h-3 w-3" />
+            TIMELINE
+          </button>
+        </div>
+      </div>
+      )}
+
       {/* Error State */}
       {error && (
         <div className="border-2 border-red-500 bg-red-50 dark:bg-red-950/20 p-4">
@@ -971,7 +1056,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                       </div>
                     </th>
                     <th
-                      className="text-left p-4 font-bold cursor-pointer hover:bg-accent transition-colors"
+                      className="text-left p-4 font-bold whitespace-nowrap cursor-pointer hover:bg-accent transition-colors"
                       onClick={() => handleSort("location")}
                     >
                       <div className="flex items-center gap-2">
@@ -1004,6 +1089,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                     const groupEvents = groupedEvents[groupLabel];
                     if (!groupEvents || groupEvents.length === 0) return null;
 
+                    // Limit to 6 events when showOnlyToday (5 clear + 1 blurred)
+                    const displayEvents = showOnlyToday ? groupEvents.slice(0, 6) : groupEvents;
+
                     return (
                       <React.Fragment key={groupLabel}>
                         {/* Group Header Row */}
@@ -1016,10 +1104,12 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           </td>
                         </tr>
                         {/* Group Events */}
-                        {groupEvents.map((event, index) => (
+                        {displayEvents.map((event, index) => (
                           <tr
                             key={`${groupLabel}-${index}`}
-                            className="border-b border-border hover:bg-accent transition-colors cursor-pointer"
+                            className={`border-b border-border hover:bg-accent transition-colors cursor-pointer ${
+                              showOnlyToday && index === 5 ? 'filter blur-[1px] opacity-60' : ''
+                            }`}
                             onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                           >
                             <td className="p-4 whitespace-nowrap">
@@ -1027,16 +1117,16 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                 <div className="font-semibold flex items-center gap-2">
                                   {event.date}
                                   {isEventLive(event) && (
-                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
-                                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                      <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                                      <span className="relative flex h-1 w-1">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
+                                      </span>
                                       LIVE
                                     </span>
                                   )}
                                   {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
-                                      <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                      <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
                                       UPCOMING
                                     </span>
                                   )}
@@ -1095,7 +1185,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                   href="/events"
                   className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
-                  See all events -&gt;
+                  See all {events.length} events -&gt;
                 </Link>
               </div>
             )}
@@ -1156,6 +1246,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
               const groupEvents = groupedEvents[groupLabel];
               if (!groupEvents || groupEvents.length === 0) return null;
 
+              // Limit to 6 events when showOnlyToday (5 clear + 1 blurred)
+              const displayEvents = showOnlyToday ? groupEvents.slice(0, 6) : groupEvents;
+
               return (
                 <React.Fragment key={groupLabel}>
                   {/* Group Header */}
@@ -1167,10 +1260,12 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                   </div>
                   {/* Group Events */}
                   <div className="space-y-4">
-                    {groupEvents.map((event, index) => (
+                    {displayEvents.map((event, index) => (
                       <div
                         key={`${groupLabel}-${index}`}
-                        className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+                        className={`border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${
+                          showOnlyToday && index === 5 ? 'filter blur-[1px] opacity-60' : ''
+                        }`}
                         onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                       >
                         <div className="flex items-start justify-between">
@@ -1178,16 +1273,16 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             <div className="text-xs font-mono text-muted-foreground flex items-center gap-2">
                               {event.date}
                               {isEventLive(event) && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                                  <span className="relative flex h-1 w-1">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
+                                  </span>
                                   LIVE
                                 </span>
                               )}
                               {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-ping absolute"></span>
-                                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
                                   UPCOMING
                                 </span>
                               )}
@@ -1240,7 +1335,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                   href="/events"
                   className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
-                  See all events -&gt;
+                  See all {filteredAndSortedEvents.length} events -&gt;
                 </Link>
               </div>
             )}
@@ -1419,7 +1514,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
               <>
                 {/* Desktop Timeline Grid */}
                 <div className="hidden md:block p-4 overflow-x-auto">
-                  <div className={`${showOnlyToday ? 'max-w-3xl mx-auto' : 'min-w-[800px]'}`}>
+                  <div className={`${showOnlyToday ? 'max-w-3xl mx-auto' : 'min-w-[800px]'} relative`}>
                     <div className="space-y-6">
                       {/* Date Header */}
                       <div className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${dateColumns.length}, ${columnWidth}px)` }}>
@@ -1445,6 +1540,29 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           );
                         })}
                       </div>
+
+                      {/* Current Time Indicator - Red Horizontal Line */}
+                      {(() => {
+                        // Get current hour and minutes
+                        const currentHour = now.getHours();
+                        const currentMinutes = now.getMinutes();
+                        const currentTimeDecimal = currentHour + (currentMinutes / 60);
+
+                        // The line will be positioned at the current hour mark
+                        // It should span across all date columns
+                        return (
+                          <div
+                            className="absolute left-0 right-0 h-0.5 bg-red-500 z-50 pointer-events-none"
+                            style={{ top: `${60 + (currentTimeDecimal * 60)}px` }}
+                            suppressHydrationWarning
+                          >
+                            {/* Time label on the left */}
+                            <div className="absolute left-2 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-mono px-1 py-0.5 rounded whitespace-nowrap">
+                              NOW {currentHour.toString().padStart(2, '0')}:{currentMinutes.toString().padStart(2, '0')}
+                            </div>
+                          </div>
+                        );
+                      })()}
 
                       {/* 24-hour Timeline Grid */}
                       {(() => {
@@ -1621,7 +1739,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             href="/events"
                             className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                           >
-                            See all events -&gt;
+                            See all {filteredAndSortedEvents.length} events -&gt;
                           </Link>
                         </div>
                       )}
@@ -1662,7 +1780,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
                 {/* Mobile Timeline View */}
                 <div className="md:hidden p-4 overflow-x-auto overscroll-x-contain touch-pan-x">
-                  <div className={showOnlyToday ? 'max-w-xl mx-auto' : ''}>
+                  <div className={`${showOnlyToday ? 'max-w-xl mx-auto' : ''} relative`}>
                     <div className="space-y-6">
                       {/* Date Header */}
                       <div className="grid gap-1" style={{ gridTemplateColumns: timelineZoomDays <= 7 ? `80px repeat(${dateColumns.length}, calc((100vw - 80px - 2rem) / ${timelineZoomDays}))` : `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
@@ -1688,6 +1806,29 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           );
                         })}
                       </div>
+
+                      {/* Current Time Indicator - Red Horizontal Line (Mobile) */}
+                      {(() => {
+                        // Get current hour and minutes
+                        const currentHour = now.getHours();
+                        const currentMinutes = now.getMinutes();
+                        const currentTimeDecimal = currentHour + (currentMinutes / 60);
+
+                        // The line will be positioned at the current hour mark
+                        // It should span across all date columns
+                        return (
+                          <div
+                            className="absolute left-0 right-0 h-0.5 bg-red-500 z-50 pointer-events-none"
+                            style={{ top: `${60 + (currentTimeDecimal * 60)}px` }}
+                            suppressHydrationWarning
+                          >
+                            {/* Time label on the left */}
+                            <div className="absolute left-1 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-mono px-1 py-0.5 rounded whitespace-nowrap">
+                              NOW {currentHour.toString().padStart(2, '0')}:{currentMinutes.toString().padStart(2, '0')}
+                            </div>
+                          </div>
+                        );
+                      })()}
 
                       {/* 24-hour Timeline Grid */}
                       {(() => {
@@ -1864,7 +2005,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             href="/events"
                             className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                           >
-                            See all events -&gt;
+                            See all {filteredAndSortedEvents.length} events -&gt;
                           </Link>
                         </div>
                       )}
