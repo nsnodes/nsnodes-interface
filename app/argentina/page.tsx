@@ -346,13 +346,15 @@ export default function ArgentinaPage() {
       )}
 
       {/* Pop-Up Timeline */}
-      <PopupSection 
-        popupEvents={popupEvents} 
+      <PopupSection
+        popupEvents={popupEvents}
         isLoading={isLoadingPopups}
         error={popupError}
         title="[ POP-UP'S & RESIDENCIES  ]"
         startFromEarliestEvent={true}
         showAllByDefault={true}
+        defaultViewMode="gantt"
+        hideTryThisPrompt={true}
       />
 
       {/* Events Table with Aleph Crecimiento, Crecimiento, and Edge City pre-selected */}
@@ -362,6 +364,7 @@ export default function ArgentinaPage() {
         error={error}
         initialNetworkStates={["Aleph Crecimiento", "Crecimiento", "Edge City"]}
         customNetworkStateOrder={["Aleph Crecimiento", "Crecimiento", "Edge City"]}
+        defaultViewMode="gantt"
       />
 
       {/* CTA Section */}

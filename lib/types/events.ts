@@ -40,6 +40,7 @@ export interface UIEvent {
   networkState: string
   type: string
   url: string
+  status: string // e.g., "scheduled", "tentative"
   mapsLink?: string // Optional Google Maps link
   tags: string[] | null // Event tags (e.g., "commons", "arc")
   // Raw timestamps for client-side timezone conversion

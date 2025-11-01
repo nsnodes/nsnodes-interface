@@ -18,9 +18,11 @@ interface UpcomingEventsSectionProps {
   initialNetworkState?: string; // Pre-select network state filter (deprecated, use initialNetworkStates)
   initialNetworkStates?: string[]; // Pre-select multiple network state filters
   customNetworkStateOrder?: string[]; // Custom order for network states (events will be pre-sorted by this order)
+  defaultViewMode?: "table" | "gantt"; // Default view mode (table or gantt/timeline)
+  hideViewModeToggle?: boolean; // If true, hide the TABLE/TIMELINE toggle buttons
 }
 
-export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder }: UpcomingEventsSectionProps) {
+export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder, defaultViewMode = "table", hideViewModeToggle = false }: UpcomingEventsSectionProps) {
   // State for tracking current time to make live/upcoming checks reactive
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -167,7 +169,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   const [typeSearch, setTypeSearch] = useState<string>("");
   const [countrySearch, setCountrySearch] = useState<string>("");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
-  const [viewMode, setViewMode] = useState<"table" | "gantt">("table");
+  const [viewMode, setViewMode] = useState<"table" | "gantt">(defaultViewMode);
   // Default to 1 day for mobile, 7 days for desktop
   const getInitialZoomDays = () => {
     if (showOnlyToday) return 1;
@@ -631,6 +633,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       </div>
 
       {/* Event count and view toggle - hidden on mobile, shown on desktop before filters */}
+      {!hideViewModeToggle && (
       <div className="hidden sm:flex items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-xs font-mono">
           {isLoading ? (
@@ -670,6 +673,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
           </div>
         </div>
       </div>
+      )}
 
       {/* Filters */}
       {!hideFilters && (
@@ -947,6 +951,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       )}
 
       {/* Event count and view toggle - shown on mobile after filters */}
+      {!hideViewModeToggle && (
       <div className="sm:hidden flex items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-xs font-mono">
           {isLoading ? (
@@ -978,6 +983,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
           </button>
         </div>
       </div>
+      )}
 
       {/* Error State */}
       {error && (
@@ -1508,7 +1514,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
               <>
                 {/* Desktop Timeline Grid */}
                 <div className="hidden md:block p-4 overflow-x-auto">
-                  <div className={`${showOnlyToday ? 'max-w-3xl mx-auto' : 'min-w-[800px]'}`}>
+                  <div className={`${showOnlyToday ? 'max-w-3xl mx-auto' : 'min-w-[800px]'} relative`}>
                     <div className="space-y-6">
                       {/* Date Header */}
                       <div className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${dateColumns.length}, ${columnWidth}px)` }}>
@@ -1534,6 +1540,29 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           );
                         })}
                       </div>
+
+                      {/* Current Time Indicator - Red Horizontal Line */}
+                      {(() => {
+                        // Get current hour and minutes
+                        const currentHour = now.getHours();
+                        const currentMinutes = now.getMinutes();
+                        const currentTimeDecimal = currentHour + (currentMinutes / 60);
+
+                        // The line will be positioned at the current hour mark
+                        // It should span across all date columns
+                        return (
+                          <div
+                            className="absolute left-0 right-0 h-0.5 bg-red-500 z-50 pointer-events-none"
+                            style={{ top: `${60 + (currentTimeDecimal * 60)}px` }}
+                            suppressHydrationWarning
+                          >
+                            {/* Time label on the left */}
+                            <div className="absolute left-2 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-mono px-1 py-0.5 rounded whitespace-nowrap">
+                              NOW {currentHour.toString().padStart(2, '0')}:{currentMinutes.toString().padStart(2, '0')}
+                            </div>
+                          </div>
+                        );
+                      })()}
 
                       {/* 24-hour Timeline Grid */}
                       {(() => {
@@ -1751,7 +1780,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
                 {/* Mobile Timeline View */}
                 <div className="md:hidden p-4 overflow-x-auto overscroll-x-contain touch-pan-x">
-                  <div className={showOnlyToday ? 'max-w-xl mx-auto' : ''}>
+                  <div className={`${showOnlyToday ? 'max-w-xl mx-auto' : ''} relative`}>
                     <div className="space-y-6">
                       {/* Date Header */}
                       <div className="grid gap-1" style={{ gridTemplateColumns: timelineZoomDays <= 7 ? `80px repeat(${dateColumns.length}, calc((100vw - 80px - 2rem) / ${timelineZoomDays}))` : `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
@@ -1777,6 +1806,29 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           );
                         })}
                       </div>
+
+                      {/* Current Time Indicator - Red Horizontal Line (Mobile) */}
+                      {(() => {
+                        // Get current hour and minutes
+                        const currentHour = now.getHours();
+                        const currentMinutes = now.getMinutes();
+                        const currentTimeDecimal = currentHour + (currentMinutes / 60);
+
+                        // The line will be positioned at the current hour mark
+                        // It should span across all date columns
+                        return (
+                          <div
+                            className="absolute left-0 right-0 h-0.5 bg-red-500 z-50 pointer-events-none"
+                            style={{ top: `${60 + (currentTimeDecimal * 60)}px` }}
+                            suppressHydrationWarning
+                          >
+                            {/* Time label on the left */}
+                            <div className="absolute left-1 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-mono px-1 py-0.5 rounded whitespace-nowrap">
+                              NOW {currentHour.toString().padStart(2, '0')}:{currentMinutes.toString().padStart(2, '0')}
+                            </div>
+                          </div>
+                        );
+                      })()}
 
                       {/* 24-hour Timeline Grid */}
                       {(() => {

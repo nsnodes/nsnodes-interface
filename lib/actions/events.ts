@@ -465,6 +465,7 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
     networkState,
     type,
     url: dbEvent.source_url,
+    status: dbEvent.status,
     mapsLink: mapsLink || undefined,
     tags: dbEvent.tags,
     // Include raw timestamps for client-side timezone conversion

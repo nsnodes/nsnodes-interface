@@ -14,10 +14,12 @@ interface PopupSectionProps {
   startFromEarliestEvent?: boolean; // If true, timeline starts from earliest event instead of current week
   showAllByDefault?: boolean; // If true, show all events by default instead of limiting to 4
   hideShowAllButton?: boolean; // If true, hide the "Show All" button completely
+  defaultViewMode?: "table" | "gantt"; // Default view mode (table or gantt/timeline)
+  hideTryThisPrompt?: boolean; // If true, hide the "Try this!" prompt for switching views
 }
 
-export function PopupSection({ popupEvents, isLoading = false, error = null, showOnlyOngoing = false, title, startFromEarliestEvent = false, showAllByDefault = false, hideShowAllButton = false }: PopupSectionProps) {
-  const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">("gantt");
+export function PopupSection({ popupEvents, isLoading = false, error = null, showOnlyOngoing = false, title, startFromEarliestEvent = false, showAllByDefault = false, hideShowAllButton = false, defaultViewMode = "gantt", hideTryThisPrompt = false }: PopupSectionProps) {
+  const [popupViewMode, setPopupViewMode] = useState<"table" | "gantt">(defaultViewMode);
   const [popupZoomDays, setPopupZoomDays] = useState<number>(365);
   const [isPopupDropdownOpen, setIsPopupDropdownOpen] = useState<boolean>(false);
   const [showAllEvents, setShowAllEvents] = useState<boolean>(showAllByDefault);
@@ -105,26 +107,28 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
               </span>
             )}
           </div>
-          <div className="relative flex border-2 border-border bg-card">
-            <button
-              onClick={() => setPopupViewMode("table")}
-              className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-                popupViewMode === "table" ? "bg-accent" : "hover:bg-accent"
-              }`}
-            >
-              <Table className="h-3 w-3" />
-              TABLE
-            </button>
-            <button
-              onClick={() => setPopupViewMode("gantt")}
-              className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-                popupViewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
-              }`}
-            >
-              <BarChart3 className="h-3 w-3" />
-              TIMELINE
-            </button>
-          </div>
+          {!hideTryThisPrompt && (
+            <div className="relative flex border-2 border-border bg-card">
+              <button
+                onClick={() => setPopupViewMode("table")}
+                className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+                  popupViewMode === "table" ? "bg-accent" : "hover:bg-accent"
+                }`}
+              >
+                <Table className="h-3 w-3" />
+                TABLE
+              </button>
+              <button
+                onClick={() => setPopupViewMode("gantt")}
+                className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+                  popupViewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
+                }`}
+              >
+                <BarChart3 className="h-3 w-3" />
+                TIMELINE
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -252,11 +256,11 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
             </div>
           )}
 
-          {/* Upcoming Events - Blurred Section for Table View (only shown on homepage) */}
+          {/* Upcoming Events - Preview Section for Table View (only shown on homepage) */}
           {hasUpcomingEvents && (
             <div className="mt-4">
-              {/* Blurred Preview - Single Row */}
-              <div className="filter blur-[2px] pointer-events-none opacity-50 select-none">
+              {/* Preview - Single Row */}
+              <div className="pointer-events-none select-none">
                 {/* Desktop Table Row */}
                 <div className="hidden md:block border-2 border-border">
                   <table className="w-full font-mono text-sm">
@@ -297,7 +301,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                   href="/events"
                   className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
-                  See upcoming pop-ups -&gt;
+                  See all upcoming pop-ups -&gt;
                 </Link>
               </div>
             </div>
@@ -618,11 +622,11 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                         </div>
                       )}
 
-                      {/* Upcoming Events - Blurred Row (Desktop) */}
+                      {/* Upcoming Events - Preview Row (Desktop) */}
                       {hasUpcomingEvents && upcomingEvents[0] && (
                         <>
-                          {/* Blurred Preview Row */}
-                          <div className="filter blur-[2px] pointer-events-none opacity-50 select-none">
+                          {/* Preview Row */}
+                          <div className="pointer-events-none select-none">
                             {(() => {
                               const upcomingEvent = upcomingEvents[0];
                               const upcomingEventIdx = displayEvents.length; // Use next index for color
@@ -699,7 +703,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                               href="/events"
                               className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                             >
-                              See upcoming pop-ups -&gt;
+                              See all upcoming pop-ups -&gt;
                             </Link>
                           </div>
                         </>
@@ -883,11 +887,11 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                         </div>
                       )}
 
-                      {/* Upcoming Events - Blurred Row (Mobile) */}
+                      {/* Upcoming Events - Preview Row (Mobile) */}
                       {hasUpcomingEvents && upcomingEvents[0] && (
                         <>
-                          {/* Blurred Preview Row */}
-                          <div className="filter blur-[2px] pointer-events-none opacity-50 select-none">
+                          {/* Preview Row */}
+                          <div className="pointer-events-none select-none">
                             {(() => {
                               const upcomingEvent = upcomingEvents[0];
                               const upcomingEventIdx = displayEvents.length; // Use next index for color
@@ -964,7 +968,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                               href="/events"
                               className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                             >
-                              See upcoming pop-ups -&gt;
+                              See all upcoming pop-ups -&gt;
                             </Link>
                           </div>
                         </>
