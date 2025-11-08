@@ -29,47 +29,15 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   // Helper function to check if an event is currently live
   const isEventLive = (event: UIEvent): boolean => {
     try {
-      const now = currentTime;
-      const today = now.toISOString().split('T')[0]; // YYYY-MM-DD format
-
-      // Only check events that are happening today
-      if (event.date !== today) {
+      // Use the actual start_at and end_at timestamps for accurate live detection
+      // This works correctly for multi-day events and across all timezones
+      if (!event.start_at || !event.end_at) {
         return false;
       }
 
-      const timeStr = event.time;
-
-      // Parse the time string (e.g., "10:00 AM – 12:00 PM")
-      const parts = timeStr.split(' – ');
-      if (parts.length !== 2) return false;
-
-      const [startTime, endTime] = parts.map(t => t.trim());
-
-      // Convert to 24-hour format and create Date objects for today
-      const parseTime = (timeStr: string): Date => {
-        const timeParts = timeStr.split(' ');
-        if (timeParts.length !== 2) throw new Error('Invalid time format');
-
-        const [time, period] = timeParts;
-        const [hours, minutes] = time.split(':').map(Number);
-        let hour24 = hours;
-
-        if (period === 'PM' && hours !== 12) hour24 += 12;
-        if (period === 'AM' && hours === 12) hour24 = 0;
-
-        const date = new Date();
-        date.setHours(hour24, minutes, 0, 0);
-        return date;
-      };
-
-      const startDate = parseTime(startTime);
-      let endDate = parseTime(endTime);
-
-      // If end time is before start time, event spans to next day
-      if (endDate <= startDate) {
-        endDate = new Date(endDate);
-        endDate.setDate(endDate.getDate() + 1);
-      }
+      const now = currentTime;
+      const startDate = new Date(event.start_at);
+      const endDate = new Date(event.end_at);
 
       return now >= startDate && now <= endDate;
     } catch (error) {

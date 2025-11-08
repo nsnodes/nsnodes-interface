@@ -235,16 +235,35 @@ function isArcEvent(title: string, organizers: Array<{ name: string }> | string 
 
 /**
  * Organization slug to location mapping for Sola.day events
+ * Includes timezone information for proper event time display
  */
-const ORGANIZATION_LOCATIONS: Record<string, { city: string; country: string }> = {
-  'edgepatagonia': { city: 'El Chaltén', country: 'Argentina' },
-  '4seas': { city: 'Chiang Mai', country: 'Thailand' },
-  'prospera': { city: 'Próspera', country: 'Honduras' },
-  'Prospera-events': { city: 'Próspera', country: 'Honduras' },
-  'infinitacity': { city: 'INFINITA City', country: 'Argentina' },
-  'zuzalucity': { city: 'Zuzalu City', country: 'Montenegro' },
-  'invisiblegardenar': { city: 'Invisible Garden', country: 'Argentina' },
+const ORGANIZATION_LOCATIONS: Record<string, { city: string; country: string; timezone?: string }> = {
+  'edgepatagonia': { city: 'El Chaltén', country: 'Argentina', timezone: 'America/Argentina/Buenos_Aires' },
+  '4seas': { city: 'Chiang Mai', country: 'Thailand', timezone: 'Asia/Bangkok' },
+  'prospera': { city: 'Próspera', country: 'Honduras', timezone: 'America/Tegucigalpa' },
+  'Prospera-events': { city: 'Próspera', country: 'Honduras', timezone: 'America/Tegucigalpa' },
+  'infinitacity': { city: 'INFINITA City', country: 'Argentina', timezone: 'America/Argentina/Buenos_Aires' },
+  'zuzalucity': { city: 'Zuzalu City', country: 'Montenegro', timezone: 'Europe/Podgorica' },
+  'invisiblegardenar': { city: 'Invisible Garden', country: 'Argentina', timezone: 'America/Argentina/Buenos_Aires' },
   'arc': { city: 'Various', country: 'Global' }, // Arc events are typically global
+}
+
+/**
+ * Infer timezone from organization/city for Sola.day events
+ * Used as fallback when event doesn't have timezone set
+ */
+function inferTimezone(dbEvent: DatabaseEvent): string | null {
+  // Only infer for Sola.day events
+  if (dbEvent.source !== 'soladay') {
+    return null
+  }
+
+  // Try to match by city field (organization slug)
+  if (dbEvent.city && ORGANIZATION_LOCATIONS[dbEvent.city]?.timezone) {
+    return ORGANIZATION_LOCATIONS[dbEvent.city].timezone ?? null
+  }
+
+  return null
 }
 
 /**
@@ -456,6 +475,9 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
   // Infer event type from title and description
   const type = inferEventType(dbEvent.title, dbEvent.description)
 
+  // Use stored timezone, or infer from organization/city as fallback
+  const timezone = dbEvent.timezone || inferTimezone(dbEvent) || undefined
+
   return {
     date,
     time,
@@ -471,7 +493,7 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
     // Include raw timestamps for client-side timezone conversion
     start_at: dbEvent.start_at,
     end_at: dbEvent.end_at,
-    timezone: dbEvent.timezone,
+    timezone,
     lat: dbEvent.lat,
     lng: dbEvent.lng
   }
