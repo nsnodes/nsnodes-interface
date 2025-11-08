@@ -376,8 +376,14 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       if (selectedDateRange) {
         const dateRange = getDateRange(selectedDateRange);
         if (dateRange) {
-          const eventDate = new Date(event.date);
-          if (eventDate < dateRange.start || eventDate > dateRange.end) {
+          // For multi-day events, check if the event overlaps with the date range
+          // Instead of just checking if the start date is in range
+          const eventStartDate = new Date(event.date);
+          const eventEndDate = new Date(event.end_at);
+
+          // Event is included if it overlaps with the date range at all:
+          // - Event starts before range ends AND event ends after range starts
+          if (eventEndDate < dateRange.start || eventStartDate > dateRange.end) {
             return false;
           }
         }

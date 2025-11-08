@@ -10,6 +10,7 @@ import { getEvents } from "@/lib/actions/events";
 import type { UIEvent } from "@/lib/types/events";
 import { societyNamesMatch } from "@/lib/utils/society-matcher";
 import { jobsDatabase } from "@/lib/data/jobs-database";
+import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
 
 // Custom SVG icons
 const XIcon = ({ className }: { className?: string }) => (
@@ -27,26 +28,8 @@ const DiscordIcon = ({ className }: { className?: string }) => (
 // Helper functions for event status badges
 const getEventStartDateTime = (event: UIEvent): Date | null => {
   try {
-    // Parse the event.time string which is in format like "10:00 AM – 12:00 PM"
-    const timeMatch = event.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-    if (!timeMatch) return null;
-
-    let hours = parseInt(timeMatch[1]);
-    const minutes = parseInt(timeMatch[2]);
-    const period = timeMatch[3].toUpperCase();
-
-    // Convert to 24-hour format
-    if (period === "PM" && hours !== 12) {
-      hours += 12;
-    } else if (period === "AM" && hours === 12) {
-      hours = 0;
-    }
-
-    // Create date object from event.date (YYYY-MM-DD format)
-    const [year, month, day] = event.date.split("-").map(Number);
-    const startDate = new Date(year, month - 1, day, hours, minutes, 0);
-
-    return startDate;
+    // Use the ISO timestamp for accurate start time
+    return new Date(event.start_at);
   } catch {
     return null;
   }
@@ -55,42 +38,13 @@ const getEventStartDateTime = (event: UIEvent): Date | null => {
 const isEventLive = (event: UIEvent): boolean => {
   try {
     const now = new Date();
-    const today = now.toISOString().split("T")[0]; // YYYY-MM-DD
 
-    // First check if the event is today
-    if (event.date !== today) return false;
+    // Use the ISO timestamps for accurate comparison
+    // This works for multi-day events and events in any timezone
+    const startTime = new Date(event.start_at);
+    const endTime = new Date(event.end_at);
 
-    // Parse the time string (format: "10:00 AM – 12:00 PM")
-    const timeMatch = event.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)\s*[–-]\s*(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-    if (!timeMatch) return false;
-
-    // Parse start time
-    let startHours = parseInt(timeMatch[1]);
-    const startMinutes = parseInt(timeMatch[2]);
-    const startPeriod = timeMatch[3].toUpperCase();
-
-    // Parse end time
-    let endHours = parseInt(timeMatch[4]);
-    const endMinutes = parseInt(timeMatch[5]);
-    const endPeriod = timeMatch[6].toUpperCase();
-
-    // Convert to 24-hour format
-    if (startPeriod === "PM" && startHours !== 12) startHours += 12;
-    else if (startPeriod === "AM" && startHours === 12) startHours = 0;
-
-    if (endPeriod === "PM" && endHours !== 12) endHours += 12;
-    else if (endPeriod === "AM" && endHours === 12) endHours = 0;
-
-    // Create date objects with today's date
-    const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHours, startMinutes, 0);
-    let endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHours, endMinutes, 0);
-
-    // Handle events that cross midnight
-    if (endDate < startDate) {
-      endDate = new Date(endDate.getTime() + 24 * 60 * 60 * 1000);
-    }
-
-    return now >= startDate && now <= endDate;
+    return now >= startTime && now <= endTime;
   } catch {
     return false;
   }
@@ -116,8 +70,17 @@ const isEventStartingWithinHour = (event: UIEvent): boolean => {
 const isEventToday = (event: UIEvent): boolean => {
   try {
     const now = new Date();
-    const today = now.toISOString().split("T")[0]; // YYYY-MM-DD
-    return event.date === today;
+
+    // Get start and end of today in local timezone
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+    const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
+
+    const startTime = new Date(event.start_at);
+    const endTime = new Date(event.end_at);
+
+    // Event is "today" if it overlaps with today at all
+    // (either starts today, ends today, or spans across today)
+    return (startTime <= todayEnd && endTime >= todayStart);
   } catch {
     return false;
   }
@@ -341,6 +304,9 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
 
   const networkStates = transformSocietiesData(societies);
 
+  // Apply client-side timezone conversion to events
+  const clientEvents = useClientTimezone(events);
+
   // Update current time every second for real-time badge updates
   useEffect(() => {
     const interval = setInterval(() => {
@@ -368,7 +334,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
 
   // Get events for a specific network state
   const getEventsForNetworkState = (networkStateName: string) => {
-    return events.filter(event =>
+    return clientEvents.filter(event =>
       societyNamesMatch(event.networkState, networkStateName)
     );
   };
@@ -382,7 +348,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    return events.filter(event => {
+    return clientEvents.filter(event => {
       const eventDate = new Date(event.date);
       return eventDate >= today && societyNamesMatch(event.networkState, networkStateName);
     }).length;

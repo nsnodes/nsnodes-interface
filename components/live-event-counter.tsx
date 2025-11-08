@@ -19,44 +19,13 @@ export function LiveEventCounter({ allEvents, hideNoEvents = false }: LiveEventC
   const isEventLive = (event: UIEvent): boolean => {
     try {
       const now = currentTime;
-      const today = now.toISOString().split("T")[0];
 
-      if (event.date !== today) {
-        return false;
-      }
+      // Use the ISO timestamps for accurate comparison
+      // This works for multi-day events and events in any timezone
+      const startTime = new Date(event.start_at);
+      const endTime = new Date(event.end_at);
 
-      const timeStr = event.time;
-      const parts = timeStr.split(" – ");
-      if (parts.length !== 2) return false;
-
-      const [startTime, endTime] = parts.map((t) => t.trim());
-
-      const parseTime = (timeStr: string): Date => {
-        const timeParts = timeStr.split(" ");
-        if (timeParts.length !== 2) throw new Error("Invalid time format");
-
-        const [time, period] = timeParts;
-        const [hours, minutes] = time.split(":").map(Number);
-        let hour24 = hours;
-
-        if (period === "PM" && hours !== 12) hour24 += 12;
-        if (period === "AM" && hours === 12) hour24 = 0;
-
-        const date = new Date();
-        date.setHours(hour24, minutes, 0, 0);
-        return date;
-      };
-
-      const startDate = parseTime(startTime);
-      let endDate = parseTime(endTime);
-
-      // If end time is before start time, event spans to next day
-      if (endDate <= startDate) {
-        endDate = new Date(endDate);
-        endDate.setDate(endDate.getDate() + 1);
-      }
-
-      return now >= startDate && now <= endDate;
+      return now >= startTime && now <= endTime;
     } catch {
       return false;
     }
@@ -65,26 +34,8 @@ export function LiveEventCounter({ allEvents, hideNoEvents = false }: LiveEventC
   // Helper function to get event start date/time
   const getEventStartDateTime = (event: UIEvent): Date | null => {
     try {
-      const timeStr = event.time;
-      const parts = timeStr.split(" – ");
-      if (parts.length !== 2) return null;
-
-      const startTime = parts[0].trim();
-      const timeParts = startTime.split(" ");
-      if (timeParts.length !== 2) return null;
-
-      const [time, period] = timeParts;
-      const [hours, minutes] = time.split(":").map(Number);
-      let hour24 = hours;
-
-      if (period === "PM" && hours !== 12) hour24 += 12;
-      if (period === "AM" && hours === 12) hour24 = 0;
-
-      // Parse the event date
-      const [year, month, day] = event.date.split("-").map(Number);
-      const eventDateTime = new Date(year, month - 1, day, hour24, minutes, 0, 0);
-
-      return eventDateTime;
+      // Use the ISO timestamp for accurate start time
+      return new Date(event.start_at);
     } catch {
       return null;
     }
