@@ -3,16 +3,11 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-// Type declaration for Google Analytics gtag function
+// Extend Window interface for gtag
 declare global {
   interface Window {
-    gtag?: (
-      command: string,
-      targetId: string,
-      config?: {
-        page_path?: string;
-      }
-    ) => void;
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
   }
 }
 
@@ -29,5 +24,3 @@ export default function GAListener() {
   }, [pathname, searchParams]);
   return null;
 }
-
-
