@@ -55,7 +55,7 @@ export async function createKidsSubmission(input: KidsSubmissionInput): Promise<
     .insert({
       start_date: startDate,
       end_date: endDate,
-      kid1_age: input.kid1Age,
+      kid1_age: input.kid1Age ?? null,
       kid2_age: input.kid2Age ?? null,
       kid3_age: input.kid3Age ?? null,
       kid4_age: input.kid4Age ?? null,

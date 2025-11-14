@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { verifyNSKidsPassword } from '@/lib/actions/auth';
 
-const CORRECT_ANSWER = 'discussion';
 const SESSION_KEY = 'nskids_auth';
 
 interface KidsPasswordGateProps {
@@ -14,6 +14,7 @@ export function KidsPasswordGate({ children }: KidsPasswordGateProps) {
   const [answer, setAnswer] = useState('');
   const [error, setError] = useState('');
   const [isChecking, setIsChecking] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Check session storage on mount
   useEffect(() => {
@@ -22,17 +23,27 @@ export function KidsPasswordGate({ children }: KidsPasswordGateProps) {
     setIsChecking(false);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
 
-    // Case-insensitive comparison, trim whitespace
-    if (answer.trim().toLowerCase() === CORRECT_ANSWER) {
-      sessionStorage.setItem(SESSION_KEY, 'true');
-      setIsAuthenticated(true);
-      setError('');
-    } else {
-      setError('Incorrect answer. Try again.');
-      setAnswer('');
+    try {
+      const isValid = await verifyNSKidsPassword(answer);
+
+      if (isValid) {
+        sessionStorage.setItem(SESSION_KEY, 'true');
+        setIsAuthenticated(true);
+        setError('');
+      } else {
+        setError('Incorrect answer. Try again.');
+        setAnswer('');
+      }
+    } catch (err) {
+      setError('Failed to verify password. Please try again.');
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -75,9 +86,10 @@ export function KidsPasswordGate({ children }: KidsPasswordGateProps) {
 
             <button
               type="submit"
-              className="w-full px-6 py-3 border-2 border-border bg-primary text-primary-foreground font-mono font-bold hover:bg-primary/90 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              disabled={isSubmitting}
+              className="w-full px-6 py-3 border-2 border-border bg-primary text-primary-foreground font-mono font-bold hover:bg-primary/90 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0"
             >
-              [ SUBMIT ]
+              {isSubmitting ? '[ VERIFYING... ]' : '[ SUBMIT ]'}
             </button>
           </form>
 
