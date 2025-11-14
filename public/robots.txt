@@ -1,0 +1,9 @@
+# Allow all crawlers by default
+User-agent: *
+Allow: /
+
+# Block access to the secret kids page
+Disallow: /nskids
+
+# Sitemap
+Sitemap: https://nsnodes.com/sitemap.xml

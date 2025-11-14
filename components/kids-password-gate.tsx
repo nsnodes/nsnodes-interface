@@ -1,0 +1,91 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
+const CORRECT_ANSWER = 'discussion';
+const SESSION_KEY = 'nskids_auth';
+
+interface KidsPasswordGateProps {
+  children: React.ReactNode;
+}
+
+export function KidsPasswordGate({ children }: KidsPasswordGateProps) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [answer, setAnswer] = useState('');
+  const [error, setError] = useState('');
+  const [isChecking, setIsChecking] = useState(true);
+
+  // Check session storage on mount
+  useEffect(() => {
+    const isAuthed = sessionStorage.getItem(SESSION_KEY) === 'true';
+    setIsAuthenticated(isAuthed);
+    setIsChecking(false);
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Case-insensitive comparison, trim whitespace
+    if (answer.trim().toLowerCase() === CORRECT_ANSWER) {
+      sessionStorage.setItem(SESSION_KEY, 'true');
+      setIsAuthenticated(true);
+      setError('');
+    } else {
+      setError('Incorrect answer. Try again.');
+      setAnswer('');
+    }
+  };
+
+  // Show nothing while checking auth status
+  if (isChecking) {
+    return null;
+  }
+
+  // Show protected content if authenticated
+  if (isAuthenticated) {
+    return <>{children}</>;
+  }
+
+  // Show password prompt
+  return (
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="border-2 border-border bg-card p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
+          <h1 className="text-2xl font-bold font-mono mb-6 text-center">[ ACCESS REQUIRED ]</h1>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="answer" className="block text-sm font-mono font-medium mb-2">
+                What channel are Kids at NS inside?
+              </label>
+              <input
+                type="text"
+                id="answer"
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring font-mono"
+                placeholder="Type your answer..."
+                autoComplete="off"
+                autoFocus
+              />
+              {error && (
+                <p className="mt-2 text-sm font-mono text-destructive">{error}</p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="w-full px-6 py-3 border-2 border-border bg-primary text-primary-foreground font-mono font-bold hover:bg-primary/90 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            >
+              [ SUBMIT ]
+            </button>
+          </form>
+
+          <p className="mt-4 text-xs text-center font-mono text-muted-foreground">
+            Hint: Look for the answer in the NS Discord
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
