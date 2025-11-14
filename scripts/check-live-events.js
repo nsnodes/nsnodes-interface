@@ -2,22 +2,12 @@
 // Run with: node scripts/check-live-events.js
 
 import { createClient } from '@supabase/supabase-js'
-import { readFileSync } from 'fs'
 
-// Manually load environment variables from .env.local
-const envFile = readFileSync('.env.local', 'utf-8')
-const envVars = {}
-envFile.split('\n').forEach(line => {
-  const match = line.match(/^([^=]+)=(.*)$/)
-  if (match) {
-    envVars[match[1].trim()] = match[2].trim()
-  }
-})
+// Hardcode the values for now - get them from .env.local manually
+const SUPABASE_URL = 'https://cjxoqtfpzytwjbwzpcbx.supabase.co'
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNqeG9xdGZwenl0d2pid3pwY2J4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI3MDk4NTYsImV4cCI6MjA1ODI4NTg1Nn0.hPQ5dL7YxUwVcJBCIvE5RZjLJwdVXQvKNwGPGYYeOr4'
 
-const supabase = createClient(
-  envVars.NEXT_PUBLIC_SUPABASE_URL,
-  envVars.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 async function checkLiveEvents() {
   const now = new Date()
@@ -27,7 +17,10 @@ async function checkLiveEvents() {
 
   const { data: events, error } = await supabase
     .from('events')
-    .select('title, start_at, end_at, timezone, city, country, source')
+    .select('title, start_at, end_at, timezone, city, country, source, tags, status')
+    .in('source', ['luma', 'soladay'])
+    .not('tags', 'cs', '{popup-city}')
+    .in('status', ['scheduled', 'tentative'])
     .order('start_at', { ascending: true })
 
   if (error) {
@@ -42,7 +35,7 @@ async function checkLiveEvents() {
   const liveEvents = events.filter(event => {
     const start = new Date(event.start_at)
     const end = new Date(event.end_at)
-    return now >= start && now <= end
+    return now >= start && now < end
   })
 
   console.log('🔴 Live events:', liveEvents.length)
