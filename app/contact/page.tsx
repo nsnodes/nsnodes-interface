@@ -10,6 +10,7 @@ export default function ContactPage() {
         <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
         </pre>
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
+          [ CONTACT ]
         </h1>
         <p className="text-2xl font-mono text-muted-foreground">
           Coming soon
