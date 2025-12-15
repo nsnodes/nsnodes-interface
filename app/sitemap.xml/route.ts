@@ -2,11 +2,21 @@ const PROD = "https://nsnodes.com";
 
 const routes = [
   "/",
+  "/events",
+  "/societies",
   "/jobs",
   "/content",
   "/vc",
+  "/funding",
+  "/funding/grants",
+  "/funding/vc",
   "/tooling",
   "/contact",
+  "/argentina",
+  "/edge",
+  "/ns",
+  "/investment-dao",
+  // Note: /nskids is intentionally excluded (blocked in robots.txt)
 ];
 
 function generateXml(base: string) {

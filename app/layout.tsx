@@ -47,7 +47,11 @@ export default async function RootLayout({
   // ✅ FIX: await headers() instead of using it synchronously
   const h = await headers();
   const host = h.get("host") || "";
+  const pathname = h.get("x-pathname") || "/";
   const isStaging = host === "test.nsnodes.com";
+
+  // Build canonical URL with the current pathname
+  const canonicalUrl = `https://nsnodes.com${pathname}`;
 
   return (
     <html lang="en" suppressHydrationWarning className="overflow-x-hidden dark">
@@ -64,8 +68,8 @@ export default async function RootLayout({
             />
           </>
         )}
-        {/* Canonical: always point to production host to avoid duplicate content */}
-        <link rel="canonical" href="https://nsnodes.com" />
+        {/* Canonical: point to production host with current path to avoid duplicate content */}
+        <link rel="canonical" href={canonicalUrl} />
         {/* Set dark mode as default before hydration to prevent flash */}
         <script
           dangerouslySetInnerHTML={{

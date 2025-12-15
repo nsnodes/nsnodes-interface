@@ -1,5 +1,11 @@
 import { Rocket } from "lucide-react";
 import Image from "next/image";
+import { generatePageMetadata } from '@/lib/utils/metadata';
+
+export const metadata = generatePageMetadata(
+  "Investment DAO",
+  "Coming soon: A decentralized investment DAO for Network State projects. Join the community building the future of coordinated capital."
+);
 
 export default function InvestmentDAO() {
   return (

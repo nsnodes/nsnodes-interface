@@ -22,12 +22,18 @@ export function middleware(request: NextRequest) {
 
   // Disable auth for test.nsnodes.com - allow public access
   if (!isStagingHost || isPublicAsset) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    // Add pathname to headers for canonical URL generation
+    response.headers.set("x-pathname", pathname);
+    return response;
   }
 
   // Skip authentication for test.nsnodes.com
   if (isStagingHost) {
-    return NextResponse.next();
+    const response = NextResponse.next();
+    // Add pathname to headers for canonical URL generation
+    response.headers.set("x-pathname", pathname);
+    return response;
   }
 
   const authHeader = request.headers.get("authorization");
