@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Basic auth middleware for staging host
-export function middleware(request: NextRequest) {
+// Basic auth proxy for staging host
+export function proxy(request: NextRequest) {
   const url = new URL(request.url);
   const rawHost = request.headers.get("host") || url.host;
 
