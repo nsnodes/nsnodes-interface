@@ -23,7 +23,7 @@ function generateXml(base: string) {
   const urls = routes
     .map((path) => {
       const loc = `${base}${path}`;
-      return `  <url>\n    <loc>${loc}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>${path === "/" ? "1.0" : "0.7"}</priority>\n  </url>`;
+      return `  <url>\n    <loc>${loc}</loc>\n    <changefreq>daily</changefreq>\n    <priority>${path === "/" ? "1.0" : "0.7"}</priority>\n  </url>`;
     })
     .join("\n");
 
