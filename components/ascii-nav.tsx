@@ -27,7 +27,7 @@ export function AsciiNav() {
         { href: "/investment-dao", label: "[ INVESTMENT DAO ]", comingSoon: true },
       ]
     },
-    { href: "/content", label: "[ CONTENT ]", comingSoon: true },
+    { href: "/content", label: "[ CONTENT ]" },
     { href: "/tooling", label: "[ TOOLING ]", comingSoon: true },
     { href: "/contact", label: "[ CONTACT ]" },
   ];
