@@ -73,3 +73,61 @@ npx shadcn@latest add <component-name>
 ```
 
 Components will be added to `components/ui/` and automatically configured to work with the project's styling system.
+
+## Git Commit Guidelines
+
+### Creating Backup Commits
+
+After completing any significant work or changes, create regular git commits to serve as checkpoints/backup points. This makes it easy to revert if something goes wrong.
+
+**When to commit:**
+- After completing a feature or task
+- Before making major refactoring changes
+- After fixing bugs or implementing new functionality
+- When ending a work session
+
+**How to commit:**
+```bash
+# Stage all changes
+git add .
+
+# Create a descriptive commit message
+git commit -m "<type>: <description>"
+
+# Examples:
+git commit -m "feat: add compact creator cards with dropdown for recent posts"
+git commit -m "fix: resolve article loading issue in content hub"
+git commit -m "style: reduce padding and spacing in creator cards"
+git commit -m "refactor: reorganize content page layout"
+```
+
+**Commit message types:**
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `style:` - Styling changes (CSS, layout, spacing)
+- `refactor:` - Code restructuring without behavior change
+- `docs:` - Documentation changes
+- `chore:` - Maintenance tasks, updates
+- `test:` - Adding or updating tests
+- `perf:` - Performance improvements
+
+**Viewing commit history:**
+```bash
+# Show recent commits
+git log --oneline -10
+
+# Show detailed commit history
+git log --graph --oneline --all
+
+# View changes in a commit
+git show <commit-hash>
+```
+
+**Reverting if needed:**
+```bash
+# Revert to a previous commit (creates new commit)
+git revert <commit-hash>
+
+# Or reset (use with caution - discards uncommitted changes)
+git reset --hard <commit-hash>
+```
