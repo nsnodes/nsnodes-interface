@@ -90,22 +90,23 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
       });
 
       if (response.ok) {
-        const data = await response.json();
-        if (data.matches && data.matches.length > 0) {
-          setCommandmentsList(data.matches);
-          setIsSearching(false);
-          return;
+        try {
+          const data = await response.json();
+          if (data.matches && data.matches.length > 0) {
+            setCommandmentsList(data.matches);
+            return;
+          }
+        } catch (jsonError) {
+          console.error('Failed to parse search response:', jsonError);
         }
-        // If semantic search returned no results, fall through to text search
       } else {
-        // Log non-200 responses for debugging
         console.error('Search API returned non-OK status:', response.status);
       }
     } catch (error) {
       console.log('Semantic search unavailable, falling back to text search:', error);
     }
 
-    // Fallback to text-based search
+    // Fallback to text-based search (always runs if semantic search doesn't return results)
     const lowercaseQuery = query.toLowerCase();
     const filtered = allCommandments.filter(cmd =>
       cmd.title.toLowerCase().includes(lowercaseQuery) ||
@@ -113,7 +114,10 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
       cmd.description.toLowerCase().includes(lowercaseQuery)
     );
     setCommandmentsList(filtered);
-    setIsSearching(false);
+  } finally {
+      // Always reset searching state, even if something goes wrong
+      setIsSearching(false);
+    }
   };
 
   // Debounced search
