@@ -22,7 +22,8 @@ export function getAnthropicClient(): Anthropic {
 export async function generateCoreCommandIdeas(
   mode: 'random' | 'context',
   context?: string,
-  count: number = 1
+  count: number = 1,
+  existingTitles: string[] = []
 ): Promise<Array<{title: string, commandment: string, description: string}>> {
   const client = getAnthropicClient();
 
@@ -48,21 +49,26 @@ Return only the JSON array, no other text.`;
 
   let userPrompt = '';
 
+  // Add existing titles to avoid duplicates
+  const existingTitlesText = existingTitles.length > 0
+    ? `\n\nIMPORTANT: Do NOT generate any commandments with these titles (they already exist):\n${existingTitles.map(t => `- ${t}`).join('\n')}\n\nGenerate entirely new and unique ideas.`
+    : '';
+
   if (mode === 'random') {
-    userPrompt = `Generate ${count} unique moral commandment(s) for network societies. Pick diverse themes from: identity, governance, property, education, money, law, migration, data, or similar domains. Be creative and avoid clichés.
+    userPrompt = `Generate ${count} unique moral commandment(s) for network societies. Pick diverse themes from: identity, governance, property, education, money, law, migration, data, or similar domains. Be creative and avoid clichés.${existingTitlesText}
 
 Return only a JSON array with ${count} commandment(s).`;
   } else {
     userPrompt = `Generate ${count} moral commandment(s) for network societies based on this context: "${context}".
-Create ideas that relate to or expand upon this theme. If the context is too vague, generate something adjacent and explain the connection.
+Create ideas that relate to or expand upon this theme. If the context is too vague, generate something adjacent and explain the connection.${existingTitlesText}
 
 Return only a JSON array with ${count} commandment(s).`;
   }
 
   try {
     const message = await client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 2000,
+      model: 'claude-3-5-haiku-20241022',
+      max_tokens: 1000,
       system: systemPrompt,
       messages: [{
         role: 'user',

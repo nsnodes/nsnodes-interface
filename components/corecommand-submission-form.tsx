@@ -38,6 +38,9 @@ export default function CoreCommandSubmissionForm({
         return;
       }
 
+      // Convert to .eth name if not already
+      const ethName = submitterName.endsWith('.eth') ? submitterName : `${submitterName}.eth`;
+
       // Create new commandment
       const newCommandment: CoreCommandment = {
         id: Date.now().toString(),
@@ -48,7 +51,8 @@ export default function CoreCommandSubmissionForm({
         downvotes: 0,
         voterNames: [],
         createdAt: new Date(),
-        netVotes: 0
+        netVotes: 0,
+        proposedBy: ethName
       };
 
       onSubmit(newCommandment);
@@ -180,17 +184,20 @@ export default function CoreCommandSubmissionForm({
         {/* Submitter Name */}
         <div>
           <label htmlFor="submitterName" className={labelClass}>
-            Your Name *
+            Your .eth Name *
           </label>
           <input
             type="text"
             id="submitterName"
             value={submitterName}
             onChange={(e) => setSubmitterName(e.target.value)}
-            placeholder="Your name (will be shown as proposer)"
+            placeholder="yourname.eth"
             className={inputClass}
             disabled={isSubmitting}
           />
+          <p className="text-xs font-mono text-muted-foreground mt-1">
+            Will be shown as "Proposed by yourname.eth"
+          </p>
         </div>
 
         {/* Submit Button */}

@@ -43,7 +43,7 @@ export default function CoreCommandCard({
 
           {/* Date */}
           <div className="text-[10px] font-mono text-muted-foreground">
-            Proposed: {commandment.createdAt.toLocaleDateString()}
+            Proposed by {commandment.proposedBy} · {new Date(commandment.createdAt).toLocaleDateString()}
           </div>
         </div>
 

@@ -21,14 +21,22 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
   const [allCommandments, setAllCommandments] = useState<CoreCommandment[]>(commandments);
 
   const handleNewCommandment = (newCommandment: CoreCommandment) => {
-    const newList = [newCommandment, ...allCommandments];
+    const commandmentWithProposer: CoreCommandment = {
+      ...newCommandment,
+      proposedBy: `${newCommandment.proposedBy || 'anonymous.eth'}`
+    };
+    const newList = [commandmentWithProposer, ...allCommandments];
     setAllCommandments(newList);
     setCommandmentsList(newList);
     setShowSubmissionForm(false);
   };
 
   const handleIdeaPosted = (newCommandment: CoreCommandment) => {
-    const newList = [newCommandment, ...allCommandments];
+    const commandmentWithProposer: CoreCommandment = {
+      ...newCommandment,
+      proposedBy: `${newCommandment.proposedBy || 'anonymous.eth'}`
+    };
+    const newList = [commandmentWithProposer, ...allCommandments];
     setAllCommandments(newList);
     setCommandmentsList(newList);
     setShowIdeaGenerator(false);
@@ -56,7 +64,7 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
       return updatedCmd;
     }).sort((a, b) => {
       if (sortBy === 'popularity') return b.netVotes - a.netVotes;
-      return b.createdAt.getTime() - a.createdAt.getTime();
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
 
     setAllCommandments(updateList(allCommandments));
@@ -127,9 +135,6 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
       <section className="flex flex-col lg:flex-row items-start gap-8">
         {/* Left: Main Content */}
         <div className="text-center lg:text-left space-y-4 flex-1">
-          <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
-          &quot;One commandment at a time.&quot;
-          </pre>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
             [ CORE COMMANDMENTS ]
           </h1>
@@ -143,7 +148,10 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
             <button
               type="button"
-              onClick={() => setShowIdeaGenerator(!showIdeaGenerator)}
+              onClick={() => {
+                setShowIdeaGenerator(!showIdeaGenerator);
+                setShowSubmissionForm(false);
+              }}
               className="px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none flex items-center justify-center gap-2"
             >
               <Sparkles className="h-4 w-4" />
@@ -151,33 +159,16 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
             </button>
             <button
               type="button"
-              onClick={() => setShowSubmissionForm(!showSubmissionForm)}
+              onClick={() => {
+                setShowSubmissionForm(!showSubmissionForm);
+                setShowIdeaGenerator(false);
+              }}
               className="px-6 py-3 border-2 border-border bg-background hover:bg-accent transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none flex items-center justify-center gap-2"
             >
               <Plus className="h-4 w-4" />
               [ PROPOSE COMMANDMENT ]
             </button>
           </div>
-
-          {/* Idea Generator Dropdown */}
-          {showIdeaGenerator && (
-            <div className="border-2 border-border bg-card p-6">
-              <CoreCommandIdeaGenerator
-                onClose={() => setShowIdeaGenerator(false)}
-                onSubmit={handleIdeaPosted}
-              />
-            </div>
-          )}
-
-          {/* Submission Form Dropdown */}
-          {showSubmissionForm && (
-            <div className="border-2 border-border bg-card p-6">
-              <CoreCommandSubmissionForm
-                onSubmit={handleNewCommandment}
-                onClose={() => setShowSubmissionForm(false)}
-              />
-            </div>
-          )}
         </div>
 
         {/* Right: Meme Placeholder */}
@@ -189,6 +180,27 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
           </div>
         </div>
       </section>
+
+      {/* Full-Width Dropdowns */}
+      {/* Idea Generator Dropdown */}
+      {showIdeaGenerator && (
+        <div className="border-2 border-border bg-card p-6">
+          <CoreCommandIdeaGenerator
+            onClose={() => setShowIdeaGenerator(false)}
+            onSubmit={handleIdeaPosted}
+          />
+        </div>
+      )}
+
+      {/* Submission Form Dropdown */}
+      {showSubmissionForm && (
+        <div className="border-2 border-border bg-card p-6">
+          <CoreCommandSubmissionForm
+            onSubmit={handleNewCommandment}
+            onClose={() => setShowSubmissionForm(false)}
+          />
+        </div>
+      )}
 
       {/* Commandments List */}
       <section className="space-y-6">
@@ -211,7 +223,7 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
                   if (newSortBy === 'popularity') {
                     return sorted.sort((a, b) => b.netVotes - a.netVotes);
                   } else {
-                    return sorted.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+                    return sorted.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
                   }
                 });
               }}
@@ -229,7 +241,7 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search commandments... (e.g., 'privacy', 'governance', 'identity')"
+              placeholder="Semantic search (e.g., 'privacy', 'governance', 'identity')"
               className="w-full pl-10 pr-10 py-2 border-2 border-border bg-background font-mono text-sm focus:outline-none focus:ring-2 focus:ring-primary"
             />
             {searchQuery && (

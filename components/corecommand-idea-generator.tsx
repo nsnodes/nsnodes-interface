@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Sparkles, Shuffle, X, Plus } from 'lucide-react';
 import type { CoreCommandSuggestion, CoreCommandment } from '@/lib/types/corecommand';
-import { getRandomCommandment } from '@/lib/data/corecommand-database';
+import { getCommandmentsByPopularity } from '@/lib/data/corecommand-database';
 
 interface CoreCommandIdeaGeneratorProps {
   onClose: () => void;
@@ -11,7 +11,7 @@ interface CoreCommandIdeaGeneratorProps {
 }
 
 export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreCommandIdeaGeneratorProps) {
-  const [mode, setMode] = useState<'random' | 'context' | 'example'>('random');
+  const [mode, setMode] = useState<'random' | 'context'>('random');
   const [context, setContext] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [suggestions, setSuggestions] = useState<CoreCommandSuggestion[]>([]);
@@ -20,19 +20,9 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
   const [submitterName, setSubmitterName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const generateFromExamples = () => {
-    // Randomly pick from the 15 example commandments
-    const random = getRandomCommandment();
-    setSuggestions([{
-      title: random.title,
-      commandment: random.commandment,
-      description: random.description
-    }]);
-  };
-
   const generateWithAI = async () => {
     if (mode === 'context' && !context.trim()) {
-      setError('Please provide context for AI generation');
+      setError('Please provide context for generation');
       return;
     }
 
@@ -40,13 +30,18 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
     setError('');
 
     try {
+      // Get existing commandments to avoid duplicates
+      const existingCommandments = getCommandmentsByPopularity();
+      const existingTitles = existingCommandments.map(c => c.title);
+
       const response = await fetch('/api/corecommand/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode,
           context: mode === 'context' ? context : undefined,
-          count: 1
+          count: 1,
+          existingTitles
         })
       });
 
@@ -56,7 +51,7 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
       }
 
       const data = await response.json();
-      setSuggestions(data.ideas);
+      setSuggestions(prev => [...prev, ...data.ideas]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate ideas. Please try again.');
       console.error(err);
@@ -83,6 +78,7 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
     setIsSubmitting(true);
 
     const suggestion = suggestions[index];
+    const ethName = submitterName.endsWith('.eth') ? submitterName : `${submitterName}.eth`;
     const newCommandment: CoreCommandment = {
       id: Date.now().toString(),
       title: suggestion.title,
@@ -92,7 +88,8 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
       downvotes: 0,
       voterNames: [],
       createdAt: new Date(),
-      netVotes: 0
+      netVotes: 0,
+      proposedBy: ethName
     };
 
     onSubmit(newCommandment);
@@ -119,8 +116,10 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
           [ IDEA GENERATOR ]
         </h2>
         <button
+          type="button"
           onClick={onClose}
           className="p-2 hover:bg-accent transition-colors"
+          aria-label="Close idea generator"
         >
           <X className="h-5 w-5" />
         </button>
@@ -128,7 +127,7 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
 
       {/* Mode Selection */}
       <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <button
             type="button"
             onClick={() => {
@@ -136,14 +135,14 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
               setSuggestions([]);
               setError('');
             }}
-            className={`p-4 border-2 font-mono font-bold text-sm transition-colors ${
+            className={`p-3 border-2 font-mono font-bold text-xs transition-colors ${
               mode === 'random'
                 ? 'border-primary bg-primary text-primary-foreground'
                 : 'border-border bg-card hover:bg-accent'
             }`}
           >
-            <Shuffle className="h-5 w-5 mx-auto mb-2" />
-            AI Random
+            <Shuffle className="h-4 w-4 mx-auto mb-1" />
+            Random
           </button>
 
           <button
@@ -153,31 +152,14 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
               setSuggestions([]);
               setError('');
             }}
-            className={`p-4 border-2 font-mono font-bold text-sm transition-colors ${
+            className={`p-3 border-2 font-mono font-bold text-xs transition-colors ${
               mode === 'context'
                 ? 'border-primary bg-primary text-primary-foreground'
                 : 'border-border bg-card hover:bg-accent'
             }`}
           >
-            <Sparkles className="h-5 w-5 mx-auto mb-2" />
-            AI from Context
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setMode('example');
-              setSuggestions([]);
-              setError('');
-            }}
-            className={`p-4 border-2 font-mono font-bold text-sm transition-colors ${
-              mode === 'example'
-                ? 'border-primary bg-primary text-primary-foreground'
-                : 'border-border bg-card hover:bg-accent'
-            }`}
-          >
-            <Shuffle className="h-5 w-5 mx-auto mb-2" />
-            From Examples
+            <Sparkles className="h-4 w-4 mx-auto mb-1" />
+            From Context
           </button>
         </div>
 
@@ -199,11 +181,17 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
 
         {/* Generate Button */}
         <button
-          onClick={mode === 'example' ? generateFromExamples : generateWithAI}
+          type="button"
+          onClick={generateWithAI}
           disabled={isGenerating || (mode === 'context' && !context.trim())}
           className="w-full px-6 py-3 border-2 border-border bg-primary text-primary-foreground font-mono font-bold hover:bg-primary/90 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] disabled:opacity-50 disabled:cursor-not-allowed hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:translate-x-0 disabled:translate-y-0"
         >
-          {isGenerating ? '[ GENERATING... ]' : '[ GENERATE IDEA ]'}
+          {isGenerating
+            ? '[ GENERATING... ]'
+            : suggestions.length > 0
+              ? '[ GENERATE ANOTHER ]'
+              : '[ GENERATE IDEA ]'
+          }
         </button>
 
         {error && (
@@ -216,12 +204,13 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
       {/* Suggestions Display */}
       {suggestions.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-lg font-bold font-mono">[ GENERATED IDEA ]</h3>
+          <h3 className="text-lg font-bold font-mono">[ GENERATED IDEAS ]</h3>
 
           {suggestions.map((suggestion, index) => (
             <div key={index} className="border-2 border-border p-4 bg-muted/50 space-y-3">
-              <div>
+              <div className="flex items-start justify-between gap-2">
                 <h4 className="font-bold font-mono">{suggestion.title}</h4>
+                <span className="text-xs font-mono text-muted-foreground">#{index + 1}</span>
               </div>
 
               <div className="border-l-4 border-primary pl-4 py-2 bg-background">
@@ -239,17 +228,20 @@ export default function CoreCommandIdeaGenerator({ onClose, onSubmit }: CoreComm
                 <div className="pt-3 border-t border-border space-y-3">
                   <div>
                     <label className="block text-xs font-mono font-medium mb-1">
-                      Your Name *
+                      Your .eth Name *
                     </label>
                     <input
                       type="text"
                       value={submitterName}
                       onChange={(e) => setSubmitterName(e.target.value)}
-                      placeholder="Enter your name..."
+                      placeholder="yourname.eth"
                       className="w-full px-3 py-2 border-2 border-border bg-background font-mono text-sm focus:outline-none focus:ring-2 focus:ring-ring"
                       disabled={isSubmitting}
                       autoFocus
                     />
+                    <p className="text-[10px] font-mono text-muted-foreground mt-1">
+                      Will be shown as "Proposed by yourname.eth"
+                    </p>
                   </div>
                   <div className="flex gap-2">
                     <button

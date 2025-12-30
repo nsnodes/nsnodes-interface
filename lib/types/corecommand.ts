@@ -9,6 +9,7 @@ export interface CoreCommandment {
   voterNames: string[];       // Anonymous names of voters
   createdAt: Date;
   netVotes: number;           // Computed: upvotes - downvotes
+  proposedBy: string;         // .eth name of proposer
 }
 
 // Form input for new commandments

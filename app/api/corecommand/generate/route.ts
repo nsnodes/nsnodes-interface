@@ -4,7 +4,7 @@ import { generateCoreCommandIdeas } from '@/lib/services/anthropic';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { mode, context, count = 1 } = body;
+    const { mode, context, count = 1, existingTitles = [] } = body;
 
     if (mode !== 'random' && mode !== 'context') {
       return NextResponse.json(
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const ideas = await generateCoreCommandIdeas(mode, context, count);
+    const ideas = await generateCoreCommandIdeas(mode, context, count, existingTitles);
 
     return NextResponse.json({ ideas });
   } catch (error) {
