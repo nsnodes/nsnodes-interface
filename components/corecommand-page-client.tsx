@@ -139,50 +139,53 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
 
   return (
     <div className="space-y-12 overflow-x-hidden">
-      {/* Meme Placeholder - Top of page */}
-      <section>
-        <div className="w-full border-2 border-dashed border-border p-8 bg-muted/30 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] min-h-[220px] flex items-center justify-center">
-          <p className="font-mono text-sm font-bold text-muted-foreground">
-            [ RELATED MEME ]
+      {/* Hero Section - Two Column Layout on Desktop */}
+      <section className="flex flex-col lg:flex-row items-start gap-8">
+        {/* Left: Main Content */}
+        <div className="text-center lg:text-left space-y-4 flex-1 w-full">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
+            [ CORE COMMANDMENTS ]
+          </h1>
+          <p className="text-muted-foreground font-mono text-sm sm:text-base max-w-lg mx-auto lg:mx-0">
+            Propose and vote on moral commandments for network societies.
+            Inspired by Balaji&apos;s concept of moral innovations - new ethical frameworks
+            for the digital age.
           </p>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+            <button
+              type="button"
+              onClick={() => {
+                setShowIdeaGenerator(!showIdeaGenerator);
+                setShowSubmissionForm(false);
+              }}
+              className="w-full sm:w-auto px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none flex items-center justify-center gap-2"
+            >
+              <Sparkles className="h-4 w-4" />
+              [ GENERATE IDEAS ]
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowSubmissionForm(!showSubmissionForm);
+                setShowIdeaGenerator(false);
+              }}
+              className="w-full sm:w-auto px-6 py-3 border-2 border-border bg-background hover:bg-accent transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none flex items-center justify-center gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              [ PROPOSE COMMANDMENT ]
+            </button>
+          </div>
         </div>
-      </section>
 
-      {/* Hero Section - Main Content */}
-      <section className="text-center space-y-4">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
-          [ CORE COMMANDMENTS ]
-        </h1>
-        <p className="text-muted-foreground font-mono text-sm sm:text-base max-w-lg mx-auto">
-          Propose and vote on moral commandments for network societies.
-          Inspired by Balaji&apos;s concept of moral innovations - new ethical frameworks
-          for the digital age.
-        </p>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-          <button
-            type="button"
-            onClick={() => {
-              setShowIdeaGenerator(!showIdeaGenerator);
-              setShowSubmissionForm(false);
-            }}
-            className="w-full sm:w-auto px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none flex items-center justify-center gap-2"
-          >
-            <Sparkles className="h-4 w-4" />
-            [ GENERATE IDEAS ]
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setShowSubmissionForm(!showSubmissionForm);
-              setShowIdeaGenerator(false);
-            }}
-            className="w-full sm:w-auto px-6 py-3 border-2 border-border bg-background hover:bg-accent transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none flex items-center justify-center gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            [ PROPOSE COMMANDMENT ]
-          </button>
+        {/* Right: Meme Placeholder - Top on mobile, right on desktop */}
+        <div className="w-full lg:w-96 flex-shrink-0 order-first lg:order-last">
+          <div className="w-full border-2 border-dashed border-border p-8 bg-muted/30 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] min-h-[220px] flex items-center justify-center">
+            <p className="font-mono text-sm font-bold text-muted-foreground">
+              [ RELATED MEME ]
+            </p>
+          </div>
         </div>
       </section>
 
