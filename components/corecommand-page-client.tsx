@@ -94,6 +94,7 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
           const data = await response.json();
           if (data.matches && data.matches.length > 0) {
             setCommandmentsList(data.matches);
+            setIsSearching(false);
             return;
           }
         } catch (jsonError) {
@@ -114,10 +115,7 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
       cmd.description.toLowerCase().includes(lowercaseQuery)
     );
     setCommandmentsList(filtered);
-  } finally {
-      // Always reset searching state, even if something goes wrong
-      setIsSearching(false);
-    }
+    setIsSearching(false);
   };
 
   // Debounced search
