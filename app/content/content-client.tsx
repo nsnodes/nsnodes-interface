@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Youtube, Twitter, Rss, ExternalLink, BookOpen, FileText, ChevronDown, Lock } from "lucide-react";
+import { ExternalLink, BookOpen, FileText, ChevronDown, Lock } from "lucide-react";
 import { getArticles } from "@/lib/actions/articles";
 import { UIArticle } from "@/lib/types/articles";
 
@@ -252,8 +252,8 @@ function ArticleCard({ article, className = "" }: { article: UIArticle; classNam
       rel="noopener noreferrer"
       className={`group flex flex-col border-2 border-border bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${className}`}
     >
-      {/* Main content area - grows to fill space */}
-      <div className="flex-1 p-5">
+      {/* Main content area */}
+      <div className="p-5">
         {/* Article Header */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <div className="flex items-center gap-2 flex-wrap">
@@ -268,6 +268,10 @@ function ArticleCard({ article, className = "" }: { article: UIArticle; classNam
             {/* Author */}
             <span className="text-xs font-mono text-muted-foreground">
               {article.author}
+            </span>
+            {/* Date */}
+            <span className="text-xs font-mono text-muted-foreground/60">
+              • {article.date}
             </span>
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
@@ -291,13 +295,6 @@ function ArticleCard({ article, className = "" }: { article: UIArticle; classNam
             {article.subtitle}
           </p>
         )}
-      </div>
-
-      {/* Date footer - always at bottom */}
-      <div className="px-5 py-3 border-t border-border bg-muted/30">
-        <span className="text-xs font-mono text-muted-foreground">
-          {article.date}
-        </span>
       </div>
     </a>
   );
@@ -448,10 +445,19 @@ export default function ContentClient() {
           </div>
         </div>
 
-        {/* NSNODES Creators - Top Right */}
+        {/* Right side - Meme and Creators */}
         <div className="lg:w-96 space-y-6">
-          <div className="space-y-4">
-            <h2 className="text-lg sm:text-xl font-bold font-mono flex items-center gap-2 justify-center lg:justify-start text-foreground px-4 py-2 border-2 border-primary/50 bg-primary/5">
+          {/* Meme Placeholder */}
+          <div className="flex-shrink-0">
+            <div className="w-full border-2 border-dashed border-border p-8 bg-muted/30 text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] min-h-[220px] flex items-center justify-center">
+              <p className="font-mono text-sm font-bold text-muted-foreground">
+                [ RELATED MEME ]
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-12">
+            <h2 className="text-lg sm:text-xl font-bold font-mono flex items-center gap-2 justify-center lg:justify-start">
               <BookOpen className="h-5 w-5" />
               [ NSNODES CREATORS ]
             </h2>
@@ -726,13 +732,6 @@ export default function ContentClient() {
                 <p className="text-xs font-mono text-muted-foreground">Understanding the future of blockchain consensus.</p>
               </a>
             </div>
-          </section>
-
-          {/* Meme Section */}
-          <section className="border-2 border-border p-6 bg-card text-center">
-            <pre className="font-mono text-xs sm:text-sm leading-relaxed opacity-80">
-
-            </pre>
           </section>
         </div>
       </section>
