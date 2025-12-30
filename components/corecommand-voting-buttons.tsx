@@ -57,12 +57,12 @@ export default function CoreCommandVotingButtons({
           />
 
           {/* Vote Buttons */}
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-row gap-1">
             <button
               type="button"
               onClick={() => handleVote('up')}
               disabled={isSubmitting || !voterName.trim()}
-              className="px-2 py-1 border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white transition-colors font-mono font-bold text-xs flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-2 py-1 border-2 border-green-600 text-green-600 hover:bg-green-600 hover:text-white transition-colors font-mono font-bold text-xs flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ThumbsUp className="h-3 w-3" />
               ({upvotes})
@@ -71,7 +71,7 @@ export default function CoreCommandVotingButtons({
               type="button"
               onClick={() => handleVote('down')}
               disabled={isSubmitting || !voterName.trim()}
-              className="px-2 py-1 border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-colors font-mono font-bold text-xs flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-2 py-1 border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-colors font-mono font-bold text-xs flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ThumbsDown className="h-3 w-3" />
               ({downvotes})
