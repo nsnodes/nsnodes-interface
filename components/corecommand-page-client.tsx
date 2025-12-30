@@ -144,7 +144,7 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
         {/* Left: Main Content */}
         <div className="text-center lg:text-left space-y-4 flex-1 w-full">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
-            [ CORE COMMANDMENTS ]
+            [ CORE COMMAND COMPASS ]
           </h1>
           <p className="text-muted-foreground font-mono text-sm sm:text-base max-w-lg mx-auto lg:mx-0">
             Propose and vote on moral commandments for network societies.
