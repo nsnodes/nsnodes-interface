@@ -46,8 +46,8 @@ Return ONLY the JSON array, no other text.`;
       const userPrompt = `Search Query: "${query}"\n\nCommandments:\n${commandmentsText}\n\nWhich commandments are semantically relevant to this search query? Return a JSON array of matching IDs.`;
 
       const message = await client.messages.create({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 500,
+        model: 'claude-3-5-haiku-20241022',
+        max_tokens: 1000,
         system: systemPrompt,
         messages: [{
           role: 'user',
