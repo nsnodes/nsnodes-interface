@@ -13,6 +13,7 @@ const nsnodesCreators = [
     description: "Network State builder and writer.",
     platforms: {
       substack: "https://paragraph.xyz/@ericmiki.eth",
+      x: "N/A",
     },
     topics: ["Network States", "Crypto", "Governance"],
     followers: { substack: "1K+", x: "N/A" },
@@ -23,6 +24,7 @@ const nsnodesCreators = [
     description: "Parallel citizen and network state advocate.",
     platforms: {
       substack: "https://www.parallelcitizen.xyz",
+      x: "N/A",
     },
     topics: ["Citizenship", "Network States", "Governance"],
     followers: { substack: "1K+", x: "N/A" },
@@ -33,6 +35,7 @@ const nsnodesCreators = [
     description: "Fourth generation civilization and network states.",
     platforms: {
       substack: "https://4thgenerationcivilization.substack.com",
+      x: "N/A",
     },
     topics: ["Civilization", "Network States", "Future"],
     followers: { substack: "900+", x: "N/A" },
@@ -43,6 +46,7 @@ const nsnodesCreators = [
     description: "Sterling Lujan network state perspectives.",
     platforms: {
       substack: "https://sterlinlujan.substack.com",
+      x: "N/A",
     },
     topics: ["Network States", "Crypto", "Culture"],
     followers: { substack: "2.5K+", x: "N/A" },
@@ -101,6 +105,7 @@ const nsRelatedCreators = [
     description: "Building Embassy network state communities.",
     platforms: {
       substack: "https://embassy.svit.la",
+      x: "N/A",
     },
     topics: ["Community", "Network States", "Governance"],
     followers: { substack: "2K+", x: "N/A" },
@@ -111,6 +116,7 @@ const nsRelatedCreators = [
     description: "Frontier field notes and network state explorations.",
     platforms: {
       substack: "https://frontierfieldnotes.substack.com",
+      x: "N/A",
     },
     topics: ["Frontier", "Network States", "Exploration"],
     followers: { substack: "500+", x: "N/A" },
@@ -121,6 +127,7 @@ const nsRelatedCreators = [
     description: "Network state writer and commentator.",
     platforms: {
       substack: "https://themasterfool.substack.com",
+      x: "N/A",
     },
     topics: ["Network States", "Analysis", "Commentary"],
     followers: { substack: "800+", x: "N/A" },
@@ -131,6 +138,7 @@ const nsRelatedCreators = [
     description: "Auspicious network state insights.",
     platforms: {
       substack: "https://auspicious.substack.com",
+      x: "N/A",
     },
     topics: ["Network States", "Strategy", "Analysis"],
     followers: { substack: "1.5K+", x: "N/A" },
@@ -141,6 +149,7 @@ const nsRelatedCreators = [
     description: "Publisher of Network State Magazine.",
     platforms: {
       substack: "https://open.substack.com/pub/networkstatemagazine/p/introducing-network-state-magazine",
+      x: "N/A",
     },
     topics: ["Media", "Network States", "Publishing"],
     followers: { substack: "3K+", x: "N/A" },
@@ -151,6 +160,7 @@ const nsRelatedCreators = [
     description: "Utopia in beta - exploring new forms of governance.",
     platforms: {
       substack: "https://utopiainbeta.substack.com",
+      x: "N/A",
     },
     topics: ["Utopia", "Governance", "Experiments"],
     followers: { substack: "2K+", x: "N/A" },
@@ -161,6 +171,7 @@ const nsRelatedCreators = [
     description: "Hyper Mario network state content.",
     platforms: {
       substack: "https://substack.com/@hypermario",
+      x: "N/A",
     },
     topics: ["Network States", "Tech", "Innovation"],
     followers: { substack: "1.2K+", x: "N/A" },
