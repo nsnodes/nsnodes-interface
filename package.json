@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.71.2",
     "@supabase/supabase-js": "^2.75.0",
     "airtable": "^0.12.2",
     "class-variance-authority": "^0.7.1",
