@@ -75,6 +75,7 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
   const performSmartSearch = async (query: string) => {
     if (!query.trim()) {
       setCommandmentsList(allCommandments);
+      setIsSearching(false);
       return;
     }
 
@@ -92,11 +93,16 @@ export default function CoreCommandPageClient({ commandments }: CoreCommandPageC
         const data = await response.json();
         if (data.matches && data.matches.length > 0) {
           setCommandmentsList(data.matches);
+          setIsSearching(false);
           return;
         }
+        // If semantic search returned no results, fall through to text search
+      } else {
+        // Log non-200 responses for debugging
+        console.error('Search API returned non-OK status:', response.status);
       }
     } catch (error) {
-      console.log('Semantic search unavailable, falling back to text search');
+      console.log('Semantic search unavailable, falling back to text search:', error);
     }
 
     // Fallback to text-based search
