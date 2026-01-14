@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: '**.airtableusercontent.com',
+        hostname: '*.airtableusercontent.com',
       },
     ],
   },
