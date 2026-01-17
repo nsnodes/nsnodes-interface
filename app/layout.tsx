@@ -7,6 +7,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AsciiNav } from "@/components/ascii-nav";
 import { BlurOverlay } from "@/components/blur-overlay";
+import { NetworkBackground } from "@/components/network-background";
 import GAListener from "@/components/ga-listener";
 
 export const metadata: Metadata = {
@@ -87,12 +88,13 @@ export default async function RootLayout({
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased min-h-screen overflow-x-hidden flex flex-col`}
       >
         <ThemeProvider defaultTheme="dark">
+          <NetworkBackground />
           <div className="relative z-50">
             <AsciiNav />
           </div>
           <BlurOverlay />
-          <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 overflow-x-hidden flex-1 w-full">{children}</main>
-          <footer className="border-t-2 border-border py-4 sm:py-8">
+          <main className="relative z-10 max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8 overflow-x-hidden flex-1 w-full">{children}</main>
+          <footer className="relative z-10 border-t-2 border-border py-4 sm:py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center space-y-2">
                 <div className="font-mono text-xs opacity-60">

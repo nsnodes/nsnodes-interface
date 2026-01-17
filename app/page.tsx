@@ -216,13 +216,27 @@ export default function Home() {
     <div className="space-y-12">
         {/* Hero Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-        <div className="space-y-4 text-left">
-          <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80"></pre>
+        <div className="space-y-4 text-left bg-background/80 backdrop-blur-sm rounded-xl p-6 border border-border/50">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono uppercase">
             [ Making Network States Default ]
           </h1>
           <p className="text-muted-foreground font-mono text-sm sm:text-base">
-          We aggregate, analyze and accelerate the movement of building new countries.           </p>
+          We aggregate, analyze and accelerate the movement of building new countries.
+          </p>
+          <p className="text-muted-foreground font-mono text-xs sm:text-sm leading-relaxed">
+            The nation state is a 400-year-old technology. Network States are the upgrade. Built by founders, not conquerors. Joined by choice, not birth. Governed by code and consensus, not coercion. This is where the builders gather.
+          </p>
+          <div className="flex flex-wrap gap-x-4 gap-y-2 pt-2">
+            <Link href="/content" className="font-mono text-xs underline underline-offset-4 hover:text-primary transition-colors">
+              Learn more →
+            </Link>
+            <a href="https://thenetworkstate.com" target="_blank" rel="noopener noreferrer" className="font-mono text-xs underline underline-offset-4 hover:text-primary transition-colors">
+              The Network State Book ↗
+            </a>
+            <a href="https://vitalik.eth.limo/general/2025/12/17/societies.html" target="_blank" rel="noopener noreferrer" className="font-mono text-xs underline underline-offset-4 hover:text-primary transition-colors">
+              Vitalik on Network Societies ↗
+            </a>
+          </div>
         </div>
         <div className="w-full flex justify-start md:justify-end">
           <Image
