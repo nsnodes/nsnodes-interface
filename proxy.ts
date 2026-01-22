@@ -1,6 +1,16 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+function nextWithPathname(request: NextRequest, pathname: string) {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", pathname);
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+}
+
 // Basic auth proxy for staging host
 export function proxy(request: NextRequest) {
   const url = new URL(request.url);
@@ -22,18 +32,12 @@ export function proxy(request: NextRequest) {
 
   // Disable auth for test.nsnodes.com - allow public access
   if (!isStagingHost || isPublicAsset) {
-    const response = NextResponse.next();
-    // Add pathname to headers for canonical URL generation
-    response.headers.set("x-pathname", pathname);
-    return response;
+    return nextWithPathname(request, pathname);
   }
 
   // Skip authentication for test.nsnodes.com
   if (isStagingHost) {
-    const response = NextResponse.next();
-    // Add pathname to headers for canonical URL generation
-    response.headers.set("x-pathname", pathname);
-    return response;
+    return nextWithPathname(request, pathname);
   }
 
   const authHeader = request.headers.get("authorization");
