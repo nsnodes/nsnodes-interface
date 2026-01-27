@@ -1,0 +1,545 @@
+openapi: 3.0.3
+info:
+  title: Network States Nodes API
+  version: 1.0.0
+  description: |
+    Public API for accessing Network States Nodes data including societies and events.
+
+    ## Authentication
+    All endpoints require API key authentication. Provide your API key using one of:
+    - `Authorization: Bearer <your-api-key>` header
+    - `X-API-Key: <your-api-key>` header
+
+    ## Rate Limiting
+    Currently no rate limiting is enforced, but please be reasonable with your requests.
+
+    ## Pagination
+    All list endpoints support pagination via `page` and `per_page` query parameters.
+    Maximum `per_page` is 100.
+
+servers:
+  - url: https://nsnodes.com/api/v1
+    description: Production server
+  - url: http://localhost:3000/api/v1
+    description: Local development
+
+paths:
+  /societies:
+    get:
+      summary: List societies
+      description: |
+        Returns a paginated list of network state societies.
+        Supports filtering by type, tier, category, and full-text search.
+      operationId: listSocieties
+      tags:
+        - Societies
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-indexed)
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: type
+          in: query
+          description: Filter by society type
+          schema:
+            type: string
+            enum: [Physical, Online, Popup, Decentralized]
+        - name: tier
+          in: query
+          description: Filter by tier (1-5, where 1 is highest)
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+        - name: category
+          in: query
+          description: Filter by category (e.g., "DAO", "Software")
+          schema:
+            type: string
+        - name: search
+          in: query
+          description: Search in name and URL
+          schema:
+            type: string
+        - name: sort_by
+          in: query
+          description: Field to sort by
+          schema:
+            type: string
+            enum: [name, tier, updated_at, founded]
+            default: name
+        - name: sort_order
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocietiesResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /events:
+    get:
+      summary: List events
+      description: |
+        Returns a paginated list of events.
+        Supports filtering by date range, location, source, status, and tags.
+        By default, only returns upcoming events (past events excluded).
+      operationId: listEvents
+      tags:
+        - Events
+      parameters:
+        - name: page
+          in: query
+          description: Page number (1-indexed)
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: per_page
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: start_after
+          in: query
+          description: Filter events starting after this datetime (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+        - name: start_before
+          in: query
+          description: Filter events starting before this datetime (ISO 8601)
+          schema:
+            type: string
+            format: date-time
+        - name: city
+          in: query
+          description: Filter by city (partial match)
+          schema:
+            type: string
+        - name: country
+          in: query
+          description: Filter by country (partial match)
+          schema:
+            type: string
+        - name: source
+          in: query
+          description: Filter by event source
+          schema:
+            type: string
+            enum: [luma, soladay]
+        - name: status
+          in: query
+          description: Filter by event status
+          schema:
+            type: string
+            enum: [scheduled, tentative, cancelled]
+        - name: tags
+          in: query
+          description: Filter by tags (comma-separated)
+          schema:
+            type: string
+        - name: search
+          in: query
+          description: Search in title and description
+          schema:
+            type: string
+        - name: include_past
+          in: query
+          description: Include past events (default false)
+          schema:
+            type: boolean
+            default: false
+        - name: sort_by
+          in: query
+          description: Field to sort by
+          schema:
+            type: string
+            enum: [start_at, end_at, title]
+            default: start_at
+        - name: sort_order
+          in: query
+          description: Sort order
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventsResponse'
+        '401':
+          description: Unauthorized - Invalid or missing API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /sync/societies:
+    post:
+      summary: Trigger societies sync
+      description: |
+        Webhook endpoint for triggering a sync of societies data from Airtable.
+        This endpoint is called by Airtable automations when data changes.
+        Requires a separate sync secret (not regular API key).
+      operationId: syncSocieties
+      tags:
+        - Sync
+      security:
+        - syncSecretAuth: []
+      responses:
+        '200':
+          description: Sync completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncResponse'
+        '401':
+          description: Unauthorized - Invalid or missing sync secret
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Sync failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: API key as Bearer token
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key in X-API-Key header
+    syncSecretAuth:
+      type: http
+      scheme: bearer
+      description: Sync secret for webhook authentication
+
+  schemas:
+    Society:
+      type: object
+      required:
+        - id
+        - name
+        - url
+        - type
+        - tier
+        - mission
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier
+        name:
+          type: string
+          description: Society name
+        url:
+          type: string
+          description: Society website URL
+        type:
+          type: string
+          enum: [Physical, Online, Popup, Decentralized]
+          description: Society type
+        tier:
+          type: integer
+          minimum: 1
+          maximum: 5
+          description: Society tier (1 is highest)
+        mission:
+          type: string
+          description: Society mission statement
+        location:
+          type: string
+          nullable: true
+          description: Physical location (if applicable)
+        category:
+          type: string
+          nullable: true
+          description: Category (e.g., "DAO", "Software")
+        founded:
+          type: string
+          nullable: true
+          description: Founding year
+        icon_url:
+          type: string
+          nullable: true
+          description: URL to society logo/icon
+        social:
+          type: object
+          properties:
+            x:
+              type: string
+              nullable: true
+              description: X (Twitter) URL
+            discord:
+              type: string
+              nullable: true
+              description: Discord URL
+            telegram:
+              type: string
+              nullable: true
+              description: Telegram URL
+        application_url:
+          type: string
+          nullable: true
+          description: Application/join URL
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+
+    Event:
+      type: object
+      required:
+        - id
+        - title
+        - start_at
+        - end_at
+        - source
+        - source_url
+        - status
+        - updated_at
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unique identifier
+        title:
+          type: string
+          description: Event title
+        description:
+          type: string
+          nullable: true
+          description: Event description
+        start_at:
+          type: string
+          format: date-time
+          description: Event start time (ISO 8601)
+        end_at:
+          type: string
+          format: date-time
+          description: Event end time (ISO 8601)
+        timezone:
+          type: string
+          nullable: true
+          description: Event timezone (e.g., "America/New_York")
+        location:
+          type: object
+          properties:
+            venue_name:
+              type: string
+              nullable: true
+            address:
+              type: string
+              nullable: true
+            city:
+              type: string
+              nullable: true
+            country:
+              type: string
+              nullable: true
+            lat:
+              type: number
+              nullable: true
+            lng:
+              type: number
+              nullable: true
+        source:
+          type: string
+          enum: [luma, soladay]
+          description: Event source platform
+        source_url:
+          type: string
+          description: Original event URL
+        organizers:
+          type: array
+          nullable: true
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        tags:
+          type: array
+          nullable: true
+          items:
+            type: string
+        image_url:
+          type: string
+          nullable: true
+          description: Event cover image URL
+        status:
+          type: string
+          enum: [scheduled, tentative, cancelled]
+        updated_at:
+          type: string
+          format: date-time
+
+    Pagination:
+      type: object
+      required:
+        - page
+        - per_page
+        - total
+        - total_pages
+        - has_next
+        - has_previous
+      properties:
+        page:
+          type: integer
+          description: Current page number
+        per_page:
+          type: integer
+          description: Items per page
+        total:
+          type: integer
+          description: Total number of items
+        total_pages:
+          type: integer
+          description: Total number of pages
+        has_next:
+          type: boolean
+          description: Whether there is a next page
+        has_previous:
+          type: boolean
+          description: Whether there is a previous page
+
+    SocietiesResponse:
+      type: object
+      required:
+        - success
+        - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Society'
+        meta:
+          type: object
+          properties:
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+
+    EventsResponse:
+      type: object
+      required:
+        - success
+        - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+        meta:
+          type: object
+          properties:
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+
+    SyncResponse:
+      type: object
+      required:
+        - success
+        - stats
+        - synced_at
+      properties:
+        success:
+          type: boolean
+        stats:
+          type: object
+          properties:
+            total:
+              type: integer
+            created:
+              type: integer
+            updated:
+              type: integer
+            unchanged:
+              type: integer
+            errors:
+              type: integer
+        synced_at:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - error
+      properties:
+        success:
+          type: boolean
+          const: false
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              description: Error code
+            message:
+              type: string
+              description: Human-readable error message
+
+security:
+  - bearerAuth: []
+  - apiKeyAuth: []
