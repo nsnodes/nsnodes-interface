@@ -436,7 +436,7 @@ curl -H "X-API-Key: sk_live_xxx" \\
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-mono font-bold border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all whitespace-nowrap"
           >
             <Mail className="h-4 w-4" />
-            nsnodes@gmail.com
+            Contact Us
           </a>
         </div>
       </section>
