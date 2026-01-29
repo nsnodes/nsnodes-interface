@@ -14,7 +14,7 @@ export default function ApiDocPage() {
       {/* Header */}
       <div className="space-y-4">
         <Link
-          href="/api"
+          href="/developers"
           className="inline-flex items-center gap-2 text-sm font-mono text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />

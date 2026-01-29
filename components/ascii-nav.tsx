@@ -17,6 +17,7 @@ export function AsciiNav() {
   const navItems = [
     { href: "/events", label: "[ EVENTS ]" },
     { href: "/societies", label: "[ SOCIETIES ]" },
+    // { href: "/corecommand", label: "[ CORE COMMANDS ]" },
     { href: "/jobs", label: "[ JOBS ]" },
     {
       href: "/funding",
@@ -27,7 +28,7 @@ export function AsciiNav() {
         { href: "/investment-dao", label: "[ INVESTMENT DAO ]", comingSoon: true },
       ]
     },
-    { href: "/content", label: "[ CONTENT ]", comingSoon: true },
+    { href: "/content", label: "[ CONTENT ]" },
     { href: "/tooling", label: "[ TOOLING ]", comingSoon: true },
     { href: "/contact", label: "[ CONTACT ]" },
   ];
