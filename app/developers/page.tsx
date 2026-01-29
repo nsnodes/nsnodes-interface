@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     "Access the most comprehensive database of Network State societies and events. Build applications, integrations, and tools for the decentralized future.",
 };
 
-export default function ApiPage() {
+export default function DevelopersPage() {
   return (
     <div className="space-y-12">
       {/* Hero Section */}
@@ -142,7 +142,7 @@ export default function ApiPage() {
             Request API Access
           </a>
           <Link
-            href="/api/doc"
+            href="/developers/doc"
             className="inline-flex items-center gap-2 px-6 py-3 bg-card font-mono font-bold border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
           >
             <Code className="h-4 w-4" />
