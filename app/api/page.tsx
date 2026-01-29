@@ -149,15 +149,6 @@ export default function ApiPage() {
             View Documentation
           </Link>
         </div>
-        <p className="text-xs text-muted-foreground font-mono">
-          Contact us at{" "}
-          <a
-            href="mailto:nsnodes@gmail.com"
-            className="underline underline-offset-2 hover:text-foreground"
-          >
-            nsnodes@gmail.com
-          </a>
-        </p>
       </section>
     </div>
   );
