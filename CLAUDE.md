@@ -141,6 +141,16 @@ This ensures dropdowns span full width, not constrained to the left column.
 - `/corecommand` page
 - `/society` page
 
+## Page Metadata Guidelines
+
+When creating new pages, follow the title and meta description conventions in:
+`./.agents/skills/page-metadata/AGENTS.md`
+
+**Quick reference:**
+- Homepage title starts with `nsnodes.com`
+- All other page titles end with `| nsnodes.com`
+- Meta descriptions should be 150-160 characters
+
 ## Git Commit Guidelines
 
 ### Creating Backup Commits

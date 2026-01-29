@@ -595,6 +595,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                           alt={`${society.name} logo`}
                           width={56}
                           height={56}
+                          unoptimized={true}
                           className="max-w-full max-h-full object-contain"
                           onError={(e) => {
                             // Fallback to abbreviation if image fails

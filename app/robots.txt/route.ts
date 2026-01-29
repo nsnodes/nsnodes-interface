@@ -11,7 +11,9 @@ export function GET(request: Request) {
       ].join("\n")
     : [
         "User-agent: *",
-        "Disallow:",
+        "Allow: /",
+        "Disallow: /nskids",
+        "Sitemap: https://nsnodes.com/sitemap.xml",
       ].join("\n");
 
   return new Response(body, {
@@ -21,5 +23,4 @@ export function GET(request: Request) {
     },
   });
 }
-
 

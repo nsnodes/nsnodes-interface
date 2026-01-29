@@ -222,7 +222,10 @@ export default function Home() {
             [ Making Network States Default ]
           </h1>
           <p className="text-muted-foreground font-mono text-sm sm:text-base">
-          We aggregate, analyze and accelerate the movement of building new countries.           </p>
+          We aggregate, analyze and accelerate the movement of building new countries.
+          <br />
+          <br />
+          The nation state is a 400-year-old technology. Network States are the upgrade. Built by founders, not conquerors. Joined by choice, not birth. Governed by code and consensus, not coercion. This is where the builders gather.           </p>
         </div>
         <div className="w-full flex justify-start md:justify-end">
           <Image
