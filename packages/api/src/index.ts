@@ -5,13 +5,9 @@
 // Route handlers
 export { handleGetSocieties } from './routes/societies'
 export { handleGetEvents } from './routes/events'
-export { handleSyncSocieties } from './routes/sync'
 
 // Middleware
-export { validateApiKey, validateSyncSecret } from './middleware/api-key-auth'
-
-// Services
-export { syncSocietiesFromAirtable } from './services/airtable-sync'
+export { validateApiKey } from './middleware/api-key-auth'
 
 // Webhooks
 export { dispatchWebhook, dispatchBulkWebhook } from './webhooks/dispatcher'
@@ -27,5 +23,4 @@ export type {
   EventsQueryParams,
   SocietyDatabaseRow,
   EventDatabaseRow,
-  SyncResult,
 } from './types/api-responses'

@@ -3,12 +3,10 @@
  */
 
 export interface PaginationMeta {
-  page: number
-  per_page: number
+  limit: number
+  offset: number
   total: number
-  total_pages: number
-  has_next: boolean
-  has_previous: boolean
+  has_more: boolean
 }
 
 export interface ApiResponse<T> {
@@ -42,11 +40,7 @@ export interface SocietyApiResponse {
   category: string | null
   founded: string | null
   icon_url: string | null
-  social: {
-    x: string | null
-    discord: string | null
-    telegram: string | null
-  }
+  social: Array<{ key: string; value: string }>
   application_url: string | null
   updated_at: string
 }
@@ -82,8 +76,8 @@ export interface EventApiResponse {
  * Query parameters for societies endpoint
  */
 export interface SocietiesQueryParams {
-  page?: number
-  per_page?: number
+  limit?: number
+  offset?: number
   type?: 'Physical' | 'Online' | 'Popup' | 'Decentralized'
   tier?: number
   category?: string
@@ -96,8 +90,8 @@ export interface SocietiesQueryParams {
  * Query parameters for events endpoint
  */
 export interface EventsQueryParams {
-  page?: number
-  per_page?: number
+  limit?: number
+  offset?: number
   start_after?: string
   start_before?: string
   city?: string
@@ -106,7 +100,6 @@ export interface EventsQueryParams {
   status?: 'scheduled' | 'tentative' | 'cancelled'
   tags?: string
   search?: string
-  include_past?: boolean
   sort_by?: 'start_at' | 'end_at' | 'title'
   sort_order?: 'asc' | 'desc'
 }
@@ -129,8 +122,6 @@ export interface SocietyDatabaseRow {
   icon_url: string | null
   category: string | null
   founded: string | null
-  airtable_record_id: string | null
-  last_synced_at: string
   created_at: string
   updated_at: string
 }
@@ -162,17 +153,3 @@ export interface EventDatabaseRow {
   updated_at?: string
 }
 
-/**
- * Sync result type
- */
-export interface SyncResult {
-  success: boolean
-  stats: {
-    total: number
-    created: number
-    updated: number
-    unchanged: number
-    errors: number
-  }
-  synced_at: string
-}

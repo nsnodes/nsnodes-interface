@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Network States Nodes API
+  title: NSNodes API
   version: 1.0.0
   description: |
     Public API for accessing Network States Nodes data including societies and events.
@@ -14,8 +14,8 @@ info:
     Currently no rate limiting is enforced, but please be reasonable with your requests.
 
     ## Pagination
-    All list endpoints support pagination via `page` and `per_page` query parameters.
-    Maximum `per_page` is 100.
+    All list endpoints support pagination via `limit` and `offset` query parameters.
+    Maximum `limit` is 100.
 
 servers:
   - url: https://nsnodes.com/api/v1
@@ -34,21 +34,21 @@ paths:
       tags:
         - Societies
       parameters:
-        - name: page
+        - name: limit
           in: query
-          description: Page number (1-indexed)
-          schema:
-            type: integer
-            default: 1
-            minimum: 1
-        - name: per_page
-          in: query
-          description: Number of items per page
+          description: Number of items to return
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 100
+        - name: offset
+          in: query
+          description: Number of items to skip
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
         - name: type
           in: query
           description: Filter by society type
@@ -112,26 +112,25 @@ paths:
       description: |
         Returns a paginated list of events.
         Supports filtering by date range, location, source, status, and tags.
-        By default, only returns upcoming events (past events excluded).
       operationId: listEvents
       tags:
         - Events
       parameters:
-        - name: page
+        - name: limit
           in: query
-          description: Page number (1-indexed)
-          schema:
-            type: integer
-            default: 1
-            minimum: 1
-        - name: per_page
-          in: query
-          description: Number of items per page
+          description: Number of items to return
           schema:
             type: integer
             default: 20
             minimum: 1
             maximum: 100
+        - name: offset
+          in: query
+          description: Number of items to skip
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
         - name: start_after
           in: query
           description: Filter events starting after this datetime (ISO 8601)
@@ -176,12 +175,6 @@ paths:
           description: Search in title and description
           schema:
             type: string
-        - name: include_past
-          in: query
-          description: Include past events (default false)
-          schema:
-            type: boolean
-            default: false
         - name: sort_by
           in: query
           description: Field to sort by
@@ -216,38 +209,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-  /sync/societies:
-    post:
-      summary: Trigger societies sync
-      description: |
-        Webhook endpoint for triggering a sync of societies data from Airtable.
-        This endpoint is called by Airtable automations when data changes.
-        Requires a separate sync secret (not regular API key).
-      operationId: syncSocieties
-      tags:
-        - Sync
-      security:
-        - syncSecretAuth: []
-      responses:
-        '200':
-          description: Sync completed successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SyncResponse'
-        '401':
-          description: Unauthorized - Invalid or missing sync secret
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '500':
-          description: Sync failed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SyncResponse'
-
 components:
   securitySchemes:
     bearerAuth:
@@ -259,11 +220,6 @@ components:
       in: header
       name: X-API-Key
       description: API key in X-API-Key header
-    syncSecretAuth:
-      type: http
-      scheme: bearer
-      description: Sync secret for webhook authentication
-
   schemas:
     Society:
       type: object
@@ -315,20 +271,20 @@ components:
           nullable: true
           description: URL to society logo/icon
         social:
-          type: object
-          properties:
-            x:
-              type: string
-              nullable: true
-              description: X (Twitter) URL
-            discord:
-              type: string
-              nullable: true
-              description: Discord URL
-            telegram:
-              type: string
-              nullable: true
-              description: Telegram URL
+          type: array
+          description: List of social media links
+          items:
+            type: object
+            required:
+              - key
+              - value
+            properties:
+              key:
+                type: string
+                description: Social platform identifier (e.g., "x", "discord", "telegram")
+              value:
+                type: string
+                description: URL or handle for the social platform
         application_url:
           type: string
           nullable: true
@@ -428,31 +384,23 @@ components:
     Pagination:
       type: object
       required:
-        - page
-        - per_page
+        - limit
+        - offset
         - total
-        - total_pages
-        - has_next
-        - has_previous
+        - has_more
       properties:
-        page:
+        limit:
           type: integer
-          description: Current page number
-        per_page:
+          description: Number of items returned
+        offset:
           type: integer
-          description: Items per page
+          description: Number of items skipped
         total:
           type: integer
           description: Total number of items
-        total_pages:
-          type: integer
-          description: Total number of pages
-        has_next:
+        has_more:
           type: boolean
-          description: Whether there is a next page
-        has_previous:
-          type: boolean
-          description: Whether there is a previous page
+          description: Whether there are more items available
 
     SocietiesResponse:
       type: object
@@ -491,32 +439,6 @@ components:
           properties:
             pagination:
               $ref: '#/components/schemas/Pagination'
-
-    SyncResponse:
-      type: object
-      required:
-        - success
-        - stats
-        - synced_at
-      properties:
-        success:
-          type: boolean
-        stats:
-          type: object
-          properties:
-            total:
-              type: integer
-            created:
-              type: integer
-            updated:
-              type: integer
-            unchanged:
-              type: integer
-            errors:
-              type: integer
-        synced_at:
-          type: string
-          format: date-time
 
     ErrorResponse:
       type: object

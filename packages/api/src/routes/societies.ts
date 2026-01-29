@@ -16,8 +16,8 @@ import type {
   PaginationMeta,
 } from '../types/api-responses'
 
-const MAX_PER_PAGE = 100
-const DEFAULT_PER_PAGE = 20
+const MAX_LIMIT = 100
+const DEFAULT_LIMIT = 20
 
 /**
  * Parse and validate query parameters
@@ -25,8 +25,8 @@ const DEFAULT_PER_PAGE = 20
 function parseQueryParams(request: NextRequest): SocietiesQueryParams {
   const url = new URL(request.url)
 
-  const page = parseInt(url.searchParams.get('page') || '1', 10)
-  const per_page = parseInt(url.searchParams.get('per_page') || String(DEFAULT_PER_PAGE), 10)
+  const limit = parseInt(url.searchParams.get('limit') || String(DEFAULT_LIMIT), 10)
+  const offset = parseInt(url.searchParams.get('offset') || '0', 10)
   const type = url.searchParams.get('type') as SocietiesQueryParams['type'] | null
   const tier = url.searchParams.get('tier') ? parseInt(url.searchParams.get('tier')!, 10) : undefined
   const category = url.searchParams.get('category') || undefined
@@ -35,8 +35,8 @@ function parseQueryParams(request: NextRequest): SocietiesQueryParams {
   const sort_order = (url.searchParams.get('sort_order') || 'asc') as SocietiesQueryParams['sort_order']
 
   return {
-    page: Math.max(1, page),
-    per_page: Math.min(MAX_PER_PAGE, Math.max(1, per_page)),
+    limit: Math.min(MAX_LIMIT, Math.max(1, limit)),
+    offset: Math.max(0, offset),
     type: type || undefined,
     tier: tier && tier >= 1 && tier <= 5 ? tier : undefined,
     category,
@@ -61,11 +61,11 @@ function transformToApiResponse(row: SocietyDatabaseRow): SocietyApiResponse {
     category: row.category,
     founded: row.founded,
     icon_url: row.icon_url,
-    social: {
-      x: row.x || null,
-      discord: row.discord || null,
-      telegram: row.telegram,
-    },
+    social: [
+      row.x ? { key: 'x', value: row.x } : null,
+      row.discord ? { key: 'discord', value: row.discord } : null,
+      row.telegram ? { key: 'telegram', value: row.telegram } : null,
+    ].filter((s): s is { key: string; value: string } => s !== null),
     application_url: row.application || null,
     updated_at: row.updated_at,
   }
@@ -113,10 +113,9 @@ export async function handleGetSocieties(
     query = query.order(sortColumn, { ascending: sortAscending })
 
     // Apply pagination
-    const page = params.page || 1
-    const perPage = params.per_page || DEFAULT_PER_PAGE
-    const offset = (page - 1) * perPage
-    query = query.range(offset, offset + perPage - 1)
+    const limit = params.limit || DEFAULT_LIMIT
+    const offset = params.offset || 0
+    query = query.range(offset, offset + limit - 1)
 
     // Execute query
     const { data, error, count } = await query
@@ -137,14 +136,11 @@ export async function handleGetSocieties(
 
     // Calculate pagination metadata
     const total = count || 0
-    const totalPages = Math.ceil(total / perPage)
     const pagination: PaginationMeta = {
-      page,
-      per_page: perPage,
+      limit,
+      offset,
       total,
-      total_pages: totalPages,
-      has_next: page < totalPages,
-      has_previous: page > 1,
+      has_more: offset + limit < total,
     }
 
     // Transform data to API response format
