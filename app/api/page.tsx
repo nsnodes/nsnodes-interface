@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Code, Database, Zap, Lock, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "nsnodes.com | Network States API",
+  title: "nsnodes.com API | nsnodes.com",
   description:
     "Access the most comprehensive database of Network State societies and events. Build applications, integrations, and tools for the decentralized future.",
 };

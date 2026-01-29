@@ -73,3 +73,13 @@ npx shadcn@latest add <component-name>
 ```
 
 Components will be added to `components/ui/` and automatically configured to work with the project's styling system.
+
+## Page Metadata Guidelines
+
+When creating new pages, follow the title and meta description conventions in:
+`./.agents/skills/page-metadata/AGENTS.md`
+
+**Quick reference:**
+- Homepage title starts with `nsnodes.com`
+- All other page titles end with `| nsnodes.com`
+- Meta descriptions should be 150-160 characters

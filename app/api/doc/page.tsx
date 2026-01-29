@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "nsnodes.com | API Documentation",
+  title: "API Documentation for nsnodes.com API | nsnodes.com",
   description:
     "Complete API documentation for nsnodes.com. Learn how to authenticate, query Network State societies and events data, and integrate with your applications.",
 };
