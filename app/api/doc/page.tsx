@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ArrowLeft, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "API Documentation | NSNodes API",
+  title: "nsnodes.com | API Documentation",
   description:
-    "Complete documentation for the NSNodes API. Learn how to authenticate, query societies and events data, and handle responses.",
+    "Complete API documentation for nsnodes.com. Learn how to authenticate, query Network State societies and events data, and integrate with your applications.",
 };
 
 export default function ApiDocPage() {

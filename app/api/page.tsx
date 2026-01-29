@@ -3,9 +3,9 @@ import Link from "next/link";
 import { Code, Database, Zap, Lock, Mail } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "NSNodes API | Access Network States Data",
+  title: "nsnodes.com | Network States API",
   description:
-    "Public API for accessing societies and events data from the Network States ecosystem. Build applications with real-time data.",
+    "Access the most comprehensive database of Network State societies and events. Build applications, integrations, and tools for the decentralized future.",
 };
 
 export default function ApiPage() {
