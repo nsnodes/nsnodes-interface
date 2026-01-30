@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'qdzjcvbsfmznakbmfwfc.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+      },
+      // Keep Airtable for backwards compatibility during transition
+      {
+        protocol: 'https',
         hostname: 'dl.airtable.com',
       },
       {
