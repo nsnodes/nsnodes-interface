@@ -234,6 +234,7 @@ export default function Home() {
             width={420}
             height={280}
             priority
+            unoptimized
             className="h-auto max-w-full border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
           />
         </div>
@@ -260,6 +261,7 @@ export default function Home() {
                     alt={`${society.name} logo`}
                     width={48}
                     height={48}
+                    unoptimized
                     className="object-contain rounded-full"
                   />
                 </div>
@@ -279,6 +281,7 @@ export default function Home() {
                         alt={`${society.name} logo`}
                         width={24}
                         height={24}
+                        unoptimized
                         className="object-contain rounded-full"
                       />
                     </div>

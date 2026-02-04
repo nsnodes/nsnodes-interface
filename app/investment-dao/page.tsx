@@ -27,6 +27,7 @@ export default function InvestmentDAO() {
             alt="Patience please"
             width={800}
             height={600}
+            unoptimized
             className="max-w-full h-auto"
           />
         </div>
