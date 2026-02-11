@@ -128,12 +128,12 @@ export function LiveEventCounter({ allEvents, hideNoEvents = false }: LiveEventC
           {/* Live Now */}
           <div className="flex justify-center mb-1">
             <div className="relative">
-              <Radio className="h-4 w-4 text-red-500" />
-              <span className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 rounded-full animate-ping"></span>
-              <span className="absolute top-0 right-0 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+              <Radio className="h-4 w-4 text-status-live" />
+              <span className="absolute top-0 right-0 w-1.5 h-1.5 bg-status-live rounded-full animate-ping"></span>
+              <span className="absolute top-0 right-0 w-1.5 h-1.5 bg-status-live rounded-full"></span>
             </div>
           </div>
-          <div className="text-xl font-bold font-mono mb-0.5 text-red-500 animate-pulse">
+          <div className="text-xl font-bold font-mono mb-0.5 text-status-live animate-pulse">
             {liveCount}
           </div>
           <div className="text-xs font-mono text-muted-foreground">

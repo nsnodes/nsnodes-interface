@@ -38,7 +38,7 @@ export function BlurOverlay() {
             href="https://forms.gle/Yc53KytVD36zamHC8"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-6 py-3 font-mono text-sm border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            className="inline-block px-6 py-3 font-mono text-sm border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-brutal-md-active hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             [ CONTRIBUTE ]
           </Link>

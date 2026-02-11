@@ -32,7 +32,7 @@ export default function FundingPage() {
         {/* Venture Capital Card */}
         <Link
           href="/funding/vc"
-          className="border-2 border-border p-8 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4 group"
+          className="border-2 border-border p-8 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4 group"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -67,7 +67,7 @@ export default function FundingPage() {
         {/* Grants Card */}
         <Link
           href="/funding/grants"
-          className="border-2 border-border p-8 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4 group"
+          className="border-2 border-border p-8 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4 group"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -126,13 +126,13 @@ export default function FundingPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
           <Link
             href="/funding/vc"
-            className="px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            className="px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             [ BROWSE VCs ]
           </Link>
           <Link
             href="/funding/grants"
-            className="px-6 py-3 border-2 border-border bg-background hover:bg-accent transition-colors font-mono shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            className="px-6 py-3 border-2 border-border bg-background hover:bg-accent transition-colors font-mono shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             [ BROWSE GRANTS ]
           </Link>

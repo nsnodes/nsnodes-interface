@@ -235,7 +235,7 @@ export default function Home() {
             height={280}
             priority
             unoptimized
-            className="h-auto max-w-full border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
+            className="h-auto max-w-full border-2 border-border shadow-brutal-md"
           />
         </div>
       </section>
@@ -251,7 +251,7 @@ export default function Home() {
             <Link
               key={society.name}
               href="/societies"
-              className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block relative"
+              className="border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block relative"
             >
               {/* Logo - left on mobile (absolute), right on desktop (in title row) */}
               {society.icon && (
@@ -302,10 +302,10 @@ export default function Home() {
                   </div>
                   {/* Event status badge on the right - horizontally aligned with logo */}
                   {hasLiveEvents(society.events) ? (
-                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-status-live text-status-live-foreground text-[10px] font-bold rounded animate-pulse">
                       <span className="relative flex h-1 w-1">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-live-foreground opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-1 w-1 bg-status-live-foreground"></span>
                       </span>
                       {countLiveEvents(society.events)} Live
                     </span>
@@ -348,7 +348,7 @@ export default function Home() {
               href={job.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block"
+              className="border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block"
             >
               <div className="space-y-3">
                 {/* Company name as header */}
@@ -366,7 +366,7 @@ export default function Home() {
                 {/* Job type and salary */}
                 <div className="flex flex-col gap-1 text-xs font-mono text-muted-foreground">
                   <span>{job.type}</span>
-                  <span className="text-green-500 font-bold line-clamp-1">{job.salary}</span>
+                  <span className="text-money-positive font-bold line-clamp-1">{job.salary}</span>
                 </div>
               </div>
             </a>
@@ -395,7 +395,7 @@ export default function Home() {
               href={vc.platforms.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block"
+              className="border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all block"
             >
               <div className="space-y-3">
                 {/* VC name as header */}
@@ -407,8 +407,8 @@ export default function Home() {
                 <p className="text-xs font-mono text-muted-foreground line-clamp-2">{vc.description}</p>
                 {/* Check size */}
                 <div className="flex items-center gap-2">
-                  <DollarSign className="h-3 w-3 text-green-500" />
-                  <span className="text-xs font-mono font-bold text-green-500">{vc.checkSize}</span>
+                  <DollarSign className="h-3 w-3 text-money-positive" />
+                  <span className="text-xs font-mono font-bold text-money-positive">{vc.checkSize}</span>
                 </div>
                 {/* Topics */}
                 <div className="flex flex-wrap gap-1">

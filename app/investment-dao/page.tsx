@@ -34,7 +34,7 @@ export default function InvestmentDAO() {
       </section>
 
       {/* Main Content Box */}
-      <section className="border-2 border-border p-8 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] text-center space-y-6">
+      <section className="border-2 border-border p-8 bg-card shadow-brutal-md text-center space-y-6">
         <pre className="font-mono text-sm opacity-80 whitespace-pre">{`
         `}</pre>
       </section>

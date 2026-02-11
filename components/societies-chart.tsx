@@ -215,7 +215,7 @@ export function SocietiesChartGraph({ societies, onClose }: { societies: Society
 
                   {/* Growth percentage */}
                   {index > 0 && growthPercent > 0 && (
-                    <div className="text-[10px] font-mono font-bold text-green-500">
+                    <div className="text-[10px] font-mono font-bold text-money-positive">
                       +{growthPercent}%
                     </div>
                   )}
@@ -232,7 +232,7 @@ export function SocietiesChartGraph({ societies, onClose }: { societies: Society
                       <div className="text-muted-foreground">{count} societies</div>
                       <div className="text-muted-foreground text-[10px]">+{chartData.yearData[year]} new</div>
                       {index > 0 && growthPercent > 0 && (
-                        <div className="text-green-500 text-[10px]">+{growthPercent}% growth</div>
+                        <div className="text-money-positive text-[10px]">+{growthPercent}% growth</div>
                       )}
                     </div>
                   </div>
@@ -270,7 +270,7 @@ export function SocietiesChartGraph({ societies, onClose }: { societies: Society
                   <span className="font-bold">{year}</span>
                   <div className="flex items-center gap-2">
                     {index > 0 && growthPercent > 0 && (
-                      <span className="text-green-500 font-bold text-[10px]">+{growthPercent}%</span>
+                      <span className="text-money-positive font-bold text-[10px]">+{growthPercent}%</span>
                     )}
                     <span className="text-primary font-bold">{count}</span>
                   </div>

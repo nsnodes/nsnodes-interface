@@ -97,7 +97,7 @@ export function KidsSubmissionForm({ onSubmitSuccess }: KidsSubmissionFormProps)
   const buttonClass = "px-3 py-2 border-2 border-border hover:bg-primary hover:text-primary-foreground font-mono transition-colors";
 
   return (
-    <form onSubmit={handleSubmit} className="border-2 border-border bg-card p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
+    <form onSubmit={handleSubmit} className="border-2 border-border bg-card p-6 shadow-brutal-xl">
       <h2 className="text-xl sm:text-2xl font-bold font-mono mb-6">[ ADD YOUR STAY ]</h2>
 
       {error && (
@@ -262,7 +262,7 @@ export function KidsSubmissionForm({ onSubmitSuccess }: KidsSubmissionFormProps)
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full px-6 py-3 border-2 border-border bg-primary text-primary-foreground font-mono font-bold hover:bg-primary/90 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] disabled:opacity-50 disabled:cursor-not-allowed hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:translate-x-0 disabled:translate-y-0"
+          className="w-full px-6 py-3 border-2 border-border bg-primary text-primary-foreground font-mono font-bold hover:bg-primary/90 transition-colors shadow-brutal-md disabled:opacity-50 disabled:cursor-not-allowed hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:translate-x-0 disabled:translate-y-0"
         >
           {isSubmitting ? '[ SUBMITTING... ]' : '[ ADD STAY ]'}
         </button>

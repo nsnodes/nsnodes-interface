@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { deleteKidsSubmission } from '@/lib/actions/kids';
 import type { KidsSubmission } from '@/lib/types/kids';
+import { TIMELINE_COLORS } from '@/lib/colors';
 
 interface KidsTimelineProps {
   submissions: KidsSubmission[];
@@ -10,18 +11,7 @@ interface KidsTimelineProps {
 }
 
 // Color palette for submissions
-const COLORS = [
-  'bg-blue-500',
-  'bg-green-500',
-  'bg-yellow-500',
-  'bg-purple-500',
-  'bg-pink-500',
-  'bg-indigo-500',
-  'bg-red-500',
-  'bg-orange-500',
-  'bg-teal-500',
-  'bg-cyan-500',
-];
+const COLORS = TIMELINE_COLORS;
 
 export function KidsTimeline({ submissions, onDelete }: KidsTimelineProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -118,7 +108,7 @@ export function KidsTimeline({ submissions, onDelete }: KidsTimelineProps) {
   }
 
   return (
-    <div className="border-2 border-border shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
+    <div className="border-2 border-border shadow-brutal-xl">
       {/* Timeline Header */}
       <div className="border-b-2 border-border p-4 bg-card">
         <h2 className="text-xl sm:text-2xl font-bold font-mono">[ UPCOMING STAYS TIMELINE ]</h2>

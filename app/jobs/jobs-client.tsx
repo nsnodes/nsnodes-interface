@@ -183,7 +183,7 @@ export default function JobsPage() {
           <div className="flex justify-center lg:justify-start pt-4">
             <a
               href="mailto:nsnodes@gmail.com?subject=List%20this%20job&body=Please%20send%20a%20link%20to%20the%20JD%20or%20give%20as%20many%20of%20the%20details%20below%3A%0A%0A-%20Title%3A%0A-%20Job%20description%3A%0A-%20Location%2FRemote%3A%0A-%20Full%20time%2F%20part%20time%3A%0A-%20Salary%20range%3A%0A-%20Application%20link%20%2F%20email%3A"
-              className="border-2 border-border px-8 py-4 bg-primary text-primary-foreground font-mono font-bold text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.3)] hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all inline-block"
+              className="border-2 border-border px-8 py-4 bg-primary text-primary-foreground font-mono font-bold text-lg shadow-brutal-lg hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none transition-all inline-block"
             >
               [ POST A JOB ] →
             </a>
@@ -193,7 +193,7 @@ export default function JobsPage() {
           <img 
             src="/job-openings-meme.png" 
             alt="Job openings everywhere meme" 
-            className="w-full h-auto max-w-md lg:max-w-lg border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] mx-auto lg:mx-0"
+            className="w-full h-auto max-w-md lg:max-w-lg border-2 border-border shadow-brutal-md mx-auto lg:mx-0"
           />
         </div>
       </section>
@@ -423,7 +423,7 @@ export default function JobsPage() {
           {sortedJobs.map((job, index) => (
             <div
               key={index}
-              className="border-2 border-border p-6 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4 overflow-hidden"
+              className="border-2 border-border p-6 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4 overflow-hidden"
             >
               {/* Header */}
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -442,7 +442,7 @@ export default function JobsPage() {
                     <span className="truncate">{job.type}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-green-500 font-mono text-sm sm:text-base font-bold">
+                <div className="flex items-center gap-2 text-money-positive font-mono text-sm sm:text-base font-bold">
                   <DollarSign className="h-4 w-4 flex-shrink-0" />
                   <span className="truncate">{job.salary}</span>
                 </div>
@@ -467,7 +467,7 @@ export default function JobsPage() {
                   href={job.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-2 border-border px-4 py-2 bg-background font-mono text-sm hover:bg-accent transition-colors flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  className="border-2 border-border px-4 py-2 bg-background font-mono text-sm hover:bg-accent transition-colors flex items-center justify-center gap-2 shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                 >
                   APPLY
                   <ExternalLink className="h-3 w-3" />

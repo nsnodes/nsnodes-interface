@@ -281,7 +281,7 @@ export default function ArgentinaPage() {
           <div className="pt-4">
             <a
               href="mailto:nsnodes@gmail.com?subject=Event Listing Request - Argentina&body=Hi, I'd like to list an event in Argentina. Please include: Event name, Date, Time, Location, Description, and Registration link."
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
             >
               [ SUBMIT EVENT ]
               <ExternalLink className="h-4 w-4" />
@@ -377,7 +377,7 @@ export default function ArgentinaPage() {
         <div className="flex justify-center pt-4">
           <a
             href="mailto:nsnodes@gmail.com?subject=Event Listing Request - Argentina&body=Hi, I'd like to list an event in Argentina. Please include: Event name, Date, Time, Location, Description, and Registration link."
-            className="px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            className="px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             [ SUBMIT EVENT ]
           </a>

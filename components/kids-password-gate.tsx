@@ -61,7 +61,7 @@ export function KidsPasswordGate({ children }: KidsPasswordGateProps) {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <div className="border-2 border-border bg-card p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)]">
+        <div className="border-2 border-border bg-card p-8 shadow-brutal-xl">
           <h1 className="text-2xl font-bold font-mono mb-6 text-center">[ ACCESS REQUIRED ]</h1>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -87,7 +87,7 @@ export function KidsPasswordGate({ children }: KidsPasswordGateProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-6 py-3 border-2 border-border bg-primary text-primary-foreground font-mono font-bold hover:bg-primary/90 transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0"
+              className="w-full px-6 py-3 border-2 border-border bg-primary text-primary-foreground font-mono font-bold hover:bg-primary/90 transition-colors shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-x-0 disabled:translate-y-0"
             >
               {isSubmitting ? '[ VERIFYING... ]' : '[ SUBMIT ]'}
             </button>

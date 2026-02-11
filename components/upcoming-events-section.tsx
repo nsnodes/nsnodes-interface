@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import type { UIEvent } from "@/lib/types/events";
 import { societyNamesMatch } from "@/lib/utils/society-matcher";
+import { getNetworkStateColor as getNetworkColor } from "@/lib/colors";
 
 type SortField = "date" | "event" | "location" | "networkState" | "type";
 type SortDirection = "asc" | "desc";
@@ -571,30 +572,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
     return time;
   };
 
-  const getNetworkStateColor = (networkState: string) => {
-    const colors: Record<string, string> = {
-      'edgpatagonia': 'bg-emerald-600',
-      'Network School': 'bg-blue-600',
-      '4Seas': 'bg-cyan-600',
-      'Próspera': 'bg-orange-600',
-      'INFINITA': 'bg-fuchsia-600',
-      'Invisible Garden Argentina': 'bg-lime-600',
-      'Software Zuzalu': 'bg-violet-600',
-      'Tomek ⚡ K': 'bg-amber-600',
-      'Andrea S.': 'bg-rose-600',
-      'Ârc': 'bg-purple-600',
-      'Commons': 'bg-green-700',
-      'Edge City': 'bg-teal-600',
-      'Logos': 'bg-indigo-600',
-      'Ipê City': 'bg-pink-600',
-      'Build_Republic': 'bg-red-600',
-      'Infinita': 'bg-fuchsia-600',
-      'Crecimiento': 'bg-yellow-600',
-      'Aleph Crecimiento': 'bg-sky-600',
-      'Montelibero': 'bg-stone-600',
-    };
-    return colors[networkState] || 'bg-slate-600';
-  };
+  const getNetworkStateColor = (networkState: string) => getNetworkColor(networkState);
 
   return (
     <section id="upcoming-events" className="space-y-6">
@@ -961,19 +939,19 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
       {/* Error State */}
       {error && (
-        <div className="border-2 border-red-500 bg-red-50 dark:bg-red-950/20 p-4">
+        <div className="border-2 border-destructive bg-destructive/10 p-4">
           <div className="flex items-start gap-3">
-            <span className="text-red-600 dark:text-red-400 text-2xl">⚠</span>
+            <span className="text-destructive text-2xl">⚠</span>
             <div className="space-y-2">
-              <p className="font-mono text-sm text-red-600 dark:text-red-400 font-bold">
+              <p className="font-mono text-sm text-destructive font-bold">
                 Failed to load events
               </p>
-              <p className="font-mono text-xs text-red-600/80 dark:text-red-400/80">
+              <p className="font-mono text-xs text-destructive/80">
                 {error}
               </p>
               <button
                 onClick={() => window.location.reload()}
-                className="font-mono text-xs border border-red-600 dark:border-red-400 px-3 py-1 hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors"
+                className="font-mono text-xs border border-destructive px-3 py-1 hover:bg-destructive/10 transition-colors"
               >
                 [ RELOAD PAGE ]
               </button>
@@ -1091,7 +1069,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                 <div className="font-semibold flex items-center gap-2">
                                   {event.date}
                                   {isEventLive(event) && (
-                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-status-live text-status-live-foreground text-[10px] font-bold rounded animate-pulse">
                                       <span className="relative flex h-1 w-1">
                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                                         <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
@@ -1100,7 +1078,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                     </span>
                                   )}
                                   {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
+                                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-bitcoin text-white text-[10px] font-bold rounded animate-pulse">
                                       UPCOMING
                                     </span>
                                   )}
@@ -1124,11 +1102,11 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             <td className="p-4">
                               <div className="flex items-center gap-2 flex-wrap">
                                 {hasCommonsTag(event) ? (
-                                  <span className="inline-flex items-center px-2 py-0.5 bg-green-600 text-white text-xs font-bold rounded">
+                                  <span className="inline-flex items-center px-2 py-0.5 bg-palette-11 text-white text-xs font-bold rounded">
                                     COMMONS
                                   </span>
                                 ) : isArcEvent(event) ? (
-                                  <span className="inline-flex items-center px-2 py-0.5 bg-purple-600 text-white text-xs font-bold rounded">
+                                  <span className="inline-flex items-center px-2 py-0.5 bg-palette-10 text-white text-xs font-bold rounded">
                                     ÂRC
                                   </span>
                                 ) : (
@@ -1237,7 +1215,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                     {displayEvents.map((event, index) => (
                       <div
                         key={`${groupLabel}-${index}`}
-                        className={`border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${
+                        className={`border-2 border-border p-4 bg-card shadow-brutal-md space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${
                           showOnlyToday && index === 5 ? 'filter blur-[1px] opacity-60' : ''
                         }`}
                         onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
@@ -1247,7 +1225,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                             <div className="text-xs font-mono text-muted-foreground flex items-center gap-2">
                               {event.date}
                               {isEventLive(event) && (
-                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-status-live text-status-live-foreground text-[10px] font-bold rounded animate-pulse">
                                   <span className="relative flex h-1 w-1">
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
@@ -1256,7 +1234,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                 </span>
                               )}
                               {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
+                                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-bitcoin text-white text-[10px] font-bold rounded animate-pulse">
                                   UPCOMING
                                 </span>
                               )}
@@ -1282,11 +1260,11 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                       </p>
                         <div className="flex items-center gap-2 flex-wrap">
                           {hasCommonsTag(event) ? (
-                            <span className="inline-flex items-center px-2 py-0.5 bg-green-600 text-white text-xs font-bold rounded">
+                            <span className="inline-flex items-center px-2 py-0.5 bg-palette-11 text-white text-xs font-bold rounded">
                               COMMONS
                             </span>
                           ) : isArcEvent(event) ? (
-                            <span className="inline-flex items-center px-2 py-0.5 bg-purple-600 text-white text-xs font-bold rounded">
+                            <span className="inline-flex items-center px-2 py-0.5 bg-palette-10 text-white text-xs font-bold rounded">
                               ÂRC
                             </span>
                           ) : (
@@ -1317,7 +1295,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
             {/* Blurred Tomorrow Event - Mobile */}
             {!showOnlyToday && hasTomorrowEvents && tomorrowEvents[0] && (
               <div className="space-y-2">
-                <div className="filter blur-[2px] pointer-events-none opacity-50 select-none border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2">
+                <div className="filter blur-[2px] pointer-events-none opacity-50 select-none border-2 border-border p-4 bg-card shadow-brutal-md space-y-2">
                   <div className="flex items-start justify-between">
                     <div className="space-y-0.5">
                       <div className="text-xs font-mono text-muted-foreground">{tomorrowEvents[0].date}</div>
@@ -1564,7 +1542,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                 if (currentHour === hour) {
                                   return (
                                     <div
-                                      className="absolute right-0 bg-red-500 text-white text-[10px] font-mono px-1 rounded whitespace-nowrap"
+                                      className="absolute right-0 bg-status-live text-status-live-foreground text-[10px] font-mono px-1 rounded whitespace-nowrap"
                                       style={{ top: `${currentMinutes}px` }}
                                       suppressHydrationWarning
                                     >
@@ -1651,14 +1629,14 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         <div className="p-1 text-white text-[10px] font-mono leading-tight h-full overflow-hidden">
                                           <div className="truncate flex items-center gap-1">
                                             {isEventLive(event) && (
-                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-red-500 text-white text-[8px] font-bold rounded flex-shrink-0">
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-status-live text-status-live-foreground text-[8px] font-bold rounded flex-shrink-0">
                                                 <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
                                                 <span className="w-1 h-1 bg-white rounded-full"></span>
                                                 LIVE
                                               </span>
                                             )}
                                             {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-[#f7931a] text-white text-[8px] font-bold rounded animate-pulse flex-shrink-0">
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-bitcoin text-white text-[8px] font-bold rounded animate-pulse flex-shrink-0">
                                                 <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
                                                 <span className="w-1 h-1 bg-white rounded-full"></span>
                                                 UPCOMING
@@ -1697,7 +1675,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
                                       return (
                                         <div
-                                          className="absolute left-0 right-0 h-0.5 bg-red-500 z-50 pointer-events-none"
+                                          className="absolute left-0 right-0 h-0.5 bg-now-indicator z-50 pointer-events-none"
                                           style={{ top: `${minuteOffset}px` }}
                                           suppressHydrationWarning
                                         />
@@ -1846,7 +1824,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                   const minuteOffset = (currentMinutes / 60) * 40;
                                   return (
                                     <div
-                                      className="absolute right-0 bg-red-500 text-white text-[9px] font-mono px-1 rounded whitespace-nowrap"
+                                      className="absolute right-0 bg-status-live text-status-live-foreground text-[9px] font-mono px-1 rounded whitespace-nowrap"
                                       style={{ top: `${minuteOffset}px` }}
                                       suppressHydrationWarning
                                     >
@@ -1933,14 +1911,14 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden">
                                           <div className="truncate flex items-center gap-1">
                                             {isEventLive(event) && (
-                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-red-500 text-white text-[7px] font-bold rounded flex-shrink-0">
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-status-live text-status-live-foreground text-[7px] font-bold rounded flex-shrink-0">
                                                 <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
                                                 <span className="w-1 h-1 bg-white rounded-full"></span>
                                                 LIVE
                                               </span>
                                             )}
                                             {!isEventLive(event) && isNextUpcomingEvent(event) && (
-                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-[#f7931a] text-white text-[7px] font-bold rounded animate-pulse flex-shrink-0">
+                                              <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-bitcoin text-white text-[7px] font-bold rounded animate-pulse flex-shrink-0">
                                                 <span className="w-1 h-1 bg-white rounded-full animate-ping absolute"></span>
                                                 <span className="w-1 h-1 bg-white rounded-full"></span>
                                                 UPCOMING
@@ -1980,7 +1958,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
                                       return (
                                         <div
-                                          className="absolute left-0 right-0 h-0.5 bg-red-500 z-50 pointer-events-none"
+                                          className="absolute left-0 right-0 h-0.5 bg-now-indicator z-50 pointer-events-none"
                                           style={{ top: `${minuteOffset}px` }}
                                           suppressHydrationWarning
                                         />

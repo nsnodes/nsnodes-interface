@@ -423,7 +423,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
           <div className="pt-4">
             <a
               href="mailto:nsnodes@gmail.com?subject=Network Society Listing Request&body=Hi, I'd like to list our Network State society on NSNodes. Please include: Society name, Location, Mission/description, Founding year, Number of residents, Growth rate, Website, X profile, Discord, Focus areas, and Application link."
-              className="inline-block border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              className="inline-block border-2 border-border px-6 py-3 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono font-bold shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
             >
               [ LIST NETWORK SOCIETY ] →
             </a>
@@ -582,7 +582,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
             return (
               <div
                 key={index}
-                className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-3"
+                className="border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-3"
               >
                 {/* Header: Logo, Name + Description, Badges */}
                 <div className="flex flex-col sm:flex-row sm:items-start gap-3">
@@ -654,7 +654,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                     href={society.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                    className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                     title="Website"
                   >
                     <Globe className="h-3 w-3" />
@@ -664,7 +664,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                       href={society.x}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                       title="X (Twitter)"
                     >
                       <XIcon className="h-3 w-3" />
@@ -675,7 +675,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                       href={society.discord}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                       title="Discord"
                     >
                       <DiscordIcon className="h-3 w-3" />
@@ -686,7 +686,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                       href={society.telegram}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                       title="Telegram"
                     >
                       <MessageCircle className="h-3 w-3" />
@@ -695,7 +695,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                   {hasOpenPositions(society.name) && (
                     <Link
                       href={`/jobs?employer=${encodeURIComponent(society.name)}`}
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                       title="View Open Positions"
                     >
                       <Briefcase className="h-3 w-3" />
@@ -707,7 +707,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                       href={society.application}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none ml-auto"
+                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none ml-auto"
                       title="Apply to Society"
                     >
                       Apply
@@ -729,15 +729,15 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                         <span>[ UPCOMING EVENTS ] ({societyEvents.length})</span>
                         {/* Priority: Live > Upcoming > Today - only show one badge */}
                         {hasLiveEvents(societyEvents) ? (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-500 text-white text-[10px] font-bold rounded animate-pulse">
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-status-live text-status-live-foreground text-[10px] font-bold rounded animate-pulse">
                             <span className="relative flex h-1 w-1">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-1 w-1 bg-white"></span>
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-live-foreground opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-1 w-1 bg-status-live-foreground"></span>
                             </span>
                             LIVE
                           </span>
                         ) : hasUpcomingEvents(societyEvents) ? (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-[#f7931a] text-white text-[10px] font-bold rounded animate-pulse">
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-bitcoin text-white text-[10px] font-bold rounded animate-pulse">
                             UPCOMING
                           </span>
                         ) : hasTodayEvents(societyEvents) ? (
@@ -767,16 +767,16 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                                   {/* Event Status Badges */}
                                   <div className="flex items-center gap-2 mb-1.5">
                                     {isEventLive(event) && (
-                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">
+                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-status-live text-status-live-foreground text-xs font-bold rounded animate-pulse">
                                         <span className="relative flex h-1.5 w-1.5">
-                                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
+                                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-status-live-foreground opacity-75"></span>
+                                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-status-live-foreground"></span>
                                         </span>
                                         LIVE
                                       </span>
                                     )}
                                     {!isEventLive(event) && isEventStartingWithinHour(event) && (
-                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-[#f7931a] text-white text-xs font-bold rounded animate-pulse">
+                                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-bitcoin text-white text-xs font-bold rounded animate-pulse">
                                         UPCOMING
                                       </span>
                                     )}
@@ -830,13 +830,13 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
           <Link
             href="/contact"
-            className="px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            className="px-6 py-3 border-2 border-border bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-mono shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             [ GET IN TOUCH ]
           </Link>
           <Link
             href="/#upcoming-events"
-            className="px-6 py-3 border-2 border-border bg-background hover:bg-accent transition-colors font-mono shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            className="px-6 py-3 border-2 border-border bg-background hover:bg-accent transition-colors font-mono shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             [ VIEW EVENTS ]
           </Link>

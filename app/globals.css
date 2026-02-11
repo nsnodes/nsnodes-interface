@@ -41,6 +41,74 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Brand */
+  --color-bitcoin: var(--bitcoin);
+  --color-bitcoin-foreground: var(--bitcoin-foreground);
+
+  /* Status */
+  --color-status-live: var(--status-live);
+  --color-status-live-foreground: var(--status-live-foreground);
+  --color-status-soon: var(--status-soon);
+  --color-status-soon-foreground: var(--status-soon-foreground);
+  --color-status-success: var(--status-success);
+  --color-status-success-foreground: var(--status-success-foreground);
+
+  /* Financial */
+  --color-money-positive: var(--money-positive);
+  --color-money-negative: var(--money-negative);
+
+  /* Star/highlight */
+  --color-star: var(--star);
+  --color-featured: var(--featured);
+  --color-featured-foreground: var(--featured-foreground);
+
+  /* API status */
+  --color-api-active: var(--api-active);
+
+  /* Now indicator (current time line) */
+  --color-now-indicator: var(--now-indicator);
+
+  /* Network state palette */
+  --color-palette-1: var(--palette-1);
+  --color-palette-2: var(--palette-2);
+  --color-palette-3: var(--palette-3);
+  --color-palette-4: var(--palette-4);
+  --color-palette-5: var(--palette-5);
+  --color-palette-6: var(--palette-6);
+  --color-palette-7: var(--palette-7);
+  --color-palette-8: var(--palette-8);
+  --color-palette-9: var(--palette-9);
+  --color-palette-10: var(--palette-10);
+  --color-palette-11: var(--palette-11);
+  --color-palette-12: var(--palette-12);
+  --color-palette-13: var(--palette-13);
+  --color-palette-14: var(--palette-14);
+  --color-palette-15: var(--palette-15);
+  --color-palette-16: var(--palette-16);
+  --color-palette-17: var(--palette-17);
+  --color-palette-18: var(--palette-18);
+  --color-palette-19: var(--palette-19);
+  --color-palette-default: var(--palette-default);
+
+  /* Timeline palette */
+  --color-timeline-1: var(--timeline-1);
+  --color-timeline-2: var(--timeline-2);
+  --color-timeline-3: var(--timeline-3);
+  --color-timeline-4: var(--timeline-4);
+  --color-timeline-5: var(--timeline-5);
+  --color-timeline-6: var(--timeline-6);
+  --color-timeline-7: var(--timeline-7);
+  --color-timeline-8: var(--timeline-8);
+  --color-timeline-9: var(--timeline-9);
+  --color-timeline-10: var(--timeline-10);
+
+  /* Brutal shadows */
+  --shadow-brutal-sm: var(--brutal-shadow-sm);
+  --shadow-brutal-md: var(--brutal-shadow-md);
+  --shadow-brutal-md-active: var(--brutal-shadow-md-active);
+  --shadow-brutal-lg: var(--brutal-shadow-lg);
+  --shadow-brutal-xl: var(--brutal-shadow-xl);
 }
 
 :root {
@@ -76,6 +144,78 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* ── Brand ── */
+  --bitcoin: oklch(0.741 0.177 60);
+  --bitcoin-foreground: oklch(1 0 0);
+
+  /* ── Status ── */
+  --status-live: oklch(0.637 0.237 25.331);
+  --status-live-foreground: oklch(1 0 0);
+  --status-soon: oklch(0.795 0.184 86.047);
+  --status-soon-foreground: oklch(0.145 0 0);
+  --status-success: oklch(0.723 0.191 149.579);
+  --status-success-foreground: oklch(1 0 0);
+
+  /* ── Financial ── */
+  --money-positive: oklch(0.723 0.191 149.579);
+  --money-negative: oklch(0.637 0.237 25.331);
+
+  /* ── Star / highlight ── */
+  --star: oklch(0.795 0.184 86.047);
+  --featured: oklch(0.769 0.188 70.08);
+  --featured-foreground: oklch(0.145 0 0);
+
+  /* ── API status ── */
+  --api-active: oklch(0.723 0.191 149.579);
+
+  /* ── Now indicator ── */
+  --now-indicator: oklch(0.637 0.237 25.331);
+
+  /* ── Network state palette ── */
+  --palette-1: oklch(0.596 0.145 163.225);   /* emerald-600 */
+  --palette-2: oklch(0.546 0.245 262.881);   /* blue-600 */
+  --palette-3: oklch(0.609 0.126 221.723);   /* cyan-600 */
+  --palette-4: oklch(0.646 0.222 41.116);    /* orange-600 */
+  --palette-5: oklch(0.591 0.293 322.896);   /* fuchsia-600 */
+  --palette-6: oklch(0.641 0.176 134.238);   /* lime-600 */
+  --palette-7: oklch(0.541 0.281 293.009);   /* violet-600 */
+  --palette-8: oklch(0.666 0.179 58.318);    /* amber-600 */
+  --palette-9: oklch(0.592 0.249 16.439);    /* rose-600 */
+  --palette-10: oklch(0.558 0.288 302.321);  /* purple-600 */
+  --palette-11: oklch(0.527 0.154 150.069);  /* green-700 */
+  --palette-12: oklch(0.6 0.118 184.704);    /* teal-600 */
+  --palette-13: oklch(0.511 0.262 276.966);  /* indigo-600 */
+  --palette-14: oklch(0.592 0.249 0.584);    /* pink-600 */
+  --palette-15: oklch(0.577 0.245 27.325);   /* red-600 */
+  --palette-16: oklch(0.591 0.293 322.896);  /* fuchsia-600 */
+  --palette-17: oklch(0.748 0.185 79.938);   /* yellow-600 */
+  --palette-18: oklch(0.588 0.158 241.966);  /* sky-600 */
+  --palette-19: oklch(0.553 0.013 58.071);   /* stone-600 */
+  --palette-default: oklch(0.446 0.043 257.281); /* slate-600 */
+
+  /* ── Timeline palette ── */
+  --timeline-1: oklch(0.623 0.214 259.815);  /* blue-500 */
+  --timeline-2: oklch(0.723 0.191 149.579);  /* green-500 */
+  --timeline-3: oklch(0.795 0.184 86.047);   /* yellow-500 */
+  --timeline-4: oklch(0.627 0.265 303.9);    /* purple-500 */
+  --timeline-5: oklch(0.656 0.241 354.308);  /* pink-500 */
+  --timeline-6: oklch(0.585 0.233 277.117);  /* indigo-500 */
+  --timeline-7: oklch(0.637 0.237 25.331);   /* red-500 */
+  --timeline-8: oklch(0.702 0.183 55.093);   /* orange-500 */
+  --timeline-9: oklch(0.704 0.14 198.404);   /* teal-500 */
+  --timeline-10: oklch(0.715 0.143 215.221); /* cyan-500 */
+
+  /* ── Brutal shadows ── */
+  --brutal-shadow-sm: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  --brutal-shadow-md: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --brutal-shadow-md-active: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  --brutal-shadow-lg: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  --brutal-shadow-xl: 8px 8px 0px 0px rgba(0, 0, 0, 1);
+
+  /* ── Text shadow (ascii-3d) ── */
+  --text-shadow-primary: rgba(0, 0, 0, 0.2);
+  --text-shadow-secondary: rgba(0, 0, 0, 0.1);
 }
 
 .dark {
@@ -110,6 +250,17 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* ── Brutal shadows (dark) ── */
+  --brutal-shadow-sm: 2px 2px 0px 0px rgba(255, 255, 255, 0.2);
+  --brutal-shadow-md: 4px 4px 0px 0px rgba(255, 255, 255, 0.2);
+  --brutal-shadow-md-active: 4px 4px 0px 0px rgba(255, 255, 255, 1);
+  --brutal-shadow-lg: 6px 6px 0px 0px rgba(255, 255, 255, 0.3);
+  --brutal-shadow-xl: 8px 8px 0px 0px rgba(255, 255, 255, 0.2);
+
+  /* ── Text shadow (ascii-3d, dark) ── */
+  --text-shadow-primary: rgba(255, 255, 255, 0.1);
+  --text-shadow-secondary: rgba(255, 255, 255, 0.05);
 }
 
 @layer base {
@@ -174,14 +325,8 @@
   /* ASCII 3D effect utilities */
   .ascii-3d {
     text-shadow:
-      2px 2px 0px rgba(0, 0, 0, 0.2),
-      4px 4px 0px rgba(0, 0, 0, 0.1);
-  }
-
-  .dark .ascii-3d {
-    text-shadow:
-      2px 2px 0px rgba(255, 255, 255, 0.1),
-      4px 4px 0px rgba(255, 255, 255, 0.05);
+      2px 2px 0px var(--text-shadow-primary),
+      4px 4px 0px var(--text-shadow-secondary);
   }
 
   /* Glitch effect */
@@ -252,7 +397,7 @@
 .strikethrough-base {
   opacity: 0.3;
   text-decoration: line-through;
-  text-decoration-color: rgb(239 68 68); /* red-500 */
+  text-decoration-color: var(--status-live);
   text-decoration-thickness: 2px;
 }
 

@@ -20,7 +20,7 @@ export function LogoImage({ className, width = 220, height = 44 }: LogoImageProp
       height={height}
       priority
       unoptimized
-      className={className ?? "h-auto w-auto max-w-full"}
+      className={className ?? "h-auto w-[400px] max-w-full"}
     />
   );
 }

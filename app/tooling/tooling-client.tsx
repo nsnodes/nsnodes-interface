@@ -135,7 +135,7 @@ export default function ToolingPage() {
           (category) => (
             <button
               key={category}
-              className="px-4 py-2 font-mono text-xs border-2 border-border bg-background hover:bg-accent transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+              className="px-4 py-2 font-mono text-xs border-2 border-border bg-background hover:bg-accent transition-colors shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
             >
               [ {category.toUpperCase()} ]
             </button>
@@ -154,7 +154,7 @@ export default function ToolingPage() {
           {tools.map((tool, index) => (
             <div
               key={index}
-              className="border-2 border-border p-6 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4"
+              className="border-2 border-border p-6 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4"
             >
               {/* Header */}
               <div className="flex items-start justify-between gap-4">
@@ -178,7 +178,7 @@ export default function ToolingPage() {
               {/* Stats */}
               <div className="flex flex-wrap gap-4 pt-2 border-t border-border">
                 <div className="flex items-center gap-2 text-xs font-mono">
-                  <Star className="h-3 w-3 text-yellow-500" />
+                  <Star className="h-3 w-3 text-star" />
                   <span>{tool.stars}</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs font-mono">
@@ -197,7 +197,7 @@ export default function ToolingPage() {
                   href={tool.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-sm font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-sm font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                 >
                   <Github className="h-4 w-4" />
                   VIEW ON GITHUB
@@ -216,7 +216,7 @@ export default function ToolingPage() {
           Building tools for Network States? Submit a PR to add your project.
           All code is open-source. All contributions are welcome.
         </p>
-        <button className="border-2 border-border px-6 py-3 bg-primary text-primary-foreground font-mono font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+        <button className="border-2 border-border px-6 py-3 bg-primary text-primary-foreground font-mono font-bold shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
           [ SUBMIT YOUR TOOL ] →
         </button>
       </section>

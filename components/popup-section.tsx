@@ -4,6 +4,7 @@ import { Calendar, BarChart3, ChevronDown, Table, Loader2 } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import type { PopupCity } from "@/lib/types/events";
+import { TIMELINE_COLORS } from "@/lib/colors";
 
 interface PopupSectionProps {
   popupEvents: PopupCity[];
@@ -41,8 +42,14 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
     return startDate > today;
   });
 
+  // Filter out past events (endDate < today)
+  const currentAndFutureEvents = popupEvents.filter(event => {
+    const endDate = new Date(event.endDate);
+    return endDate >= today;
+  });
+
   // Determine which events to display
-  const allDisplayEvents = showOnlyOngoing ? ongoingEvents : popupEvents;
+  const allDisplayEvents = showOnlyOngoing ? ongoingEvents : currentAndFutureEvents;
   const displayEvents = showAllEvents ? allDisplayEvents : allDisplayEvents.slice(0, 4);
   const hasMoreEvents = allDisplayEvents.length > 4;
   const hasUpcomingEvents = showOnlyOngoing && upcomingEvents.length > 0;
@@ -59,18 +66,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
   }, []);
 
   // Popup city color palette
-  const popupCityColors = [
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-purple-500",
-    "bg-orange-500",
-    "bg-pink-500",
-    "bg-teal-500",
-    "bg-red-500",
-    "bg-yellow-500",
-    "bg-indigo-500",
-    "bg-cyan-500",
-  ];
+  const popupCityColors = TIMELINE_COLORS;
 
   const getPopupCityColor = (index: number) => {
     return popupCityColors[index % popupCityColors.length];
@@ -147,7 +143,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
         <div className="border-2 border-border bg-card p-12 text-center">
           <div className="space-y-4">
             <div className="text-4xl">❌</div>
-            <p className="font-mono text-sm text-red-500">{error}</p>
+            <p className="font-mono text-sm text-destructive">{error}</p>
           </div>
         </div>
       )}
@@ -217,7 +213,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
             {displayEvents.map((event, index) => (
               <div
                 key={index}
-                className="border-2 border-border p-4 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+                className="border-2 border-border p-4 bg-card shadow-brutal-md space-y-2 cursor-pointer hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
                 onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
               >
                 <div className="flex items-start justify-between">
@@ -485,7 +481,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                               {/* Today indicator line - show if today falls in this week */}
                               {isCurrentWeek && (
                                 <div 
-                                  className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-20"
+                                  className="absolute top-0 bottom-0 w-0.5 bg-now-indicator z-20"
                                   style={{
                                     left: `${((today.getTime() - weekStart.getTime()) / (weekEnd.getTime() - weekStart.getTime())) * 100}%`
                                   }}
@@ -544,7 +540,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                                   {/* Today indicator line - show if today falls in this week */}
                                   {isCurrentWeek && (
                                     <div 
-                                      className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-30"
+                                      className="absolute top-0 bottom-0 w-0.5 bg-now-indicator z-30"
                                       style={{
                                         left: `${((today.getTime() - weekStart.getTime()) / (weekEnd.getTime() - weekStart.getTime())) * 100}%`
                                       }}
@@ -750,7 +746,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                               {/* Today indicator line - show if today falls in this week */}
                               {isCurrentWeek && (
                                 <div 
-                                  className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-20"
+                                  className="absolute top-0 bottom-0 w-0.5 bg-now-indicator z-20"
                                   style={{
                                     left: `${((today.getTime() - weekStart.getTime()) / (weekEnd.getTime() - weekStart.getTime())) * 100}%`
                                   }}
@@ -809,7 +805,7 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
                                   {/* Today indicator line - show if today falls in this week */}
                                   {isCurrentWeek && (
                                     <div 
-                                      className="absolute top-0 bottom-0 w-0.5 bg-red-500 z-30"
+                                      className="absolute top-0 bottom-0 w-0.5 bg-now-indicator z-30"
                                       style={{
                                         left: `${((today.getTime() - weekStart.getTime()) / (weekEnd.getTime() - weekStart.getTime())) * 100}%`
                                       }}

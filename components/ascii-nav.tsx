@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Moon, Sun, ChevronDown } from "lucide-react";
 import { useTheme } from "@/components/theme-provider";
@@ -53,20 +54,32 @@ export function AsciiNav() {
           <div className="flex items-center justify-between md:justify-center relative w-full">
             {/* Mobile: Logo on left, controls on right */}
             <div className="flex items-center justify-between w-full md:hidden">
-              <Link href="/" className="hover:opacity-80 transition-opacity block">
-                <LogoImage width={120} height={24} />
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link href="/" className="block transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none shadow-brutal-md border-2 border-border">
+                  <Image
+                    src="/nsnodes-icon.png"
+                    alt="nsnodes icon"
+                    width={32}
+                    height={32}
+                    unoptimized
+                    className="h-8 w-8"
+                  />
+                </Link>
+                <Link href="/" className="hover:opacity-80 transition-opacity block">
+                  <LogoImage width={120} height={24} />
+                </Link>
+              </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="border-2 border-border px-3 py-2 font-mono text-sm hover:bg-accent whitespace-nowrap"
+                  className="border-2 border-border px-3 py-2 font-mono text-sm bg-background shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all whitespace-nowrap"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? "[ LIGHT ]" : "[ DARK ]"}
                 </button>
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="border-2 border-border px-3 py-2 font-mono text-sm hover:bg-accent whitespace-nowrap"
+                  className="border-2 border-border px-3 py-2 font-mono text-sm bg-background shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all whitespace-nowrap"
                 >
                   {mobileMenuOpen ? "[ ✕ ]" : "[ ≡ ]"}
                 </button>
@@ -75,6 +88,16 @@ export function AsciiNav() {
             
             {/* Desktop: Centered logo with controls positioned absolutely within container */}
             <div className="hidden md:flex items-center justify-center relative w-full">
+              <Link href="/" className="absolute left-0 block transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none shadow-brutal-md border-2 border-border">
+                <Image
+                  src="/nsnodes-icon.png"
+                  alt="nsnodes icon"
+                  width={36}
+                  height={36}
+                  unoptimized
+                  className="h-9 w-9"
+                />
+              </Link>
               <Link href="/" className="hover:opacity-80 transition-opacity block">
                 <LogoImage />
               </Link>
@@ -82,7 +105,7 @@ export function AsciiNav() {
                 {/* Desktop Theme Toggle */}
                 <button
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className="flex items-center gap-2 px-4 py-2 border-2 border-border hover:bg-accent transition-colors font-mono"
+                  className="flex items-center gap-2 px-4 py-2 border-2 border-border bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all font-mono"
                   aria-label="Toggle theme"
                 >
                   {theme === "dark" ? (
@@ -119,8 +142,8 @@ export function AsciiNav() {
                         onMouseEnter={() => setFundingDropdownOpen(true)}
                         className={`px-4 py-2 font-mono text-sm border-2 border-border transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none flex items-center gap-1 ${
                           isActive
-                            ? "bg-primary text-primary-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-                            : "bg-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
+                            ? "bg-primary text-primary-foreground shadow-brutal-md-active"
+                            : "bg-background shadow-brutal-md"
                         }`}
                       >
                         {item.label}
@@ -128,7 +151,7 @@ export function AsciiNav() {
                       </Link>
                       {fundingDropdownOpen && (
                         <div
-                          className="absolute top-full left-0 mt-2 bg-background border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] z-50 min-w-[200px]"
+                          className="absolute top-full left-0 mt-2 bg-background border-2 border-border shadow-brutal-md z-50 min-w-[200px]"
                           onMouseEnter={() => setFundingDropdownOpen(true)}
                           onMouseLeave={() => setFundingDropdownOpen(false)}
                         >
@@ -143,7 +166,7 @@ export function AsciiNav() {
                               <span className="flex items-center gap-2">
                                 {subItem.label}
                                 {subItem.comingSoon && (
-                                  <span className="text-[8px] px-1 py-0.5 bg-yellow-500 text-black font-bold rounded">SOON</span>
+                                  <span className="text-[8px] px-1 py-0.5 bg-status-soon text-status-soon-foreground font-bold rounded">SOON</span>
                                 )}
                               </span>
                             </Link>
@@ -160,14 +183,14 @@ export function AsciiNav() {
                     href={item.href}
                     className={`px-4 py-2 font-mono text-sm border-2 border-border transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none relative ${
                       pathname === item.href
-                        ? "bg-primary text-primary-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]"
-                        : "bg-background shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
+                        ? "bg-primary text-primary-foreground shadow-brutal-md-active"
+                        : "bg-background shadow-brutal-md"
                     }`}
                   >
                     <span className="flex items-center gap-2">
                       {item.label}
                       {item.comingSoon && (
-                        <span className="text-[8px] px-1 py-0.5 bg-yellow-500 text-black font-bold rounded">SOON</span>
+                        <span className="text-[8px] px-1 py-0.5 bg-status-soon text-status-soon-foreground font-bold rounded">SOON</span>
                       )}
                     </span>
                   </Link>
@@ -225,7 +248,7 @@ export function AsciiNav() {
                               <span className="flex items-center gap-2">
                                 {subItem.label}
                                 {subItem.comingSoon && (
-                                  <span className="text-[8px] px-1 py-0.5 bg-yellow-500 text-black font-bold rounded">SOON</span>
+                                  <span className="text-[8px] px-1 py-0.5 bg-status-soon text-status-soon-foreground font-bold rounded">SOON</span>
                                 )}
                               </span>
                             </Link>
@@ -250,7 +273,7 @@ export function AsciiNav() {
                     <span className="flex items-center justify-center gap-2">
                       {item.label}
                       {item.comingSoon && (
-                        <span className="text-[8px] px-1 py-0.5 bg-yellow-500 text-black font-bold rounded">SOON</span>
+                        <span className="text-[8px] px-1 py-0.5 bg-status-soon text-status-soon-foreground font-bold rounded">SOON</span>
                       )}
                     </span>
                   </Link>

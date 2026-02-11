@@ -423,7 +423,7 @@ curl -H "X-API-Key: sk_live_xxx" \\
       </section>
 
       {/* CTA */}
-      <section className="border-2 border-border p-6 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]">
+      <section className="border-2 border-border p-6 bg-card shadow-brutal-md">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <h3 className="font-mono font-bold">Need API Access?</h3>
@@ -433,7 +433,7 @@ curl -H "X-API-Key: sk_live_xxx" \\
           </div>
           <a
             href="mailto:nsnodes@gmail.com?subject=API%20Access%20Request"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-mono font-bold border-2 border-border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all whitespace-nowrap"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-mono font-bold border-2 border-border shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all whitespace-nowrap"
           >
             <Mail className="h-4 w-4" />
             Contact Us

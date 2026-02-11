@@ -117,7 +117,7 @@ function ArticleCard({ article, className = "" }: { article: UIArticle; classNam
       href={article.url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`group flex flex-col border-2 border-border bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${className}`}
+      className={`group flex flex-col border-2 border-border bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${className}`}
     >
       {/* Main content area - grows to fill space */}
       <div className="flex-1 p-5">
@@ -139,7 +139,7 @@ function ArticleCard({ article, className = "" }: { article: UIArticle; classNam
           </div>
           <div className="flex items-center gap-2 flex-shrink-0">
             {article.isPaid && (
-              <div className="flex items-center gap-1 px-2 py-1 border border-amber-500/50 bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-mono">
+              <div className="flex items-center gap-1 px-2 py-1 border border-featured/50 bg-featured/10 text-featured text-xs font-mono">
                 <Lock className="h-3 w-3" />
               </div>
             )}
@@ -295,7 +295,7 @@ export default function ContentClient() {
           {creators.map((creator, index) => (
             <div
               key={index}
-              className="border-2 border-border p-6 bg-card shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4"
+              className="border-2 border-border p-6 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4"
             >
               {/* Header */}
               <div className="flex items-start justify-between">
@@ -332,7 +332,7 @@ export default function ContentClient() {
                     href={creator.platforms.twitter}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                   >
                     <Twitter className="h-3 w-3" />
                     Twitter
@@ -343,7 +343,7 @@ export default function ContentClient() {
                     href={creator.platforms.youtube}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                   >
                     <Youtube className="h-3 w-3" />
                     YouTube
@@ -354,7 +354,7 @@ export default function ContentClient() {
                     href={creator.platforms.blog}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
                   >
                     <Rss className="h-3 w-3" />
                     Blog
@@ -378,7 +378,7 @@ export default function ContentClient() {
             href="https://thenetworkstate.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="border-2 border-border p-6 bg-card hover:bg-accent transition-all space-y-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            className="border-2 border-border p-6 bg-card hover:bg-accent transition-all space-y-2 shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             <div className="flex items-start justify-between">
               <h3 className="text-lg font-bold font-mono">The Network State</h3>
@@ -396,7 +396,7 @@ export default function ContentClient() {
             href="https://vitalik.ca"
             target="_blank"
             rel="noopener noreferrer"
-            className="border-2 border-border p-6 bg-card hover:bg-accent transition-all space-y-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            className="border-2 border-border p-6 bg-card hover:bg-accent transition-all space-y-2 shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
           >
             <div className="flex items-start justify-between">
               <h3 className="text-lg font-bold font-mono">Vitalik&apos;s Blog</h3>
