@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
+import { Suspense } from "react";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Script from "next/script";
@@ -9,6 +9,11 @@ import { AsciiNav } from "@/components/ascii-nav";
 import { BlurOverlay } from "@/components/blur-overlay";
 import { Footer } from "@/components/footer";
 import GAListener from "@/components/ga-listener";
+
+const isStaging =
+  process.env.NSNODES_ENV === "staging" ||
+  process.env.VERCEL_ENV === "preview" ||
+  process.env.NEXT_PUBLIC_SITE_ENV === "staging";
 
 export const metadata: Metadata = {
   title: "nsnodes.com | Network State Hub for Network Societies Builders",
@@ -39,21 +44,11 @@ export const metadata: Metadata = {
   },
 };
 
-// ✅ Make RootLayout async so we can await headers()
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // ✅ FIX: await headers() instead of using it synchronously
-  const h = await headers();
-  const host = h.get("host") || "";
-  const pathname = h.get("x-pathname") || "/";
-  const isStaging = host === "test.nsnodes.com";
-
-  // Build canonical URL with the current pathname
-  const canonicalUrl = `https://nsnodes.com${pathname}`;
-
   return (
     <html lang="en" suppressHydrationWarning className="overflow-x-hidden dark">
       <head>
@@ -69,8 +64,6 @@ export default async function RootLayout({
             />
           </>
         )}
-        {/* Canonical: point to production host with current path to avoid duplicate content */}
-        <link rel="canonical" href={canonicalUrl} />
         {/* Set dark mode as default before hydration to prevent flash */}
         <script
           dangerouslySetInnerHTML={{
@@ -110,7 +103,9 @@ export default async function RootLayout({
                 gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
               `}
             </Script>
-            <GAListener />
+            <Suspense fallback={null}>
+              <GAListener />
+            </Suspense>
           </>
         )}
       </body>

@@ -70,20 +70,6 @@ export function LiveEventCounter({ allEvents, hideNoEvents = false }: LiveEventC
       // Count live events
       const liveEvents = allEvents.filter(isEventLive);
 
-      // Debug: log live events
-      if (liveEvents.length > 0) {
-        console.log('🔴 Live events:', liveEvents.length);
-        liveEvents.forEach(e => {
-          const start = new Date(e.start_at);
-          const end = new Date(e.end_at);
-          console.log(`  - ${e.title}`);
-          console.log(`    Start: ${e.start_at} (${start.toLocaleString()})`);
-          console.log(`    End: ${e.end_at} (${end.toLocaleString()})`);
-          console.log(`    Now: ${now.toISOString()} (${now.toLocaleString()})`);
-          console.log(`    Live check: now >= start (${now >= start}) && now < end (${now < end})`);
-        });
-      }
-
       setLiveCount(liveEvents.length);
 
       // Find next upcoming event

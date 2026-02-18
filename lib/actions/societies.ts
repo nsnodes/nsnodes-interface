@@ -1,5 +1,6 @@
 'use server';
 
+import { unstable_cache, revalidateTag } from 'next/cache';
 import { createServerClient } from '@/lib/supabase/server';
 import type { SocietyDatabase } from '@/lib/data/societies-database';
 
@@ -25,11 +26,6 @@ interface SupabaseSociety {
   updated_at: string;
 }
 
-// Cache the fetched data
-let cachedSocieties: SocietyDatabase[] | null = null;
-let cacheTimestamp: number = 0;
-const CACHE_DURATION = 3600 * 1000; // 1 hour in milliseconds
-
 /**
  * Transform Supabase row to SocietyDatabase format
  */
@@ -52,50 +48,41 @@ function transformToSocietyDatabase(row: SupabaseSociety): SocietyDatabase {
 }
 
 /**
- * Fetch societies from Supabase
+ * Fetch societies from Supabase (cached for 5 minutes)
  * Falls back to empty array if Supabase fails or is not configured
  */
-export async function getSocieties(): Promise<SocietyDatabase[]> {
-  // Check if we have valid cached data
-  const now = Date.now();
-  if (cachedSocieties && (now - cacheTimestamp) < CACHE_DURATION) {
-    return cachedSocieties;
-  }
+const getCachedSocieties = unstable_cache(
+  async (): Promise<SocietyDatabase[]> => {
+    try {
+      const supabase = createServerClient();
 
-  // Try to fetch from Supabase
-  try {
-    const supabase = createServerClient();
+      const { data, error } = await supabase
+        .from('societies')
+        .select('*')
+        .order('name', { ascending: true });
 
-    const { data, error } = await supabase
-      .from('societies')
-      .select('*')
-      .order('name', { ascending: true });
+      if (error) {
+        throw error;
+      }
 
-    if (error) {
-      throw error;
+      return (data as SupabaseSociety[]).map(transformToSocietyDatabase);
+    } catch (error) {
+      console.warn('Failed to fetch societies from Supabase, using empty fallback:', error);
+      return [];
     }
+  },
+  ['societies'],
+  { revalidate: 300, tags: ['societies'] }
+)
 
-    const societies = (data as SupabaseSociety[]).map(transformToSocietyDatabase);
-
-    // Cache the successful result
-    cachedSocieties = societies;
-    cacheTimestamp = now;
-
-    return societies;
-  } catch (error) {
-    // Log the error but don't throw - use fallback instead
-    console.warn('Failed to fetch societies from Supabase, using empty fallback:', error);
-
-    // Return empty array as fallback
-    return [];
-  }
+export async function getSocieties(): Promise<SocietyDatabase[]> {
+  return getCachedSocieties();
 }
 
 /**
  * Force refresh the cache (useful for manual updates)
  */
 export async function refreshSocietiesCache(): Promise<SocietyDatabase[]> {
-  cachedSocieties = null;
-  cacheTimestamp = 0;
+  revalidateTag('societies');
   return getSocieties();
 }

@@ -19,6 +19,7 @@ export function GET(request: Request) {
   return new Response(body, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=86400, s-maxage=86400",
       "X-Robots-Tag": isStaging ? "noindex, nofollow, noarchive, nosnippet" : "index, follow",
     },
   });

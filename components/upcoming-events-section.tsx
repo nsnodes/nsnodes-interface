@@ -154,11 +154,11 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   const timelineDropdownRef = useRef<HTMLDivElement>(null);
   const clearButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Update current time every second to keep live/upcoming tags reactive
+  // Update current time every 60s to keep live/upcoming tags reactive
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
+    }, 60000);
 
     return () => clearInterval(interval);
   }, []);

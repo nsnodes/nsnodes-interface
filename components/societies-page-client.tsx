@@ -1,7 +1,7 @@
 "use client";
 
 import { Users, MapPin, ExternalLink, ChevronDown, ChevronUp, Calendar, MessageCircle, Globe, Tag, Briefcase } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { SocietyDatabase } from "@/lib/data/societies-database";
@@ -302,16 +302,16 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
   const [showGrowthChart, setShowGrowthChart] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
-  const networkStates = transformSocietiesData(societies);
+  const networkStates = useMemo(() => transformSocietiesData(societies), [societies]);
 
   // Apply client-side timezone conversion to events
   const clientEvents = useClientTimezone(events);
 
-  // Update current time every second for real-time badge updates
+  // Update current time every 60s for live/today badge updates
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
+    }, 60000);
 
     return () => clearInterval(interval);
   }, []);
@@ -332,26 +332,45 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
     fetchEvents();
   }, []);
 
-  // Get events for a specific network state
+  // Pre-compute events per society once (avoids O(societies * events) on every render)
+  const { eventsPerSociety, upcomingCountPerSociety } = useMemo(() => {
+    const eventsMap: Record<string, UIEvent[]> = {};
+    const countMap: Record<string, number> = {};
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Initialize maps for all societies
+    for (const society of networkStates) {
+      eventsMap[society.name] = [];
+      countMap[society.name] = 0;
+    }
+
+    // Single pass through events to assign to societies
+    for (const event of clientEvents) {
+      for (const society of networkStates) {
+        if (societyNamesMatch(event.networkState, society.name)) {
+          eventsMap[society.name].push(event);
+          const eventDate = new Date(event.date);
+          if (eventDate >= today) {
+            countMap[society.name]++;
+          }
+        }
+      }
+    }
+
+    return { eventsPerSociety: eventsMap, upcomingCountPerSociety: countMap };
+  }, [clientEvents, networkStates]);
+
   const getEventsForNetworkState = (networkStateName: string) => {
-    return clientEvents.filter(event =>
-      societyNamesMatch(event.networkState, networkStateName)
-    );
+    return eventsPerSociety[networkStateName] || [];
+  };
+
+  const getUpcomingEventsCount = (networkStateName: string) => {
+    return upcomingCountPerSociety[networkStateName] || 0;
   };
 
   const toggleSociety = (societyName: string) => {
     setExpandedSociety(expandedSociety === societyName ? null : societyName);
-  };
-
-  // Get upcoming events count for each society
-  const getUpcomingEventsCount = (networkStateName: string) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return clientEvents.filter(event => {
-      const eventDate = new Date(event.date);
-      return eventDate >= today && societyNamesMatch(event.networkState, networkStateName);
-    }).length;
   };
 
   // Get unique locations and types for filters
