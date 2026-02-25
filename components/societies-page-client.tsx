@@ -9,6 +9,7 @@ import { SocietiesChartStats, SocietiesChartGraph } from "@/components/societies
 import { getEvents } from "@/lib/actions/events";
 import type { UIEvent } from "@/lib/types/events";
 import { societyNamesMatch } from "@/lib/utils/society-matcher";
+import { societyNameToSlug } from "@/lib/utils/slug";
 import { jobsDatabase } from "@/lib/data/jobs-database";
 import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
 
@@ -618,7 +619,15 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
                       <div className="flex-shrink-0 sm:self-start">
-                        <h3 className="text-lg font-bold font-mono leading-snug">{society.name}</h3>
+                        {society.tier >= 1 && society.tier <= 3 ? (
+                          <Link href={`/societies/${societyNameToSlug(society.name)}`}>
+                            <h3 className="text-lg font-bold font-mono leading-snug hover:text-primary transition-colors">
+                              {society.name}
+                            </h3>
+                          </Link>
+                        ) : (
+                          <h3 className="text-lg font-bold font-mono leading-snug">{society.name}</h3>
+                        )}
                       </div>
                       <p className="text-sm font-mono text-muted-foreground leading-relaxed flex-1 sm:self-start sm:pt-[0.125rem]">
                         {society.description}
@@ -642,6 +651,11 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                       {society.founded && society.founded.toLowerCase() !== "unknown" && (
                         <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap">
                           Founded {society.founded}
+                        </div>
+                      )}
+                      {society.tier && society.tier > 3 && (
+                        <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap opacity-60">
+                          Tier {society.tier} (Coming soon)
                         </div>
                       )}
                     </div>

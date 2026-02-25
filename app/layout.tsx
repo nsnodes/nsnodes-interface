@@ -86,6 +86,7 @@ export default async function RootLayout({
       </head>
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased min-h-screen overflow-x-hidden flex flex-col`}
+        suppressHydrationWarning
       >
         <ThemeProvider defaultTheme="dark">
           <div className="relative z-50">
