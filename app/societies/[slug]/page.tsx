@@ -21,6 +21,12 @@ const MOCK_SOCIETIES: SocietyDatabase[] = [
     category: 'Charter City',
     telegram: 'https://t.me/prospera',
     founded: '2020',
+    scalability: 72,
+    autonomy: 91,
+    qol: 78,
+    belonging: 65,
+    economic: 88,
+    purpose: 83,
   },
   {
     name: 'Praxis',
@@ -128,9 +134,16 @@ export default async function SocietyDetailPage({
     notFound();
   }
 
-  const relatedSocieties = data
-    .filter(s => s.tier >= 1 && s.tier <= 3 && s.name !== society.name)
-    .slice(0, 6);
+  // Get related societies: same type, prioritizing same tier
+  const sameTypeSameTier = data.filter(
+    s => s.tier >= 1 && s.tier <= 3 && s.name !== society.name && s.type === society.type && s.tier === society.tier
+  );
+
+  const sameTypeOtherTier = data.filter(
+    s => s.tier >= 1 && s.tier <= 3 && s.name !== society.name && s.type === society.type && s.tier !== society.tier
+  );
+
+  const relatedSocieties = [...sameTypeSameTier, ...sameTypeOtherTier].slice(0, 6);
 
   return (
     <SocietyDetailClient

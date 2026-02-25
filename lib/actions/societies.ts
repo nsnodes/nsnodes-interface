@@ -23,6 +23,12 @@ interface SupabaseSociety {
   last_synced_at: string | null;
   created_at: string;
   updated_at: string;
+  scalability: number | null;
+  autonomy: number | null;
+  qol: number | null;
+  belonging: number | null;
+  economic: number | null;
+  purpose: number | null;
 }
 
 // Cache the fetched data
@@ -48,6 +54,12 @@ function transformToSocietyDatabase(row: SupabaseSociety): SocietyDatabase {
     category: row.category || undefined,
     telegram: row.telegram || undefined,
     founded: row.founded || undefined,
+    scalability: row.scalability != null ? Math.round(row.scalability * 100) : undefined,
+    autonomy: row.autonomy != null ? Math.round(row.autonomy * 100) : undefined,
+    qol: row.qol != null ? Math.round(row.qol * 100) : undefined,
+    belonging: row.belonging != null ? Math.round(row.belonging * 100) : undefined,
+    economic: row.economic != null ? Math.round(row.economic * 100) : undefined,
+    purpose: row.purpose != null ? Math.round(row.purpose * 100) : undefined,
   };
 }
 

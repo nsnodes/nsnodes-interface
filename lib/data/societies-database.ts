@@ -15,6 +15,13 @@ export interface SocietyDatabase {
   category?: string; // Category from Airtable (e.g., "Popup City", "Software", "DAO", etc.)
   telegram?: string; // Optional Telegram URL
   founded?: string; // Founding year from Airtable
+  // Radar scores (0-100, pre-multiplied from 0-1 DB values)
+  scalability?: number;
+  autonomy?: number;
+  qol?: number;
+  belonging?: number;
+  economic?: number;
+  purpose?: number;
 }
 
 // Empty fallback array (data now comes from Airtable)

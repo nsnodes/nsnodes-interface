@@ -3,9 +3,7 @@
 import { Users, MapPin, ExternalLink, MessageCircle, Globe, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import type { SocietyDatabase } from '@/lib/data/societies-database';
-import { getProspetaRadarScores, type RadarScores } from '@/lib/actions/societies-radar';
 
 // Custom SVG icons
 const XIcon = ({ className }: { className?: string }) => (
@@ -22,24 +20,22 @@ const DiscordIcon = ({ className }: { className?: string }) => (
 
 // Mock social stats for societies
 const getMockSocialStats = (societyName: string) => {
-  const lowerName = societyName.toLowerCase();
+  // Generate consistent fake numbers based on society name
+  const hash = societyName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
-  // Próspera mock data
-  if (lowerName.includes('próspera') || lowerName.includes('prospera')) {
-    return {
-      x_followers: '12,400',
-      discord_members: '2,850',
-      youtube_subscribers: '8,600',
-      telegram_members: '1,200'
-    };
-  }
+  const x_followers = Math.floor((hash * 137) % 50000 + 1000);
+  const discord_members = Math.floor((hash * 149) % 20000 + 500);
+  const youtube_subscribers = Math.floor((hash * 163) % 30000 + 1000);
+  const telegram_members = Math.floor((hash * 179) % 10000 + 200);
 
-  // Default mock data for other societies
+  // Format with commas manually to avoid hydration mismatch
+  const formatNumber = (num: number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
   return {
-    x_followers: 'N/A',
-    discord_members: 'N/A',
-    youtube_subscribers: 'N/A',
-    telegram_members: 'N/A'
+    x_followers: formatNumber(x_followers),
+    discord_members: formatNumber(discord_members),
+    youtube_subscribers: formatNumber(youtube_subscribers),
+    telegram_members: formatNumber(telegram_members)
   };
 };
 
@@ -71,50 +67,52 @@ const RADAR_COLORS = [
   '#eab308', // Economic Opportunity - yellow
 ];
 
+// Metrics Display component with bars
+function MetricsDisplay({ scores }: { scores: number[] }) {
+  const averageScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+
+  return (
+    <div className="space-y-4">
+      {/* Overall Community Score */}
+      <div className="text-center pb-4 border-b border-border">
+        <div className="text-xs font-mono text-muted-foreground uppercase mb-1">Community Score</div>
+        <div className="text-4xl font-bold font-mono text-primary">{averageScore}</div>
+        <div className="text-xs font-mono text-muted-foreground mt-1">/ 100</div>
+      </div>
+
+      {/* Individual Metrics */}
+      <div className="space-y-3">
+        {RADAR_CATEGORIES.map((label, i) => (
+          <div key={label} className="space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono text-muted-foreground">{label}</span>
+              <span className="text-xs font-bold font-mono" style={{ color: RADAR_COLORS[i] }}>
+                {scores[i]}
+              </span>
+            </div>
+            <div className="w-full h-2 bg-muted border border-border overflow-hidden">
+              <div
+                className="h-full transition-all duration-300"
+                style={{
+                  width: `${scores[i]}%`,
+                  backgroundColor: RADAR_COLORS[i]
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // SVG Radar Chart component
-function RadarChart({ societyName }: { societyName: string }) {
-  const [scores, setScores] = useState<number[]>([72, 91, 78, 65, 83, 88]); // Fallback mock data
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchScores = async () => {
-      console.log('📊 Fetching radar scores for:', societyName);
-      setIsLoading(true);
-      const data = await getProspetaRadarScores();
-
-      console.log('📊 Received radar data:', data);
-
-      if (data) {
-        const radarData = [
-          data.scalability,
-          data.autonomy,
-          data.qol,
-          data.belonging,
-          data.purpose,
-          data.economic
-        ];
-        console.log('📊 Radar data array:', radarData);
-        setScores(radarData);
-      } else {
-        console.warn('⚠️ No data returned, using fallback mock data');
-      }
-
-      setIsLoading(false);
-    };
-
-    fetchScores();
-
-    // Refresh every 10 minutes
-    const interval = setInterval(fetchScores, 10 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [societyName]);
-
-  const viewSize = 380;
+function RadarChart({ scores }: { scores: number[] }) {
+  const viewSize = 500;
   const cx = viewSize / 2;
   const cy = viewSize / 2;
   const levels = 5;
-  const maxRadius = 110;
+  const maxRadius = 150;
 
   const getAngle = (i: number) =>
     (Math.PI * 2 * i) / RADAR_CATEGORIES.length - Math.PI / 2;
@@ -135,13 +133,8 @@ function RadarChart({ societyName }: { societyName: string }) {
   };
 
   return (
-    <div className="relative">
-      {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background/50 z-10">
-          <span className="text-xs font-mono text-muted-foreground">Loading scores...</span>
-        </div>
-      )}
-      <svg viewBox={`0 0 ${viewSize} ${viewSize}`} className="w-full max-w-[400px] mx-auto">
+    <div className="relative w-full">
+      <svg viewBox={`0 0 ${viewSize} ${viewSize}`} className="w-full aspect-square">
       <defs>
         <linearGradient id="radar-fill" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.25" />
@@ -238,7 +231,7 @@ function RadarChart({ societyName }: { societyName: string }) {
             textAnchor="middle"
             dominantBaseline="central"
             fill={RADAR_COLORS[i]}
-            style={{ fontFamily: 'monospace', fontSize: '10px', fontWeight: 600 }}
+            style={{ fontFamily: 'monospace', fontSize: '14px', fontWeight: 600 }}
           >
             {isMultiWord ? (
               <>
@@ -264,7 +257,7 @@ function RadarChart({ societyName }: { societyName: string }) {
             textAnchor="middle"
             dominantBaseline="central"
             fill={RADAR_COLORS[i]}
-            style={{ fontFamily: 'monospace', fontSize: '10px', fontWeight: 700 }}
+            style={{ fontFamily: 'monospace', fontSize: '12px', fontWeight: 700 }}
           >
             {val}
           </text>
@@ -285,6 +278,16 @@ export default function SocietyDetailClient({
   relatedSocieties
 }: SocietyDetailClientProps) {
   const mockStats = getMockSocialStats(society.name);
+
+  // Derive radar scores from society props (already multiplied by 100 in server transform)
+  const radarScores = [
+    society.scalability ?? 50,
+    society.autonomy ?? 50,
+    society.qol ?? 50,
+    society.belonging ?? 50,
+    society.purpose ?? 50,
+    society.economic ?? 50,
+  ];
 
   return (
     <main className="min-h-screen bg-background">
@@ -412,30 +415,38 @@ export default function SocietyDetailClient({
           )}
         </div>
 
-        {/* Community Radar */}
-        <div className="border-2 border-border bg-card shadow-brutal-md">
-          <div className="p-4 border-b border-border">
-            <h2 className="font-mono font-bold text-sm">[ COMMUNITY SCORE ]</h2>
-            <p className="text-xs font-mono text-muted-foreground mt-1">
-              Aggregated from community discussions on Telegram
-            </p>
-          </div>
-          <div className="p-6">
-            <RadarChart societyName={society.name} />
-          </div>
-          {society.telegram && (
-            <div className="px-4 pb-4">
-              <a
-                href={society.telegram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-mono font-bold shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Join the conversation on Telegram
-              </a>
+        {/* Community Radar and Metrics */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Radar Chart - 2/3 width */}
+          <div className="lg:col-span-2 border-2 border-border bg-card shadow-brutal-md">
+            <div className="p-4 border-b border-border">
+              <h2 className="font-mono font-bold text-sm">[ COMMUNITY SCORE ]</h2>
+              <p className="text-xs font-mono text-muted-foreground mt-1">
+                Aggregated from community discussions on Telegram
+              </p>
             </div>
-          )}
+            <div className="p-6">
+              <RadarChart scores={radarScores} />
+            </div>
+            {society.telegram && (
+              <div className="px-4 pb-4">
+                <a
+                  href={society.telegram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm font-mono font-bold shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  Join the conversation on Telegram
+                </a>
+              </div>
+            )}
+          </div>
+
+          {/* Metrics Display */}
+          <div className="border-2 border-border bg-card shadow-brutal-md p-6">
+            <MetricsDisplay scores={radarScores} />
+          </div>
         </div>
 
         {/* Social Links */}

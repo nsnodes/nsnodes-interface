@@ -333,6 +333,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
     fetchEvents();
   }, []);
 
+
   // Get events for a specific network state
   const getEventsForNetworkState = (networkStateName: string) => {
     return clientEvents.filter(event =>
@@ -379,6 +380,16 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
     );
   };
 
+  // Helper to compute community score from a society's radar fields
+  const getCommunityScore = (name: string): number => {
+    const s = societies.find(soc => soc.name === name);
+    if (!s) return 0;
+    const vals = [s.scalability, s.autonomy, s.qol, s.belonging, s.economic, s.purpose];
+    const defined = vals.filter((v): v is number => v != null);
+    if (defined.length === 0) return 0;
+    return Math.round(defined.reduce((a, b) => a + b, 0) / defined.length);
+  };
+
   // Filter and sort societies
   const filteredAndSortedSocieties = [...networkStates]
     .filter(society => {
@@ -402,7 +413,21 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
     .sort((a, b) => {
       const countA = getUpcomingEventsCount(a.name);
       const countB = getUpcomingEventsCount(b.name);
-      return countB - countA; // Descending order by event count
+
+      // Primary sort: by event count (descending - most events first)
+      if (countB !== countA) {
+        return countB - countA;
+      }
+
+      // Secondary sort: by tier (ascending - tier 1 first)
+      if (a.tier !== b.tier) {
+        return a.tier - b.tier;
+      }
+
+      // Tertiary sort: by community score (descending - highest score first)
+      const scoreA = getCommunityScore(a.name);
+      const scoreB = getCommunityScore(b.name);
+      return scoreB - scoreA;
     });
 
   return (
@@ -586,9 +611,11 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                 className="border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-3"
               >
                 {/* Header: Logo, Name + Description, Badges */}
-                <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                  {/* Logo */}
-                  <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-border bg-muted flex items-center justify-center overflow-hidden relative">
+                {society.tier >= 1 && society.tier <= 3 ? (
+                  <Link href={`/societies/${societyNameToSlug(society.name)}`} className="block hover:opacity-80 transition-opacity">
+                    <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                      {/* Logo */}
+                      <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-border bg-muted flex items-center justify-center overflow-hidden relative">
                     {originalSociety?.icon ? (
                       <div className="w-full h-full p-1.5 flex items-center justify-center">
                         <Image
@@ -619,15 +646,9 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
                       <div className="flex-shrink-0 sm:self-start">
-                        {society.tier >= 1 && society.tier <= 3 ? (
-                          <Link href={`/societies/${societyNameToSlug(society.name)}`}>
-                            <h3 className="text-lg font-bold font-mono leading-snug hover:text-primary transition-colors">
-                              {society.name}
-                            </h3>
-                          </Link>
-                        ) : (
-                          <h3 className="text-lg font-bold font-mono leading-snug">{society.name}</h3>
-                        )}
+                        <h3 className="text-lg font-bold font-mono leading-snug">
+                          {society.name}
+                        </h3>
                       </div>
                       <p className="text-sm font-mono text-muted-foreground leading-relaxed flex-1 sm:self-start sm:pt-[0.125rem]">
                         {society.description}
@@ -660,7 +681,53 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                       )}
                     </div>
                   </div>
-                </div>
+                    </div>
+                  </Link>
+                ) : (
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                    {/* Logo */}
+                    <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-border bg-muted flex items-center justify-center overflow-hidden relative">
+                      <span className="text-xl font-bold font-mono text-primary">
+                        {society.name.substring(0, 2).toUpperCase()}
+                      </span>
+                    </div>
+
+                    {/* Name + Description */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
+                        <div className="flex-shrink-0 sm:self-start">
+                          <h3 className="text-lg font-bold font-mono leading-snug opacity-60">
+                            {society.name}
+                          </h3>
+                        </div>
+                        <p className="text-sm font-mono text-muted-foreground leading-relaxed flex-1 sm:self-start sm:pt-[0.125rem]">
+                          {society.description}
+                        </p>
+                      </div>
+
+                      {/* Location, Category, Badges */}
+                      <div className="flex flex-wrap items-center gap-2 mt-2">
+                        <div className="flex items-center gap-1 text-xs font-mono text-muted-foreground">
+                          <MapPin className="h-3 w-3" />
+                          <span>{society.location}</span>
+                        </div>
+                        {society.category && (
+                          <div className="text-xs font-mono px-2 py-1 border border-primary/30 bg-primary/5 text-primary inline-block">
+                            {society.category}
+                          </div>
+                        )}
+                        <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap">
+                          {society.type}
+                        </div>
+                        {society.tier && society.tier > 3 && (
+                          <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap opacity-60">
+                            Tier {society.tier} (Coming soon)
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Social Links */}
                 <div className="flex flex-wrap gap-2 pt-2 border-t border-border mt-2">
