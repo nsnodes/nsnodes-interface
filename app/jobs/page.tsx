@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { generatePageMetadata } from '@/lib/utils/metadata';
 import JobsClient from './jobs-client';
 
@@ -7,5 +8,9 @@ export const metadata = generatePageMetadata(
 );
 
 export default function JobsPage() {
-  return <JobsClient />;
+  return (
+    <Suspense fallback={null}>
+      <JobsClient />
+    </Suspense>
+  );
 }
