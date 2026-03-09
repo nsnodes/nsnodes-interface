@@ -65,7 +65,7 @@ export function AsciiNav() {
                     className="h-8 w-8"
                   />
                 </Link>
-                <Link href="/" className="hover:opacity-80 transition-opacity block">
+                <Link href="/" className="hover:opacity-80 transition-opacity hidden sm:block">
                   <LogoImage width={120} height={24} />
                 </Link>
               </div>

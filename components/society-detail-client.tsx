@@ -1,6 +1,7 @@
 'use client';
 
-import { Users, MapPin, ExternalLink, MessageCircle, Globe, ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import { Users, MapPin, ExternalLink, MessageCircle, Globe, ArrowLeft, Info } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { SocietyDatabase } from '@/lib/data/societies-database';
@@ -41,13 +42,46 @@ const getMockSocialStats = (societyName: string) => {
 
 // Community radar scores (mock data sourced from Telegram discussions)
 const RADAR_CATEGORIES = [
-  'Scalability',
-  'Autonomy',
+  'Scalability Tension',
+  'Autonomy & Agency',
   'Quality of Life',
-  'Community',
-  'Attractiveness',
+  'Belonging & Community',
+  'Purpose Alignment',
   'Economic Opportunity',
 ] as const;
+
+const RADAR_INFO: Record<string, { subtitle: string; measures: string; matters: string }> = {
+  'Belonging & Community': {
+    subtitle: 'The "We" Factor',
+    measures: 'Emotional cohesion, mutual recognition, and sense of family among members. Not just "are people nice?" but "do they identify as us?"',
+    matters: 'Predicts retention better than any other metric. Networks with high belonging survive conflicts; those without it fragment when growth slows.',
+  },
+  'Autonomy & Agency': {
+    subtitle: 'The "I" Factor',
+    measures: 'Perceived ability to self-direct, influence collective decisions, and exit without penalty. Freedom within the system, not just from external systems.',
+    matters: 'Distinguishes true network societies from cults or corporations. High autonomy + high belonging = sustainable decentralization.',
+  },
+  'Economic Opportunity': {
+    subtitle: 'The "Fairness" Factor',
+    measures: 'Perceived access to sustainable livelihood, fair compensation, and wealth-building potential—not just "can I make money?" but "is the game rigged?"',
+    matters: 'Economic anxiety destroys community faster than any other stressor. This metric predicts "mission drift" when idealists burn out.',
+  },
+  'Purpose Alignment': {
+    subtitle: 'The "Why" Factor',
+    measures: 'Clarity and resonance of collective mission. Do members share the same vision of what they\'re building and why?',
+    matters: 'Purpose-aligned members stay through hardship; transactionally-motivated members leave at first better offer.',
+  },
+  'Scalability Tension': {
+    subtitle: 'The "Growth Pain" Factor',
+    measures: 'Felt experience of scale—coordination overhead, intimacy dilution, "vibe" preservation struggles. Not technical capacity, but psychological impact of growth.',
+    matters: 'Every network society faces this. The question isn\'t whether tension exists, but whether members feel equipped to navigate it together.',
+  },
+  'Quality of Life': {
+    subtitle: 'The "Sustainability" Factor',
+    measures: 'Collective and individual wellbeing—burnout prevention, work-life balance, mental health, long-term viability. Not luxury, but sustainability.',
+    matters: 'The "canary in the coal mine" metric. Quality of life degradation predicts collapse before financial or governance metrics show distress.',
+  },
+};
 
 const getMockRadarScores = (societyName: string): number[] => {
   const lowerName = societyName.toLowerCase();
@@ -70,6 +104,7 @@ const RADAR_COLORS = [
 // Metrics Display component with bars
 function MetricsDisplay({ scores }: { scores: number[] }) {
   const averageScore = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
   return (
     <div className="space-y-4">
@@ -82,25 +117,54 @@ function MetricsDisplay({ scores }: { scores: number[] }) {
 
       {/* Individual Metrics */}
       <div className="space-y-3">
-        {RADAR_CATEGORIES.map((label, i) => (
-          <div key={label} className="space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-mono text-muted-foreground">{label}</span>
-              <span className="text-xs font-bold font-mono" style={{ color: RADAR_COLORS[i] }}>
-                {scores[i]}
-              </span>
+        {RADAR_CATEGORIES.map((label, i) => {
+          const info = RADAR_INFO[label];
+          return (
+            <div key={label} className="space-y-1 relative">
+              <div className="flex items-center justify-between">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-xs font-mono text-muted-foreground hover:text-foreground transition-colors cursor-help"
+                  onMouseEnter={() => setActiveTooltip(label)}
+                  onMouseLeave={() => setActiveTooltip(null)}
+                  onClick={() => setActiveTooltip(activeTooltip === label ? null : label)}
+                >
+                  {label}
+                  <Info className="h-3 w-3 opacity-40" />
+                </button>
+                <span className="text-xs font-bold font-mono" style={{ color: RADAR_COLORS[i] }}>
+                  {scores[i]}
+                </span>
+              </div>
+              <div className="w-full h-2 bg-muted border border-border overflow-hidden">
+                <div
+                  className="h-full transition-all duration-300"
+                  style={{
+                    width: `${scores[i]}%`,
+                    backgroundColor: RADAR_COLORS[i]
+                  }}
+                />
+              </div>
+
+              {/* Tooltip */}
+              {activeTooltip === label && info && (
+                <div className="absolute z-50 bottom-full left-0 mb-2 w-72 p-3 border-2 border-border bg-card shadow-brutal-md text-left">
+                  <div className="text-xs font-mono font-bold mb-1" style={{ color: RADAR_COLORS[i] }}>
+                    {info.subtitle}
+                  </div>
+                  <div className="text-xs font-mono text-muted-foreground leading-relaxed mb-2">
+                    <span className="font-bold text-foreground">Measures: </span>
+                    {info.measures}
+                  </div>
+                  <div className="text-xs font-mono text-muted-foreground leading-relaxed">
+                    <span className="font-bold text-foreground">Why it matters: </span>
+                    {info.matters}
+                  </div>
+                </div>
+              )}
             </div>
-            <div className="w-full h-2 bg-muted border border-border overflow-hidden">
-              <div
-                className="h-full transition-all duration-300"
-                style={{
-                  width: `${scores[i]}%`,
-                  backgroundColor: RADAR_COLORS[i]
-                }}
-              />
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -113,6 +177,7 @@ function RadarChart({ scores }: { scores: number[] }) {
   const cy = viewSize / 2;
   const levels = 5;
   const maxRadius = 150;
+  const [hoveredAxis, setHoveredAxis] = useState<number | null>(null);
 
   const getAngle = (i: number) =>
     (Math.PI * 2 * i) / RADAR_CATEGORIES.length - Math.PI / 2;
@@ -130,6 +195,18 @@ function RadarChart({ scores }: { scores: number[] }) {
     const angle = getAngle(i);
     const r = maxRadius + 32;
     return { x: cx + r * Math.cos(angle), y: cy + r * Math.sin(angle) };
+  };
+
+  // Convert SVG coords to percentage for tooltip positioning
+  const getTooltipStyle = (i: number): React.CSSProperties => {
+    const pos = getLabelPos(i);
+    const xPct = (pos.x / viewSize) * 100;
+    const yPct = (pos.y / viewSize) * 100;
+    return {
+      left: `${xPct}%`,
+      top: `${yPct}%`,
+      transform: 'translate(-50%, -110%)',
+    };
   };
 
   return (
@@ -231,7 +308,10 @@ function RadarChart({ scores }: { scores: number[] }) {
             textAnchor="middle"
             dominantBaseline="central"
             fill={RADAR_COLORS[i]}
-            style={{ fontFamily: 'monospace', fontSize: '14px', fontWeight: 600 }}
+            style={{ fontFamily: 'monospace', fontSize: '14px', fontWeight: 600, cursor: 'help' }}
+            onMouseEnter={() => setHoveredAxis(i)}
+            onMouseLeave={() => setHoveredAxis(null)}
+            onClick={() => setHoveredAxis(hoveredAxis === i ? null : i)}
           >
             {isMultiWord ? (
               <>
@@ -263,7 +343,45 @@ function RadarChart({ scores }: { scores: number[] }) {
           </text>
         );
       })}
+
+      {/* Invisible hit areas for hover on each axis */}
+      {RADAR_CATEGORIES.map((_, i) => {
+        const pos = getLabelPos(i);
+        return (
+          <circle
+            key={`hit-${i}`}
+            cx={pos.x}
+            cy={pos.y}
+            r="30"
+            fill="transparent"
+            style={{ cursor: 'help' }}
+            onMouseEnter={() => setHoveredAxis(i)}
+            onMouseLeave={() => setHoveredAxis(null)}
+            onClick={() => setHoveredAxis(hoveredAxis === i ? null : i)}
+          />
+        );
+      })}
     </svg>
+
+      {/* HTML tooltip overlay */}
+      {hoveredAxis !== null && RADAR_INFO[RADAR_CATEGORIES[hoveredAxis]] && (
+        <div
+          className="absolute z-50 w-72 p-3 border-2 border-border bg-card shadow-brutal-md text-left pointer-events-none"
+          style={getTooltipStyle(hoveredAxis)}
+        >
+          <div className="text-xs font-mono font-bold mb-1" style={{ color: RADAR_COLORS[hoveredAxis] }}>
+            {RADAR_INFO[RADAR_CATEGORIES[hoveredAxis]].subtitle}
+          </div>
+          <div className="text-xs font-mono text-muted-foreground leading-relaxed mb-2">
+            <span className="font-bold text-foreground">Measures: </span>
+            {RADAR_INFO[RADAR_CATEGORIES[hoveredAxis]].measures}
+          </div>
+          <div className="text-xs font-mono text-muted-foreground leading-relaxed">
+            <span className="font-bold text-foreground">Why it matters: </span>
+            {RADAR_INFO[RADAR_CATEGORIES[hoveredAxis]].matters}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -422,7 +540,15 @@ export default function SocietyDetailClient({
             <div className="p-4 border-b border-border">
               <h2 className="font-mono font-bold text-sm">[ COMMUNITY SCORE ]</h2>
               <p className="text-xs font-mono text-muted-foreground mt-1">
-                Aggregated from community discussions on Telegram
+                Aggregated from community discussions on{' '}
+                <a
+                  href="https://t.me/+P3r-8XdRfXoyYWVl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-foreground transition-colors"
+                >
+                  Telegram
+                </a>
               </p>
             </div>
             <div className="p-6">
