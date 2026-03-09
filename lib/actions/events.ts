@@ -1,5 +1,6 @@
 'use server'
 
+import { unstable_cache } from 'next/cache'
 import { createServerClient } from '@/lib/supabase/server'
 import { DatabaseEvent, UIEvent, PopupCity } from '@/lib/types/events'
 import { normalizeSocietyName } from '@/lib/utils/society-matcher'
@@ -500,160 +501,175 @@ function transformEvent(dbEvent: DatabaseEvent): UIEvent {
 }
 
 /**
- * Fetch all events (past and future) for stats
+ * Fetch all events (past and future) for stats (cached for 5 minutes)
  * Server Action that can be called from Client Components
  */
+const getCachedAllEvents = unstable_cache(
+  async (): Promise<UIEvent[]> => {
+    try {
+      const supabase = createServerClient()
+
+      const { data, error } = await supabase
+        .from('events')
+        .select(`
+          title,
+          description,
+          start_at,
+          end_at,
+          timezone,
+          venue_name,
+          address,
+          city,
+          country,
+          lat,
+          lng,
+          source,
+          source_url,
+          organizers,
+          tags,
+          image_url,
+          status
+        `)
+        .in('source', ['luma', 'soladay'])
+        .not('tags', 'cs', '{popup-city}')
+        .in('status', ['scheduled', 'tentative'])
+        .order('start_at', { ascending: false })
+        .limit(2000)
+
+      if (error) {
+        console.error('Error fetching all events from Supabase:', error)
+        return []
+      }
+
+      return (data as DatabaseEvent[]).map(transformEvent)
+    } catch (error) {
+      console.error('Error in getAllEvents:', error)
+      return []
+    }
+  },
+  ['events-all'],
+  { revalidate: 300 }
+)
+
 export async function getAllEvents(): Promise<UIEvent[]> {
-  try {
-    const supabase = createServerClient()
-
-    const { data, error } = await supabase
-      .from('events')
-      .select(`
-        title,
-        description,
-        start_at,
-        end_at,
-        timezone,
-        venue_name,
-        address,
-        city,
-        country,
-        lat,
-        lng,
-        source,
-        source_url,
-        organizers,
-        tags,
-        image_url,
-        status
-      `)
-      .in('source', ['luma', 'soladay'])
-      .not('tags', 'cs', '{popup-city}')
-      .in('status', ['scheduled', 'tentative'])
-      .order('start_at', { ascending: false })
-      .limit(2000)
-
-    if (error) {
-      console.error('Error fetching all events from Supabase:', error)
-      return []
-    }
-
-    // Transform all events
-    return (data as DatabaseEvent[]).map(transformEvent)
-  } catch (error) {
-    console.error('Error in getAllEvents:', error)
-    return []
-  }
+  return getCachedAllEvents()
 }
 
 /**
- * Fetch all Network School events (past and future) for stats
+ * Fetch all Network School events (past and future) for stats (cached for 5 minutes)
  * Server Action that can be called from Client Components
  */
+const getCachedAllNSEvents = unstable_cache(
+  async (): Promise<UIEvent[]> => {
+    try {
+      const supabase = createServerClient()
+
+      const { data, error } = await supabase
+        .from('events')
+        .select(`
+          title,
+          description,
+          start_at,
+          end_at,
+          timezone,
+          venue_name,
+          address,
+          city,
+          country,
+          lat,
+          lng,
+          source,
+          source_url,
+          organizers,
+          tags,
+          image_url,
+          status
+        `)
+        .in('source', ['luma', 'soladay'])
+        .not('tags', 'cs', '{popup-city}')
+        .in('status', ['scheduled', 'tentative'])
+        .order('start_at', { ascending: false })
+        .limit(2000)
+
+      if (error) {
+        console.error('Error fetching all NS events from Supabase:', error)
+        return []
+      }
+
+      const allEvents = (data as DatabaseEvent[]).map(transformEvent)
+      return allEvents.filter(event => event.networkState === 'Network School')
+    } catch (error) {
+      console.error('Error in getAllNetworkSchoolEvents:', error)
+      return []
+    }
+  },
+  ['events-network-school'],
+  { revalidate: 300 }
+)
+
 export async function getAllNetworkSchoolEvents(): Promise<UIEvent[]> {
-  try {
-    const supabase = createServerClient()
-
-    const { data, error } = await supabase
-      .from('events')
-      .select(`
-        title,
-        description,
-        start_at,
-        end_at,
-        timezone,
-        venue_name,
-        address,
-        city,
-        country,
-        lat,
-        lng,
-        source,
-        source_url,
-        organizers,
-        tags,
-        image_url,
-        status
-      `)
-      .in('source', ['luma', 'soladay'])
-      .not('tags', 'cs', '{popup-city}')
-      .in('status', ['scheduled', 'tentative'])
-      .order('start_at', { ascending: false })
-      .limit(2000)
-
-    if (error) {
-      console.error('Error fetching all NS events from Supabase:', error)
-      return []
-    }
-
-    // Transform all events - parseNetworkState will now correctly identify NS events
-    const allEvents = (data as DatabaseEvent[]).map(transformEvent)
-    // Filter for Network School events only
-    return allEvents.filter(event => event.networkState === 'Network School')
-  } catch (error) {
-    console.error('Error in getAllNetworkSchoolEvents:', error)
-    return []
-  }
+  return getCachedAllNSEvents()
 }
 
 /**
- * Fetch events from Supabase
+ * Fetch events from Supabase (cached for 5 minutes)
  * Server Action that can be called from Client Components
  */
-export async function getEvents(): Promise<UIEvent[]> {
-  try {
-    const supabase = createServerClient()
+const getCachedEvents = unstable_cache(
+  async (): Promise<UIEvent[]> => {
+    try {
+      const supabase = createServerClient()
 
-    // Calculate the cutoff date (2 days ago)
-    const twoDaysAgo = new Date()
-    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
+      // Calculate the cutoff date (2 days ago)
+      const twoDaysAgo = new Date()
+      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2)
 
-    const { data, error } = await supabase
-      .from('events')
-      .select(`
-        title,
-        description,
-        start_at,
-        end_at,
-        timezone,
-        venue_name,
-        address,
-        city,
-        country,
-        lat,
-        lng,
-        source,
-        source_url,
-        organizers,
-        tags,
-        image_url,
-        status
-      `)
-      // Filter for upcoming events from both Luma and Sola.day
-      // Exclude popup cities (they have their own section)
-      .in('source', ['luma', 'soladay'])
-      .not('tags', 'cs', '{popup-city}')
-      // Include both scheduled and tentative events
-      .in('status', ['scheduled', 'tentative'])
-      // Include events that haven't ended yet (includes both upcoming and currently live events)
-      .gte('end_at', new Date().toISOString())
-      // Exclude events that started more than 2 days ago
-      .gte('start_at', twoDaysAgo.toISOString())
-      .order('start_at', { ascending: true })
-      .limit(500)
+      const { data, error } = await supabase
+        .from('events')
+        .select(`
+          title,
+          description,
+          start_at,
+          end_at,
+          timezone,
+          venue_name,
+          address,
+          city,
+          country,
+          lat,
+          lng,
+          source,
+          source_url,
+          organizers,
+          tags,
+          image_url,
+          status
+        `)
+        .in('source', ['luma', 'soladay'])
+        .not('tags', 'cs', '{popup-city}')
+        .in('status', ['scheduled', 'tentative'])
+        .gte('end_at', new Date().toISOString())
+        .gte('start_at', twoDaysAgo.toISOString())
+        .order('start_at', { ascending: true })
+        .limit(500)
 
-    if (error) {
-      console.error('Error fetching events from Supabase:', error)
+      if (error) {
+        console.error('Error fetching events from Supabase:', error)
+        return []
+      }
+
+      return (data as DatabaseEvent[]).map(transformEvent)
+    } catch (error) {
+      console.error('Error in getEvents:', error)
       return []
     }
+  },
+  ['events-upcoming'],
+  { revalidate: 300 }
+)
 
-    // Transform database events to UI format
-    return (data as DatabaseEvent[]).map(transformEvent)
-  } catch (error) {
-    console.error('Error in getEvents:', error)
-    return []
-  }
+export async function getEvents(): Promise<UIEvent[]> {
+  return getCachedEvents()
 }
 
 /**
@@ -728,107 +744,84 @@ function transformPopupCity(dbEvent: DatabaseEvent): PopupCity {
 }
 
 /**
- * Fetch popup cities from Supabase and merge with manual events
+ * Fetch popup cities from Supabase (cached for 5 minutes) and merge with manual events
  * Filters by the "popup-city" tag
  * @param pageFilter Optional page name to filter events (e.g., 'argentina'). Events without showInPages appear on all pages.
  */
+const getCachedPopupCities = unstable_cache(
+  async (): Promise<PopupCity[]> => {
+    try {
+      const supabase = createServerClient()
+
+      const today = new Date()
+      const maxStartDate = new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000)
+
+      const { data, error } = await supabase
+        .from('events')
+        .select(`
+          title,
+          description,
+          start_at,
+          end_at,
+          timezone,
+          venue_name,
+          address,
+          city,
+          country,
+          lat,
+          lng,
+          source,
+          source_url,
+          organizers,
+          tags,
+          image_url
+        `)
+        .contains('tags', ['popup-city'])
+        .gte('end_at', today.toISOString())
+        .lte('start_at', maxStartDate.toISOString())
+        .order('start_at', { ascending: true })
+        .limit(100)
+
+      if (error) {
+        console.error('Error fetching popup cities from Supabase:', error)
+        return manualPopupEvents
+      }
+
+      const databaseEvents = (data as DatabaseEvent[]).map(transformPopupCity)
+      const allEvents = [...databaseEvents, ...manualPopupEvents]
+      allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+
+      return allEvents.filter((event, index, self) =>
+        index === self.findIndex((e) => e.title === event.title && e.date === event.date)
+      )
+    } catch (error) {
+      console.error('Error in getPopupCities:', error)
+      return manualPopupEvents
+    }
+  },
+  ['popup-cities'],
+  { revalidate: 300 }
+)
+
 export async function getPopupCities(pageFilter?: string): Promise<PopupCity[]> {
   // For Argentina page, return only Argentina-specific events (no database events)
   if (pageFilter === 'argentina') {
-    // Sort by start date (ascending - earliest first)
-    return [...argentinaPopupEvents].sort((a, b) => 
+    return [...argentinaPopupEvents].sort((a, b) =>
       new Date(a.date).getTime() - new Date(b.date).getTime()
     )
   }
 
-  try {
-    const supabase = createServerClient()
+  const allEvents = await getCachedPopupCities()
 
-    // Calculate date range: events starting within next 365 days
-    const today = new Date()
-    const maxStartDate = new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000)
-
-    const { data, error } = await supabase
-      .from('events')
-      .select(`
-        title,
-        description,
-        start_at,
-        end_at,
-        timezone,
-        venue_name,
-        address,
-        city,
-        country,
-        lat,
-        lng,
-        source,
-        source_url,
-        organizers,
-        tags,
-        image_url
-      `)
-      // Filter for events with "popup-city" tag
-      .contains('tags', ['popup-city'])
-      // Show popup cities that haven't ended yet
-      .gte('end_at', today.toISOString())
-      // Only show popup cities starting within the next 365 days
-      .lte('start_at', maxStartDate.toISOString())
-      .order('start_at', { ascending: true })
-      .limit(100)
-
-    if (error) {
-      console.error('Error fetching popup cities from Supabase:', error)
-      // Still apply page filter to manual events if there's an error
-      if (pageFilter) {
-        return manualPopupEvents.filter(event => {
-          if (event.showInPages && event.showInPages.length > 0) {
-            return event.showInPages.includes(pageFilter)
-          }
-          return true
-        })
+  // Filter by page if specified
+  if (pageFilter) {
+    return allEvents.filter(event => {
+      if (event.showInPages && event.showInPages.length > 0) {
+        return event.showInPages.includes(pageFilter)
       }
-      return manualPopupEvents // Return manual events if database fails
-    }
-
-    // Transform database events to popup city format
-    const databaseEvents = (data as DatabaseEvent[]).map(transformPopupCity)
-
-    // Merge database events with manual events for other pages
-    const allEvents = [...databaseEvents, ...manualPopupEvents]
-
-    // Sort by start date (ascending)
-    allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-
-    // Remove duplicates based on title and date
-    const uniqueEvents = allEvents.filter((event, index, self) =>
-      index === self.findIndex((e) => e.title === event.title && e.date === event.date)
-    )
-
-    // Filter by page if specified (only for non-Argentina pages, Argentina was handled above)
-    if (pageFilter && pageFilter !== 'argentina') {
-      return uniqueEvents.filter(event => {
-        // If event has showInPages, only include if pageFilter is in the list
-        if (event.showInPages && event.showInPages.length > 0) {
-          return event.showInPages.includes(pageFilter)
-        }
-        // If event doesn't have showInPages, include it on all pages
-        return true
-      })
-    }
-
-    return uniqueEvents
-  } catch (error) {
-    console.error('Error in getPopupCities:', error)
-    // Still apply page filter to manual events if there's an error
-    if (pageFilter) {
-      return manualPopupEvents.filter(event => {
-        if (event.showInPages && event.showInPages.length > 0) {
-          return event.showInPages.includes(pageFilter)
-        }
-        return true
-      })
-    }
-    return manualPopupEvents // Return manual events if there's an error
+      return true
+    })
   }
+
+  return allEvents
 }

@@ -95,11 +95,11 @@ export default function Home() {
   // Apply client-side timezone conversion
   const clientEvents = useClientTimezone(events);
 
-  // Update current time every second for real-time badge updates
+  // Update current time every 60s for live/today badge updates
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000);
+    }, 60000);
 
     return () => clearInterval(interval);
   }, []);
