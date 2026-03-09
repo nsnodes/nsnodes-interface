@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Users, MapPin, ExternalLink, MessageCircle, Globe, ArrowLeft, Info } from 'lucide-react';
+import { Users, MapPin, ExternalLink, MessageCircle, Globe, ArrowLeft, Info, ChevronDown, Quote } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { SocietyDatabase } from '@/lib/data/societies-database';
+import { societyNameToSlug } from '@/lib/utils/slug';
 
 // Custom SVG icons
 const XIcon = ({ className }: { className?: string }) => (
@@ -100,6 +101,267 @@ const RADAR_COLORS = [
   '#ec4899', // Attractiveness - pink
   '#eab308', // Economic Opportunity - yellow
 ];
+
+// Society content data
+interface SocietyContent {
+  overview: { title: string; text: string }[];
+  history: { text: string; milestones: { label: string; detail: string }[] };
+  location: string;
+  duration: string;
+  pricing: string;
+  amenities: string[];
+  fellowship?: string;
+  reviews: { quote: string; author: string; role: string }[];
+  howToEnter: string;
+  faqs: { question: string; answer: string }[];
+}
+
+const SOCIETY_CONTENT: Record<string, SocietyContent> = {
+  'network-school': {
+    overview: [
+      {
+        title: 'What is Network School?',
+        text: 'Balaji Srinivasan, the founder, frames it as a frontier community for techno-optimists. It combines elements of a university, accelerator, and startup society into one residential program.',
+      },
+      {
+        title: 'What kind of people attend Network School?',
+        text: 'Its members include remote workers, digital nomads, online creators, personal trainers, self-improvers, event organizers, and engineers of all stripes.',
+      },
+    ],
+    history: {
+      text: 'Network School v1 was announced in August 2024, pitching itself as a pioneer 3-month cohort to empower dark talent, and replace declining traditional universities with a cheaper, digital-first alternative. Inspired by Balaji\'s experiences teaching at Stanford, the original pop-up village ran from September to December 2024 in Forest City, Malaysia, following the Network State Conference.\n\nAfter proving demand, by March 2025 it evolved into Network School v2, a year-round residency program with double the capacity, hosting ongoing cohorts, hundreds of speakers, high-profile events, and expanding facilities.\n\nIn parallel, the core team started building a permanent Network School campus around the same place, with the goal that it becomes the template for "franchising" and the launchpad for exogenous communities to emerge.',
+      milestones: [
+        { label: 'Network School v1', detail: '128 slots | 100 days' },
+        { label: 'Network School v2', detail: '256 slots | 365 days' },
+        { label: 'Network School Campus', detail: '1024 slots | Permanent' },
+      ],
+    },
+    location: 'Network School is based in Forest City, Malaysia, a billionaire project in the Singapore-Johor Special Economic Zone. The campus includes private rooms, gym, coworking spaces, and auditoriums. This location is expected to continue serving as the main hub of Network School in the medium-term.\n\nAs per Network School\'s roadmap, future nodes will arise throughout the world, forming a decentralized yet unified community.',
+    duration: 'Although the previous iteration (v1) of Network School lasted only 90 days, the current, ongoing version (v2) is running for a full year, from March 2025 to March 2026. It is also expected to become a permanent neighborhood once the campus opens.\n\nIn Network School v2, one can join for a minimum of 1 month and extend their stay up to the end of the cohort (March 2026) on a monthly basis.',
+    pricing: 'Network School costs $3,000/mo for a private room, or $1,500/mo with a roommate.\n\nThe goal at the Network School is to provide an all-inclusive society-as-a-service model so that members only worry about learning, burning, earning and having fun.',
+    amenities: [
+      'Serviced room',
+      '3 nutritious meals (breakfast, lunch, dinner)',
+      '24/7 gym access',
+      'Fitness classes',
+      '24/7 co-working access',
+      'Content studios',
+      'Maker space',
+      'High-speed Wi-Fi',
+      'Workshops, lectures, and events',
+    ],
+    fellowship: 'Founders and creators can apply for a fellowship of $100,000 in funding for a new or existing venture, with the core requirement being that they relocate to Network School campus for one year.',
+    reviews: [
+      {
+        quote: 'It\'s gritty AND pretty. Perfect place for founders to camp out and find product market fit with other founders.',
+        author: 'Jason Calacanis',
+        role: 'Entrepreneur and Investor',
+      },
+      {
+        quote: 'Its intent is to build this society, the bootstrapping-other-societies society. NS is a well-run, intellectually rich experiment in bootstrapping startup societies.',
+        author: 'Tanner Gesek',
+        role: 'NS Attendee',
+      },
+      {
+        quote: 'The monthly fee of $1,500 provides premium yet practical accommodations. The food helps maintain a health-oriented lifestyle.',
+        author: 'Danny Castonguay',
+        role: 'NS Attendee',
+      },
+      {
+        quote: 'July 2025\'s cohort featured 100+ people, mainly from India or the US. Male-to-female ratio was about 80:20 and the majority were in their 20s.',
+        author: 'Sitesh Shrivastava',
+        role: 'Founder and NS Attendee',
+      },
+    ],
+    howToEnter: 'Applications are submitted via the form at ns.com/apply, requiring personal details, background, and motivation.\n\nBatches are selected periodically, and membership cohorts start on the first of the month. No strict prerequisites apply, but priority goes to longer stays of techno-optimists with relevant skills in engineering, creation, or organization.\n\nAfter being accepted, one must pay the first month\'s rent to validate their membership.\n\nApplying through a member referral might strengthen the application.',
+    faqs: [
+      { question: 'What is the goal of Network School?', answer: 'To build a frontier community for techno-optimists that incubates startup societies and provides an alternative to traditional universities.' },
+      { question: 'What kind of events can I expect at Network School?', answer: 'Workshops, lectures, hackathons, fitness classes, speaker series, and community events ranging from technical to social.' },
+      { question: 'What kind of speakers can I expect at Network School?', answer: 'Industry leaders, founders, investors, and thought leaders in technology, crypto, governance, and startup societies.' },
+      { question: 'Is Network School a network state or a school?', answer: 'It\'s both and neither — it\'s a startup society that combines elements of education, community, and governance experimentation.' },
+      { question: 'How long is Network School (and can I stay for only 1 month)?', answer: 'The current cohort (v2) runs from March 2025 to March 2026. You can join for a minimum of 1 month and extend monthly.' },
+      { question: 'How much does Network School cost per month?', answer: '$3,000/mo for a private room, or $1,500/mo with a roommate. This includes room, meals, gym, coworking, and events.' },
+      { question: 'What are the travel and visa considerations for attending Network School in Malaysia?', answer: 'Most nationalities can enter Malaysia visa-free for 90 days. Longer stays may require a digital nomad visa or other arrangements.' },
+      { question: 'Can I invite a friend for a day trip?', answer: 'Yes, day visitors are generally welcome with prior coordination through the community channels.' },
+      { question: 'How do referrals work?', answer: 'Existing members can refer applicants, which may strengthen the application during the selection process.' },
+    ],
+  },
+};
+
+// Content Sections component
+function ContentSections({ societyName }: { societyName: string }) {
+  const content = SOCIETY_CONTENT[societyNameToSlug(societyName)];
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  if (!content) return null;
+
+  return (
+    <div className="space-y-6">
+      {/* Overview */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ OVERVIEW ]</h2>
+        </div>
+        <div className="p-6 space-y-6">
+          {content.overview.map((item, i) => (
+            <div key={i}>
+              <h3 className="font-mono font-bold text-base mb-2">{item.title}</h3>
+              <p className="text-sm font-mono text-muted-foreground leading-relaxed">{item.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* History */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ HISTORY ]</h2>
+        </div>
+        <div className="p-6 space-y-6">
+          {content.history.text.split('\n\n').map((paragraph, i) => (
+            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">{paragraph}</p>
+          ))}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            {content.history.milestones.map((milestone, i) => (
+              <div key={i} className="border-2 border-border p-4 bg-background text-center">
+                <div className="text-xs font-mono text-muted-foreground uppercase mb-1">Phase {i + 1}</div>
+                <div className="font-mono font-bold text-sm mb-1">{milestone.label}</div>
+                <div className="text-xs font-mono text-muted-foreground">{milestone.detail}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Location */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ LOCATION ]</h2>
+        </div>
+        <div className="p-6 space-y-4">
+          {content.location.split('\n\n').map((paragraph, i) => (
+            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+
+      {/* Duration */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ DURATION ]</h2>
+        </div>
+        <div className="p-6 space-y-4">
+          {content.duration.split('\n\n').map((paragraph, i) => (
+            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+
+      {/* Pricing */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ PRICING ]</h2>
+        </div>
+        <div className="p-6 space-y-4">
+          {content.pricing.split('\n\n').map((paragraph, i) => (
+            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+
+      {/* Amenities */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ AMENITIES ]</h2>
+        </div>
+        <div className="p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {content.amenities.map((amenity, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm font-mono text-muted-foreground">
+                <span className="text-primary">+</span>
+                {amenity}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Fellowship */}
+      {content.fellowship && (
+        <div className="border-2 border-border bg-card shadow-brutal-md">
+          <div className="p-4 border-b border-border">
+            <h2 className="font-mono font-bold text-sm">[ FELLOWSHIP ]</h2>
+          </div>
+          <div className="p-6">
+            <p className="text-sm font-mono text-muted-foreground leading-relaxed">{content.fellowship}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Reviews */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ REVIEWS ]</h2>
+        </div>
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {content.reviews.map((review, i) => (
+              <div key={i} className="border-2 border-border p-4 bg-background space-y-3">
+                <Quote className="h-4 w-4 text-muted-foreground opacity-40" />
+                <p className="text-sm font-mono text-muted-foreground leading-relaxed italic">
+                  &ldquo;{review.quote}&rdquo;
+                </p>
+                <div className="pt-2 border-t border-border">
+                  <div className="text-xs font-mono font-bold">{review.author}</div>
+                  <div className="text-xs font-mono text-muted-foreground">{review.role}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* How to Enter */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ HOW TO ENTER ]</h2>
+        </div>
+        <div className="p-6 space-y-4">
+          {content.howToEnter.split('\n\n').map((paragraph, i) => (
+            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">{paragraph}</p>
+          ))}
+        </div>
+      </div>
+
+      {/* FAQs */}
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="p-4 border-b border-border">
+          <h2 className="font-mono font-bold text-sm">[ FAQs ]</h2>
+        </div>
+        <div className="divide-y divide-border">
+          {content.faqs.map((faq, i) => (
+            <button
+              key={i}
+              type="button"
+              className="w-full text-left p-4 hover:bg-accent/50 transition-colors cursor-pointer"
+              onClick={() => setOpenFaq(openFaq === i ? null : i)}
+            >
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm font-mono font-bold">{faq.question}</span>
+                <ChevronDown className={`h-4 w-4 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+              </div>
+              {openFaq === i && (
+                <p className="text-sm font-mono text-muted-foreground leading-relaxed mt-3 pr-8">
+                  {faq.answer}
+                </p>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // Metrics Display component with bars
 function MetricsDisplay({ scores }: { scores: number[] }) {
@@ -482,6 +744,63 @@ export default function SocietyDetailClient({
                   </div>
                 )}
               </div>
+
+              {/* Links */}
+              <div className="flex flex-wrap items-center gap-2 mt-4">
+                <a
+                  href={society.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                >
+                  <Globe className="h-3 w-3" />
+                  Website
+                </a>
+                {society.x && (
+                  <a
+                    href={society.x}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  >
+                    <XIcon className="h-3 w-3" />
+                    X
+                  </a>
+                )}
+                {society.discord && (
+                  <a
+                    href={society.discord}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  >
+                    <DiscordIcon className="h-3 w-3" />
+                    Discord
+                  </a>
+                )}
+                {society.telegram && (
+                  <a
+                    href={society.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  >
+                    <MessageCircle className="h-3 w-3" />
+                    Telegram
+                  </a>
+                )}
+                {society.application && (
+                  <a
+                    href={society.application}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-2 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  >
+                    Apply
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -549,6 +868,16 @@ export default function SocietyDetailClient({
                 >
                   Telegram
                 </a>
+                . Read more at our{' '}
+                <a
+                  href="https://nsnodes.substack.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-foreground transition-colors"
+                >
+                  Substack post
+                </a>
+                .
               </p>
             </div>
             <div className="p-6">
@@ -575,67 +904,8 @@ export default function SocietyDetailClient({
           </div>
         </div>
 
-        {/* Social Links */}
-        <div className="flex flex-wrap gap-2 border-2 border-border p-4 bg-background shadow-brutal-md">
-          <a
-            href={society.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-            title="Website"
-          >
-            <Globe className="h-3 w-3" />
-            Website
-          </a>
-          {society.x && (
-            <a
-              href={society.x}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-              title="X (Twitter)"
-            >
-              <XIcon className="h-3 w-3" />
-              X
-            </a>
-          )}
-          {society.discord && (
-            <a
-              href={society.discord}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-              title="Discord"
-            >
-              <DiscordIcon className="h-3 w-3" />
-              Discord
-            </a>
-          )}
-          {society.telegram && (
-            <a
-              href={society.telegram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-              title="Telegram"
-            >
-              <MessageCircle className="h-3 w-3" />
-              Telegram
-            </a>
-          )}
-          {society.application && (
-            <a
-              href={society.application}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 px-3 py-2 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none ml-auto"
-              title="Apply to Society"
-            >
-              Apply
-              <ExternalLink className="h-3 w-3" />
-            </a>
-          )}
-        </div>
+        {/* Content Sections */}
+        <ContentSections societyName={society.name} />
 
         {/* Related Societies */}
         {relatedSocieties.length > 0 && (

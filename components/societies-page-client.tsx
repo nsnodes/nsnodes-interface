@@ -118,6 +118,116 @@ interface TransformedSociety {
   category?: string;
 }
 
+// Mini radar chart for society cards
+const RADAR_METRICS = [
+  { key: 'scalability', color: '#f97316' },
+  { key: 'autonomy', color: '#8b5cf6' },
+  { key: 'qol', color: '#10b981' },
+  { key: 'belonging', color: '#3b82f6' },
+  { key: 'economic', color: '#eab308' },
+  { key: 'purpose', color: '#ec4899' },
+] as const;
+
+function MiniRadar({ scores, size = 36 }: { scores: number[]; size?: number }) {
+  const cx = size / 2;
+  const cy = size / 2;
+  const r = (size / 2) - 3;
+  const n = scores.length;
+
+  const toPoint = (index: number, value: number) => {
+    const angle = (Math.PI * 2 * index) / n - Math.PI / 2;
+    const dist = (value / 100) * r;
+    return { x: cx + dist * Math.cos(angle), y: cy + dist * Math.sin(angle) };
+  };
+
+  const dataPoints = scores.map((v, i) => toPoint(i, v));
+  const polygon = dataPoints.map(p => `${p.x},${p.y}`).join(' ');
+
+  // Grid rings
+  const gridLevels = [0.33, 0.66, 1];
+
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="flex-shrink-0">
+      {/* Grid rings */}
+      {gridLevels.map((level) => (
+        <polygon
+          key={level}
+          points={Array.from({ length: n }, (_, i) => {
+            const p = toPoint(i, level * 100);
+            return `${p.x},${p.y}`;
+          }).join(' ')}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={0.5}
+          className="text-muted-foreground/20"
+        />
+      ))}
+      {/* Axes */}
+      {Array.from({ length: n }, (_, i) => {
+        const p = toPoint(i, 100);
+        return (
+          <line
+            key={i}
+            x1={cx}
+            y1={cy}
+            x2={p.x}
+            y2={p.y}
+            stroke="currentColor"
+            strokeWidth={0.5}
+            className="text-muted-foreground/20"
+          />
+        );
+      })}
+      {/* Data polygon */}
+      <polygon
+        points={polygon}
+        fill="oklch(0.65 0.15 145 / 0.15)"
+        stroke="oklch(0.65 0.15 145)"
+        strokeWidth={1.5}
+      />
+      {/* Data points */}
+      {dataPoints.map((p, i) => (
+        <circle
+          key={i}
+          cx={p.x}
+          cy={p.y}
+          r={1.5}
+          fill={RADAR_METRICS[i].color}
+        />
+      ))}
+    </svg>
+  );
+}
+
+// Score color based on value
+function getScoreColor(score: number): string {
+  if (score >= 75) return 'text-emerald-500';
+  if (score >= 50) return 'text-yellow-500';
+  if (score >= 25) return 'text-orange-500';
+  return 'text-red-500';
+}
+
+function getScoreBarColor(score: number): string {
+  if (score >= 75) return 'bg-emerald-500';
+  if (score >= 50) return 'bg-yellow-500';
+  if (score >= 25) return 'bg-orange-500';
+  return 'bg-red-500';
+}
+
+function getScoreBorderColor(score: number): string {
+  if (score >= 75) return 'border-emerald-500/30';
+  if (score >= 50) return 'border-yellow-500/30';
+  if (score >= 25) return 'border-orange-500/30';
+  return 'border-red-500/30';
+}
+
+function getScoreBgColor(score: number): string {
+  if (score >= 75) return 'bg-emerald-500/10';
+  if (score >= 50) return 'bg-yellow-500/10';
+  if (score >= 25) return 'bg-orange-500/10';
+  return 'bg-red-500/10';
+}
+
 interface SocietiesPageClientProps {
   societies: SocietyDatabase[];
 }
@@ -604,6 +714,12 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
             const societyEvents = getEventsForNetworkState(society.name);
             const isExpanded = expandedSociety === society.name;
             const originalSociety = societies.find(s => s.name === society.name);
+            const communityScore = getCommunityScore(society.name);
+            const radarScores = originalSociety
+              ? [originalSociety.scalability, originalSociety.autonomy, originalSociety.qol, originalSociety.belonging, originalSociety.economic, originalSociety.purpose]
+              : null;
+            const hasScores = radarScores && radarScores.some(v => v != null && v > 0);
+            const normalizedScores = hasScores ? radarScores.map(v => v ?? 0) : null;
 
             return (
               <div
@@ -612,6 +728,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
               >
                 {/* Header: Logo, Name + Description, Badges */}
                 {society.tier >= 1 && society.tier <= 3 ? (
+                  <>
                   <Link href={`/societies/${societyNameToSlug(society.name)}`} className="block hover:opacity-80 transition-opacity">
                     <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                       {/* Logo */}
@@ -654,7 +771,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                         {society.description}
                       </p>
                     </div>
-                    
+
                     {/* Location, Category, Badges */}
                     <div className="flex flex-wrap items-center gap-2 mt-2">
                       <div className="flex items-center gap-1 text-xs font-mono text-muted-foreground">
@@ -674,6 +791,11 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                           Founded {society.founded}
                         </div>
                       )}
+                      {communityScore > 0 && (
+                        <div className={`text-xs font-mono px-2 py-1 border ${getScoreBorderColor(communityScore)} ${getScoreBgColor(communityScore)} ${getScoreColor(communityScore)} whitespace-nowrap font-bold`}>
+                          Score: {communityScore}/100
+                        </div>
+                      )}
                       {society.tier && society.tier > 3 && (
                         <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap opacity-60">
                           Tier {society.tier} (Coming soon)
@@ -681,9 +803,35 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                       )}
                     </div>
                   </div>
+
+                  {/* Mini Radar */}
+                  {normalizedScores && communityScore > 0 && (
+                    <div className="flex-shrink-0 hidden sm:flex flex-col items-center gap-1">
+                      <MiniRadar scores={normalizedScores} size={44} />
+                      <span className={`text-xs font-mono font-bold ${getScoreColor(communityScore)}`}>
+                        {communityScore}
+                      </span>
+                    </div>
+                  )}
                     </div>
                   </Link>
+
+                  {/* Community Score Bar */}
+                  {communityScore > 0 && (
+                    <div className="flex items-center gap-3 px-1">
+                      <span className="text-[10px] font-mono text-muted-foreground whitespace-nowrap uppercase tracking-wider">Community</span>
+                      <div className="flex-1 h-1.5 bg-muted border border-border/50 overflow-hidden">
+                        <div
+                          className={`h-full ${getScoreBarColor(communityScore)} transition-all`}
+                          style={{ width: `${communityScore}%` }}
+                        />
+                      </div>
+                      <span className={`text-[10px] font-mono font-bold ${getScoreColor(communityScore)}`}>{communityScore}</span>
+                    </div>
+                  )}
+                  </>
                 ) : (
+                  <>
                   <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                     {/* Logo */}
                     <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-border bg-muted flex items-center justify-center overflow-hidden relative">
@@ -719,6 +867,11 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                         <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap">
                           {society.type}
                         </div>
+                        {communityScore > 0 && (
+                          <div className={`text-xs font-mono px-2 py-1 border ${getScoreBorderColor(communityScore)} ${getScoreBgColor(communityScore)} ${getScoreColor(communityScore)} whitespace-nowrap font-bold`}>
+                            Score: {communityScore}/100
+                          </div>
+                        )}
                         {society.tier && society.tier > 3 && (
                           <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap opacity-60">
                             Tier {society.tier} (Coming soon)
@@ -726,7 +879,32 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                         )}
                       </div>
                     </div>
+
+                    {/* Mini Radar */}
+                    {normalizedScores && communityScore > 0 && (
+                      <div className="flex-shrink-0 hidden sm:flex flex-col items-center gap-1">
+                        <MiniRadar scores={normalizedScores} size={44} />
+                        <span className={`text-xs font-mono font-bold ${getScoreColor(communityScore)}`}>
+                          {communityScore}
+                        </span>
+                      </div>
+                    )}
                   </div>
+
+                  {/* Community Score Bar */}
+                  {communityScore > 0 && (
+                    <div className="flex items-center gap-3 px-1">
+                      <span className="text-[10px] font-mono text-muted-foreground whitespace-nowrap uppercase tracking-wider">Community</span>
+                      <div className="flex-1 h-1.5 bg-muted border border-border/50 overflow-hidden">
+                        <div
+                          className={`h-full ${getScoreBarColor(communityScore)} transition-all`}
+                          style={{ width: `${communityScore}%` }}
+                        />
+                      </div>
+                      <span className={`text-[10px] font-mono font-bold ${getScoreColor(communityScore)}`}>{communityScore}</span>
+                    </div>
+                  )}
+                  </>
                 )}
 
                 {/* Social Links */}
