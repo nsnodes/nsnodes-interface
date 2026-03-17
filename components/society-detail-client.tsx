@@ -146,6 +146,7 @@ export default function SocietyDetailClient({
             hideFilters
             initialNetworkStates={[society.name]}
             defaultViewMode="gantt"
+            compact
           />
         )}
 

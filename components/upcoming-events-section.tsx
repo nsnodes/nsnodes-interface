@@ -21,9 +21,10 @@ interface UpcomingEventsSectionProps {
   customNetworkStateOrder?: string[]; // Custom order for network states (events will be pre-sorted by this order)
   defaultViewMode?: "table" | "gantt"; // Default view mode (table or gantt/timeline)
   hideViewModeToggle?: boolean; // If true, hide the TABLE/TIMELINE toggle buttons
+  compact?: boolean; // Reduce vertical space (for embedding in society detail pages)
 }
 
-export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder, defaultViewMode = "table", hideViewModeToggle = false }: UpcomingEventsSectionProps) {
+export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder, defaultViewMode = "table", hideViewModeToggle = false, compact = false }: UpcomingEventsSectionProps) {
   // State for tracking current time to make live/upcoming checks reactive
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -575,7 +576,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   const getNetworkStateColor = (networkState: string) => getNetworkColor(networkState);
 
   return (
-    <section id="upcoming-events" className="space-y-6">
+    <section id="upcoming-events" className={compact ? "space-y-3" : "space-y-6"}>
       {/* Header - always visible */}
       <div className="flex items-center gap-2">
         <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
@@ -1338,10 +1339,10 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       {!isLoading && !error && events.length > 0 && viewMode === "gantt" && (
         <div className="border-2 border-border bg-card">
           {/* Timeline Header */}
-          <div className="border-b-2 border-border bg-muted p-4">
+          <div className={`border-b-2 border-border bg-muted ${compact ? 'p-3' : 'p-4'}`}>
             <div className="flex items-center justify-between">
-              <h3 className="font-mono font-bold text-lg flex items-center gap-2">
-                <BarChart3 className="h-5 w-5" />
+              <h3 className={`font-mono font-bold flex items-center gap-2 ${compact ? 'text-sm' : 'text-lg'}`}>
+                <BarChart3 className={compact ? "h-4 w-4" : "h-5 w-5"} />
                 [ EVENTS ]
               </h3>
               {!showOnlyToday && (
@@ -1383,7 +1384,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
           </div>
 
           {/* Timeline Legend */}
-          <div className="border-b border-border bg-card p-4">
+          <div className={`border-b border-border bg-card ${compact ? 'p-2' : 'p-4'} ${compact ? 'hidden' : ''}`}>
             <div className="flex flex-wrap gap-3 text-xs font-mono">
               {(() => {
                 // Count events per network state
@@ -1465,9 +1466,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
             return (
               <>
                 {/* Desktop Timeline Grid */}
-                <div className="hidden md:block p-4 overflow-x-auto">
+                <div className={`hidden md:block ${compact ? 'p-2' : 'p-4'} overflow-x-auto`}>
                   <div className={`${showOnlyToday ? 'max-w-3xl mx-auto' : 'min-w-[800px]'} relative`}>
-                    <div className="space-y-6">
+                    <div className={compact ? "space-y-2" : "space-y-6"}>
                       {/* Date Header */}
                       <div className="grid gap-1" style={{ gridTemplateColumns: `120px repeat(${dateColumns.length}, ${columnWidth}px)` }}>
                         <div className="text-xs font-mono font-bold text-muted-foreground"></div>
@@ -1598,7 +1599,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                               return (
                                 <div
                                   key={idx}
-                                  className="relative min-h-[60px] border-l border-t border-border bg-muted/20"
+                                  className={`relative ${compact ? 'min-h-[40px]' : 'min-h-[60px]'} border-l border-t border-border bg-muted/20`}
                                 >
                                   {eventsWithCols.map(({ event, column }, eventIdx) => {
                                     const startHour = getEventStartHour(event);
@@ -1606,8 +1607,8 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
                                     // Cap duration so event doesn't visually extend past midnight (23:59)
                                     const displayDuration = Math.min(duration, 24 - startHour);
-                                    const heightInPx = Math.max(40, displayDuration * 60);
-                                    const topOffset = ((startHour % 1) * 60);
+                                    const heightInPx = compact ? Math.max(30, displayDuration * 40) : Math.max(40, displayDuration * 60);
+                                    const topOffset = compact ? ((startHour % 1) * 40) : ((startHour % 1) * 60);
 
                                     // Calculate column positioning
                                     const columnWidth = 100 / maxCols;
@@ -1745,9 +1746,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                 </div>
 
                 {/* Mobile Timeline View */}
-                <div className="md:hidden p-4 overflow-x-auto overscroll-x-contain touch-pan-x">
+                <div className={`md:hidden ${compact ? 'p-2' : 'p-4'} overflow-x-auto overscroll-x-contain touch-pan-x`}>
                   <div className={`${showOnlyToday ? 'max-w-xl mx-auto' : ''} relative`}>
-                    <div className="space-y-6">
+                    <div className={compact ? "space-y-2" : "space-y-6"}>
                       {/* Date Header */}
                       <div className="grid gap-1" style={{ gridTemplateColumns: timelineZoomDays <= 7 ? `80px repeat(${dateColumns.length}, calc((100vw - 80px - 2rem) / ${timelineZoomDays}))` : `100px repeat(${dateColumns.length}, ${Math.max(60, columnWidth * 0.75)}px)` }}>
                         <div className="text-xs font-mono font-bold text-muted-foreground"></div>
@@ -1880,7 +1881,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                               return (
                                 <div
                                   key={idx}
-                                  className="relative min-h-[40px] border-l border-t border-border bg-muted/20"
+                                  className={`relative ${compact ? 'min-h-[30px]' : 'min-h-[40px]'} border-l border-t border-border bg-muted/20`}
                                 >
                                   {eventsWithCols.map(({ event, column }, eventIdx) => {
                                     const startHour = getEventStartHour(event);
@@ -1888,8 +1889,8 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
                                     // Cap duration so event doesn't visually extend past midnight (23:59)
                                     const displayDuration = Math.min(duration, 24 - startHour);
-                                    const heightInPx = Math.max(30, displayDuration * 40);
-                                    const topOffset = ((startHour % 1) * 40);
+                                    const heightInPx = compact ? Math.max(24, displayDuration * 30) : Math.max(30, displayDuration * 40);
+                                    const topOffset = compact ? ((startHour % 1) * 30) : ((startHour % 1) * 40);
 
                                     // Calculate column positioning
                                     const columnWidth = 100 / maxCols;
