@@ -41,10 +41,10 @@ This is a Next.js 15 application using the App Router, React 19, TypeScript, and
   - `hooks/useClientTimezone.ts`: Client-side timezone conversion for events
 - `components/`: React components (structured for shadcn/ui)
   - `ui/`: shadcn/ui components (use `npx shadcn@latest add <component>` to add new components)
-  - `icons/social-icons.tsx`: Shared SVG icons (XIcon, DiscordIcon)
+  - `icons/social-icons.tsx`: Shared SVG icons (XIcon, DiscordIcon, YoutubeIcon, TelegramIcon)
   - `society/`: Society page components (see Society Components below)
-  - `society-detail-client.tsx`: Society detail page orchestrator (~160 lines, composes society/ components)
-  - `societies-page-client.tsx`: Societies list page with filtering, MiniRadar, score visualizations
+  - `society-detail-client.tsx`: Society detail page orchestrator (composes society/ components, real social stats from Supabase)
+  - `societies-page-client.tsx`: Societies list page with filtering, precomputed event/job lookups via useMemo
 - `public/`: Static assets
 
 ### Society Components (`components/society/`)
@@ -53,16 +53,16 @@ Modular components used by the society detail page:
 
 - `society-logo.tsx`: Reusable logo with `size` prop (`sm`/`md`/`lg`), Image with fallback to initials
 - `society-badges.tsx`: Location, category, type, founded badges
-- `society-social-links.tsx`: Social links row with `showLabels` prop for detail vs card contexts
-- `society-radar.tsx`: Community score radar chart + metrics sidebar (exports `RADAR_CATEGORIES`, `RADAR_COLORS`, `RADAR_INFO`)
-- `society-content.tsx`: Editorial content sections (overview, history, FAQs, etc.) keyed by slug in `SOCIETY_CONTENT` record
+- `society-social-links.tsx`: Social links row with `showLabels` prop for detail vs card contexts, `slug` prop for internal linking
+- `society-schedule-call.tsx`: Schedule a Call CTA with Google Meet link, topics list
+- `society-radar.tsx`: Community score radar chart + metrics sidebar (currently hidden)
+- `society-content.tsx`: Editorial content sections (overview, history, kid-friendly, discount, FAQs, etc.) keyed by slug in `SOCIETY_CONTENT` record (exported)
 - `society-related.tsx`: Related societies grid
 - `society-jobs.tsx`: Open positions section, returns null if no jobs match
 - `society-events.tsx`: Upcoming events section with timezone conversion, returns null if no events match
-- `society-reviews.tsx`: Community reviews/testimonials, keyed by slug in `SOCIETY_REVIEWS` record, returns null if no reviews
+- `society-reviews.tsx`: Community reviews/testimonials (currently hidden from detail page)
 
 To add editorial content for a new society, add an entry to the `SOCIETY_CONTENT` record in `society-content.tsx` keyed by the society's slug.
-To add reviews for a society, add an entry to the `SOCIETY_REVIEWS` record in `society-reviews.tsx` keyed by the society's slug.
 
 ### Path Aliases
 The project uses `@/*` as an alias for the root directory (configured in [tsconfig.json](tsconfig.json)).
@@ -112,3 +112,17 @@ When creating new pages, follow the title and meta description conventions in:
 - Homepage title starts with `nsnodes.com`
 - All other page titles end with `| nsnodes.com`
 - Meta descriptions should be 150-160 characters
+
+## Performance Guidelines
+
+- **Memoize expensive lookups**: When a page iterates over societies and matches them against events or jobs using `societyNamesMatch()`, precompute the results into a `Map` or `Set` with `useMemo` keyed on the input data. Do NOT call `societyNamesMatch()` inside render loops or sort callbacks on every render.
+- **Pattern**: Build lookup maps once when data changes, then use `map.get(name)` or `set.has(name)` in render. See `societies-page-client.tsx` for the reference implementation (`eventsBySociety`, `upcomingCountBySociety`, `openPositionsBySociety`).
+- **`societyNamesMatch()`** is expensive (normalization, string splitting, acronym checks) — avoid calling it per-row per-render.
+- **Supabase data is cached for 1 hour** in `lib/actions/societies.ts`. Restart the dev server to clear the cache during development.
+
+## SEO Guidelines
+
+- Society detail pages use JSON-LD structured data (Organization + FAQPage schema) — see `app/societies/[slug]/page.tsx`
+- Each society page sets `alternates.canonical` and page-specific OG URL (not the homepage)
+- Use `TITLE_OVERRIDES` in the page's `generateMetadata` for custom per-society titles
+- Description is auto-generated from the first overview paragraph in `SOCIETY_CONTENT` (truncated to 155 chars)
