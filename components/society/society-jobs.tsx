@@ -21,10 +21,10 @@ export function SocietyJobs({ jobs, societyName }: SocietyJobsProps) {
       <div className="divide-y divide-border">
         {jobs.map((job, i) => (
           <div key={i} className="p-4 space-y-2">
-            <div className="flex items-start justify-between gap-4">
-              <div>
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
+              <div className="min-w-0">
                 <h3 className="font-mono font-bold text-sm">{job.title}</h3>
-                <div className="flex items-center gap-2 mt-1 text-xs font-mono text-muted-foreground">
+                <div className="flex flex-wrap items-center gap-2 mt-1 text-xs font-mono text-muted-foreground">
                   <span className="flex items-center gap-1">
                     <MapPin className="h-3 w-3" />
                     {job.location}
@@ -43,7 +43,7 @@ export function SocietyJobs({ jobs, societyName }: SocietyJobsProps) {
                 href={job.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none flex-shrink-0"
+                className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none flex-shrink-0 self-start"
               >
                 Apply
                 <ExternalLink className="h-3 w-3" />

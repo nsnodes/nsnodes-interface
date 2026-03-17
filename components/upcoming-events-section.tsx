@@ -1042,16 +1042,17 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                     const groupEvents = groupedEvents[groupLabel];
                     if (!groupEvents || groupEvents.length === 0) return null;
 
-                    // Limit to 6 events when showOnlyToday (5 clear + 1 blurred)
-                    const displayEvents = showOnlyToday ? groupEvents.slice(0, 6) : groupEvents;
+                    // Limit events when showOnlyToday or compact
+                    const limitEvents = showOnlyToday || compact;
+                    const displayEvents = limitEvents ? groupEvents.slice(0, 6) : groupEvents;
 
                     return (
                       <React.Fragment key={groupLabel}>
                         {/* Group Header Row */}
                         <tr className="bg-muted border-b-2 border-border">
-                          <td colSpan={5} className="p-4">
-                            <h3 className="font-mono font-bold text-lg flex items-center gap-2">
-                              <Calendar className="h-5 w-5" />
+                          <td colSpan={5} className={compact ? "p-3" : "p-4"}>
+                            <h3 className={`font-mono font-bold flex items-center gap-2 ${compact ? 'text-sm' : 'text-lg'}`}>
+                              <Calendar className={compact ? "h-4 w-4" : "h-5 w-5"} />
                               [ {groupLabel.toUpperCase()} ]
                             </h3>
                           </td>
@@ -1061,7 +1062,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                           <tr
                             key={`${groupLabel}-${index}`}
                             className={`border-b border-border hover:bg-accent transition-colors cursor-pointer ${
-                              showOnlyToday && index === 5 ? 'filter blur-[1px] opacity-60' : ''
+                              limitEvents && index === 5 ? 'filter blur-[1px] opacity-60' : ''
                             }`}
                             onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                           >
@@ -1132,13 +1133,13 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
             </div>
 
             {/* Link to Events Page */}
-            {showOnlyToday && (
-              <div className="mt-4">
+            {(showOnlyToday || compact) && (
+              <div className={compact ? "mt-3 text-center" : "mt-4"}>
                 <Link
-                  href="/events"
+                  href={compact && initialNetworkStates?.[0] ? `/events?networkState=${encodeURIComponent(initialNetworkStates[0])}#upcoming-events` : "/events"}
                   className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
-                  See all {events.length} events -&gt;
+                  See all {filteredAndSortedEvents.length} events →
                 </Link>
               </div>
             )}
@@ -1199,8 +1200,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
               const groupEvents = groupedEvents[groupLabel];
               if (!groupEvents || groupEvents.length === 0) return null;
 
-              // Limit to 6 events when showOnlyToday (5 clear + 1 blurred)
-              const displayEvents = showOnlyToday ? groupEvents.slice(0, 6) : groupEvents;
+              // Limit events when showOnlyToday or compact
+              const limitEvents = showOnlyToday || compact;
+              const displayEvents = limitEvents ? groupEvents.slice(0, 6) : groupEvents;
 
               return (
                 <React.Fragment key={groupLabel}>
@@ -1282,13 +1284,13 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
             })}
 
             {/* Link to Events Page - Mobile */}
-            {showOnlyToday && (
-              <div>
+            {(showOnlyToday || compact) && (
+              <div className={compact ? "text-center" : ""}>
                 <Link
-                  href="/events"
+                  href={compact && initialNetworkStates?.[0] ? `/events?networkState=${encodeURIComponent(initialNetworkStates[0])}#upcoming-events` : "/events"}
                   className="font-mono text-xs underline underline-offset-4 hover:opacity-70 transition-opacity"
                 >
-                  See all {filteredAndSortedEvents.length} events -&gt;
+                  See all {filteredAndSortedEvents.length} events →
                 </Link>
               </div>
             )}
