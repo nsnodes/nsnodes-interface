@@ -29,6 +29,11 @@ interface SupabaseSociety {
   belonging: number | null;
   economic: number | null;
   purpose: number | null;
+  x_followers: number | null;
+  discord_members: number | null;
+  youtube: string | null;
+  youtube_subscribers: number | null;
+  telegram_members: number | null;
 }
 
 // Cache the fetched data
@@ -60,6 +65,11 @@ function transformToSocietyDatabase(row: SupabaseSociety): SocietyDatabase {
     belonging: row.belonging != null ? Math.round(row.belonging * 100) : undefined,
     economic: row.economic != null ? Math.round(row.economic * 100) : undefined,
     purpose: row.purpose != null ? Math.round(row.purpose * 100) : undefined,
+    x_followers: row.x_followers ?? undefined,
+    discord_members: row.discord_members ?? undefined,
+    youtube: row.youtube || undefined,
+    youtube_subscribers: row.youtube_subscribers ?? undefined,
+    telegram_members: row.telegram_members ?? undefined,
   };
 }
 

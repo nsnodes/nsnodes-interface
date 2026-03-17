@@ -1,9 +1,8 @@
 "use client";
 
-import { Users, MapPin, ExternalLink, ChevronDown, ChevronUp, Calendar, MessageCircle, Globe, Tag, Briefcase } from "lucide-react";
+import { Users, MapPin, ChevronDown, ChevronUp, Calendar, Tag } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import type { SocietyDatabase } from "@/lib/data/societies-database";
 import { SocietiesChartStats, SocietiesChartGraph } from "@/components/societies-chart";
 import { getEvents } from "@/lib/actions/events";
@@ -12,19 +11,9 @@ import { societyNamesMatch } from "@/lib/utils/society-matcher";
 import { societyNameToSlug } from "@/lib/utils/slug";
 import { jobsDatabase } from "@/lib/data/jobs-database";
 import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
-
-// Custom SVG icons
-const XIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-  </svg>
-);
-
-const DiscordIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-  </svg>
-);
+import { SocietyLogo } from '@/components/society/society-logo';
+import { SocietyBadges } from '@/components/society/society-badges';
+import { SocietySocialLinks } from '@/components/society/society-social-links';
 
 // Helper functions for event status badges
 const getEventStartDateTime = (event: UIEvent): Date | null => {
@@ -99,310 +88,7 @@ const hasTodayEvents = (events: UIEvent[]): boolean => {
   return events.some(event => isEventToday(event));
 };
 
-interface TransformedSociety {
-  name: string;
-  location: string;
-  residents: string;
-  growth: string;
-  founded: string;
-  description: string;
-  website: string;
-  x: string;
-  discord: string;
-  telegram: string | null;
-  focus: string[];
-  tier: number;
-  type: string;
-  application: string;
-  icon?: string;
-  category?: string;
-}
-
-// Mini radar chart for society cards
-const RADAR_METRICS = [
-  { key: 'scalability', color: '#f97316' },
-  { key: 'autonomy', color: '#8b5cf6' },
-  { key: 'qol', color: '#10b981' },
-  { key: 'belonging', color: '#3b82f6' },
-  { key: 'economic', color: '#eab308' },
-  { key: 'purpose', color: '#ec4899' },
-] as const;
-
-function MiniRadar({ scores, size = 36 }: { scores: number[]; size?: number }) {
-  const cx = size / 2;
-  const cy = size / 2;
-  const r = (size / 2) - 3;
-  const n = scores.length;
-
-  const toPoint = (index: number, value: number) => {
-    const angle = (Math.PI * 2 * index) / n - Math.PI / 2;
-    const dist = (value / 100) * r;
-    return { x: cx + dist * Math.cos(angle), y: cy + dist * Math.sin(angle) };
-  };
-
-  const dataPoints = scores.map((v, i) => toPoint(i, v));
-  const polygon = dataPoints.map(p => `${p.x},${p.y}`).join(' ');
-
-  // Grid rings
-  const gridLevels = [0.33, 0.66, 1];
-
-  return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="flex-shrink-0">
-      {/* Grid rings */}
-      {gridLevels.map((level) => (
-        <polygon
-          key={level}
-          points={Array.from({ length: n }, (_, i) => {
-            const p = toPoint(i, level * 100);
-            return `${p.x},${p.y}`;
-          }).join(' ')}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={0.5}
-          className="text-muted-foreground/20"
-        />
-      ))}
-      {/* Axes */}
-      {Array.from({ length: n }, (_, i) => {
-        const p = toPoint(i, 100);
-        return (
-          <line
-            key={i}
-            x1={cx}
-            y1={cy}
-            x2={p.x}
-            y2={p.y}
-            stroke="currentColor"
-            strokeWidth={0.5}
-            className="text-muted-foreground/20"
-          />
-        );
-      })}
-      {/* Data polygon */}
-      <polygon
-        points={polygon}
-        fill="oklch(0.65 0.15 145 / 0.15)"
-        stroke="oklch(0.65 0.15 145)"
-        strokeWidth={1.5}
-      />
-      {/* Data points */}
-      {dataPoints.map((p, i) => (
-        <circle
-          key={i}
-          cx={p.x}
-          cy={p.y}
-          r={1.5}
-          fill={RADAR_METRICS[i].color}
-        />
-      ))}
-    </svg>
-  );
-}
-
-// Score color based on value
-function getScoreColor(score: number): string {
-  if (score >= 75) return 'text-emerald-500';
-  if (score >= 50) return 'text-yellow-500';
-  if (score >= 25) return 'text-orange-500';
-  return 'text-red-500';
-}
-
-function getScoreBarColor(score: number): string {
-  if (score >= 75) return 'bg-emerald-500';
-  if (score >= 50) return 'bg-yellow-500';
-  if (score >= 25) return 'bg-orange-500';
-  return 'bg-red-500';
-}
-
-function getScoreBorderColor(score: number): string {
-  if (score >= 75) return 'border-emerald-500/30';
-  if (score >= 50) return 'border-yellow-500/30';
-  if (score >= 25) return 'border-orange-500/30';
-  return 'border-red-500/30';
-}
-
-function getScoreBgColor(score: number): string {
-  if (score >= 75) return 'bg-emerald-500/10';
-  if (score >= 50) return 'bg-yellow-500/10';
-  if (score >= 25) return 'bg-orange-500/10';
-  return 'bg-red-500/10';
-}
-
-interface SocietiesPageClientProps {
-  societies: SocietyDatabase[];
-}
-
-// Helper functions to extract data from society
-const getLocationFromSociety = (society: SocietyDatabase) => {
-  // Use location from Airtable if available
-  if (society.location) return society.location;
-  
-  // Extract location from URL or use a default based on type
-  if (society.name.includes("Próspera")) return "Roatán, Honduras";
-  if (society.name.includes("Network School") || society.name.includes("The Network School")) return "Forest City, Malaysia";
-  if (society.name.includes("Edge City")) return "San Martín de los Andes, Argentina";
-  if (society.name.includes("Liberland")) return "Liberland";
-  if (society.name.includes("Sealand")) return "Sealand";
-  if (society.name.includes("Montelibero")) return "Montenegro";
-  if (society.name.includes("Cryptocity")) return "Margarita Island, Venezuela";
-  if (society.name.includes("Forma City")) return "Various Locations";
-  if (society.name.includes("Freeth'm")) return "Various Locations";
-  if (society.name.includes("Atlas Island")) return "Floating City";
-  if (society.name.includes("Zuzalu")) return "Montenegro";
-  if (society.name.includes("Logos")) return "Online";
-  if (society.name.includes("VDAO")) return "Decentralized";
-  if (society.name.includes("Don't Die")) return "Global";
-  if (society.name.includes("4seas.io")) return "Chiang Mai, Thailand";
-  if (society.name.includes("Edge Esmeralda")) return "Costa Rica";
-  if (society.name.includes("Infinita")) return "Próspera ZEDE, Honduras";
-  if (society.name.includes("Ipê City")) return "Brazil";
-  if (society.name.includes("build_republic")) return "Decentralized";
-  
-  // Default based on type
-  if (society.type === "Physical") return "Physical Location";
-  if (society.type === "Online") return "Online";
-  if (society.type === "Popup") return "Pop-up Location";
-  if (society.type === "Decentralized") return "Decentralized";
-  
-  return "Global";
-};
-
-const getResidentsFromSociety = (society: SocietyDatabase) => {
-  // Estimate residents based on tier and type
-  if (society.tier === 1) {
-    if (society.type === "Physical") return "500-2500";
-    if (society.type === "Online") return "1000-5000";
-    if (society.type === "Popup") return "100-500";
-    if (society.type === "Decentralized") return "500-2000";
-  } else if (society.tier === 2) {
-    if (society.type === "Physical") return "100-1000";
-    if (society.type === "Online") return "500-2000";
-    if (society.type === "Popup") return "50-200";
-    if (society.type === "Decentralized") return "200-1000";
-  } else if (society.tier === 3) {
-    if (society.type === "Physical") return "50-500";
-    if (society.type === "Online") return "100-1000";
-    if (society.type === "Popup") return "25-100";
-    if (society.type === "Decentralized") return "100-500";
-  }
-  return "50-200";
-};
-
-const getGrowthFromSociety = (society: SocietyDatabase) => {
-  // Estimate growth based on tier
-  if (society.tier === 1) return "+20%";
-  if (society.tier === 2) return "+15%";
-  if (society.tier === 3) return "+10%";
-  return "+12%";
-};
-
-const getFoundedFromSociety = (society: SocietyDatabase) => {
-  // Use founded field from Airtable if available
-  if (society.founded) {
-    return society.founded;
-  }
-  
-  // Fallback: Estimate founding year based on tier and known societies
-  if (society.name.includes("Próspera")) return "2020";
-  if (society.name.includes("Sealand")) return "1967";
-  if (society.name.includes("Liberland")) return "2015";
-  if (society.name.includes("Network School") || society.name.includes("The Network School")) return "2023";
-  if (society.name.includes("Edge City")) return "2023";
-  if (society.name.includes("Don't Die")) return "2023";
-  if (society.name.includes("Zuzalu")) return "2023";
-  if (society.name.includes("Logos")) return "2022";
-  if (society.name.includes("VDAO")) return "2023";
-  
-  // Default based on tier
-  if (society.tier === 1) return "2023";
-  if (society.tier === 2) return "2022";
-  if (society.tier === 3) return "2021";
-  return "2023";
-};
-
-const getFocusFromSociety = (society: SocietyDatabase) => {
-  // Extract focus areas from mission and type
-  const focus = [];
-  
-  if (society.mission.toLowerCase().includes("crypto") || society.mission.toLowerCase().includes("blockchain")) {
-    focus.push("Crypto/Blockchain");
-  }
-  if (society.mission.toLowerCase().includes("governance") || society.mission.toLowerCase().includes("democracy")) {
-    focus.push("Governance");
-  }
-  if (society.mission.toLowerCase().includes("freedom") || society.mission.toLowerCase().includes("liberty")) {
-    focus.push("Freedom");
-  }
-  if (society.mission.toLowerCase().includes("community")) {
-    focus.push("Community");
-  }
-  if (society.mission.toLowerCase().includes("technology") || society.mission.toLowerCase().includes("tech")) {
-    focus.push("Technology");
-  }
-  if (society.mission.toLowerCase().includes("education")) {
-    focus.push("Education");
-  }
-  if (society.mission.toLowerCase().includes("innovation")) {
-    focus.push("Innovation");
-  }
-  if (society.mission.toLowerCase().includes("sustainability") || society.mission.toLowerCase().includes("environment")) {
-    focus.push("Sustainability");
-  }
-  if (society.mission.toLowerCase().includes("longevity") || society.mission.toLowerCase().includes("health")) {
-    focus.push("Longevity");
-  }
-  if (society.mission.toLowerCase().includes("space")) {
-    focus.push("Space");
-  }
-  if (society.mission.toLowerCase().includes("nomad")) {
-    focus.push("Digital Nomads");
-  }
-  
-  // Add type-based focus
-  if (society.type === "Physical") focus.push("Physical Community");
-  if (society.type === "Online") focus.push("Digital Community");
-  if (society.type === "Popup") focus.push("Pop-up Events");
-  if (society.type === "Decentralized") focus.push("Decentralized");
-  
-  // Default focus if none found
-  if (focus.length === 0) {
-    focus.push("Network State");
-  }
-  
-  return focus.slice(0, 4); // Limit to 4 focus areas
-};
-
-// Transform societies database to match the UI structure
-const transformSocietiesData = (societies: SocietyDatabase[]): TransformedSociety[] => {
-  return societies.map(society => {
-    // Override type for specific societies
-    let societyType = society.type;
-    if (society.name.toLowerCase().includes('infinita')) {
-      societyType = 'Physical';
-    }
-
-    return {
-      name: society.name,
-      location: getLocationFromSociety(society),
-      residents: getResidentsFromSociety(society),
-      growth: getGrowthFromSociety(society),
-      founded: getFoundedFromSociety(society),
-      description: society.mission,
-      website: society.url,
-      x: society.x,
-      discord: society.discord,
-      telegram: society.telegram || null,
-      focus: getFocusFromSociety(society),
-      tier: society.tier,
-      type: societyType,
-      application: society.application,
-      icon: society.icon,
-      category: society.category,
-    };
-  });
-};
-
-export default function SocietiesPageClient({ societies }: SocietiesPageClientProps) {
+export default function SocietiesPageClient({ societies }: { societies: SocietyDatabase[] }) {
   const [expandedSociety, setExpandedSociety] = useState<string | null>(null);
   const [events, setEvents] = useState<UIEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -412,8 +98,6 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
   const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
   const [showGrowthChart, setShowGrowthChart] = useState<boolean>(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-
-  const networkStates = transformSocietiesData(societies);
 
   // Apply client-side timezone conversion to events
   const clientEvents = useClientTimezone(events);
@@ -467,8 +151,8 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
   };
 
   // Get unique locations and types for filters
-  const uniqueLocations = Array.from(new Set(networkStates.map(s => s.location))).sort();
-  const uniqueTypes = Array.from(new Set(networkStates.map(s => s.type))).sort();
+  const uniqueLocations = Array.from(new Set(societies.map(s => s.location).filter((l): l is string => !!l))).sort();
+  const uniqueTypes = Array.from(new Set(societies.map(s => s.type))).sort();
 
   // Toggle filter helpers
   const toggleLocation = (location: string) => {
@@ -490,18 +174,8 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
     );
   };
 
-  // Helper to compute community score from a society's radar fields
-  const getCommunityScore = (name: string): number => {
-    const s = societies.find(soc => soc.name === name);
-    if (!s) return 0;
-    const vals = [s.scalability, s.autonomy, s.qol, s.belonging, s.economic, s.purpose];
-    const defined = vals.filter((v): v is number => v != null);
-    if (defined.length === 0) return 0;
-    return Math.round(defined.reduce((a, b) => a + b, 0) / defined.length);
-  };
-
   // Filter and sort societies
-  const filteredAndSortedSocieties = [...networkStates]
+  const filteredAndSortedSocieties = [...societies]
     .filter(society => {
       // Search filter
       if (searchTerm && !society.name.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -509,7 +183,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
       }
 
       // Location filter
-      if (selectedLocations.length > 0 && !selectedLocations.includes(society.location)) {
+      if (selectedLocations.length > 0 && (!society.location || !selectedLocations.includes(society.location))) {
         return false;
       }
 
@@ -530,14 +204,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
       }
 
       // Secondary sort: by tier (ascending - tier 1 first)
-      if (a.tier !== b.tier) {
-        return a.tier - b.tier;
-      }
-
-      // Tertiary sort: by community score (descending - highest score first)
-      const scoreA = getCommunityScore(a.name);
-      const scoreB = getCommunityScore(b.name);
-      return scoreB - scoreA;
+      return a.tier - b.tier;
     });
 
   return (
@@ -587,7 +254,7 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
             [ ALL SOCIETIES ]
           </h2>
           <div className="text-xs font-mono opacity-60">
-            Showing {filteredAndSortedSocieties.length} of {networkStates.length} societies
+            Showing {filteredAndSortedSocieties.length} of {societies.length} societies
           </div>
         </div>
 
@@ -713,14 +380,6 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
           {filteredAndSortedSocieties.map((society, index) => {
             const societyEvents = getEventsForNetworkState(society.name);
             const isExpanded = expandedSociety === society.name;
-            const originalSociety = societies.find(s => s.name === society.name);
-            const communityScore = getCommunityScore(society.name);
-            const radarScores = originalSociety
-              ? [originalSociety.scalability, originalSociety.autonomy, originalSociety.qol, originalSociety.belonging, originalSociety.economic, originalSociety.purpose]
-              : null;
-            const hasScores = radarScores && radarScores.some(v => v != null && v > 0);
-            const normalizedScores = hasScores ? radarScores.map(v => v ?? 0) : null;
-
             return (
               <div
                 key={index}
@@ -731,116 +390,38 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                   <>
                   <Link href={`/societies/${societyNameToSlug(society.name)}`} className="block hover:opacity-80 transition-opacity">
                     <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                      {/* Logo */}
-                      <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-border bg-muted flex items-center justify-center overflow-hidden relative">
-                    {originalSociety?.icon ? (
-                      <div className="w-full h-full p-1.5 flex items-center justify-center">
-                        <Image
-                          src={originalSociety.icon}
-                          alt={`${society.name} logo`}
-                          width={56}
-                          height={56}
-                          unoptimized={true}
-                          className="max-w-full max-h-full object-contain"
-                          onError={(e) => {
-                            // Fallback to abbreviation if image fails
-                            const target = e.currentTarget;
-                            const parent = target.parentElement?.parentElement;
-                            if (parent) {
-                              parent.innerHTML = `<span class="text-xl font-bold font-mono text-primary">${society.name.substring(0, 2).toUpperCase()}</span>`;
-                            }
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <span className="text-xl font-bold font-mono text-primary">
-                        {society.name.substring(0, 2).toUpperCase()}
-                      </span>
-                    )}
-                  </div>
+                      <SocietyLogo name={society.name} icon={society.icon} size="md" />
 
-                  {/* Name + Description */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
-                      <div className="flex-shrink-0 sm:self-start">
-                        <h3 className="text-lg font-bold font-mono leading-snug">
-                          {society.name}
-                        </h3>
-                      </div>
-                      <p className="text-sm font-mono text-muted-foreground leading-relaxed flex-1 sm:self-start sm:pt-[0.125rem]">
-                        {society.description}
-                      </p>
-                    </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
+                          <div className="flex-shrink-0 sm:self-start">
+                            <h3 className="text-lg font-bold font-mono leading-snug">
+                              {society.name}
+                            </h3>
+                          </div>
+                          <p className="text-sm font-mono text-muted-foreground leading-relaxed flex-1 sm:self-start sm:pt-[0.125rem]">
+                            {society.mission}
+                          </p>
+                        </div>
 
-                    {/* Location, Category, Badges */}
-                    <div className="flex flex-wrap items-center gap-2 mt-2">
-                      <div className="flex items-center gap-1 text-xs font-mono text-muted-foreground">
-                        <MapPin className="h-3 w-3" />
-                        <span>{society.location}</span>
+                        <div className="mt-2">
+                          <SocietyBadges
+                            location={society.location}
+                            category={society.category}
+                            type={society.type}
+                            founded={society.founded}
+                            tier={society.tier}
+                          />
+                        </div>
                       </div>
-                      {society.category && (
-                        <div className="text-xs font-mono px-2 py-1 border border-primary/30 bg-primary/5 text-primary inline-block">
-                          {society.category}
-                        </div>
-                      )}
-                      <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap">
-                        {society.type}
-                      </div>
-                      {society.founded && society.founded.toLowerCase() !== "unknown" && (
-                        <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap">
-                          Founded {society.founded}
-                        </div>
-                      )}
-                      {communityScore > 0 && (
-                        <div className={`text-xs font-mono px-2 py-1 border ${getScoreBorderColor(communityScore)} ${getScoreBgColor(communityScore)} ${getScoreColor(communityScore)} whitespace-nowrap font-bold`}>
-                          Score: {communityScore}/100
-                        </div>
-                      )}
-                      {society.tier && society.tier > 3 && (
-                        <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap opacity-60">
-                          Tier {society.tier} (Coming soon)
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Mini Radar */}
-                  {normalizedScores && communityScore > 0 && (
-                    <div className="flex-shrink-0 hidden sm:flex flex-col items-center gap-1">
-                      <MiniRadar scores={normalizedScores} size={44} />
-                      <span className={`text-xs font-mono font-bold ${getScoreColor(communityScore)}`}>
-                        {communityScore}
-                      </span>
-                    </div>
-                  )}
                     </div>
                   </Link>
-
-                  {/* Community Score Bar */}
-                  {communityScore > 0 && (
-                    <div className="flex items-center gap-3 px-1">
-                      <span className="text-[10px] font-mono text-muted-foreground whitespace-nowrap uppercase tracking-wider">Community</span>
-                      <div className="flex-1 h-1.5 bg-muted border border-border/50 overflow-hidden">
-                        <div
-                          className={`h-full ${getScoreBarColor(communityScore)} transition-all`}
-                          style={{ width: `${communityScore}%` }}
-                        />
-                      </div>
-                      <span className={`text-[10px] font-mono font-bold ${getScoreColor(communityScore)}`}>{communityScore}</span>
-                    </div>
-                  )}
                   </>
                 ) : (
                   <>
                   <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                    {/* Logo */}
-                    <div className="flex-shrink-0 w-14 h-14 rounded-full border-2 border-border bg-muted flex items-center justify-center overflow-hidden relative">
-                      <span className="text-xl font-bold font-mono text-primary">
-                        {society.name.substring(0, 2).toUpperCase()}
-                      </span>
-                    </div>
+                    <SocietyLogo name={society.name} size="md" />
 
-                    {/* Name + Description */}
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
                         <div className="flex-shrink-0 sm:self-start">
@@ -849,130 +430,37 @@ export default function SocietiesPageClient({ societies }: SocietiesPageClientPr
                           </h3>
                         </div>
                         <p className="text-sm font-mono text-muted-foreground leading-relaxed flex-1 sm:self-start sm:pt-[0.125rem]">
-                          {society.description}
+                          {society.mission}
                         </p>
                       </div>
 
-                      {/* Location, Category, Badges */}
-                      <div className="flex flex-wrap items-center gap-2 mt-2">
-                        <div className="flex items-center gap-1 text-xs font-mono text-muted-foreground">
-                          <MapPin className="h-3 w-3" />
-                          <span>{society.location}</span>
-                        </div>
-                        {society.category && (
-                          <div className="text-xs font-mono px-2 py-1 border border-primary/30 bg-primary/5 text-primary inline-block">
-                            {society.category}
-                          </div>
-                        )}
-                        <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap">
-                          {society.type}
-                        </div>
-                        {communityScore > 0 && (
-                          <div className={`text-xs font-mono px-2 py-1 border ${getScoreBorderColor(communityScore)} ${getScoreBgColor(communityScore)} ${getScoreColor(communityScore)} whitespace-nowrap font-bold`}>
-                            Score: {communityScore}/100
-                          </div>
-                        )}
-                        {society.tier && society.tier > 3 && (
-                          <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap opacity-60">
-                            Tier {society.tier} (Coming soon)
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Mini Radar */}
-                    {normalizedScores && communityScore > 0 && (
-                      <div className="flex-shrink-0 hidden sm:flex flex-col items-center gap-1">
-                        <MiniRadar scores={normalizedScores} size={44} />
-                        <span className={`text-xs font-mono font-bold ${getScoreColor(communityScore)}`}>
-                          {communityScore}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Community Score Bar */}
-                  {communityScore > 0 && (
-                    <div className="flex items-center gap-3 px-1">
-                      <span className="text-[10px] font-mono text-muted-foreground whitespace-nowrap uppercase tracking-wider">Community</span>
-                      <div className="flex-1 h-1.5 bg-muted border border-border/50 overflow-hidden">
-                        <div
-                          className={`h-full ${getScoreBarColor(communityScore)} transition-all`}
-                          style={{ width: `${communityScore}%` }}
+                      <div className="mt-2">
+                        <SocietyBadges
+                          location={society.location}
+                          category={society.category}
+                          type={society.type}
+                          tier={society.tier}
                         />
                       </div>
-                      <span className={`text-[10px] font-mono font-bold ${getScoreColor(communityScore)}`}>{communityScore}</span>
                     </div>
-                  )}
+                  </div>
                   </>
                 )}
 
                 {/* Social Links */}
-                <div className="flex flex-wrap gap-2 pt-2 border-t border-border mt-2">
-                  <a
-                    href={society.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-                    title="Website"
-                  >
-                    <Globe className="h-3 w-3" />
-                  </a>
-                  {society.x && (
-                    <a
-                      href={society.x}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-                      title="X (Twitter)"
-                    >
-                      <XIcon className="h-3 w-3" />
-                    </a>
-                  )}
-                  {society.discord && (
-                    <a
-                      href={society.discord}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-                      title="Discord"
-                    >
-                      <DiscordIcon className="h-3 w-3" />
-                    </a>
-                  )}
-                  {society.telegram && (
-                    <a
-                      href={society.telegram}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-                      title="Telegram"
-                    >
-                      <MessageCircle className="h-3 w-3" />
-                    </a>
-                  )}
-                  {hasOpenPositions(society.name) && (
-                    <Link
-                      href={`/jobs?employer=${encodeURIComponent(society.name)}`}
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-                      title="View Open Positions"
-                    >
-                      <Briefcase className="h-3 w-3" />
-                      Recruiting now
-                    </Link>
-                  )}
-                  {society.application && (
-                    <a
-                      href={society.application}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-3 py-2 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none ml-auto"
-                      title="Apply to Society"
-                    >
-                      Apply
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
-                  )}
+                <div className="pt-2 border-t border-border mt-2">
+                  <SocietySocialLinks
+                    website={society.url}
+                    x={society.x}
+                    discord={society.discord}
+                    telegram={society.telegram}
+                    youtube={society.youtube}
+                    application={society.application}
+                    hasOpenPositions={hasOpenPositions(society.name)}
+                    societyName={society.name}
+                    applyAlignEnd
+                    slug={societyNameToSlug(society.name)}
+                  />
                 </div>
 
                 {/* Events Dropdown */}

@@ -1,9 +1,13 @@
 import { getSocieties } from '@/lib/actions/societies';
 import { findSocietyBySlug, societyNameToSlug } from '@/lib/utils/slug';
-import { generatePageMetadata } from '@/lib/utils/metadata';
 import SocietyDetailClient from '@/components/society-detail-client';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
 import type { SocietyDatabase } from '@/lib/data/societies-database';
+import { jobsDatabase } from '@/lib/data/jobs-database';
+import { societyNamesMatch } from '@/lib/utils/society-matcher';
+import { getEvents } from '@/lib/actions/events';
+import { SOCIETY_CONTENT } from '@/components/society/society-content';
 
 // Mock society data for prototyping when database is unavailable
 const MOCK_SOCIETIES: SocietyDatabase[] = [
@@ -85,13 +89,19 @@ const MOCK_SOCIETIES: SocietyDatabase[] = [
     url: 'https://thenetworkschool.com',
     type: 'Physical',
     tier: 1,
-    x: 'https://x.com/TheNetworkSchol',
-    discord: '',
+    x: 'https://x.com/balajis',
+    discord: 'https://discord.gg/networkschool',
+    telegram: 'https://t.me/nsdotcom',
     mission: 'A school for the network state movement.',
     application: 'https://thenetworkschool.com/apply',
     location: 'Global',
     category: 'Network State',
     founded: '2023',
+    x_followers: 1300000,
+    discord_members: 2763,
+    youtube: 'https://www.youtube.com/@nspodcast',
+    youtube_subscribers: 32000,
+    telegram_members: 846,
   },
 ];
 
@@ -104,20 +114,60 @@ export async function generateStaticParams() {
     .map(s => ({ slug: societyNameToSlug(s.name) }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const societies = await getSocieties();
   const data = societies.length > 0 ? societies : MOCK_SOCIETIES;
   const society = findSocietyBySlug(slug, data);
 
   if (!society) {
-    return generatePageMetadata('Society Not Found');
+    return { title: 'Society Not Found | nsnodes.com' };
   }
 
-  return generatePageMetadata(
-    society.name,
-    society.mission || `Explore ${society.name} - ${society.type} network state society.`
-  );
+  const content = SOCIETY_CONTENT[societyNameToSlug(society.name)];
+  const pageUrl = `https://nsnodes.com/societies/${slug}`;
+
+  // Build a rich description from content if available
+  const overviewText = content?.overview?.[0]?.text;
+  const description = overviewText
+    ? overviewText.slice(0, 155) + (overviewText.length > 155 ? '...' : '')
+    : society.mission || `Explore ${society.name} — a ${society.type?.toLowerCase()} network state society.`;
+
+  const TITLE_OVERRIDES: Record<string, string> = {
+    'network-school': 'Network School — Balaji ns.com Network State | nsnodes.com',
+  };
+
+  const title = TITLE_OVERRIDES[slug] ?? `${society.name} — ${society.category || 'Network Society'} | nsnodes.com`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      siteName: 'NSNodes',
+      images: [
+        {
+          url: society.icon || '/featured-image.png',
+          width: 400,
+          height: 400,
+          alt: society.name,
+        },
+      ],
+      locale: 'en_US',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [society.icon || '/featured-image.png'],
+    },
+  };
 }
 
 export default async function SocietyDetailPage({
@@ -145,10 +195,61 @@ export default async function SocietyDetailPage({
 
   const relatedSocieties = [...sameTypeSameTier, ...sameTypeOtherTier].slice(0, 6);
 
+  // Filter jobs for this society
+  const jobs = jobsDatabase.filter(job => societyNamesMatch(job.company, society.name));
+
+  // Fetch and filter events for this society
+  const allEvents = await getEvents();
+  const events = allEvents.filter(e => societyNamesMatch(e.networkState, society.name));
+
+  // Build JSON-LD structured data
+  const content = SOCIETY_CONTENT[slug];
+  const jsonLd: Record<string, unknown>[] = [];
+
+  // Organization schema
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: society.name,
+    url: society.url || `https://nsnodes.com/societies/${slug}`,
+    description: society.mission,
+    ...(society.icon && { logo: society.icon }),
+    ...(society.founded && { foundingDate: society.founded }),
+    ...(society.location && { location: { '@type': 'Place', name: society.location } }),
+  });
+
+  // FAQPage schema from content FAQs
+  if (content?.faqs?.length) {
+    jsonLd.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: content.faqs.map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          // Strip markdown link syntax for clean plain text
+          text: faq.answer.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1'),
+        },
+      })),
+    });
+  }
+
   return (
-    <SocietyDetailClient
-      society={society}
-      relatedSocieties={relatedSocieties}
-    />
+    <>
+      {jsonLd.map((ld, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
+        />
+      ))}
+      <SocietyDetailClient
+        society={society}
+        relatedSocieties={relatedSocieties}
+        jobs={jobs}
+        events={events}
+      />
+    </>
   );
 }
