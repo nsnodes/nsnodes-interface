@@ -15,7 +15,7 @@ import { SocietyContent } from '@/components/society/society-content';
 import { societyNameToSlug } from '@/lib/utils/slug';
 import { SocietyRelated } from '@/components/society/society-related';
 import { SocietyJobs } from '@/components/society/society-jobs';
-import { SocietyEvents } from '@/components/society/society-events';
+import { UpcomingEventsSection } from '@/components/upcoming-events-section';
 
 const formatNumber = (num: number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
@@ -138,7 +138,16 @@ export default function SocietyDetailClient({
         )}
 
         {/* Events */}
-        <SocietyEvents events={events} societyName={society.name} />
+        {events.length > 0 && (
+          <UpcomingEventsSection
+            events={events}
+            isLoading={false}
+            error={null}
+            hideFilters
+            initialNetworkStates={[society.name]}
+            defaultViewMode="gantt"
+          />
+        )}
 
         {/* Content Sections */}
         <SocietyContent societyName={society.name} />
