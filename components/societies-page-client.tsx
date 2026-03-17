@@ -1,7 +1,7 @@
 "use client";
 
 import { Users, MapPin, ChevronDown, ChevronUp, Calendar, Tag } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import type { SocietyDatabase } from "@/lib/data/societies-database";
 import { SocietiesChartStats, SocietiesChartGraph } from "@/components/societies-chart";
@@ -127,32 +127,52 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
     fetchEvents();
   }, []);
 
+  // Precompute events per society (avoids O(societies * events) on every render)
+  const eventsBySociety = useMemo(() => {
+    const map = new Map<string, UIEvent[]>();
+    for (const society of societies) {
+      map.set(society.name, clientEvents.filter(event =>
+        societyNamesMatch(event.networkState, society.name)
+      ));
+    }
+    return map;
+  }, [clientEvents, societies]);
 
-  // Get events for a specific network state
-  const getEventsForNetworkState = (networkStateName: string) => {
-    return clientEvents.filter(event =>
-      societyNamesMatch(event.networkState, networkStateName)
-    );
-  };
+  // Precompute upcoming event counts per society for sorting
+  const upcomingCountBySociety = useMemo(() => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const map = new Map<string, number>();
+    for (const [name, events] of eventsBySociety) {
+      map.set(name, events.filter(event => new Date(event.date) >= today).length);
+    }
+    return map;
+  }, [eventsBySociety]);
+
+  // Precompute which societies have open positions
+  const openPositionsBySociety = useMemo(() => {
+    const set = new Set<string>();
+    for (const society of societies) {
+      if (jobsDatabase.some(job => societyNamesMatch(job.company, society.name))) {
+        set.add(society.name);
+      }
+    }
+    return set;
+  }, [societies]);
 
   const toggleSociety = (societyName: string) => {
     setExpandedSociety(expandedSociety === societyName ? null : societyName);
   };
 
-  // Get upcoming events count for each society
-  const getUpcomingEventsCount = (networkStateName: string) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    return clientEvents.filter(event => {
-      const eventDate = new Date(event.date);
-      return eventDate >= today && societyNamesMatch(event.networkState, networkStateName);
-    }).length;
-  };
-
   // Get unique locations and types for filters
-  const uniqueLocations = Array.from(new Set(societies.map(s => s.location).filter((l): l is string => !!l))).sort();
-  const uniqueTypes = Array.from(new Set(societies.map(s => s.type))).sort();
+  const uniqueLocations = useMemo(() =>
+    Array.from(new Set(societies.map(s => s.location).filter((l): l is string => !!l))).sort(),
+    [societies]
+  );
+  const uniqueTypes = useMemo(() =>
+    Array.from(new Set(societies.map(s => s.type))).sort(),
+    [societies]
+  );
 
   // Toggle filter helpers
   const toggleLocation = (location: string) => {
@@ -167,36 +187,23 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
     );
   };
 
-  // Check if a society has open job positions
-  const hasOpenPositions = (societyName: string): boolean => {
-    return jobsDatabase.some(job => 
-      societyNamesMatch(job.company, societyName)
-    );
-  };
-
   // Filter and sort societies
-  const filteredAndSortedSocieties = [...societies]
+  const filteredAndSortedSocieties = useMemo(() => [...societies]
     .filter(society => {
-      // Search filter
       if (searchTerm && !society.name.toLowerCase().includes(searchTerm.toLowerCase())) {
         return false;
       }
-
-      // Location filter
       if (selectedLocations.length > 0 && (!society.location || !selectedLocations.includes(society.location))) {
         return false;
       }
-
-      // Type filter
       if (selectedTypes.length > 0 && !selectedTypes.includes(society.type)) {
         return false;
       }
-
       return true;
     })
     .sort((a, b) => {
-      const countA = getUpcomingEventsCount(a.name);
-      const countB = getUpcomingEventsCount(b.name);
+      const countA = upcomingCountBySociety.get(a.name) ?? 0;
+      const countB = upcomingCountBySociety.get(b.name) ?? 0;
 
       // Primary sort: by event count (descending - most events first)
       if (countB !== countA) {
@@ -205,7 +212,9 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
 
       // Secondary sort: by tier (ascending - tier 1 first)
       return a.tier - b.tier;
-    });
+    }),
+    [societies, searchTerm, selectedLocations, selectedTypes, upcomingCountBySociety]
+  );
 
   return (
     <div className="space-y-12">
@@ -378,7 +387,7 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
 
         <div className="grid grid-cols-1 gap-6">
           {filteredAndSortedSocieties.map((society, index) => {
-            const societyEvents = getEventsForNetworkState(society.name);
+            const societyEvents: UIEvent[] = eventsBySociety.get(society.name) ?? [];
             const isExpanded = expandedSociety === society.name;
             return (
               <div
@@ -456,7 +465,7 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
                     telegram={society.telegram}
                     youtube={society.youtube}
                     application={society.application}
-                    hasOpenPositions={hasOpenPositions(society.name)}
+                    hasOpenPositions={openPositionsBySociety.has(society.name)}
                     societyName={society.name}
                     applyAlignEnd
                     slug={societyNameToSlug(society.name)}
