@@ -8,53 +8,19 @@ interface SocietiesChartProps {
   societies: SocietyDatabase[];
 }
 
-// Helper function to get founding year for a society
-// Returns the chart year (may be adjusted to 2010+ for pre-2010 societies)
-const getFoundedFromSociety = (society: SocietyDatabase): string => {
-  let foundedYear: string | null = null;
+// Parse founding year from society data, returning null if unavailable
+const getFoundedYear = (society: SocietyDatabase): string | null => {
+  if (!society.founded) return null;
 
-  // Prioritize founded field from Airtable (live synced data)
-  if (society.founded) {
-    const foundedYearStr = society.founded.toString().trim();
-    
-    // Skip "Unknown" or invalid values
-    if (foundedYearStr.toLowerCase() !== "unknown" && foundedYearStr !== "" && foundedYearStr !== "null") {
-      // Validate it's a reasonable year (between 1900 and current year + 1)
-      const yearNum = parseInt(foundedYearStr, 10);
-      const currentYear = new Date().getFullYear();
-      if (!isNaN(yearNum) && yearNum >= 1900 && yearNum <= currentYear + 1) {
-        foundedYear = foundedYearStr;
-      }
-    }
-  }
+  const str = society.founded.toString().trim();
+  if (str.toLowerCase() === "unknown" || str === "" || str === "null") return null;
 
-  // Fallback: Estimate founding year based on tier and known societies
-  // This only runs if Airtable data is missing or invalid
-  if (!foundedYear) {
-    if (society.name.includes("Próspera")) foundedYear = "2020";
-    else if (society.name.includes("Sealand")) foundedYear = "1967";
-    else if (society.name.includes("Liberland")) foundedYear = "2015";
-    else if (society.name.includes("Network School") || society.name.includes("The Network School")) foundedYear = "2023";
-    else if (society.name.includes("Edge City")) foundedYear = "2023";
-    else if (society.name.includes("Don't Die")) foundedYear = "2023";
-    else if (society.name.includes("Zuzalu")) foundedYear = "2023";
-    else if (society.name.includes("Logos")) foundedYear = "2022";
-    else if (society.name.includes("VDAO")) foundedYear = "2023";
-    else if (society.tier === 1) foundedYear = "2023";
-    else if (society.tier === 2) foundedYear = "2022";
-    else if (society.tier === 3) foundedYear = "2021";
-    else foundedYear = "2023";
-  }
+  const yearNum = parseInt(str, 10);
+  const currentYear = new Date().getFullYear();
+  if (isNaN(yearNum) || yearNum < 1900 || yearNum > currentYear + 1) return null;
 
-  // Convert pre-2010 years to 2010 for chart purposes
-  if (foundedYear) {
-    const yearNum = parseInt(foundedYear, 10);
-    if (!isNaN(yearNum) && yearNum < 2010) {
-      return "2010";
-    }
-  }
-
-  return foundedYear || "2023";
+  // Bucket pre-2010 societies into 2010 for chart display
+  return yearNum < 2010 ? "2010" : str;
 };
 
 // Generate chart data
@@ -63,7 +29,7 @@ const generateChartData = (societies: SocietyDatabase[]) => {
 
   // Count societies by founding year (using live synced Airtable data)
   societies.forEach(society => {
-    const year = getFoundedFromSociety(society);
+    const year = getFoundedYear(society);
     if (year) {
       yearData[year] = (yearData[year] || 0) + 1;
     }

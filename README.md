@@ -22,7 +22,7 @@
 - **Content Creators** - Follow the best thinkers and builders in the space
 - **VC Directory** - Connect with crypto-native venture capital firms
 - **Investment DAO** - Explore decentralized investment opportunities
-- **Societies** - Discover Network State societies and communities
+- **Societies** - Discover Network State societies with community scores, radar charts, jobs, and events
 - **Funding Hub** - Grants and VC funding information
 - **Open Source Tooling** - Discover GitHub repos building the future
 - **Community Hub** - Join the Discord and connect with builders
@@ -64,30 +64,43 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ```
 nsnodes/
-├── app/                    # Next.js app directory
-│   ├── page.tsx           # Homepage - Event Dashboard
-│   ├── jobs/              # Jobs page
-│   ├── content/           # Content creators page
-│   ├── vc/                # Venture capital page
-│   ├── investment-dao/    # Investment DAO page
-│   ├── societies/         # Societies page
-│   ├── funding/           # Funding hub (grants & VC)
-│   ├── tooling/           # GitHub tooling page
-│   ├── contact/           # Contact/community page
-│   ├── layout.tsx         # Root layout with nav
-│   └── globals.css        # Global styles + ASCII effects
-├── components/            # React components
-│   ├── ascii-logo.tsx     # NSNodes ASCII logo
-│   ├── ascii-nav.tsx      # Navigation with dark mode
-│   ├── societies-chart.tsx # Societies visualization
-│   └── theme-provider.tsx # Theme context
-├── lib/                   # Utilities and data
-│   ├── actions/           # Server actions (events, etc.)
-│   ├── data/              # Database files
-│   ├── supabase/          # Supabase client
-│   ├── types/             # TypeScript types (events, etc.)
-│   └── utils.ts          # cn() helper for Tailwind
-└── public/               # Static assets
+├── app/                        # Next.js app directory
+│   ├── page.tsx               # Homepage - Event Dashboard
+│   ├── jobs/                  # Jobs page
+│   ├── content/               # Content creators page
+│   ├── vc/                    # Venture capital page
+│   ├── investment-dao/        # Investment DAO page
+│   ├── societies/             # Societies list page
+│   │   └── [slug]/            # Society detail pages (SSG)
+│   ├── funding/               # Funding hub (grants & VC)
+│   ├── tooling/               # GitHub tooling page
+│   ├── contact/               # Contact/community page
+│   ├── layout.tsx             # Root layout with nav
+│   └── globals.css            # Global styles + ASCII effects
+├── components/                # React components
+│   ├── icons/                 # Shared SVG icons (X, Discord)
+│   ├── society/               # Society detail components
+│   │   ├── society-logo.tsx   # Logo with size variants
+│   │   ├── society-badges.tsx # Location/type/category badges
+│   │   ├── society-social-links.tsx
+│   │   ├── society-radar.tsx  # Community score radar chart
+│   │   ├── society-content.tsx # Editorial content (per-society)
+│   │   ├── society-related.tsx # Related societies grid
+│   │   ├── society-jobs.tsx   # Filtered job listings
+│   │   └── society-events.tsx # Upcoming events preview
+│   ├── society-detail-client.tsx  # Society detail orchestrator
+│   ├── societies-page-client.tsx  # Societies list with filtering
+│   ├── societies-chart.tsx    # Societies visualization
+│   └── theme-provider.tsx     # Theme context
+├── lib/                       # Utilities and data
+│   ├── actions/               # Server actions (events, societies)
+│   ├── data/                  # Static databases (jobs, societies)
+│   ├── hooks/                 # React hooks (useClientTimezone)
+│   ├── supabase/              # Supabase client
+│   ├── types/                 # TypeScript types (events, etc.)
+│   ├── utils/                 # Helpers (slug, society-matcher)
+│   └── utils.ts               # cn() helper for Tailwind
+└── public/                    # Static assets
 ```
 
 ## 🎯 Pages
@@ -97,10 +110,11 @@ nsnodes/
 3. **/content** - Content creators, influencers, and essential reading
 4. **/vc** - Venture capital firms funding the Network State movement
 5. **/investment-dao** - Decentralized investment opportunities
-6. **/societies** - Network State societies and communities
-7. **/funding** - Grants and VC funding information
-8. **/tooling** - Open-source GitHub repos and tools
-9. **/contact** - Discord link and mission statement
+6. **/societies** - Network State societies with community score radar, filtering, and score visualizations
+7. **/societies/[slug]** - Society detail pages with radar chart, jobs, events, editorial content, and related societies
+8. **/funding** - Grants and VC funding information
+9. **/tooling** - Open-source GitHub repos and tools
+10. **/contact** - Discord link and mission statement
 
 ## 🌙 Dark Mode
 

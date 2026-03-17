@@ -29,11 +29,40 @@ This is a Next.js 15 application using the App Router, React 19, TypeScript, and
   - `layout.tsx`: Root layout with Geist Sans and Geist Mono fonts
   - `page.tsx`: Home page
   - `globals.css`: Global styles with Tailwind CSS v4 and CSS variables for theming
-- `lib/`: Utility functions
+  - `societies/[slug]/page.tsx`: Society detail page (SSG with `generateStaticParams`)
+- `lib/`: Utility functions and data
   - `utils.ts`: Contains `cn()` helper for merging Tailwind classes with clsx and tailwind-merge
+  - `actions/events.ts`: Server actions for fetching events from Supabase (cached with `unstable_cache`)
+  - `actions/societies.ts`: Server actions for fetching societies from Supabase
+  - `data/jobs-database.ts`: Static job listings database
+  - `data/societies-database.ts`: `SocietyDatabase` type definition
+  - `utils/society-matcher.ts`: `societyNamesMatch()` for flexible name matching across events/jobs/societies
+  - `utils/slug.ts`: `societyNameToSlug()`, `findSocietyBySlug()` helpers
+  - `hooks/useClientTimezone.ts`: Client-side timezone conversion for events
 - `components/`: React components (structured for shadcn/ui)
   - `ui/`: shadcn/ui components (use `npx shadcn@latest add <component>` to add new components)
+  - `icons/social-icons.tsx`: Shared SVG icons (XIcon, DiscordIcon)
+  - `society/`: Society page components (see Society Components below)
+  - `society-detail-client.tsx`: Society detail page orchestrator (~160 lines, composes society/ components)
+  - `societies-page-client.tsx`: Societies list page with filtering, MiniRadar, score visualizations
 - `public/`: Static assets
+
+### Society Components (`components/society/`)
+
+Modular components used by the society detail page:
+
+- `society-logo.tsx`: Reusable logo with `size` prop (`sm`/`md`/`lg`), Image with fallback to initials
+- `society-badges.tsx`: Location, category, type, founded badges
+- `society-social-links.tsx`: Social links row with `showLabels` prop for detail vs card contexts
+- `society-radar.tsx`: Community score radar chart + metrics sidebar (exports `RADAR_CATEGORIES`, `RADAR_COLORS`, `RADAR_INFO`)
+- `society-content.tsx`: Editorial content sections (overview, history, FAQs, etc.) keyed by slug in `SOCIETY_CONTENT` record
+- `society-related.tsx`: Related societies grid
+- `society-jobs.tsx`: Open positions section, returns null if no jobs match
+- `society-events.tsx`: Upcoming events section with timezone conversion, returns null if no events match
+- `society-reviews.tsx`: Community reviews/testimonials, keyed by slug in `SOCIETY_REVIEWS` record, returns null if no reviews
+
+To add editorial content for a new society, add an entry to the `SOCIETY_CONTENT` record in `society-content.tsx` keyed by the society's slug.
+To add reviews for a society, add an entry to the `SOCIETY_REVIEWS` record in `society-reviews.tsx` keyed by the society's slug.
 
 ### Path Aliases
 The project uses `@/*` as an alias for the root directory (configured in [tsconfig.json](tsconfig.json)).

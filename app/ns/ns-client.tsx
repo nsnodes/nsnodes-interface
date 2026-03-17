@@ -240,6 +240,7 @@ export default function NetworkSchoolEventsPage() {
         isLoading={isLoading}
         error={error}
         initialNetworkStates={["Network School", "Ârc", "Commons"]}
+        defaultViewMode="gantt"
       />
 
       {/* CTA Section */}
