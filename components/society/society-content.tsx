@@ -58,7 +58,7 @@ export const SOCIETY_CONTENT: Record<string, SocietyContentData> = {
     pricing: 'Membership costs $3,000 per month for a private room, or $1,500 per month with a roommate.\n\nThe pricing follows an all-inclusive model — covering accommodation, meals, fitness, coworking, and events — so members can focus entirely on learning, building, and connecting.',
     amenities: [
       'Serviced room',
-      '3 nutritious meals (breakfast, lunch, dinner)',
+      'All-you-can-eat restaurant',
       '24/7 gym access',
       'Fitness classes',
       '24/7 co-working access',

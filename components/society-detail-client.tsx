@@ -11,6 +11,7 @@ import { SocietyBadges } from '@/components/society/society-badges';
 import { SocietySocialLinks } from '@/components/society/society-social-links';
 import { SocietyScheduleCall } from '@/components/society/society-schedule-call';
 import { SocietyContent } from '@/components/society/society-content';
+import { SocietyCover } from '@/components/society/society-cover';
 
 import { societyNameToSlug } from '@/lib/utils/slug';
 import { SocietyRelated } from '@/components/society/society-related';
@@ -37,14 +38,16 @@ export default function SocietyDetailClient({
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/societies"
-          className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-sm font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Societies
-        </Link>
+        {/* Cover Image with overlaid Back Navigation */}
+        <SocietyCover slug={societyNameToSlug(society.name)}>
+          <Link
+            href="/societies"
+            className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-sm font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Societies
+          </Link>
+        </SocietyCover>
 
         {/* Hero Section */}
         <div className="space-y-4 border-2 border-border p-6 bg-card shadow-brutal-md">
