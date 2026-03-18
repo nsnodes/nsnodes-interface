@@ -1,5 +1,3 @@
-'use client';
-
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import type { SocietyDatabase } from '@/lib/data/societies-database';
@@ -91,7 +89,7 @@ export default function SocietyDetailClient({
         {hasStats && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {society.x_followers != null && (
-              <a href={society.x || undefined} target="_blank" rel="noopener noreferrer" className="border-2 border-border p-4 bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+              <a href={society.x || undefined} target="_blank" rel="noopener noreferrer" className="border-2 border-border p-4 bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-[transform,box-shadow]">
                 <div className="flex items-center gap-2 mb-2">
                   <XIcon className="h-4 w-4" />
                   <span className="text-xs font-mono text-muted-foreground uppercase">[ X FOLLOWERS ]</span>
@@ -100,7 +98,7 @@ export default function SocietyDetailClient({
               </a>
             )}
             {society.discord_members != null && (
-              <a href={society.discord || undefined} target="_blank" rel="noopener noreferrer" className="border-2 border-border p-4 bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+              <a href={society.discord || undefined} target="_blank" rel="noopener noreferrer" className="border-2 border-border p-4 bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-[transform,box-shadow]">
                 <div className="flex items-center gap-2 mb-2">
                   <DiscordIcon className="h-4 w-4" />
                   <span className="text-xs font-mono text-muted-foreground uppercase">[ DISCORD MEMBERS ]</span>
@@ -109,7 +107,7 @@ export default function SocietyDetailClient({
               </a>
             )}
             {society.youtube_subscribers != null && (
-              <a href={society.youtube || undefined} target="_blank" rel="noopener noreferrer" className="border-2 border-border p-4 bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+              <a href={society.youtube || undefined} target="_blank" rel="noopener noreferrer" className="border-2 border-border p-4 bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-[transform,box-shadow]">
                 <div className="flex items-center gap-2 mb-2">
                   <YoutubeIcon className="h-4 w-4" />
                   <span className="text-xs font-mono text-muted-foreground uppercase">[ YOUTUBE SUBS ]</span>
@@ -118,7 +116,7 @@ export default function SocietyDetailClient({
               </a>
             )}
             {society.telegram_members != null && (
-              <a href={society.telegram || undefined} target="_blank" rel="noopener noreferrer" className="border-2 border-border p-4 bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all">
+              <a href={society.telegram || undefined} target="_blank" rel="noopener noreferrer" className="border-2 border-border p-4 bg-background shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-[transform,box-shadow]">
                 <div className="flex items-center gap-2 mb-2">
                   <TelegramIcon className="h-4 w-4" />
                   <span className="text-xs font-mono text-muted-foreground uppercase">[ TELEGRAM ]</span>
