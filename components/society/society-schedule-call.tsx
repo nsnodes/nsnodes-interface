@@ -15,7 +15,7 @@ interface SocietyScheduleCallProps {
 }
 
 const DEFAULT_TEAM: TeamMember[] = [
-  { name: 'Cookie', image: '/team/evita.png', profileUrl: 'https://github.com/webel' },
+  { name: 'Cookie', image: '/team/cookie.png', profileUrl: 'https://github.com/webel' },
   { name: 'Eric', image: '/team/Eric.png', profileUrl: 'https://paragraph.xyz/@ericmiki.eth' },
   { name: 'Michael', image: '/team/paralell-citizen.png', profileUrl: 'https://www.parallelcitizen.xyz/' },
   { name: 'Wagmit', image: '/team/wagmit.png', profileUrl: 'https://x.com/wagmiteth' },
