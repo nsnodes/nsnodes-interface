@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import type { ReactNode } from 'react';
 
 /**
  * Cover images for society detail pages.
@@ -12,17 +11,15 @@ export const SOCIETY_COVERS: Record<string, string> = {
 
 interface SocietyCoverProps {
   slug: string;
-  children?: ReactNode;
 }
 
-export function SocietyCover({ slug, children }: SocietyCoverProps) {
+export function SocietyCover({ slug }: SocietyCoverProps) {
   const src = SOCIETY_COVERS[slug];
 
-  // No cover image — render children (back button) in normal flow
-  if (!src) return <>{children}</>;
+  if (!src) return null;
 
   return (
-    <div className="relative w-full border-2 border-border shadow-brutal-md overflow-hidden">
+    <div className="relative w-full overflow-hidden">
       <div className="relative w-full" style={{ aspectRatio: '3 / 1' }}>
         <Image
           src={src}
@@ -33,16 +30,6 @@ export function SocietyCover({ slug, children }: SocietyCoverProps) {
           sizes="(max-width: 1152px) 100vw, 1152px"
         />
       </div>
-      {/* Top gradient fade for back button readability */}
-      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-background/60 to-transparent pointer-events-none" />
-      {/* Bottom gradient fade */}
-      <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
-      {/* Overlaid children (back button) */}
-      {children && (
-        <div className="absolute top-4 left-4 z-10">
-          {children}
-        </div>
-      )}
     </div>
   );
 }

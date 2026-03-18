@@ -38,19 +38,20 @@ export default function SocietyDetailClient({
   return (
     <main className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
-        {/* Cover Image with overlaid Back Navigation */}
-        <SocietyCover slug={societyNameToSlug(society.name)}>
-          <Link
-            href="/societies"
-            className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-sm font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Societies
-          </Link>
-        </SocietyCover>
+        {/* Back Navigation */}
+        <Link
+          href="/societies"
+          className="inline-flex items-center gap-2 px-4 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-sm font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Societies
+        </Link>
 
         {/* Hero Section */}
-        <div className="space-y-4 border-2 border-border p-6 bg-card shadow-brutal-md">
+        <div className="border-2 border-border bg-card shadow-brutal-md overflow-hidden">
+          {/* Cover Image */}
+          <SocietyCover slug={societyNameToSlug(society.name)} />
+          <div className="space-y-4 p-6">
           <div className="flex flex-col sm:flex-row sm:items-start gap-4">
             <SocietyLogo name={society.name} icon={society.icon} size="lg" />
             <div className="flex-1 min-w-0">
@@ -82,6 +83,7 @@ export default function SocietyDetailClient({
                 />
               </div>
             </div>
+          </div>
           </div>
         </div>
 
