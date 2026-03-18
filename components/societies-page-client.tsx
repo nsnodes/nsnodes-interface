@@ -263,7 +263,11 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
             [ ALL SOCIETIES ]
           </h2>
           <div className="text-xs font-mono opacity-60">
-            Showing {filteredAndSortedSocieties.length} of {societies.length} societies
+            {isLoading ? (
+              <span className="animate-pulse">Loading events...</span>
+            ) : (
+              <>Showing {filteredAndSortedSocieties.length} of {societies.length} societies</>
+            )}
           </div>
         </div>
 
@@ -385,6 +389,45 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
           )}
         </div>
 
+        {/* Loading State */}
+        {isLoading && (
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="border-2 border-border p-4 bg-card shadow-brutal-md animate-pulse">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                    <div className="h-12 w-12 bg-muted rounded-full flex-shrink-0"></div>
+                    <div className="flex-1 space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
+                        <div className="h-5 bg-muted rounded w-1/4"></div>
+                        <div className="h-4 bg-muted rounded w-2/3"></div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <div className="h-5 w-20 bg-muted rounded"></div>
+                        <div className="h-5 w-24 bg-muted rounded"></div>
+                        <div className="h-5 w-16 bg-muted rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-border flex gap-3">
+                    <div className="h-4 w-16 bg-muted rounded"></div>
+                    <div className="h-4 w-16 bg-muted rounded"></div>
+                    <div className="h-4 w-16 bg-muted rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="border-2 border-border bg-card p-8 text-center">
+              <div className="space-y-4">
+                <div className="text-4xl animate-pulse">⏳</div>
+                <p className="font-mono text-sm opacity-60">Loading events from database...</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Loaded Content */}
+        {!isLoading && (
         <div className="grid grid-cols-1 gap-6">
           {filteredAndSortedSocieties.map((society, index) => {
             const societyEvents: UIEvent[] = eventsBySociety.get(society.name) ?? [];
@@ -574,6 +617,7 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
             );
           })}
         </div>
+        )}
       </section>
 
       {/* CTA Section */}

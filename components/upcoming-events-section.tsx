@@ -24,7 +24,7 @@ interface UpcomingEventsSectionProps {
   compact?: boolean; // Reduce vertical space (for embedding in society detail pages)
 }
 
-export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder, defaultViewMode = "table", hideViewModeToggle = false, compact = false }: UpcomingEventsSectionProps) {
+export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder, defaultViewMode = "gantt", hideViewModeToggle = false, compact = false }: UpcomingEventsSectionProps) {
   // State for tracking current time to make live/upcoming checks reactive
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -599,15 +599,6 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
         </div>
         <div className="relative flex border-2 border-border bg-card">
           <button
-            onClick={() => setViewMode("table")}
-            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-              viewMode === "table" ? "bg-accent" : "hover:bg-accent"
-            }`}
-          >
-            <Table className="h-3 w-3" />
-            TABLE
-          </button>
-          <button
             onClick={() => setViewMode("gantt")}
             className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
               viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
@@ -615,6 +606,15 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
           >
             <BarChart3 className="h-3 w-3" />
             TIMELINE
+          </button>
+          <button
+            onClick={() => setViewMode("table")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "table" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <Table className="h-3 w-3" />
+            TABLE
           </button>
 
           {/* ASCII Arrow Callout */}
@@ -917,15 +917,6 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
         </div>
         <div className="relative flex border-2 border-border bg-card">
           <button
-            onClick={() => setViewMode("table")}
-            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-              viewMode === "table" ? "bg-accent" : "hover:bg-accent"
-            }`}
-          >
-            <Table className="h-3 w-3" />
-            TABLE
-          </button>
-          <button
             onClick={() => setViewMode("gantt")}
             className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
               viewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
@@ -933,6 +924,15 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
           >
             <BarChart3 className="h-3 w-3" />
             TIMELINE
+          </button>
+          <button
+            onClick={() => setViewMode("table")}
+            className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+              viewMode === "table" ? "bg-accent" : "hover:bg-accent"
+            }`}
+          >
+            <Table className="h-3 w-3" />
+            TABLE
           </button>
         </div>
       </div>

@@ -106,15 +106,6 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
           {!hideTryThisPrompt && (
             <div className="relative flex border-2 border-border bg-card">
               <button
-                onClick={() => setPopupViewMode("table")}
-                className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
-                  popupViewMode === "table" ? "bg-accent" : "hover:bg-accent"
-                }`}
-              >
-                <Table className="h-3 w-3" />
-                TABLE
-              </button>
-              <button
                 onClick={() => setPopupViewMode("gantt")}
                 className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
                   popupViewMode === "gantt" ? "bg-accent" : "hover:bg-accent"
@@ -122,6 +113,15 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
               >
                 <BarChart3 className="h-3 w-3" />
                 TIMELINE
+              </button>
+              <button
+                onClick={() => setPopupViewMode("table")}
+                className={`px-3 py-2 text-xs font-mono flex items-center gap-1 transition-colors ${
+                  popupViewMode === "table" ? "bg-accent" : "hover:bg-accent"
+                }`}
+              >
+                <Table className="h-3 w-3" />
+                TABLE
               </button>
             </div>
           )}
