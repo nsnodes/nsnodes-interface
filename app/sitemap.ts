@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { readdirSync, existsSync } from "fs";
 import { join } from "path";
+import { getSocieties } from "@/lib/actions/societies";
+import { societyNameToSlug } from "@/lib/utils/slug";
 
 const SITE_URL = "https://nsnodes.com";
 
@@ -37,13 +39,26 @@ function discoverRoutes(dir: string, base = ""): string[] {
   return routes;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+async function getSocietyRoutes(): Promise<string[]> {
+  try {
+    const societies = await getSocieties();
+    return societies
+      .filter((s) => s.tier >= 1 && s.tier <= 3)
+      .map((s) => `/societies/${societyNameToSlug(s.name)}`);
+  } catch {
+    return [];
+  }
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const appDir = join(process.cwd(), "app");
-  const routes = ["/", ...discoverRoutes(appDir)];
+  const staticRoutes = ["/", ...discoverRoutes(appDir)];
+  const societyRoutes = await getSocietyRoutes();
+  const routes = [...staticRoutes, ...societyRoutes];
 
   return routes.map((route) => ({
     url: `${SITE_URL}${route}`,
     changeFrequency: "daily" as const,
-    priority: route === "/" ? 1.0 : 0.7,
+    priority: route === "/" ? 1.0 : route.startsWith("/societies/") ? 0.6 : 0.7,
   }));
 }
