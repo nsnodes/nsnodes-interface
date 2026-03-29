@@ -64,7 +64,7 @@ export function SocietySocialLinks({
           Recruiting now
         </Link>
       )}
-      {application && slug && (
+      {slug && (
         <Link
           href={`/societies/${slug}`}
           className={`inline-flex items-center gap-1 px-3 py-2 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none${applyAlignEnd ? ' ml-auto' : ''}`}

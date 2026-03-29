@@ -124,9 +124,9 @@ export function SocietiesChartStats({ societies, onToggleChart, showChart }: { s
       <div className="mt-4">
         <button
           onClick={handleToggle}
-          className="w-full flex items-center justify-between font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="w-full flex items-center justify-between font-mono text-sm border-2 border-border px-4 py-2 bg-card hover:bg-accent transition-colors"
         >
-          <span>See growth chart</span>
+          <span>[ SEE GROWTH CHART ]</span>
           <ChevronDown className={`h-4 w-4 transition-transform ${showChart ? 'rotate-180' : ''}`} />
         </button>
       </div>

@@ -351,18 +351,6 @@ export function PopupSection({ popupEvents, isLoading = false, error = null, sho
             </div>
           </div>
 
-          {/* Timeline Legend */}
-          <div className="border-b border-border bg-card p-4">
-            <div className="flex flex-wrap gap-3 text-xs font-mono">
-              {displayEvents.map((event, index) => (
-                <div key={index} className="flex items-center gap-1">
-                  <div className={`w-3 h-3 ${getPopupCityColor(index)}`}></div>
-                  <span>{event.networkState}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
           {(() => {
             // Calculate date range
             const today = new Date();

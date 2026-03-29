@@ -43,7 +43,7 @@ async function getSocietyRoutes(): Promise<string[]> {
   try {
     const societies = await getSocieties();
     return societies
-      .filter((s) => s.tier >= 1 && s.tier <= 3)
+      .filter((s) => s.tier >= 1 && s.tier <= 5)
       .map((s) => `/societies/${societyNameToSlug(s.name)}`);
   } catch {
     return [];

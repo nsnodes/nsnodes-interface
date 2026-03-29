@@ -23,6 +23,7 @@ interface SocietyDetailClientProps {
   relatedSocieties: SocietyDatabase[];
   jobs?: Job[];
   events?: UIEvent[];
+  radarScores?: number[] | null;
 }
 
 export default function SocietyDetailClient({
@@ -30,6 +31,7 @@ export default function SocietyDetailClient({
   relatedSocieties,
   jobs = [],
   events = [],
+  radarScores,
 }: SocietyDetailClientProps) {
   const hasStats = society.x_followers != null || society.discord_members != null || society.youtube_subscribers != null || society.telegram_members != null;
 

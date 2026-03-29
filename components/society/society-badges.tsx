@@ -61,11 +61,6 @@ export function SocietyBadges({ location, category, type, founded, tier, communi
           Score: {communityScore}/100
         </div>
       )}
-      {tier && tier > 3 && (
-        <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap opacity-60">
-          Tier {tier} (Coming soon)
-        </div>
-      )}
     </div>
   );
 }

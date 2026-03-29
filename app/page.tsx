@@ -374,7 +374,7 @@ export default function Home() {
       <PopupSection popupEvents={popupEvents} isLoading={isLoadingPopups} showOnlyOngoing={true} hideShowAllButton={true} />
 
       {/* Events Table */}
-      <UpcomingEventsSection events={clientEvents} isLoading={isLoading} error={error} showOnlyToday={true} hideFilters={true} defaultViewMode="table" />
+      <UpcomingEventsSection events={clientEvents} isLoading={isLoading} error={error} hideFilters={true} defaultViewMode="gantt" />
 
       {/* Network State Jobs */}
       <section className="space-y-6">

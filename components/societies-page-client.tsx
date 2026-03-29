@@ -438,46 +438,14 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
                 className="border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-3"
               >
                 {/* Header: Logo, Name + Description, Badges */}
-                {society.tier >= 1 && society.tier <= 3 ? (
-                  <>
-                  <Link href={`/societies/${societyNameToSlug(society.name)}`} className="block hover:opacity-80 transition-opacity">
-                    <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                      <SocietyLogo name={society.name} icon={society.icon} size="md" />
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
-                          <div className="flex-shrink-0 sm:self-start">
-                            <h3 className="text-lg font-bold font-mono leading-snug">
-                              {society.name}
-                            </h3>
-                          </div>
-                          <p className="text-sm font-mono text-muted-foreground leading-relaxed flex-1 sm:self-start sm:pt-[0.125rem]">
-                            {society.mission}
-                          </p>
-                        </div>
-
-                        <div className="mt-2">
-                          <SocietyBadges
-                            location={society.location}
-                            category={society.category}
-                            type={society.type}
-                            founded={society.founded}
-                            tier={society.tier}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                  </>
-                ) : (
-                  <>
+                <Link href={`/societies/${societyNameToSlug(society.name)}`} className="block hover:opacity-80 transition-opacity">
                   <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                     <SocietyLogo name={society.name} icon={society.icon} size="md" />
 
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
                         <div className="flex-shrink-0 sm:self-start">
-                          <h3 className="text-lg font-bold font-mono leading-snug opacity-60">
+                          <h3 className="text-lg font-bold font-mono leading-snug">
                             {society.name}
                           </h3>
                         </div>
@@ -491,13 +459,13 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
                           location={society.location}
                           category={society.category}
                           type={society.type}
+                          founded={society.founded}
                           tier={society.tier}
                         />
                       </div>
                     </div>
                   </div>
-                  </>
-                )}
+                </Link>
 
                 {/* Social Links */}
                 <div className="pt-2 border-t border-border mt-2">

@@ -7,6 +7,7 @@ import type { SocietyDatabase } from '@/lib/data/societies-database';
 import { jobsDatabase } from '@/lib/data/jobs-database';
 import { societyNamesMatch } from '@/lib/utils/society-matcher';
 import { getEvents } from '@/lib/actions/events';
+import { getSocietyRadarScores } from '@/lib/actions/societies-radar';
 import { SOCIETY_CONTENT } from '@/components/society/society-content';
 
 // Mock society data for prototyping when database is unavailable
@@ -110,7 +111,7 @@ export async function generateStaticParams() {
   const societies = await getSocieties();
   const data = societies.length > 0 ? societies : MOCK_SOCIETIES;
   return data
-    .filter(s => s.tier >= 1 && s.tier <= 3)
+    .filter(s => s.tier >= 1 && s.tier <= 5)
     .map(s => ({ slug: societyNameToSlug(s.name) }));
 }
 
@@ -180,17 +181,17 @@ export default async function SocietyDetailPage({
   const data = societies.length > 0 ? societies : MOCK_SOCIETIES;
   const society = findSocietyBySlug(slug, data);
 
-  if (!society || society.tier < 1 || society.tier > 3) {
+  if (!society || society.tier < 1 || society.tier > 5) {
     notFound();
   }
 
   // Get related societies: same type, prioritizing same tier
   const sameTypeSameTier = data.filter(
-    s => s.tier >= 1 && s.tier <= 3 && s.name !== society.name && s.type === society.type && s.tier === society.tier
+    s => s.tier >= 1 && s.tier <= 5 && s.name !== society.name && s.type === society.type && s.tier === society.tier
   );
 
   const sameTypeOtherTier = data.filter(
-    s => s.tier >= 1 && s.tier <= 3 && s.name !== society.name && s.type === society.type && s.tier !== society.tier
+    s => s.tier >= 1 && s.tier <= 5 && s.name !== society.name && s.type === society.type && s.tier !== society.tier
   );
 
   const relatedSocieties = [...sameTypeSameTier, ...sameTypeOtherTier].slice(0, 6);
@@ -199,8 +200,16 @@ export default async function SocietyDetailPage({
   const jobs = jobsDatabase.filter(job => societyNamesMatch(job.company, society.name));
 
   // Fetch and filter events for this society
-  const allEvents = await getEvents();
+  const [allEvents, radarScores] = await Promise.all([
+    getEvents(),
+    getSocietyRadarScores(society.name),
+  ]);
   const events = allEvents.filter(e => societyNamesMatch(e.networkState, society.name));
+
+  // Convert radar scores to array format for the radar component
+  const radarScoresArray = radarScores
+    ? [radarScores.scalability, radarScores.autonomy, radarScores.qol, radarScores.belonging, radarScores.purpose, radarScores.economic]
+    : null;
 
   // Build JSON-LD structured data
   const content = SOCIETY_CONTENT[slug];
@@ -249,6 +258,7 @@ export default async function SocietyDetailPage({
         relatedSocieties={relatedSocieties}
         jobs={jobs}
         events={events}
+        radarScores={radarScoresArray}
       />
     </>
   );

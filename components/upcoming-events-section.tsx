@@ -1619,7 +1619,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                     return (
                                       <div
                                         key={eventIdx}
-                                        className={`absolute ${getNetworkStateColor(getDisplayNetworkState(event))} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        className={`absolute ${getNetworkStateColor(getDisplayNetworkState(event))} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-30 group`}
                                         style={{
                                           top: `${topOffset}px`,
                                           height: `${heightInPx}px`,
@@ -1629,7 +1629,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                                         title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
                                       >
-                                        <div className="p-1 text-white text-[10px] font-mono leading-tight h-full overflow-hidden">
+                                        <div className="p-1 text-white text-[10px] font-mono leading-tight h-full overflow-hidden rounded">
                                           <div className="truncate flex items-center gap-1">
                                             {isEventLive(event) && (
                                               <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-status-live text-status-live-foreground text-[8px] font-bold rounded flex-shrink-0">
@@ -1652,7 +1652,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         </div>
 
                                         {/* Tooltip on hover */}
-                                        <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block z-20 w-64 p-2 bg-popover border-2 border-border text-popover-foreground text-xs font-mono shadow-lg">
+                                        <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block z-40 w-64 p-2 bg-popover border-2 border-border text-popover-foreground text-xs font-mono shadow-lg">
                                           <div className="font-bold mb-1">{event.title}</div>
                                           <div className="space-y-0.5 text-[10px]">
                                             <div>📅 {event.date}</div>
@@ -1901,7 +1901,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                     return (
                                       <div
                                         key={eventIdx}
-                                        className={`absolute ${getNetworkStateColor(getDisplayNetworkState(event))} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-10 overflow-hidden group`}
+                                        className={`absolute ${getNetworkStateColor(getDisplayNetworkState(event))} rounded border border-border cursor-pointer hover:opacity-80 transition-all hover:z-30 group`}
                                         style={{
                                           top: `${topOffset}px`,
                                           height: `${heightInPx}px`,
@@ -1911,7 +1911,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         onClick={() => window.open(event.url, '_blank', 'noopener,noreferrer')}
                                         title={`${event.title}\n${event.time}\n${event.location}\n${event.networkState}`}
                                       >
-                                        <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden">
+                                        <div className="p-1 text-white text-[9px] font-mono leading-tight h-full overflow-hidden rounded">
                                           <div className="truncate flex items-center gap-1">
                                             {isEventLive(event) && (
                                               <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-status-live text-status-live-foreground text-[7px] font-bold rounded flex-shrink-0">
@@ -1934,7 +1934,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
                                         </div>
 
                                         {/* Tooltip on hover */}
-                                        <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block z-20 w-48 p-2 bg-popover border-2 border-border text-popover-foreground text-xs font-mono shadow-lg">
+                                        <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block z-40 w-48 p-2 bg-popover border-2 border-border text-popover-foreground text-xs font-mono shadow-lg">
                                           <div className="font-bold mb-1">{event.title}</div>
                                           <div className="space-y-0.5 text-[10px]">
                                             <div>📅 {event.date}</div>

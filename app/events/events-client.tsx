@@ -184,9 +184,9 @@ export default function EventsPage() {
                 <button
                   type="button"
                   onClick={() => setShowMoreStats(!showMoreStats)}
-                  className="w-full flex items-center justify-between font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="w-full flex items-center justify-between font-mono text-sm border-2 border-border px-4 py-2 bg-card hover:bg-accent transition-colors"
                 >
-                  <span>See more stats</span>
+                  <span>[ SEE MORE STATS ]</span>
                   <ChevronDown className={`h-4 w-4 transition-transform ${showMoreStats ? 'rotate-180' : ''}`} />
                 </button>
               </div>

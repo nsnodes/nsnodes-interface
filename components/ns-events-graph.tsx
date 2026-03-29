@@ -10,7 +10,7 @@ interface NSEventsGraphProps {
 export function NSEventsGraph({ allEvents }: NSEventsGraphProps) {
   // Process events to count by day, filtering from Oct 22 to today
   const dailyData = useMemo(() => {
-    const startDate = new Date('2025-10-22');
+    const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
     const today = new Date();
     today.setHours(23, 59, 59, 999); // Include all of today
 
