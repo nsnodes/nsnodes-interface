@@ -472,7 +472,7 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
                 ) : (
                   <>
                   <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                    <SocietyLogo name={society.name} size="md" />
+                    <SocietyLogo name={society.name} icon={society.icon} size="md" />
 
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-col sm:flex-row sm:items-start sm:gap-4 gap-2">
