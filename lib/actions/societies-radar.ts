@@ -38,7 +38,12 @@ export async function getSocietyRadarScores(societyName: string): Promise<RadarS
   }
 }
 
-export async function getAllCommunityScores(): Promise<Record<string, number>> {
+export interface AllRadarData {
+  average: number
+  scores: number[]
+}
+
+export async function getAllCommunityScores(): Promise<Record<string, AllRadarData>> {
   try {
     const supabase = createServerClient()
 
@@ -50,16 +55,21 @@ export async function getAllCommunityScores(): Promise<Record<string, number>> {
       return {}
     }
 
-    const scores: Record<string, number> = {}
+    const result: Record<string, AllRadarData> = {}
     for (const row of data) {
-      const average = Math.round(
-        ((row.scalability || 0) + (row.autonomy || 0) + (row.qol || 0) +
-         (row.belonging || 0) + (row.economic || 0) + (row.purpose || 0)) / 6 * 100
-      )
-      scores[row.name] = average
+      const scores = [
+        Math.round((row.scalability || 0) * 100),
+        Math.round((row.autonomy || 0) * 100),
+        Math.round((row.qol || 0) * 100),
+        Math.round((row.belonging || 0) * 100),
+        Math.round((row.purpose || 0) * 100),
+        Math.round((row.economic || 0) * 100),
+      ]
+      const average = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+      result[row.name] = { average, scores }
     }
 
-    return scores
+    return result
   } catch (error) {
     return {}
   }

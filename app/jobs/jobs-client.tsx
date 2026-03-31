@@ -2,7 +2,7 @@
 
 import { Briefcase, ExternalLink, MapPin, DollarSign, Search, ChevronDown, ChevronUp, Building2, Tag, ArrowUpDown } from "lucide-react";
 import { jobsDatabase } from "@/lib/data/jobs-database";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useDeferredValue } from "react";
 import { useSearchParams } from "next/navigation";
 import { societyNamesMatch } from "@/lib/utils/society-matcher";
 
@@ -29,6 +29,9 @@ export default function JobsPage() {
   const [employerSearch, setEmployerSearch] = useState<string>("");
   const [locationSearch, setLocationSearch] = useState<string>("");
   const [keywordSearch, setKeywordSearch] = useState<string>("");
+  const deferredEmployerSearch = useDeferredValue(employerSearch);
+  const deferredLocationSearch = useDeferredValue(locationSearch);
+  const deferredKeywordSearch = useDeferredValue(keywordSearch);
   const [sortField, setSortField] = useState<SortField>("title");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
@@ -81,13 +84,13 @@ export default function JobsPage() {
 
   // Filter lists based on search
   const filteredEmployers = uniqueEmployers.filter(employer =>
-    employer.toLowerCase().includes(employerSearch.toLowerCase())
+    employer.toLowerCase().includes(deferredEmployerSearch.toLowerCase())
   );
   const filteredLocations = uniqueLocations.filter(location =>
-    location.toLowerCase().includes(locationSearch.toLowerCase())
+    location.toLowerCase().includes(deferredLocationSearch.toLowerCase())
   );
   const filteredTags = uniqueTags.filter(tag =>
-    tag.toLowerCase().includes(keywordSearch.toLowerCase())
+    tag.toLowerCase().includes(deferredKeywordSearch.toLowerCase())
   );
 
   // Filter jobs based on selected filters and keyword search (without sorting)
@@ -108,8 +111,8 @@ export default function JobsPage() {
     }
     
     // Keyword search (searches title, description, and tags)
-    if (keywordSearch) {
-      const searchTerm = keywordSearch.toLowerCase();
+    if (deferredKeywordSearch) {
+      const searchTerm = deferredKeywordSearch.toLowerCase();
       const searchableText = `${job.title} ${job.description} ${job.tags.join(' ')}`.toLowerCase();
       if (!searchableText.includes(searchTerm)) {
         return false;

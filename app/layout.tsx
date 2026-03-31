@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import Script from "next/script";
+import { Agentation } from "agentation";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AsciiNav } from "@/components/ascii-nav";
@@ -109,6 +110,7 @@ export default function RootLayout({
             </Suspense>
           </>
         )}
+        {process.env.NODE_ENV === "development" && <Agentation />}
       </body>
     </html>
   );

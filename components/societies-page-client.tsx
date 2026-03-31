@@ -1,7 +1,7 @@
 "use client";
 
 import { Users, MapPin, ChevronDown, ChevronUp, Calendar, Tag } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useDeferredValue } from "react";
 import Link from "next/link";
 import type { SocietyDatabase } from "@/lib/data/societies-database";
 import { SocietiesChartStats, SocietiesChartGraph } from "@/components/societies-chart";
@@ -14,6 +14,8 @@ import { useClientTimezone } from "@/lib/hooks/useClientTimezone";
 import { SocietyLogo } from '@/components/society/society-logo';
 import { SocietyBadges } from '@/components/society/society-badges';
 import { SocietySocialLinks } from '@/components/society/society-social-links';
+import { MiniRadar } from '@/components/society/society-radar';
+import type { AllRadarData } from '@/lib/actions/societies-radar';
 
 // Helper functions for event status badges
 const getEventStartDateTime = (event: UIEvent): Date | null => {
@@ -88,11 +90,12 @@ const hasTodayEvents = (events: UIEvent[]): boolean => {
   return events.some(event => isEventToday(event));
 };
 
-export default function SocietiesPageClient({ societies }: { societies: SocietyDatabase[] }) {
+export default function SocietiesPageClient({ societies, communityScores = {} }: { societies: SocietyDatabase[]; communityScores?: Record<string, AllRadarData> }) {
   const [expandedSociety, setExpandedSociety] = useState<string | null>(null);
   const [events, setEvents] = useState<UIEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const deferredSearchTerm = useDeferredValue(searchTerm);
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
@@ -190,7 +193,7 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
   // Filter and sort societies
   const filteredAndSortedSocieties = useMemo(() => [...societies]
     .filter(society => {
-      if (searchTerm && !society.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (deferredSearchTerm && !society.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())) {
         return false;
       }
       if (selectedLocations.length > 0 && (!society.location || !selectedLocations.includes(society.location))) {
@@ -213,7 +216,7 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
       // Secondary sort: by tier (ascending - tier 1 first)
       return a.tier - b.tier;
     }),
-    [societies, searchTerm, selectedLocations, selectedTypes, upcomingCountBySociety]
+    [societies, deferredSearchTerm, selectedLocations, selectedTypes, upcomingCountBySociety]
   );
 
   return (
@@ -437,7 +440,7 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
                 key={index}
                 className="border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-3"
               >
-                {/* Header: Logo, Name + Description, Badges */}
+                {/* Header: Logo, Name + Description, Badges, Mini Radar */}
                 <Link href={`/societies/${societyNameToSlug(society.name)}`} className="block hover:opacity-80 transition-opacity">
                   <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                     <SocietyLogo name={society.name} icon={society.icon} size="md" />
@@ -464,6 +467,12 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
                         />
                       </div>
                     </div>
+
+                    {communityScores[society.name]?.scores && (
+                      <div className="hidden sm:block flex-shrink-0">
+                        <MiniRadar scores={communityScores[society.name].scores} size={56} />
+                      </div>
+                    )}
                   </div>
                 </Link>
 

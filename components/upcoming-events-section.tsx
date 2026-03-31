@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar, ArrowUpDown, ChevronDown, ChevronUp, MapPin, Tag, Network, Search, BarChart3, Table, Monitor } from "lucide-react";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useDeferredValue } from "react";
 import Link from "next/link";
 import type { UIEvent } from "@/lib/types/events";
 import { societyNamesMatch } from "@/lib/utils/society-matcher";
@@ -22,9 +22,10 @@ interface UpcomingEventsSectionProps {
   defaultViewMode?: "table" | "gantt"; // Default view mode (table or gantt/timeline)
   hideViewModeToggle?: boolean; // If true, hide the TABLE/TIMELINE toggle buttons
   compact?: boolean; // Reduce vertical space (for embedding in society detail pages)
+  title?: string; // Custom heading text (e.g. "[ 4SEAS UPCOMING EVENTS ]")
 }
 
-export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder, defaultViewMode = "gantt", hideViewModeToggle = false, compact = false }: UpcomingEventsSectionProps) {
+export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday, hideFilters, initialNetworkState, initialNetworkStates, customNetworkStateOrder, defaultViewMode = "gantt", hideViewModeToggle = false, compact = false, title }: UpcomingEventsSectionProps) {
   // State for tracking current time to make live/upcoming checks reactive
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -138,6 +139,9 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
   const [networkStateSearch, setNetworkStateSearch] = useState<string>("");
   const [typeSearch, setTypeSearch] = useState<string>("");
   const [countrySearch, setCountrySearch] = useState<string>("");
+  const deferredNetworkStateSearch = useDeferredValue(networkStateSearch);
+  const deferredTypeSearch = useDeferredValue(typeSearch);
+  const deferredCountrySearch = useDeferredValue(countrySearch);
   const [allFiltersOpen, setAllFiltersOpen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<"table" | "gantt">(defaultViewMode);
   // Default to 1 day for mobile, 3 days for desktop
@@ -336,13 +340,13 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
 
   // Filter lists based on search
   const filteredNetworkStates = uniqueNetworkStates.filter(ns =>
-    ns?.toLowerCase().includes(networkStateSearch.toLowerCase())
+    ns?.toLowerCase().includes(deferredNetworkStateSearch.toLowerCase())
   );
   const filteredTypes = uniqueTypes.filter(type =>
-    type?.toLowerCase().includes(typeSearch.toLowerCase())
+    type?.toLowerCase().includes(deferredTypeSearch.toLowerCase())
   );
   const filteredCountries = uniqueLocations.filter(location =>
-    location?.toLowerCase().includes(countrySearch.toLowerCase())
+    location?.toLowerCase().includes(deferredCountrySearch.toLowerCase())
   );
 
   const toggleFilter = (value: string, filterArray: string[], setFilter: React.Dispatch<React.SetStateAction<string[]>>) => {
@@ -581,7 +585,7 @@ export function UpcomingEventsSection({ events, isLoading, error, showOnlyToday,
       <div className="flex items-center gap-2">
         <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
           <Calendar className="h-6 w-6" />
-          {showOnlyToday ? '[ EVENTS TODAY ]' : '[ UPCOMING EVENTS ]'}
+          {title ? `[ ${title} ]` : showOnlyToday ? '[ EVENTS TODAY ]' : '[ UPCOMING EVENTS ]'}
         </h2>
       </div>
 

@@ -46,12 +46,12 @@ export const RADAR_INFO: Record<string, { subtitle: string; measures: string; ma
 };
 
 export const RADAR_COLORS = [
-  '#f97316', // Scalability - orange
-  '#8b5cf6', // Autonomy - violet
-  '#10b981', // Quality of Life - emerald
-  '#3b82f6', // Community - blue
-  '#ec4899', // Purpose - pink
-  '#eab308', // Economic Opportunity - yellow
+  '#C4703C', // Scalability - Terra
+  '#2BA3A3', // Autonomy - Bright Teal
+  '#7A9968', // Quality of Life - Sage Green
+  '#3A5474', // Community - Slate Blue
+  '#C4524A', // Purpose - Coral
+  '#D4A843', // Economic Opportunity - Amber
 ];
 
 function RadarChart({ scores }: { scores: number[] }) {
@@ -96,14 +96,14 @@ function RadarChart({ scores }: { scores: number[] }) {
       <svg viewBox={`0 0 ${viewSize} ${viewSize}`} className="w-full aspect-square">
         <defs>
           <linearGradient id="radar-fill" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.25" />
-            <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.18" />
-            <stop offset="100%" stopColor="#10b981" stopOpacity="0.25" />
+            <stop offset="0%" stopColor="#2BA3A3" stopOpacity="0.25" />
+            <stop offset="50%" stopColor="#C4703C" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="#7A9968" stopOpacity="0.25" />
           </linearGradient>
           <linearGradient id="radar-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#8b5cf6" />
-            <stop offset="50%" stopColor="#3b82f6" />
-            <stop offset="100%" stopColor="#10b981" />
+            <stop offset="0%" stopColor="#2BA3A3" />
+            <stop offset="50%" stopColor="#C4703C" />
+            <stop offset="100%" stopColor="#7A9968" />
           </linearGradient>
         </defs>
 
@@ -313,6 +313,64 @@ function MetricsDisplay({ scores }: { scores: number[] }) {
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+export function MiniRadar({ scores, size = 48 }: { scores: number[]; size?: number }) {
+  const cx = size / 2;
+  const cy = size / 2;
+  const maxRadius = size / 2 - 4;
+  const average = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+
+  const getAngle = (i: number) =>
+    (Math.PI * 2 * i) / RADAR_CATEGORIES.length - Math.PI / 2;
+
+  const getPolygonPoints = (values: number[]) =>
+    values
+      .map((val, i) => {
+        const angle = getAngle(i);
+        const r = (val / 100) * maxRadius;
+        return `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
+      })
+      .join(' ');
+
+  const outerPoints = RADAR_CATEGORIES.map((_, i) => {
+    const angle = getAngle(i);
+    return `${cx + maxRadius * Math.cos(angle)},${cy + maxRadius * Math.sin(angle)}`;
+  }).join(' ');
+
+  return (
+    <div className="relative flex-shrink-0" style={{ width: size, height: size }}>
+      <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full">
+        <polygon
+          points={outerPoints}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="0.5"
+          className="text-border"
+          opacity="0.4"
+        />
+        <polygon
+          points={getPolygonPoints(scores)}
+          fill="url(#mini-radar-fill)"
+          stroke="url(#mini-radar-stroke)"
+          strokeWidth="1.5"
+        />
+        <defs>
+          <linearGradient id="mini-radar-fill" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2BA3A3" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#C4703C" stopOpacity="0.3" />
+          </linearGradient>
+          <linearGradient id="mini-radar-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2BA3A3" />
+            <stop offset="100%" stopColor="#C4703C" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-[10px] font-mono font-bold text-foreground">{average}</span>
       </div>
     </div>
   );

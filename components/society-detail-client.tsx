@@ -14,6 +14,7 @@ import { SocietyCover } from '@/components/society/society-cover';
 import { societyNameToSlug } from '@/lib/utils/slug';
 import { SocietyRelated } from '@/components/society/society-related';
 import { SocietyJobs } from '@/components/society/society-jobs';
+import { SocietyRadar } from '@/components/society/society-radar';
 import { UpcomingEventsSection } from '@/components/upcoming-events-section';
 
 const formatNumber = (num: number) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -142,6 +143,11 @@ export default function SocietyDetailClient({
           />
         )}
 
+        {/* Community Score Radar */}
+        {radarScores && radarScores.length > 0 && (
+          <SocietyRadar scores={radarScores} telegramUrl={society.telegram || undefined} />
+        )}
+
         {/* Events */}
         {events.length > 0 && (
           <UpcomingEventsSection
@@ -152,6 +158,7 @@ export default function SocietyDetailClient({
             initialNetworkStates={[society.name]}
             defaultViewMode="gantt"
             compact
+            title={`${society.name.toUpperCase()} UPCOMING EVENTS`}
           />
         )}
 
