@@ -393,7 +393,7 @@ export function SocietyRadar({ scores, telegramUrl }: SocietyRadarProps) {
               Telegram
             </a>
             . Read more at our{' '}
-            <a href="https://nsnodes.substack.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">
+            <a href="https://nsnodes.substack.com/p/not-another-telegram-group?r=77k6uz" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">
               Substack post
             </a>
             .
