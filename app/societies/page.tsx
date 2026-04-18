@@ -1,5 +1,4 @@
 import { getSocieties } from '@/lib/actions/societies';
-import { getAllCommunityScores } from '@/lib/actions/societies-radar';
 import SocietiesPageClient from '@/components/societies-page-client';
 import { generatePageMetadata } from '@/lib/utils/metadata';
 
@@ -7,11 +6,7 @@ import { generatePageMetadata } from '@/lib/utils/metadata';
 export const metadata = generatePageMetadata("Network State Dashboard & Societies List");
 
 export default async function SocietiesPage() {
-  // Fetch societies and community scores from Supabase
-  const [societies, communityScores] = await Promise.all([
-    getSocieties(),
-    getAllCommunityScores(),
-  ]);
+  const societies = await getSocieties();
 
-  return <SocietiesPageClient societies={societies} communityScores={communityScores} />;
+  return <SocietiesPageClient societies={societies} />;
 }
