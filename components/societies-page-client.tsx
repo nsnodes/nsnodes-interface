@@ -15,7 +15,6 @@ import { SocietyLogo } from '@/components/society/society-logo';
 import { SocietyBadges } from '@/components/society/society-badges';
 import { SocietySocialLinks } from '@/components/society/society-social-links';
 import { MiniRadar } from '@/components/society/society-radar';
-import type { AllRadarData } from '@/lib/actions/societies-radar';
 
 // Helper functions for event status badges
 const getEventStartDateTime = (event: UIEvent): Date | null => {
@@ -90,7 +89,7 @@ const hasTodayEvents = (events: UIEvent[]): boolean => {
   return events.some(event => isEventToday(event));
 };
 
-export default function SocietiesPageClient({ societies, communityScores = {} }: { societies: SocietyDatabase[]; communityScores?: Record<string, AllRadarData> }) {
+export default function SocietiesPageClient({ societies }: { societies: SocietyDatabase[] }) {
   const [expandedSociety, setExpandedSociety] = useState<string | null>(null);
   const [events, setEvents] = useState<UIEvent[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -468,11 +467,27 @@ export default function SocietiesPageClient({ societies, communityScores = {} }:
                       </div>
                     </div>
 
-                    {communityScores[society.name]?.scores && (
-                      <div className="hidden sm:block flex-shrink-0">
-                        <MiniRadar scores={communityScores[society.name].scores} size={56} />
-                      </div>
-                    )}
+                    {(() => {
+                      const { scalability, autonomy, qol, belonging, purpose, economic } = society;
+                      if (
+                        scalability == null ||
+                        autonomy == null ||
+                        qol == null ||
+                        belonging == null ||
+                        purpose == null ||
+                        economic == null
+                      ) {
+                        return null;
+                      }
+                      return (
+                        <div className="hidden sm:block flex-shrink-0">
+                          <MiniRadar
+                            scores={[scalability, autonomy, qol, belonging, purpose, economic]}
+                            size={56}
+                          />
+                        </div>
+                      );
+                    })()}
                   </div>
                 </Link>
 
