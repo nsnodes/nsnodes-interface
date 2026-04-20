@@ -437,11 +437,33 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
             return (
               <div
                 key={index}
-                className="border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-3"
+                className="relative border-2 border-border p-4 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-3"
               >
-                {/* Header: Logo, Name + Description, Badges, Mini Radar */}
+                {(() => {
+                  const { scalability, autonomy, qol, belonging, purpose, economic } = society;
+                  if (
+                    scalability == null ||
+                    autonomy == null ||
+                    qol == null ||
+                    belonging == null ||
+                    purpose == null ||
+                    economic == null
+                  ) {
+                    return null;
+                  }
+                  return (
+                    <div className="absolute top-4 right-4 z-10 pointer-events-none">
+                      <MiniRadar
+                        scores={[scalability, autonomy, qol, belonging, purpose, economic]}
+                        size={56}
+                      />
+                    </div>
+                  );
+                })()}
+
+                {/* Header: Logo, Name + Description, Badges */}
                 <Link href={`/societies/${societyNameToSlug(society.name)}`} className="block hover:opacity-80 transition-opacity">
-                  <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-3 pr-16">
                     <SocietyLogo name={society.name} icon={society.icon} size="md" />
 
                     <div className="flex-1 min-w-0">
@@ -466,28 +488,6 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
                         />
                       </div>
                     </div>
-
-                    {(() => {
-                      const { scalability, autonomy, qol, belonging, purpose, economic } = society;
-                      if (
-                        scalability == null ||
-                        autonomy == null ||
-                        qol == null ||
-                        belonging == null ||
-                        purpose == null ||
-                        economic == null
-                      ) {
-                        return null;
-                      }
-                      return (
-                        <div className="hidden sm:block flex-shrink-0">
-                          <MiniRadar
-                            scores={[scalability, autonomy, qol, belonging, purpose, economic]}
-                            size={56}
-                          />
-                        </div>
-                      );
-                    })()}
                   </div>
                 </Link>
 
