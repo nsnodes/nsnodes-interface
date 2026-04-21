@@ -65,6 +65,7 @@ export default function RootLayout({
             />
           </>
         )}
+        <meta name="x-deploy-check" content="2026-04-21-prod" />
         {/* Set dark mode as default before hydration to prevent flash */}
         <script
           dangerouslySetInnerHTML={{
