@@ -63,6 +63,7 @@ export default function RootLayout({
               name="googlebot"
               content="noindex,nofollow,noarchive,nosnippet"
             />
+            <meta name="x-deploy-check" content="2026-04-21" />
           </>
         )}
         {/* Set dark mode as default before hydration to prevent flash */}
