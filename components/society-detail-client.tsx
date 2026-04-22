@@ -1,6 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import type { SocietyDatabase } from '@/lib/data/societies-database';
+import type { SocietyContentData } from '@/lib/data/society-content';
 import type { Job } from '@/lib/data/jobs-database';
 import type { UIEvent } from '@/lib/types/events';
 import { XIcon, DiscordIcon, YoutubeIcon, TelegramIcon } from '@/components/icons/social-icons';
@@ -22,6 +23,7 @@ const formatNumber = (num: number) => num.toString().replace(/\B(?=(\d{3})+(?!\d
 interface SocietyDetailClientProps {
   society: SocietyDatabase;
   relatedSocieties: SocietyDatabase[];
+  content: SocietyContentData | null;
   jobs?: Job[];
   events?: UIEvent[];
   radarScores?: number[] | null;
@@ -30,6 +32,7 @@ interface SocietyDetailClientProps {
 export default function SocietyDetailClient({
   society,
   relatedSocieties,
+  content,
   jobs = [],
   events = [],
   radarScores,
@@ -163,7 +166,7 @@ export default function SocietyDetailClient({
         )}
 
         {/* Content Sections */}
-        <SocietyContent societyName={society.name} />
+        <SocietyContent content={content} />
 
         {/* Jobs */}
         <SocietyJobs jobs={jobs} societyName={society.name} />
