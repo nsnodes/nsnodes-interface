@@ -56,13 +56,13 @@ Modular components used by the society detail page:
 - `society-social-links.tsx`: Social links row with `showLabels` prop for detail vs card contexts, `slug` prop for internal linking
 - `society-schedule-call.tsx`: Schedule a Call CTA with Google Meet link, topics list
 - `society-radar.tsx`: Community score radar chart + metrics sidebar (currently hidden)
-- `society-content.tsx`: Editorial content sections (overview, history, kid-friendly, discount, FAQs, etc.) keyed by slug in `SOCIETY_CONTENT` record (exported)
+- `society-content.tsx`: Editorial content sections (overview, history, kid-friendly, discount, FAQs, etc.) — receives `content: SocietyContentData | null` as a prop from the page; returns `null` if absent
 - `society-related.tsx`: Related societies grid
 - `society-jobs.tsx`: Open positions section, returns null if no jobs match
 - `society-events.tsx`: Upcoming events section with timezone conversion, returns null if no events match
 - `society-reviews.tsx`: Community reviews/testimonials (currently hidden from detail page)
 
-To add editorial content for a new society, add an entry to the `SOCIETY_CONTENT` record in `society-content.tsx` keyed by the society's slug.
+Editorial content lives in `content/societies/{slug}.json`, loaded server-side via `loadSocietyContent(slug)` in `lib/data/society-content.ts`. These files are managed by the `society-scraper` repo (weekly automated PRs) — hand edits are overwritten. To adjust copy, modify the scraper prompt; for one-off tweaks, edit the JSON directly.
 
 ### Path Aliases
 The project uses `@/*` as an alias for the root directory (configured in [tsconfig.json](tsconfig.json)).
@@ -125,4 +125,4 @@ When creating new pages, follow the title and meta description conventions in:
 - Society detail pages use JSON-LD structured data (Organization + FAQPage schema) — see `app/societies/[slug]/page.tsx`
 - Each society page sets `alternates.canonical` and page-specific OG URL (not the homepage)
 - Use `TITLE_OVERRIDES` in the page's `generateMetadata` for custom per-society titles
-- Description is auto-generated from the first overview paragraph in `SOCIETY_CONTENT` (truncated to 155 chars)
+- Description is auto-generated from the first overview paragraph in `content/societies/{slug}.json` (truncated to 155 chars)
