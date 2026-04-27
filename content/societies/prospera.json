@@ -2,116 +2,118 @@
   "overview": [
     {
       "title": "What is Próspera?",
-      "text": "Próspera is a special economic zone on Roatán, Honduras, where over 1,700 residents from 40+ countries live and work under low-tax, flexible regulations.",
+      "text": "Próspera is a special economic zone on Roatán, Honduras, where founders build businesses under a streamlined legal framework with a 1% effective tax rate.",
       "sources": [
-        "https://prospera.co",
-        "https://prospera.co/about"
+        "https://www.prospera.co/en"
       ]
     },
     {
       "title": "Who joins Próspera?",
-      "text": "Próspera draws entrepreneurs, biotech founders, digital nomads, and families seeking a jurisdiction with low taxes and practical regulatory flexibility. The community includes over 200 registered businesses and 950+ active jobs. Residents come for three-day weekend visits, multi-week structured programs, or permanent relocation with eResidency.\n\nNotable participants include Bryan Johnson, who received gene therapy treatments only available under Próspera's regulatory framework, and investors including Coinbase CEO Brian Armstrong. Tim Draper called Próspera \"the best place to do business on the planet.\"",
+      "text": "Próspera attracts entrepreneurs, remote workers, investors, biotech founders, and crypto builders from over 40 countries. The community includes over 1,700 residents and 200+ active businesses, anchored by a growing hub around longevity research and decentralized finance.",
       "sources": [
-        "https://prospera.co",
-        "https://prospera.co/about",
-        "https://prospera.co/solutions/health"
+        "https://www.prospera.co/en",
+        "https://www.infinita.city/"
       ]
     }
   ],
   "history": {
-    "text": "Próspera was established on Roatán in 2020 under Honduras's Zone for Employment and Economic Development (ZEDE) law, which passed with a 78% vote in the Honduran Congress in 2013 and was ratified by the Supreme Court. The zone was founded by Erick Brimen and the Próspera Inc. team with the goal of building a governance platform where entrepreneurs choose their regulatory and tax frameworks rather than having them imposed by legacy institutions.\n\nA series of constitutional challenges in late 2024 tested the zone's legal footing, but operations continued under international trade protections. By December 2024, eResident applications had resumed with 250 companies incorporated. January 2025 brought a major investment round backed by Coinbase CEO Brian Armstrong and venture partners. By March 2025, Próspera had reached full occupancy and hosted Tim Draper's startup competition on-site.",
+    "text": "Próspera was founded by Venezuelan entrepreneur Erick Brimen after Honduras amended its constitution in 2013 to allow Zones for Employment and Economic Development (ZEDEs). Brimen learned about the ZEDE law in 2016, spent two years working with Honduran authorities to secure land and draft a governance charter, and launched Próspera publicly on Roatán island in 2020.\n\nThe zone began on 58 acres in St. John's Bay, Roatán, with construction of its first buildings starting in 2021. Despite the Honduran government's 2022 repeal of the ZEDE law under President Xiomara Castro, Próspera's operations are protected by a 50-year legal stability agreement under the ZEDE Organic Law and a bilateral investment treaty with Kuwait.\n\nBy late 2024, Próspera had incorporated 250+ companies, received a Deloitte legal opinion confirming operational continuity, and reduced e-residency fees from $1,300 to $130 per year. In January 2025, Coinbase's venture arm joined as a backer, and the Infinita City popup event drew 400+ attendees to the zone.",
     "milestones": [
       {
         "label": "ZEDE Law Passed",
-        "detail": "2013 | 78% Honduran Congress vote, ratified by Supreme Court"
+        "detail": "2013 - Honduras enables special economic zones via constitutional amendment"
       },
       {
-        "label": "Próspera Founded",
-        "detail": "2020 | Zone launched on Roatán island, Honduras"
+        "label": "Próspera Launches",
+        "detail": "2020 - operations begin on 58 acres in St. John's Bay, Roatán"
       },
       {
-        "label": "250 Companies Incorporated",
-        "detail": "December 2024 | eResident applications resumed after challenges"
+        "label": "First Buildings",
+        "detail": "2021 - construction starts; Duna Tower begins development"
       },
       {
-        "label": "Coinbase Investment",
-        "detail": "January 2025 | Major round backed by Brian Armstrong"
+        "label": "ZEDE Repeal",
+        "detail": "2022 - Honduras repeals ZEDE law; Próspera protected by 50-year stability guarantee"
       },
       {
-        "label": "Full Occupancy",
-        "detail": "March 2025 | 1,700+ residents, Tim Draper startup competition hosted"
+        "label": "Fees Reduced + Deloitte Opinion",
+        "detail": "2024 - e-residency drops to $130/year; Deloitte confirms legal continuity"
+      },
+      {
+        "label": "Coinbase Invests",
+        "detail": "January 2025 - Coinbase venture arm backs Próspera; Duna Tower hits 100% occupancy"
       }
     ],
     "sources": [
-      "https://prospera.co/about",
-      "https://prospera.co/myths-and-facts-faq"
+      "https://www.prospera.co/en/about",
+      "https://reason.com/2021/12/28/how-erick-brimen-helped-launch-a-honduran-charter-city/"
     ]
   },
-  "location": "Próspera occupies a special economic zone on Roatán, a Caribbean island in Honduras, located about 20 minutes from the Roatán Juan Manuel Gálvez International Airport. The jurisdiction covers 1,000+ acres and includes 34,000+ square meters of built real estate: residential towers, commercial offices, health clinics, a beach club, a Montessori school, and recreational facilities.\n\nDirect flights to Roatán operate from Miami, Houston, Atlanta, Denver, Toronto, and Madrid. Flying through San Pedro Sula (SPS) on the Honduran mainland and connecting to Roatán is often a cost-effective alternative. A secondary manufacturing hub is planned for La Ceiba, and Próspera Africa is in development.",
-  "duration": "Próspera accommodates a wide range of stay lengths. Próspera Weekend events run three days and are offered monthly through at least June 2026. Structured programs vary in length: bitchill (10 days, Bitcoin-focused retreat), Pop-Up Island (15 days, regenerative district founding program), and the Noma Family coliving experience (approximately 28 days in July-August 2026).\n\nLong-term residency is available through eResidency, which allows ongoing legal and business participation in the jurisdiction. Monthly residential rentals at Duna Tower start at $850; property purchases begin at $120,000 for those committing to permanent relocation.",
-  "pricing": "Próspera Weekend events are $400 per person for a three-day stay including housing and food. Monthly residential rentals at Duna Tower start at $850; nightly rates begin at $100. Commercial office space runs $500-$700 per month.\n\nBusiness formation starts at $280 for a legal entity, with an annual maintenance fee of $279. Businesses pay an effective 1% income tax (10% rate applied to 10% of gross income); personal income tax is an effective 5% (10% on 50% of income). There is no capital gains, estate, inheritance, payroll, or import/export tax. An optional lump-sum tax of $5,000 per year covers all personal income tax obligations for qualifying residents. Bitcoin is accepted for all tax payments.",
+  "location": "Próspera is located on the Caribbean island of Roatán, Honduras, in the St. John's Bay area roughly 20 minutes from Roatán International Airport (RTB). Direct flights connect Roatán to Miami, Houston, Atlanta, Denver, Toronto, and Madrid.\n\nThe zone spans over 1,000 acres and includes [Duna Residences](https://www.dunaresidences.com/) - the tallest residential building on Roatán - along with coworking spaces, lab facilities, restaurants, and event venues. Budget accommodation is available at the [Beta Residencies](https://www.infinita.city/visit) hostel, and luxury stays at [Las Verandas](https://www.lasverandasroatan.com/) hotel and villas are a short distance away. The Mesoamerican Barrier Reef, the world's second-largest coral reef system, runs just offshore.",
+  "duration": "Próspera offers three access tiers suited to different stay lengths. The Visitor Pass allows unlimited daily access and up to 30 overnight stays per year. e-Residency is designed for people spending up to 30 days per calendar year while retaining full business registration and property ownership rights. Full Residency supports year-round living with 365-day access.\n\nFor a short exploratory visit, [Próspera Weekend](https://luma.com/Prospera-events) events run Thursday through Saturday roughly once per month, providing a structured three-day introduction. Longer programs like [Infinita City](https://www.infinita.city/) run multi-week and multi-month cohorts focused on biotech and longevity.",
+  "pricing": "The [Próspera Weekend](https://luma.com/Prospera-events) costs $450 per person and includes lodging at [Las Verandas](https://www.lasverandasroatan.com/) or [Beta Hostel](https://www.infinita.city/visit), all meals, event transport, business formation workshops, and a snorkeling excursion on the Mesoamerican Reef. Upcoming dates: May 22-24 and June 26-28, 2026.\n\nBusiness entity formation starts from $280, with annual operating fees of $279 per year. The effective business income tax rate is 1% (10% applied to 10% of gross income). Personal income tax is 5% effective. Capital gains, payroll, and import duties are eliminated.\n\ne-Residency is $130 per year and Full Residency is $130 per year plus mandatory insurance (rate determined by risk scoring). The Visitor Pass is free. A lump-sum tax residency option is available at $5,000 per year and covers all income taxes regardless of earnings.",
   "amenities": [
-    "Fitness facilities, tennis courts, and golf course access",
-    "Swimming pool and on-site cafe (Duna Tower)",
-    "Professional coworking spaces and commercial offices",
-    "Montessori school and childcare services",
-    "Beach club and water sports",
-    "Health and longevity clinics (Garm Clinic, Infinita longevity district)",
-    "Gene therapy and biotech services (Unlimited Bio)",
-    "Private arbitration center (1-4 month resolution)",
-    "Bitcoin banking and payment processor integrations",
-    "Weekly community networking events",
-    "On-site security (Honduran personnel)"
+    "Coworking spaces in Duna Tower and Infinita City",
+    "High-speed internet (40-80 Mbps via NetMan)",
+    "Lab spaces for biotech and longevity research",
+    "Restaurants and cafes on site",
+    "Independent arbitration and dispute resolution (PAC.hn)",
+    "e-Governance portal for resident services and filings",
+    "Online business formation in under 24 hours",
+    "Snorkeling access to the Mesoamerican Barrier Reef",
+    "Weekly onboarding calls (Wednesdays 5:00 PM UTC, free)",
+    "BioHub startup accelerator program",
+    "Bitcoin as official unit of account for contracts and taxes"
   ],
   "howToEnter": {
-    "text": "The simplest first step is joining the free weekly onboarding call held every Wednesday at 5:00 PM UTC, where the Próspera team answers questions and walks through residency options. For an in-person visit, Próspera Weekend events ($400, includes housing and food) run monthly through at least June 2026.\n\nFull residency and business formation are handled through the eProspera portal. Business registration takes under 24 hours and starts at $280 setup plus $279/year. The optional lump-sum tax program ($5,000/year covering all personal income tax) is applied through NomadLayer, Próspera's official distribution partner.",
-    "linkText": "Open the eProspera portal",
-    "linkUrl": "https://portal.eprospera.com"
+    "text": "Apply online at [portal.eprospera.com](https://portal.eprospera.com/en). Select a residency tier - the Visitor Pass is free, e-Residency and Full Residency are both $130/year - then review the Agreement of Coexistence, pay the annual fee, submit your personal information with proof of identity, and complete a government ID scan and selfie. Approvals typically take 1-3 business days. Applicants from a small list of restricted countries require additional exemptions.\n\nTo explore before applying, attend a [Próspera Weekend](https://luma.com/Prospera-events) ($450, housing and meals included) or join the free weekly onboarding call every Wednesday at 5:00 PM UTC via Zoom.",
+    "linkText": "Apply at portal.eprospera.com",
+    "linkUrl": "https://portal.eprospera.com/en"
   },
   "faqs": [
     {
-      "question": "What is Próspera and how does it differ from a traditional special economic zone?",
-      "answer": "Próspera is a Zone for Employment and Economic Development (ZEDE) on Roatán, Honduras, operating under US Common Law with a constitution modeled on the US Bill of Rights. Unlike traditional SEZs with fixed rules, residents and businesses in Próspera can choose from existing OECD regulatory frameworks (FDA, EMA, etc.) or propose custom frameworks suited to their industry. Business income tax has an effective rate of 1%; there is no capital gains, estate, or payroll tax."
+      "question": "What is Próspera and how does it work?",
+      "answer": "Próspera is a special economic zone (ZEDE) on Roatán island, Honduras, operated by Próspera Inc. under a 50-year legal stability agreement. It runs its own legal framework, tax system, and e-governance platform, allowing residents and businesses to operate under rules distinct from Honduras national law. Over 200 businesses and 1,700 residents from 40+ countries currently participate."
     },
     {
-      "question": "Is Próspera legally recognized under Honduran law?",
-      "answer": "Yes. The ZEDE law enabling Próspera passed with a 78% vote in the Honduran Congress in 2013 and was ratified by the Supreme Court. Próspera fully complies with Honduran criminal law, uses Honduran security personnel, and maintains a revenue-sharing agreement with the Honduran government. Operations continued through 2024's legal and political challenges under international trade protections."
+      "question": "Where is Próspera located?",
+      "answer": "Próspera is in St. John's Bay on Roatán island, Honduras - about 20 minutes from Roatán International Airport (RTB). Direct flights connect Roatán to Miami, Houston, Atlanta, Denver, Toronto, and Madrid. Flying via San Pedro Sula (SPS) first is often cheaper if coming from Central America."
     },
     {
-      "question": "How much does it cost to visit Próspera?",
-      "answer": "Próspera Weekend events run $400 per person and cover three days of housing and food on Roatán. Upcoming dates include May 22-24 and June 26-28, 2026. Longer programs are also available: bitchill (10-day Bitcoin retreat, April 2026) and Pop-Up Island (15-day founding program, May 2026). [Register at prospera.co](https://prospera.co/visit) or join the free Wednesday onboarding call first."
+      "question": "What are the tax rates in Próspera?",
+      "answer": "The effective business income tax is 1% (10% on 10% of gross income). Personal income tax is 5% effective. Sales tax is 2.5% effective. Capital gains, inheritance, payroll, and import duties are eliminated. Bitcoin is an official unit of account, so you can pay taxes and denominate contracts in BTC."
     },
     {
-      "question": "What are the taxes in Próspera?",
-      "answer": "Business income tax is 10% on 10% of gross income, an effective rate of 1%. Personal income tax is 10% on 50% of income, an effective 5%. Sales tax is 5% on 50% of retail value (2.5% effective). There is no capital gains, estate, inheritance, payroll, gift, or import/export tax. Qualifying residents can opt for a flat $5,000/year lump-sum tax to cover all personal income tax. Bitcoin is accepted for all tax payments."
+      "question": "What residency options does Próspera offer?",
+      "answer": "Three tiers are available: Visitor Pass (free, up to 30 overnight stays per year), e-Residency ($130/year, up to 30 days/year with full business rights), and Full Residency ($130/year plus insurance, year-round access). A lump-sum tax residency option at $5,000/year covers all income taxes regardless of income. [Apply at portal.eprospera.com](https://portal.eprospera.com/en)."
+    },
+    {
+      "question": "Is Próspera legally secure given Honduras' repeal of the ZEDE law?",
+      "answer": "Próspera holds a 50-year legal stability guarantee under Article 45 of the ZEDE Organic Law and Honduras's bilateral investment treaty with Kuwait. The three existing ZEDEs were grandfathered when Honduras repealed the enabling law in 2022. In December 2024, Deloitte issued a legal opinion confirming operational continuity. An active ICSID arbitration claim provides further backstop."
+    },
+    {
+      "question": "What is the Próspera Weekend?",
+      "answer": "Próspera Weekend is a three-day immersive event held roughly monthly, priced at $450 and including housing, all meals, event transport, and workshops on business formation, investment, and residency. Attendees also get a snorkeling trip on the Mesoamerican Reef and private dinners with Próspera leadership. Upcoming dates: May 22-24 and June 26-28, 2026. [See the calendar](https://luma.com/Prospera-events)."
+    },
+    {
+      "question": "What industries are active in Próspera?",
+      "answer": "Technology, biotech, longevity research, crypto/blockchain, and decentralized finance are the most active sectors. Próspera operates a BioHub accelerator and explicitly supports regulatory sandboxes for drug commercialization and gene therapy. Monthly events rotate through biotech, crypto, and governance topics. Over 950 active jobs are tied to zone operations."
     },
     {
       "question": "How do I start a business in Próspera?",
-      "answer": "Form a legal entity through the eProspera portal at [portal.eprospera.com](https://portal.eprospera.com) in under 24 hours. The three steps are: register as a resident, complete the entity application, and sign documents online. Setup starts at $280 with an annual maintenance fee of $279. Over 250 companies have been incorporated to date."
+      "answer": "Register as a resident at [portal.eprospera.com](https://portal.eprospera.com/en), complete an entity application, sign documents, and you can start hiring, fundraising, and doing business. Entity formation starts from $280 with $279/year in annual fees. Registration completes online in under 24 hours, and the entity is globally recognized. You can also choose from multiple regulatory frameworks or propose your own."
     },
     {
-      "question": "What housing is available in Próspera?",
-      "answer": "Options range from the budget-friendly Beta Residencies hostel to luxury oceanfront villas at Las Verandas. Duna Tower offers modern apartments with a gym, coworking, cafe, and pool, starting at $100/night or $850/month. Property purchases start at $120,000. Commercial office space runs $500-$700 per month at Beta Offices, Duna Commercial Space, and Beach Club Offices."
+      "question": "What housing options are available in Próspera?",
+      "answer": "Options span budget to luxury. [Beta Residencies](https://www.infinita.city/visit) hostel is the most affordable on-site option. [Duna Residences](https://www.dunaresidences.com/), the tallest building on Roatán, offers mid-range apartments currently at 100% occupancy as of early 2025 (contact realestate@pristinebay.hn for availability). [Las Verandas](https://www.lasverandasroatan.com/) provides luxury villa and hotel stays nearby. Próspera Weekends include lodging as part of the $450 package."
     },
     {
-      "question": "What health and biotech services are available in Próspera?",
-      "answer": "Próspera hosts several health and longevity companies: Garm Clinic (regenerative medicine and contract research), Infinita (a longevity district), and Unlimited Bio (gene therapy). The zone's insurance-based regulatory model allows treatments to reach patients in weeks to months rather than the 2-15 years typical under FDA or EMA pathways. Regulatory costs start around $300,000 versus $300 million for traditional FDA approval."
+      "question": "Can I use Bitcoin in Próspera?",
+      "answer": "Yes. Bitcoin is an official unit of account in Próspera, meaning businesses can denominate contracts and pay taxes in BTC. Próspera hosts a Bitcoin center and regular crypto-focused events. The zone is a hub for Bitcoin and broader crypto builders."
     },
     {
-      "question": "What is eResidency and who is it for?",
-      "answer": "eResidency lets individuals participate in Próspera's legal and business framework without living on-site full-time. eResidents can form companies, access the jurisdiction's financial services, and benefit from the tax structure. Applications are completed online through [portal.eprospera.com](https://portal.eprospera.com). It is suited to founders and remote workers who want legal presence in a low-tax jurisdiction without committing to physical relocation."
-    },
-    {
-      "question": "What is the lump-sum tax option?",
-      "answer": "Qualifying residents can pay a flat $5,000/year to satisfy all personal income tax obligations, regardless of income. To qualify: you must not be a tax resident elsewhere, maintain a registered business entity in Próspera, and visit for at least 7 consecutive days within 12 months of enrollment. Applications go through NomadLayer, Próspera's official distribution partner. See details at [prospera.co/lump-sum-tax](https://prospera.co/lump-sum-tax)."
-    },
-    {
-      "question": "Can families live in Próspera?",
-      "answer": "Yes. Próspera has a Montessori school and childcare services on-site. The Noma Family program (July 5 - August 2, 2026) is a month-long coliving experience designed for families. By charter, 90% of employees must be Honduran nationals, and Próspera is developing affordable housing for local and international families alike."
-    },
-    {
-      "question": "Is Próspera safe and does it have environmental protections?",
-      "answer": "Próspera operates under Honduran criminal law with Honduran security personnel on-site. All businesses must carry full insurance coverage, which limits the types of operations that can legally run. The arbitration center features US state supreme court justices and resolves disputes in 1-4 months. Environmental protections include coral reef statutes and hazard precaution rules enforceable by all residents."
+      "question": "How do I learn more or get questions answered before visiting?",
+      "answer": "Próspera runs free weekly onboarding calls every Wednesday at 5:00 PM UTC via Zoom. You can join the community on Discord at discord.gg/FKSGnQWxXp or contact support@prospera.hn directly. The [Próspera events calendar](https://luma.com/Prospera-events) lists all upcoming Weekends and special programs."
     }
   ]
 }
