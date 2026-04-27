@@ -1,0 +1,177 @@
+{
+  "overview": [
+    {
+      "title": "What is The Network School?",
+      "text": "The Network School is a residential community for builders, creators, and techno-optimists, founded by Balaji Srinivasan in Forest City, Malaysia.",
+      "sources": [
+        "https://ns.com/",
+        "https://ns.com/about"
+      ]
+    },
+    {
+      "title": "Who joins The Network School?",
+      "text": "The community attracts software engineers, digital nomads, content creators, fitness enthusiasts, event organizers, and founders. What they share is a desire to live intentionally alongside others who are building something meaningful.",
+      "sources": [
+        "https://ns.com/pgx",
+        "https://ns.com/about"
+      ]
+    }
+  ],
+  "history": {
+    "text": "The Network School launched its first cohort in September 2024 as a 100-day pilot in Forest City, Malaysia. The idea was born from Balaji Srinivasan's vision of replacing declining traditional institutions with a digital-first, community-driven alternative, inspired in part by his time teaching at Stanford.\n\nAfter strong demand during the initial run, the program expanded into a year-round residency with double the capacity, featuring ongoing cohorts, hundreds of guest speakers, and a growing calendar of events.\n\nThe team is now developing a permanent campus in the same area, intended to serve as a blueprint that can be replicated in other locations around the world.",
+    "milestones": [
+      {
+        "label": "First Cohort",
+        "detail": "128 members | 100 days"
+      },
+      {
+        "label": "Year-Round Residency",
+        "detail": "256 members | 365 days"
+      },
+      {
+        "label": "Permanent Campus",
+        "detail": "1024 members | Ongoing"
+      }
+    ],
+    "sources": [
+      "https://ns.com/",
+      "https://ns.com/about"
+    ]
+  },
+  "location": "The Network School is located in Forest City, Malaysia, a large-scale development within the Singapore-Johor Special Economic Zone. Members have access to private rooms, a gym, coworking areas, and auditorium spaces. This site serves as the primary hub for the foreseeable future.\n\nAs the community grows, the long-term plan includes establishing additional locations worldwide, creating a decentralized network of connected campuses.",
+  "duration": "The current program runs year-round as a continuous residency. Members can join for a minimum of one month and extend their stay on a monthly basis.\n\nThe goal is for the campus to eventually transition into a permanent neighborhood with ongoing intake.",
+  "pricing": "Membership costs $3,000 per month for a private room, or $1,500 per month with a roommate.\n\nThe pricing follows an all-inclusive model - covering accommodation, meals, fitness, coworking, and events - so members can focus entirely on learning, building, and connecting.",
+  "amenities": [
+    "Serviced room",
+    "All-you-can-eat restaurant",
+    "24/7 gym access",
+    "Fitness classes",
+    "24/7 co-working access",
+    "Content studios",
+    "Maker space",
+    "High-speed Wi-Fi",
+    "Workshops, lectures, and events"
+  ],
+  "fellowship": "Founders and creators can apply for a fellowship worth $100,000 in funding for a new or existing venture. The main requirement is relocating to The Network School campus for one year.",
+  "fellowshipUrl": "https://ns.com/fellowship",
+  "longtermer": "To become a Longtermer at The Network School, start by [applying for a regular stay](https://ns.com/apply). Once on campus, Balaji typically hosts an introductory lunch where he shares more about the program. Longtermers commit to a 12-month stay and in return gain access to private apartments, reduced rent, long-term visa assistance, a potential community token allocation, and membership in the core long-term community.",
+  "kidFriendly": {
+    "description": "The Network School actively works to make the campus welcoming for families with children. Babysitting is available every weekday, there are customized kids' menus for meals, and kid-friendly activities run throughout the week. Here are some examples of regular activities:",
+    "activities": [
+      {
+        "emoji": "🍳",
+        "name": "Breakfast Club",
+        "location": "NS Breakfast Area",
+        "time": "8:40 AM - 9:20 AM"
+      },
+      {
+        "emoji": "🎨",
+        "name": "Craft with me: Watercolor Bookmarks",
+        "location": "NS Cafe",
+        "time": "11:00 AM - 12:00 PM"
+      },
+      {
+        "emoji": "🍱",
+        "name": "Lunch Bunch",
+        "location": "NS 13th Floor",
+        "time": "12:15 PM - 1:00 PM"
+      },
+      {
+        "emoji": "💻",
+        "name": "App Builder School (All Ages)",
+        "location": "NS Library",
+        "time": "12:30 PM - 1:30 PM"
+      },
+      {
+        "emoji": "🏊",
+        "name": "Swim Club",
+        "location": "NS Pool",
+        "time": "2:00 PM - 3:00 PM"
+      }
+    ]
+  },
+  "discount": {
+    "text": "The Network School typically does not offer discounts. However, if you apply using our link (or any other member's link), you'll receive a prioritized application review as well as one week of free stay.",
+    "linkText": "Prioritized review & 1 week free stay",
+    "linkUrl": "https://ns.com/wagmit/apply"
+  },
+  "howToEnter": {
+    "text": "Cohorts begin on the first of each month. There are no strict prerequisites, but priority is given to applicants who plan longer stays and bring relevant skills in engineering, creation, or community building. Once accepted, you'll need to pay the first month's rent to confirm your spot. Applying through a member referral can strengthen your application.",
+    "linkText": "here",
+    "linkUrl": "https://ns.com/apply"
+  },
+  "faqs": [
+    {
+      "question": "What is The Network School?",
+      "answer": "The Network School is a live-in community for founders, remote workers, creators, and other builders, based in Forest City, Malaysia."
+    },
+    {
+      "question": "How do I apply to The Network School?",
+      "answer": "You [apply on the website](https://ns.com/apply). Accepted members are then invited to join the next available cohort."
+    },
+    {
+      "question": "How much does The Network School cost?",
+      "answer": "Pricing starts at $1,500/month with a roommate. Private rooms are $3,000/month. If you qualify for a long-term stay after the first month, you may get an apartment or private room with lower rent."
+    },
+    {
+      "question": "How do I pay for my stay?",
+      "answer": "Both fiat card payment and crypto are accepted. Crypto is recommended to reduce transaction costs."
+    },
+    {
+      "question": "What is included with membership?",
+      "answer": "Accommodation, meals, gym access, coworking, events, workshops, lectures, fitness classes, and high-speed Wi-Fi are all included."
+    },
+    {
+      "question": "Is food included?",
+      "answer": "Yes, all-you-can-eat meals are included with membership."
+    },
+    {
+      "question": "Is Wi-Fi included?",
+      "answer": "Yes, high-speed Wi-Fi is included throughout the campus."
+    },
+    {
+      "question": "Is The Network School good for remote work?",
+      "answer": "Yes, the campus is designed for remote workers and builders, with 24/7 coworking access and high-speed Wi-Fi."
+    },
+    {
+      "question": "Are private rooms available at The Network School?",
+      "answer": "Yes, both shared and private room options are available. Private rooms are $3,000/month; shared rooms start at $1,500/month."
+    },
+    {
+      "question": "Can I come with a partner or family?",
+      "answer": "Yes, The Network School aims to be family-friendly. Your partner needs to apply as well, then contact support@ns.com to confirm. The price is $3,000/month for a couple or family. The team may be able to help with a second room if space allows."
+    },
+    {
+      "question": "Can I bring coworkers or friends?",
+      "answer": "Possibly. Contact support@ns.com for rooming and admission details."
+    },
+    {
+      "question": "How long can I stay at The Network School?",
+      "answer": "Monthly stays are standard, with the option to extend monthly and the possibility of becoming an NS long-termer with a 12-month commitment."
+    },
+    {
+      "question": "When do cohorts start?",
+      "answer": "Admissions are rolling. New cohorts move in on the first of each month."
+    },
+    {
+      "question": "Do I need a visa to stay at The Network School?",
+      "answer": "It depends on your passport and length of stay. Most nationalities can enter Malaysia visa-free for up to 90 days. Detailed visa guidance is provided after acceptance."
+    },
+    {
+      "question": "What is the refund policy?",
+      "answer": "Per the public terms, all sales are final and non-refundable."
+    },
+    {
+      "question": "Is there an age requirement?",
+      "answer": "Yes, you must be 18 or older to apply."
+    },
+    {
+      "question": "How does The Network School referral program work?",
+      "answer": "Existing members can refer applicants. Referred applicants receive a prioritized review and one week of free stay. Apply using any member's [referral link](https://ns.com/wagmit/apply)."
+    },
+    {
+      "question": "How do I get help or learn more before applying?",
+      "answer": "You can schedule a [15-minute call](https://calendar.app.google/qLMUJ9FyAX3n9Ccm7) to learn more about life at The Network School. For post-booking support, contact support@ns.com."
+    }
+  ]
+}
