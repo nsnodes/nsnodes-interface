@@ -8,7 +8,7 @@ import { jobsDatabase } from '@/lib/data/jobs-database';
 import { societyNamesMatch } from '@/lib/utils/society-matcher';
 import { getEvents } from '@/lib/actions/events';
 import { getSocietyRadarScores } from '@/lib/actions/societies-radar';
-import { SOCIETY_CONTENT } from '@/components/society/society-content';
+import { loadSocietyContent } from '@/lib/data/society-content';
 
 // Mock society data for prototyping when database is unavailable
 const MOCK_SOCIETIES: SocietyDatabase[] = [
@@ -125,7 +125,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return { title: 'Society Not Found | nsnodes.com' };
   }
 
-  const content = SOCIETY_CONTENT[societyNameToSlug(society.name)];
+  const content = loadSocietyContent(societyNameToSlug(society.name));
   const pageUrl = `https://nsnodes.com/societies/${slug}`;
 
   // Build a rich description from content if available
@@ -212,7 +212,7 @@ export default async function SocietyDetailPage({
     : null;
 
   // Build JSON-LD structured data
-  const content = SOCIETY_CONTENT[slug];
+  const content = loadSocietyContent(slug);
   const jsonLd: Record<string, unknown>[] = [];
 
   // Organization schema
@@ -256,6 +256,7 @@ export default async function SocietyDetailPage({
       <SocietyDetailClient
         society={society}
         relatedSocieties={relatedSocieties}
+        content={content}
         jobs={jobs}
         events={events}
         radarScores={radarScoresArray}
