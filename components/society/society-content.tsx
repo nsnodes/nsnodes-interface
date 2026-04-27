@@ -32,7 +32,9 @@ function TextSection({ title, text }: { title: string; text: string }) {
       </div>
       <div className="p-6 space-y-4">
         {text.split('\n\n').map((paragraph, i) => (
-          <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">{paragraph}</p>
+          <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">
+            <RichText text={paragraph} />
+          </p>
         ))}
       </div>
     </div>
@@ -59,7 +61,9 @@ export function SocietyContent({ content }: SocietyContentProps) {
           {content.overview.map((item, i) => (
             <div key={i}>
               <h3 className="font-mono font-bold text-base mb-2">{item.title}</h3>
-              <p className="text-sm font-mono text-muted-foreground leading-relaxed">{item.text}</p>
+              <p className="text-sm font-mono text-muted-foreground leading-relaxed">
+                <RichText text={item.text} />
+              </p>
             </div>
           ))}
         </div>
@@ -72,7 +76,9 @@ export function SocietyContent({ content }: SocietyContentProps) {
         </div>
         <div className="p-6 space-y-6">
           {content.history.text.split('\n\n').map((paragraph, i) => (
-            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">{paragraph}</p>
+            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">
+              <RichText text={paragraph} />
+            </p>
           ))}
         </div>
       </div>
@@ -159,7 +165,9 @@ export function SocietyContent({ content }: SocietyContentProps) {
             <h2 className="font-mono font-bold text-sm">[ KID FRIENDLY ]</h2>
           </div>
           <div className="p-6 space-y-4">
-            <p className="text-sm font-mono text-muted-foreground leading-relaxed">{content.kidFriendly.description}</p>
+            <p className="text-sm font-mono text-muted-foreground leading-relaxed">
+              <RichText text={content.kidFriendly.description} />
+            </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {content.kidFriendly.activities.map((activity, i) => (
                 <div key={i} className="border-2 border-border p-3 bg-background">
@@ -242,7 +250,7 @@ export function SocietyContent({ content }: SocietyContentProps) {
                   .{' '}
                 </>
               ) : null}
-              {paragraph}
+              <RichText text={paragraph} />
             </p>
           ))}
         </div>
