@@ -20,7 +20,7 @@ export const jobsDatabase: Job[] = [
       salary: "Salary + Equity + Membership",
       description: "Work on every aspect of the Network School crypto stack, from onchain payments to new crypto-native functionality. Looking for builders familiar with Bitcoin, Ethereum, Solana, cryptography, and security best practices.",
       tags: ["Engineering", "Crypto", "On-site", "Singapore", "Full-time"],
-      link: "https://jobs.ns.com/33467"
+      link: "https://ns.com/wagmit/jobs"
     },
     {
       title: "Engineer: Data Scientist",
@@ -30,7 +30,7 @@ export const jobsDatabase: Job[] = [
       salary: "Salary + Equity + Membership",
       description: "Analyze datasets, evaluate Network School applications, and design AI-resistant applications at scale. Requires Python and PyData stack proficiency (Pandas, Pytorch, Jupyter, etc).",
       tags: ["Engineering", "Data Science", "Python", "Analytics", "On-site"],
-      link: "https://jobs.ns.com/33468"
+      link: "https://ns.com/wagmit/jobs"
     },
     {
       title: "Engineer: Web Developer",
@@ -40,7 +40,7 @@ export const jobsDatabase: Job[] = [
       salary: "Salary + Equity + Membership",
       description: "Full stack role building web apps using Python/Django/Postgres/React. Contribute to both internal tools and public-facing services at ns.com. Strong command line, Git, and deployment skills expected.",
       tags: ["Engineering", "Web Development", "Full Stack", "React", "Python"],
-      link: "https://jobs.ns.com/33461"
+      link: "https://ns.com/wagmit/jobs"
     },
     {
       title: "Head of Facilities",
@@ -50,7 +50,7 @@ export const jobsDatabase: Job[] = [
       salary: "Salary + Equity",
       description: "Lead the physical buildout of the Network School campus and future expansions. Oversee site selection, contractors, financial modeling, and compliance. Background in real estate, tech, or facilities management preferred.",
       tags: ["Operations", "Real Estate", "Facilities", "Leadership"],
-      link: "https://jobs.ns.com/33462"
+      link: "https://ns.com/wagmit/jobs"
     },
     {
       title: "Lecturer",
@@ -60,7 +60,7 @@ export const jobsDatabase: Job[] = [
       salary: "Salary + Equity + Membership",
       description: "Teach and research at the Network School’s new campus. Organize learnathons, develop onchain credentials, and explore decentralized education. Ideal for pragmatic academics with a STEM or open-source background.",
       tags: ["Education", "STEM", "Lecturer", "Crypto", "On-site"],
-      link: "https://jobs.ns.com/33918"
+      link: "https://ns.com/wagmit/jobs"
     },
     {
       title: "Product Designer",
@@ -70,7 +70,7 @@ export const jobsDatabase: Job[] = [
       salary: "Salary + Equity + Membership",
       description: "Design every digital and physical interface of the Network School. Requires strong Figma and visual design skills, taste, and experience across branding, UI, and multimedia. Crypto familiarity preferred.",
       tags: ["Design", "Product", "Figma", "Creative", "On-site"],
-      link: "https://jobs.ns.com/33465"
+      link: "https://ns.com/wagmit/jobs"
     },
     {
       title: "Volunteer Lead",

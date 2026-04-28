@@ -80,7 +80,7 @@ export function SocietySocialLinks({
           rel="noopener noreferrer"
           className={`inline-flex items-center gap-1 px-3 py-2 border-2 border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none${applyAlignEnd ? ' ml-auto' : ''}`}
         >
-          More Info
+          Apply
           <ExternalLink className="h-3 w-3" />
         </a>
       )}

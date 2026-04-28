@@ -1,0 +1,150 @@
+{
+  "overview": [
+    {
+      "title": "What is Próspera?",
+      "text": "Próspera is a special economic zone on the island of Roatán, Honduras, with its own legal framework, competitive tax structure, and governance model.",
+      "sources": [
+        "https://www.prospera.co/en",
+        "https://www.prospera.co/en/about"
+      ]
+    },
+    {
+      "title": "Who joins Próspera?",
+      "text": "Próspera draws entrepreneurs, remote workers, biotech researchers, crypto builders, and investors seeking a low-tax jurisdiction with modern legal tools. Members range from digital nomads looking for a year-round base to companies launching Caribbean operations. With 1,700+ residents from 40+ countries and 200+ businesses incorporated, the zone has developed an active community around healthcare innovation, financial technology, and governance research.",
+      "sources": [
+        "https://www.prospera.co/en",
+        "https://www.prospera.co/en/about"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Próspera was conceived by founder and CEO Erick A. Brimen, who identified Roatán's potential in the early 2000s but saw legal infrastructure as the missing piece. When Honduras passed the Zones for Employment and Economic Development (ZEDE) framework in 2013, Brimen recognized it as the vehicle to build the governance platform he had long envisioned.\n\nThe project secured ZEDE status and land rights on Roatán in 2017. Construction began in spring 2020 on a 58-acre site adjacent to Crawfish Rock, and the zone went live that same year. By 2023, three resident sub-communities had established roots inside the zone: Vitalia (longevity research and biotech acceleration), Cabin (a network city project), and Nomad Nation (digital nomad housing). [Duna Tower](https://www.dunaresidences.com), the flagship residential and commercial building, reached full occupancy by early 2025, and Coinbase announced an investment in January 2025.\n\nIn April 2022, the incoming Honduran government repealed the ZEDE framework. Próspera contested this under CAFTA-DR trade treaty protections, obtained legal validation from Deloitte and constitutional counsel, and resumed resident applications in October 2024. As of early 2026, the zone operates under those treaty protections while a $10.7 billion ICSID arbitration claim against Honduras proceeds.",
+    "milestones": [
+      {
+        "label": "ZEDE Status Granted",
+        "detail": "2017 - Land secured on Roatán adjacent to Crawfish Rock"
+      },
+      {
+        "label": "Zone Launched",
+        "detail": "Spring 2020 - Ground broken on 58-acre site; website goes live"
+      },
+      {
+        "label": "Community Expansion",
+        "detail": "2023 - Vitalia, Cabin, and Nomad Nation communities established; 200+ businesses incorporated"
+      },
+      {
+        "label": "CAFTA Protection",
+        "detail": "October 2024 - Resident applications resumed under trade treaty protections"
+      },
+      {
+        "label": "Growth Milestone",
+        "detail": "January 2025 - Coinbase investment announced; Duna Tower reaches full occupancy; 400+ attend Infinita Popup City"
+      }
+    ],
+    "sources": [
+      "https://www.prospera.co/en/about",
+      "https://reason.com/2021/12/28/how-erick-brimen-helped-launch-a-honduran-charter-city/",
+      "https://intercom.help/prospera-c3520d800849/en/articles/8258594-overview-of-e-residency"
+    ]
+  },
+  "location": "Próspera is located on the Caribbean island of Roatán, Honduras, roughly 20 minutes from Juan Manuel Gálvez International Airport. Direct flights reach Roatán from Miami, Houston, Atlanta, Denver, Toronto, and Madrid.\n\nThe zone encompasses 1,000+ acres with 34,000+ square meters of built real estate. The main hub clusters around [Duna Tower](https://www.dunaresidences.com) and the Beta Building. The Pristine Bay district - a separate resort complex with a hotel, conference center, [Montessori school](https://www.prospera.co/en/visit), and 18-hole golf course - sits 15-20 minutes on foot. La Ceiba, on the Honduran mainland, hosts a secondary Próspera district focused on manufacturing and nearshoring.",
+  "duration": "Próspera has three residency tiers that determine how long you can stay. A Visitor Pass (free) grants unlimited day visits and up to 30 nights per calendar year - suitable for exploring the zone before committing.\n\ne-Residency ($130/year) is designed for people who spend fewer than 30 days per year in the zone but want to register a business or hold property remotely. Full Residency ($130/year plus mandatory insurance) provides 365-day access for those living or working in Próspera year-round.\n\nThe $5,000 lump-sum tax program, launched in February 2026, is structured for digital nomads with no other tax residency. It requires a minimum seven-day annual visit and registration of a business entity within the zone within 60 days of enrollment.",
+  "pricing": "Próspera membership starts free. A Visitor Pass costs nothing and covers up to 30 nights per year. e-Residency is $130/year. Full Residency for year-round residents is $130/year plus mandatory insurance, the cost of which varies by individual circumstances.\n\nThe $5,000/year lump-sum tax program, launched February 2026, covers all income tax for qualifying digital nomads. It is not available to U.S. citizens due to U.S. citizenship-based taxation rules.\n\nAccommodation at [Duna Tower](https://www.dunaresidences.com) starts at $850/month for a studio rental, or from $120,000 to purchase. Commercial office space in the zone starts at $500-$700/month. [Próspera Weekends](https://www.prospera.co/en/visit) - 2-night intro visits on April 24-26, May 22-24, and June 26-28, 2026 - are $400 per person with housing and food included.",
+  "amenities": [
+    "High-speed internet throughout the zone",
+    "Infinita coworking space with startup acceleration and pitch opportunities",
+    "Makerspace lab with 3D printing, hydroponics garden, and community kitchen",
+    "Spirit Animal Coffee cafe (specialty coffee, teas, and food)",
+    "Bitcoin ATM",
+    "Gym with functional fitness equipment",
+    "8th-floor infinity pool at Duna Tower with grill and bar lounge",
+    "Sauna and cold plunge",
+    "Infinita Forever Health Clinic (primary care and longevity treatments)",
+    "GARM Clinic (regenerative medicine and experimental therapies)",
+    "Hospital Cemesa branch (24/7 emergency care on-site)",
+    "Scuba diving access via on-site shop (10-minute walk to reef)",
+    "18-hole golf course at Pristine Bay (15-20 min walk)",
+    "Montessori school at Pristine Bay (15-20 min walk)",
+    "e-Governance portal with Legal AI Assistant and online business registry"
+  ],
+  "howToEnter": {
+    "text": "Start with the free [weekly onboarding call](https://www.prospera.co/en/visit) held every Wednesday at 5:00 PM UTC to learn about the zone and ask the team questions directly. Then apply through the [e-Próspera portal](https://portal.eprospera.com/en) at the tier that fits your plans: Visitor Pass (free), e-Residency ($130/year), or full Residency ($130/year plus insurance).\n\nThe application requires a government-issued ID, proof of current residency, and completion of identity verification. You will review and sign the Agreement of Coexistence - Próspera's founding governance charter - and pay any applicable fees. Most applications are approved within 1-3 business days.\n\nCitizens of certain countries (including China, Russia, Iran, and Venezuela) require an exemption review before approval. The $5,000 lump-sum tax program has additional setup steps but the entire process is done remotely through digital documentation.",
+    "linkText": "Apply via e-Próspera portal",
+    "linkUrl": "https://portal.eprospera.com/en"
+  },
+  "faqs": [
+    {
+      "question": "What is Próspera and what makes it different from a regular city?",
+      "answer": "Próspera is a special economic zone (ZEDE) on Roatán, Honduras with its own legal code, tax system, and dispute resolution process. Unlike a standard municipality, residents and businesses voluntarily opt into Próspera's governance framework and lock in their tax rate for the duration of residency. The zone registers businesses online in under 24 hours and offers an independent arbitration system (PAC.hn) for dispute resolution. [Learn more on the official site](https://www.prospera.co/en/about)."
+    },
+    {
+      "question": "What are the tax rates in Próspera?",
+      "answer": "The income tax rate is 10% applied to 10% of gross income, producing an effective rate of roughly 1% on gross revenue. There is also a 5% payroll tax on wages and a 2.5% sales tax. A $5,000/year lump-sum tax program launched in February 2026 covers all income tax for qualifying digital nomads with no other tax residency. U.S. citizens cannot participate in the lump-sum program due to U.S. citizenship-based taxation rules."
+    },
+    {
+      "question": "How do I apply for Próspera residency or e-Residency?",
+      "answer": "Apply through the [e-Próspera portal](https://portal.eprospera.com/en). Choose your tier (free Visitor Pass, $130/year e-Residency, or $130/year full Residency), complete KYC identity verification, sign the Agreement of Coexistence, and pay any applicable fees. Most applications are approved within 1-3 days. The free [weekly onboarding call](https://www.prospera.co/en/visit) every Wednesday at 5 PM UTC is a good first step if you have questions."
+    },
+    {
+      "question": "What is the legal status of Próspera after the Honduras Supreme Court ruling?",
+      "answer": "In September 2024, the Honduran Supreme Court ruled the ZEDE framework unconstitutional. Próspera resumed operations and resident applications in October 2024 under CAFTA-DR (a US-Central America free trade treaty), with legal validation from Deloitte and constitutional counsel. A $10.7 billion ICSID arbitration claim against the Honduran government is currently in progress. The zone continues to operate, and new businesses and residents continue to be onboarded."
+    },
+    {
+      "question": "What residency options does Próspera offer?",
+      "answer": "Próspera has three tiers: Visitor Pass (free, up to 30 nights/year, no work rights), e-Residency ($130/year, for those spending under 30 days/year, includes business registration and property ownership rights), and full Residency ($130/year plus mandatory insurance, 365-day access for full-time residents). A $5,000/year lump-sum tax program is also available for qualifying digital nomads, launched February 2026."
+    },
+    {
+      "question": "Can I register a company in Próspera?",
+      "answer": "Yes. Business registration is done entirely online in 6 steps and typically completes within 24 hours. You need at minimum e-Residency ($130/year) to register a legal entity. Próspera's entity registry has over 250 companies incorporated as of early 2025. The zone has an independent arbitration system (PAC.hn) and a Legal AI Assistant accessible through the [e-Próspera portal](https://portal.eprospera.com/en) to help navigate its legal framework."
+    },
+    {
+      "question": "What healthcare is available in Próspera?",
+      "answer": "Three healthcare options serve zone residents. Infinita Forever Health Clinic at Duna Tower provides primary care and longevity treatments on-site. GARM Clinic specializes in regenerative medicine and experimental therapies, including some treatments not yet available in the United States due to regulatory differences. Hospital Cemesa, a Honduran hospital chain, operates a branch in the zone with 24/7 emergency services."
+    },
+    {
+      "question": "What events happen at Próspera?",
+      "answer": "Próspera runs [Próspera Weekends](https://www.prospera.co/en/visit) on April 24-26, May 22-24, and June 26-28, 2026 - $400 per person with housing and food included, a practical starting point for prospective members. Longer programs include [Pop-Up Island](https://www.prospera.co/en/visit) (May 5-19, 2026, a 15-day founding community event), the Noma Family coliving month (July 5 - August 2, 2026), and the annual Free Cities Conference (September 3-6, 2026). A free onboarding call runs every Wednesday at 5 PM UTC online."
+    },
+    {
+      "question": "What is the e-Próspera portal?",
+      "answer": "The [e-Próspera portal](https://portal.eprospera.com/en) is the main digital interface for the zone. Through it you can apply for residency or a Visitor Pass, register a business entity, access legal and registry services, and manage your residency status. Most administrative tasks - including business registration and the lump-sum tax program enrollment - are handled entirely within the portal."
+    },
+    {
+      "question": "How do I get to Próspera on Roatán?",
+      "answer": "Roatán's Juan Manuel Gálvez International Airport is served by direct flights from Miami, Houston, Atlanta, Denver, Toronto, and Madrid. Próspera is about 20 minutes from the airport. A budget option is to fly to San Pedro Sula on the Honduran mainland and take a short domestic connection to Roatán. [Próspera Weekends](https://www.prospera.co/en/visit) include housing and are a low-friction way to visit for the first time."
+    },
+    {
+      "question": "Is Próspera family-friendly?",
+      "answer": "Yes. A Montessori school operates at the Pristine Bay district, 15-20 minutes on foot from Duna Tower. The [Noma Family](https://www.prospera.co/en/visit) program (July 5 to August 2, 2026) is a dedicated month-long family coliving experience. Roatán itself offers coral reef snorkeling, scuba diving, beach access, and outdoor activities year-round. The $400 Próspera Weekends also welcome families."
+    }
+  ],
+  "kidFriendly": {
+    "description": "Próspera accommodates families through dedicated programming and on-site schooling. The [Noma Family](https://www.prospera.co/en/visit) program runs July 5 to August 2, 2026 as a month-long family coliving experience. A Montessori school operates at the adjacent Pristine Bay district, 15-20 minutes from Duna Tower on foot. Roatán's reef and beaches provide year-round outdoor activities for children of all ages.",
+    "activities": [
+      {
+        "emoji": "🏫",
+        "name": "Montessori School",
+        "location": "Pristine Bay district (15-20 min walk)",
+        "time": "School year"
+      },
+      {
+        "emoji": "🤿",
+        "name": "Scuba Diving and Snorkeling",
+        "location": "Roatán coral reef (10 min walk)",
+        "time": "Year-round"
+      },
+      {
+        "emoji": "🏖️",
+        "name": "Beach Access",
+        "location": "Roatán coastline",
+        "time": "Year-round"
+      },
+      {
+        "emoji": "👨‍👩‍👧‍👦",
+        "name": "Noma Family Coliving",
+        "location": "Próspera zone",
+        "time": "July 5 - August 2, 2026"
+      }
+    ]
+  }
+}

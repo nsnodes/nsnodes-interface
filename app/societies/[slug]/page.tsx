@@ -135,7 +135,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     : society.mission || `Explore ${society.name} — a ${society.type?.toLowerCase()} network state society.`;
 
   const TITLE_OVERRIDES: Record<string, string> = {
-    'network-school': 'Network School — Balaji ns.com Network State | nsnodes.com',
+    'network-school': 'Network School — Balajis ns.com Network State | nsnodes.com',
   };
 
   const title = TITLE_OVERRIDES[slug] ?? `${society.name} — ${society.category || 'Network Society'} | nsnodes.com`;
