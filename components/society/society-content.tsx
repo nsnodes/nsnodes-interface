@@ -24,7 +24,8 @@ function RichText({ text, className }: { text: string; className?: string }) {
   );
 }
 
-function TextSection({ title, text }: { title: string; text: string }) {
+function TextSection({ title, text }: { title: string; text?: string }) {
+  if (!text) return null;
   return (
     <div className="border-2 border-border bg-card shadow-brutal-md">
       <div className="p-4 border-b border-border">
@@ -53,56 +54,62 @@ export function SocietyContent({ content }: SocietyContentProps) {
   return (
     <div className="space-y-6">
       {/* Overview */}
-      <div className="border-2 border-border bg-card shadow-brutal-md">
-        <div className="p-4 border-b border-border">
-          <h2 className="font-mono font-bold text-sm">[ OVERVIEW ]</h2>
+      {content.overview && content.overview.length > 0 && (
+        <div className="border-2 border-border bg-card shadow-brutal-md">
+          <div className="p-4 border-b border-border">
+            <h2 className="font-mono font-bold text-sm">[ OVERVIEW ]</h2>
+          </div>
+          <div className="p-6 space-y-6">
+            {content.overview.map((item, i) => (
+              <div key={i}>
+                <h3 className="font-mono font-bold text-base mb-2">{item.title}</h3>
+                <p className="text-sm font-mono text-muted-foreground leading-relaxed">
+                  <RichText text={item.text} />
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="p-6 space-y-6">
-          {content.overview.map((item, i) => (
-            <div key={i}>
-              <h3 className="font-mono font-bold text-base mb-2">{item.title}</h3>
-              <p className="text-sm font-mono text-muted-foreground leading-relaxed">
-                <RichText text={item.text} />
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
+      )}
 
       {/* History */}
-      <div className="border-2 border-border bg-card shadow-brutal-md">
-        <div className="p-4 border-b border-border">
-          <h2 className="font-mono font-bold text-sm">[ HISTORY ]</h2>
+      {content.history?.text && (
+        <div className="border-2 border-border bg-card shadow-brutal-md">
+          <div className="p-4 border-b border-border">
+            <h2 className="font-mono font-bold text-sm">[ HISTORY ]</h2>
+          </div>
+          <div className="p-6 space-y-6">
+            {content.history.text.split('\n\n').map((paragraph, i) => (
+              <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">
+                <RichText text={paragraph} />
+              </p>
+            ))}
+          </div>
         </div>
-        <div className="p-6 space-y-6">
-          {content.history.text.split('\n\n').map((paragraph, i) => (
-            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">
-              <RichText text={paragraph} />
-            </p>
-          ))}
-        </div>
-      </div>
+      )}
 
       <TextSection title="LOCATION" text={content.location} />
       <TextSection title="DURATION" text={content.duration} />
       <TextSection title="PRICING" text={content.pricing} />
 
       {/* Amenities */}
-      <div className="border-2 border-border bg-card shadow-brutal-md">
-        <div className="p-4 border-b border-border">
-          <h2 className="font-mono font-bold text-sm">[ AMENITIES ]</h2>
-        </div>
-        <div className="p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {content.amenities.map((amenity, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm font-mono text-muted-foreground">
-                <span className="text-primary">+</span>
-                {amenity}
-              </div>
-            ))}
+      {content.amenities && content.amenities.length > 0 && (
+        <div className="border-2 border-border bg-card shadow-brutal-md">
+          <div className="p-4 border-b border-border">
+            <h2 className="font-mono font-bold text-sm">[ AMENITIES ]</h2>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {content.amenities.map((amenity, i) => (
+                <div key={i} className="flex items-center gap-2 text-sm font-mono text-muted-foreground">
+                  <span className="text-primary">+</span>
+                  {amenity}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Fellowship */}
       {content.fellowship && (
@@ -229,59 +236,63 @@ export function SocietyContent({ content }: SocietyContentProps) {
       )}
 
       {/* How to Enter */}
-      <div className="border-2 border-border bg-card shadow-brutal-md">
-        <div className="p-4 border-b border-border">
-          <h2 className="font-mono font-bold text-sm">[ HOW TO ENTER ]</h2>
+      {content.howToEnter?.text && (
+        <div className="border-2 border-border bg-card shadow-brutal-md">
+          <div className="p-4 border-b border-border">
+            <h2 className="font-mono font-bold text-sm">[ HOW TO ENTER ]</h2>
+          </div>
+          <div className="p-6 space-y-4">
+            {content.howToEnter.text.split('\n\n').map((paragraph, i) => (
+              <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">
+                {i === 0 && content.howToEnter?.linkText && content.howToEnter?.linkUrl ? (
+                  <>
+                    Applications are submitted{' '}
+                    <a
+                      href={content.howToEnter.linkUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline underline-offset-4 hover:text-primary transition-colors font-bold"
+                    >
+                      {content.howToEnter.linkText}
+                    </a>
+                    .{' '}
+                  </>
+                ) : null}
+                <RichText text={paragraph} />
+              </p>
+            ))}
+          </div>
         </div>
-        <div className="p-6 space-y-4">
-          {content.howToEnter.text.split('\n\n').map((paragraph, i) => (
-            <p key={i} className="text-sm font-mono text-muted-foreground leading-relaxed">
-              {i === 0 && content.howToEnter.linkText && content.howToEnter.linkUrl ? (
-                <>
-                  Applications are submitted{' '}
-                  <a
-                    href={content.howToEnter.linkUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline underline-offset-4 hover:text-primary transition-colors font-bold"
-                  >
-                    {content.howToEnter.linkText}
-                  </a>
-                  .{' '}
-                </>
-              ) : null}
-              <RichText text={paragraph} />
-            </p>
-          ))}
-        </div>
-      </div>
+      )}
 
       {/* FAQs */}
-      <div className="border-2 border-border bg-card shadow-brutal-md">
-        <div className="p-4 border-b border-border">
-          <h2 className="font-mono font-bold text-sm">[ FAQs ]</h2>
+      {content.faqs && content.faqs.length > 0 && (
+        <div className="border-2 border-border bg-card shadow-brutal-md">
+          <div className="p-4 border-b border-border">
+            <h2 className="font-mono font-bold text-sm">[ FAQs ]</h2>
+          </div>
+          <div className="divide-y divide-border">
+            {content.faqs.map((faq, i) => (
+              <button
+                key={i}
+                type="button"
+                className="w-full text-left p-4 hover:bg-accent/50 transition-colors cursor-pointer"
+                onClick={() => setOpenFaq(openFaq === i ? null : i)}
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-sm font-mono font-bold">{faq.question}</span>
+                  <ChevronDown className={`h-4 w-4 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                </div>
+                {openFaq === i && (
+                  <p className="text-sm font-mono text-muted-foreground leading-relaxed mt-3 pr-8">
+                    <RichText text={faq.answer} />
+                  </p>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="divide-y divide-border">
-          {content.faqs.map((faq, i) => (
-            <button
-              key={i}
-              type="button"
-              className="w-full text-left p-4 hover:bg-accent/50 transition-colors cursor-pointer"
-              onClick={() => setOpenFaq(openFaq === i ? null : i)}
-            >
-              <div className="flex items-center justify-between gap-4">
-                <span className="text-sm font-mono font-bold">{faq.question}</span>
-                <ChevronDown className={`h-4 w-4 flex-shrink-0 transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
-              </div>
-              {openFaq === i && (
-                <p className="text-sm font-mono text-muted-foreground leading-relaxed mt-3 pr-8">
-                  <RichText text={faq.answer} />
-                </p>
-              )}
-            </button>
-          ))}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

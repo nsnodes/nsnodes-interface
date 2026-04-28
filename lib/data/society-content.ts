@@ -14,20 +14,22 @@ export interface DiscountInfo {
   linkUrl: string;
 }
 
+// All fields are optional. The scraper omits sections it can't source from
+// first-party material, so the renderer must tolerate any missing field.
 export interface SocietyContentData {
-  overview: { title: string; text: string }[];
-  history: { text: string; milestones: { label: string; detail: string }[] };
-  location: string;
-  duration: string;
-  pricing: string;
-  amenities: string[];
+  overview?: { title: string; text: string }[];
+  history?: { text?: string; milestones?: { label: string; detail: string }[] };
+  location?: string;
+  duration?: string;
+  pricing?: string;
+  amenities?: string[];
   fellowship?: string;
   fellowshipUrl?: string;
   longtermer?: string;
   kidFriendly?: { description: string; activities: KidActivity[] };
   discount?: DiscountInfo;
-  howToEnter: { text: string; linkText?: string; linkUrl?: string };
-  faqs: { question: string; answer: string }[];
+  howToEnter?: { text?: string; linkText?: string; linkUrl?: string };
+  faqs?: { question: string; answer: string }[];
 }
 
 const CONTENT_DIR = path.join(process.cwd(), 'content', 'societies');
