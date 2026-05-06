@@ -1,4 +1,7 @@
-import { Briefcase, MapPin, ExternalLink } from 'lucide-react';
+'use client';
+
+import { useState } from 'react';
+import { Briefcase, MapPin, ExternalLink, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import type { Job } from '@/lib/data/jobs-database';
 
@@ -7,8 +10,16 @@ interface SocietyJobsProps {
   societyName: string;
 }
 
+const INITIAL_VISIBLE = 3;
+
 export function SocietyJobs({ jobs, societyName }: SocietyJobsProps) {
+  const [showAll, setShowAll] = useState(false);
+
   if (jobs.length === 0) return null;
+
+  const hasMore = jobs.length > INITIAL_VISIBLE;
+  const visibleJobs = showAll || !hasMore ? jobs : jobs.slice(0, INITIAL_VISIBLE);
+  const hiddenCount = jobs.length - INITIAL_VISIBLE;
 
   return (
     <div className="border-2 border-border bg-card shadow-brutal-md">
@@ -19,7 +30,7 @@ export function SocietyJobs({ jobs, societyName }: SocietyJobsProps) {
         </h2>
       </div>
       <div className="divide-y divide-border">
-        {jobs.map((job, i) => (
+        {visibleJobs.map((job, i) => (
           <div key={i} className="p-4 space-y-2">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
               <div className="min-w-0">
@@ -62,6 +73,21 @@ export function SocietyJobs({ jobs, societyName }: SocietyJobsProps) {
           </div>
         ))}
       </div>
+
+      {hasMore && (
+        <button
+          type="button"
+          onClick={() => setShowAll(v => !v)}
+          className="w-full p-4 border-t border-border text-xs font-mono hover:bg-accent transition-colors flex items-center justify-center gap-2 cursor-pointer"
+        >
+          {showAll ? (
+            <>Show fewer <ChevronDown className="h-3 w-3 rotate-180" /></>
+          ) : (
+            <>Show {hiddenCount} more position{hiddenCount === 1 ? '' : 's'} <ChevronDown className="h-3 w-3" /></>
+          )}
+        </button>
+      )}
+
       <div className="p-4 border-t border-border">
         <Link
           href={`/jobs?employer=${encodeURIComponent(societyName)}`}
