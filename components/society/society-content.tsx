@@ -176,15 +176,32 @@ export function SocietyContent({ content }: SocietyContentProps) {
               <RichText text={content.kidFriendly.description} />
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {content.kidFriendly.activities.map((activity, i) => (
-                <div key={i} className="border-2 border-border p-3 bg-background">
-                  <div className="font-mono font-bold text-sm mb-1">
-                    {activity.emoji} {activity.name}
+              {content.kidFriendly.activities.map((activity, i) => {
+                const inner = (
+                  <>
+                    <div className="font-mono font-bold text-sm mb-1">
+                      {activity.emoji} {activity.name}
+                    </div>
+                    <div className="text-xs font-mono text-muted-foreground">{activity.location}</div>
+                    <div className="text-xs font-mono text-muted-foreground">{activity.time}</div>
+                  </>
+                );
+                return activity.url ? (
+                  <a
+                    key={i}
+                    href={activity.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="border-2 border-border p-3 bg-background hover:bg-accent transition-colors shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <div key={i} className="border-2 border-border p-3 bg-background">
+                    {inner}
                   </div>
-                  <div className="text-xs font-mono text-muted-foreground">{activity.location}</div>
-                  <div className="text-xs font-mono text-muted-foreground">{activity.time}</div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

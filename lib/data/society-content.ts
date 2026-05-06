@@ -6,6 +6,7 @@ export interface KidActivity {
   name: string;
   location: string;
   time: string;
+  url?: string;
 }
 
 export interface DiscountInfo {

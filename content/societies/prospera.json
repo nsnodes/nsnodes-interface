@@ -124,25 +124,29 @@
         "emoji": "🏫",
         "name": "Montessori School",
         "location": "Pristine Bay district (15-20 min walk)",
-        "time": "School year"
+        "time": "School year",
+        "url": "https://www.prospera.co/en/visit"
       },
       {
         "emoji": "🤿",
         "name": "Scuba Diving and Snorkeling",
         "location": "Roatán coral reef (10 min walk)",
-        "time": "Year-round"
+        "time": "Year-round",
+        "url": "https://www.prospera.co/en/visit"
       },
       {
         "emoji": "🏖️",
         "name": "Beach Access",
         "location": "Roatán coastline",
-        "time": "Year-round"
+        "time": "Year-round",
+        "url": "https://www.prospera.co/en/visit"
       },
       {
         "emoji": "👨‍👩‍👧‍👦",
         "name": "Noma Family Coliving",
         "location": "Próspera zone",
-        "time": "July 5 - August 2, 2026"
+        "time": "July 5 - August 2, 2026",
+        "url": "https://www.prospera.co/en/visit"
       }
     ]
   }
