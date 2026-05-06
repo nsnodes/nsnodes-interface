@@ -17,7 +17,7 @@
     }
   ],
   "history": {
-    "text": "Montelibero traces its origins to December 2020, when the first libertarian family relocated from Kyiv to Budva, Montenegro, testing the idea that a free society could take root in a small European country. In February 2021, the project published its first article and formally launched the Free Society Project in Europe (FSPE). The founding circle included Ukrainian agorists from the panarchy.ru community, members of the Libertarian Party of Russia, and libertarian blogger Ankap-chan, who joined as co-founder in March 2021.\n\nThe early months moved fast. By June 2021, Montelibero had registered a local legal entity, launched the MTL token on the Stellar blockchain, and created the [EURMTL stablecoin](https://eurmtl.montelibero.org/) - a Euro-pegged token for internal settlements and cross-border exchange. That summer the community acquired 10,154 square meters of land in the municipality of Bar, laying the groundwork for MTL City, the movement's planned startup town.\n\nBy year-end 2021, Montelibero had 21 permanent residents in Montenegro and over 600 active participants across Telegram channels. A Basic Income program began paying weekly EURMTL to qualifying residents in November of that year. The community has since grown to 250+ full-time residents in Montenegro (as of early 2024, per community reports) and a local economy of roughly 100 businesses.",
+    "text": "Montelibero traces its origins to December 2020, when the first libertarian family relocated from Kyiv to Budva, Montenegro, testing the idea that a free society could take root in a small European country. In February 2021, the project published its first article and formally launched the Free Society Project in Europe (FSPE). The founding circle included Ukrainian agorists from the panarchy.ru community, members of the Libertarian Party of Russia, and libertarian blogger Ankap-chan, who joined as co-founder in March 2021.\n\nThe early months moved fast. By June 2021, Montelibero had registered a local legal entity, launched the MTL token on the Stellar blockchain, and created the [EURMTL stablecoin](https://eurmtl.montelibero.org/) - a Euro-pegged token for internal settlements and cross-border exchange. That summer the community acquired 10,154 square meters of land in the municipality of Bar, laying the groundwork for MTL City, the movement's planned startup town.\n\nBy year-end 2021, Montelibero had 21 permanent residents in Montenegro and over 600 active participants across Telegram channels. A Basic Income program began paying weekly EURMTL to qualifying residents in November of that year. The community has since grown into an active full-time presence in Montenegro, with 20+ residents already living on-site at MTL City and a local economy of roughly 100 businesses.",
     "milestones": [
       {
         "label": "First Settlers",
@@ -37,11 +37,7 @@
       },
       {
         "label": "MTL City Opens",
-        "detail": "Summer 2023 - first building completed and offered for long-term rental"
-      },
-      {
-        "label": "250+ Residents",
-        "detail": "Early 2024 - over 250 members living full-time in Montenegro"
+        "detail": "Summer 2023 - first building completed and offered for long-term rental, 20+ residents on-site"
       }
     ],
     "sources": [
@@ -51,7 +47,7 @@
     ]
   },
   "location": "Montelibero is based in the Bar municipality on Montenegro's Adriatic coast, with the physical heart of the community in the village of Pecurice (Pečurice). This is where MTL City - the movement's planned startup town - is under development on 10,154 square meters of land the community acquired in 2021. A first residential building was completed in Summer 2023 and is available for long-term rental; 20+ residents already live on site. The full MTL City plan includes a townhouse district, commercial and office quarter, and private detached houses.\n\nBeyond MTL City, most settlers choose the nearby city of Bar as their base, with some in Budva to the north, where the community first took root in late 2020. The community runs a hub in Bar (Montelibero Space) that hosts events and co-working. Montenegro uses the Euro, has no capital gains tax, charges a 9% income tax, and offers visa-free 90-day entry for most nationalities - the country's openness is a core reason the community selected it.",
-  "duration": "Montelibero has no fixed program length or cohort schedule - it is a permanent community, not a retreat or accelerator. Members move to Montenegro on their own timeline and stay as long as they choose. The typical path is to spend a 90-day tourist visa period evaluating the community before transitioning to a longer-term residence permit.\n\nThe annual Montelibero Fest has run each autumn since 2023, bringing community members and newcomers together for two to three days of talks, marketplace activity, and community programming. The 2024 edition ran October 4-6 in Bar; the 2025 edition (Montelibero.Zajedno) was held November 27-28 in Podgorica. Admission is free with registration at [mtlfest.me](https://mtlfest.me/2025/en).",
+  "duration": "Montelibero has no fixed program length or cohort schedule - it is a permanent community, not a retreat or accelerator. Members move to Montenegro on their own timeline and stay as long as they choose. The typical path is to spend a 90-day tourist visa period evaluating the community before transitioning to a longer-term residence permit.\n\nThe annual Montelibero Fest has run each autumn since 2023, bringing community members and newcomers together for two to three days of talks, marketplace activity, and community programming. The 2024 edition ran October 4-6 in Bar and the 2025 edition (Montelibero.Zajedno) ran November 27-28 in Podgorica. Past editions have been free with registration at [mtlfest.me](https://mtlfest.me/2025/en); a 2026 edition has not yet been announced as of this update.",
   "amenities": [
     "EURMTL stablecoin accepted at community businesses (1:1 Euro peg)",
     "MTL Wallet via Telegram bot @MyMTLWalletBot for instant crypto payments",
@@ -109,7 +105,7 @@
     },
     {
       "question": "What is the Montelibero Fest and can anyone attend?",
-      "answer": "Montelibero Fest is the community's annual gathering, running each autumn since 2023. It brings together libertarians, digital nomads, and freedom-oriented people for speaker sessions, workshops, a marketplace, and children's activities. Admission is free; registration is required due to limited capacity. The 2024 edition was in Bar; the 2025 edition (Montelibero.Zajedno) was in Podgorica. Register at [mtlfest.me](https://mtlfest.me/2025/en)."
+      "answer": "Montelibero Fest is the community's annual gathering, running each autumn since 2023. It brings together libertarians, digital nomads, and freedom-oriented people for speaker sessions, workshops, a marketplace, and children's activities. Past editions have been free with registration; capacity is limited. The 2024 edition was in Bar and the 2025 edition (Montelibero.Zajedno) ran in Podgorica. A 2026 edition has not yet been announced; check [mtlfest.me](https://mtlfest.me/2025/en) for updates."
     },
     {
       "question": "What is the MTL Fund and can I invest?",

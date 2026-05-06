@@ -17,7 +17,7 @@
     }
   ],
   "history": {
-    "text": "Amagi Life was founded in 2024 on Koh Phangan, Thailand by a team including Ofer Rotem, a blockchain investor and real estate developer with over 17 years of experience and more than 100 homes built on the island, and Geir Windsvoll, a serial entrepreneur who has lived on Koh Phangan for 17 years. The founding team set out to prototype a new kind of village where residents earn co-ownership through contribution rather than capital alone.\n\nThe project's first site is Hidden Valley, a secluded location in the Bang-Tai mountains. In January 2025 the team launched the [Amagi Village Podcast](https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT) on Spotify and YouTube to document the community's development in real time. By January 2026, nine residents were living across eleven available homes, with the team focused on reaching its first 20 to 30 residents.",
+    "text": "Amagi Life was founded in 2024 on Koh Phangan, Thailand by a team including Ofer Rotem, a blockchain investor and real estate developer with over 17 years of experience and more than 100 homes built on the island, and Geir Windsvoll, a serial entrepreneur who has lived on Koh Phangan for 17 years. The founding team set out to prototype a new kind of village where residents earn co-ownership through contribution rather than capital alone.\n\nThe project's first site is Hidden Valley, a secluded location in the hills above Ban Tai. In January 2025 the team launched the [Amagi Village Podcast](https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT) on Spotify and YouTube to document the community's development in real time. By January 2026, nine residents were living across eleven available homes, with the team focused on reaching its first 20 to 30 residents.",
     "milestones": [
       {
         "label": "Founded",
@@ -42,7 +42,7 @@
       "https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT"
     ]
   },
-  "location": "Amagi Life's first village occupies Hidden Valley, a secluded site in the Bang-Tai mountains of Koh Phangan, approximately five minutes from Ban Tai town centre. The setting pairs natural surroundings with straightforward access to island services and infrastructure.\n\nSi Ri Panya International School - a Cambridge-accredited British school serving early years through secondary, taught in English and licensed by the Thai Ministry of Education - is five minutes from the village and provides bus transport to and from the community.\n\nKoh Phangan is a Thai island in the Gulf of Thailand known for its beaches, jungle interior, and growing base of long-term residents. The island has direct ferry connections to the mainland and to Koh Samui, which has an international airport.",
+  "location": "Amagi Life's first village occupies Hidden Valley, a secluded site in the hills above Ban Tai on Koh Phangan, approximately five minutes from the Ban Tai town centre. The setting pairs natural surroundings with straightforward access to island services and infrastructure.\n\nSi Ri Panya International School - a Cambridge-accredited British school serving early years through secondary, taught in English and licensed by the Thai Ministry of Education - is five minutes from the village and provides bus transport to and from the community.\n\nKoh Phangan is a Thai island in the Gulf of Thailand known for its beaches, jungle interior, and growing base of long-term residents. The island has direct ferry connections to the mainland and to Koh Samui, which has an international airport.",
   "duration": "Amagi Life is designed for long-term living rather than fixed-length cohorts or short visits. Residents join either as Residents, moving into an existing home, or as Builders, who commission a custom home through the in-house construction team. No minimum stay is publicly stated, but the community's equity model - where co-ownership grows through ongoing participation - is structured to reward residents who stay and contribute over time.",
   "pricing": "Amagi Life uses a rent-reduction model tied to community participation. Three tiers are available:\n\n- Full Value: live rent-free while earning village equity through active contribution\n- Half Payment: 50% rent reduction with ongoing equity accumulation\n- Standard Rate: normal rent with equity earned over time\n\nRent rates are set by community governance and vary by home. For residents who want to build rather than rent, land-plus-build packages start from approximately 60,000 baht. Specific terms are discussed during a 1:1 alignment call with the team. Contact join@amagi.life to start the conversation.",
   "amenities": [
@@ -69,7 +69,7 @@
     },
     {
       "question": "Where is Amagi Life located?",
-      "answer": "Amagi Life is on Koh Phangan, Thailand. The first village is Hidden Valley, a secluded site in the Bang-Tai mountains about five minutes from Ban Tai town centre."
+      "answer": "Amagi Life is on Koh Phangan, Thailand. The first village is Hidden Valley, a secluded site in the hills above Ban Tai, about five minutes from the Ban Tai town centre."
     },
     {
       "question": "Is Amagi Life family-friendly?",
@@ -97,7 +97,7 @@
     },
     {
       "question": "Who founded Amagi Life?",
-      "answer": "The core founding team includes Ofer Rotem (blockchain investor and real estate developer with 17+ years and 100+ homes built on Koh Phangan), Geir Windsvoll (17-year Koh Phangan resident and serial entrepreneur), Dora Ho (venture builder and Stanford GSB alumna), and Mikkel Fishman (former CEO with systems and data infrastructure background)."
+      "answer": "The core founding team includes Ofer Rotem (blockchain investor and real estate developer with 17+ years and 100+ homes built on Koh Phangan), Geir Windsvoll (17-year Koh Phangan resident and serial entrepreneur), Dora Ho (venture builder and Stanford GSB alumna), and Mikkel Fishman (former CEO with systems and data infrastructure background). The full team and supporting cast are listed on the [Amagi team page](https://amagi.life/team)."
     },
     {
       "question": "Is there a minimum stay requirement?",
@@ -109,7 +109,7 @@
     },
     {
       "question": "Who are some notable advisors and investors in Amagi Life?",
-      "answer": "Balaji Srinivasan, co-founder of Counsyl, former Coinbase CTO, and author of The Network State, is listed as an investor and advisor. Patri Friedman, founder of Pronomos Capital and the Seasteading Institute, is also an advisor."
+      "answer": "Balaji Srinivasan, co-founder of Counsyl, former Coinbase CTO, and author of The Network State, is listed as an investor and advisor. Patri Friedman, founder of Pronomos Capital and the Seasteading Institute, is also an advisor. The complete list of investors, advisors, and partners is on the [Amagi team page](https://amagi.life/team)."
     }
   ]
 }
