@@ -2,76 +2,164 @@
   "overview": [
     {
       "title": "What is Network School?",
-      "text": "Founded by Balaji Srinivasan, Network School is a residential community designed for builders, creators, and techno-optimists. It blends the best aspects of a university, startup accelerator, and intentional living space into a single program where members live, learn, and build together."
+      "text": "Network School is a residential startup society in Forest City, Malaysia, where builders live and work together to learn, earn, get fit, and grow.",
+      "sources": [
+        "https://ns.com/",
+        "https://balajis.com/p/network-school"
+      ]
     },
     {
       "title": "Who joins Network School?",
-      "text": "The community attracts a wide mix of people, including software engineers, digital nomads, content creators, fitness enthusiasts, event organizers, and founders. What they share is a desire to live intentionally alongside others who are building something meaningful."
+      "text": "Members come from 50+ countries - including founders, engineers, designers, investors, writers, and creators who share a belief in technology and open networks. The community draws professionals who work remotely and want to build something meaningful alongside like-minded people, without a fixed-term degree or corporate structure. Past cohorts have included builders from the Middle East, India, East Asia, Europe, and the Americas.",
+      "sources": [
+        "https://www.ryanchern.com/posts/network_school",
+        "https://balajis.com/p/network-school"
+      ]
     }
   ],
   "history": {
-    "text": "Network School launched its first cohort in September 2024 as a 100-day pilot in Forest City, Malaysia. The idea was born from Balaji Srinivasan's vision of replacing declining traditional institutions with a digital-first, community-driven alternative, inspired in part by his time teaching at Stanford.\n\nAfter strong demand during the initial run, the program expanded into a year-round residency with double the capacity, featuring ongoing cohorts, hundreds of guest speakers, and a growing calendar of events.\n\nThe team is now developing a permanent campus in the same area, intended to serve as a blueprint that can be replicated in other locations around the world.",
+    "text": "Network School grew out of [Balaji Srinivasan's writing on network states](https://balajis.com/p/network-school) - the idea that a startup society can form online and then acquire physical presence. In 2024, Balaji chose Forest City, Johor, as the site for the first campus: a largely undeveloped island near Singapore with affordable space and strong connectivity to Asia's tech hubs.\n\nThe first cohort ran from September 23 to December 23, 2024, a 90-day program that drew around 128 members from across the globe. That initial run tested the Learn, Burn, Earn, Fun model in a live residential setting and validated demand for something longer. [Network School v2](https://balajis.com/p/network-school-2025) launched March 1, 2025, with double the capacity at 256 members and a full year-long program.\n\nBy late 2025, cohorts had grown to 270+ members at peak, with programs like [Ethereum NS](https://www.ethns.io/) and Solana Superteam using the campus as an operational base. The fellowship program expanded with a $100K funding track for global founders who commit to a full year onsite.",
     "milestones": [
-      { "label": "First Cohort", "detail": "128 members | 100 days" },
-      { "label": "Year-Round Residency", "detail": "256 members | 365 days" },
-      { "label": "Permanent Campus", "detail": "1024 members | Ongoing" }
+      {
+        "label": "Announced",
+        "detail": "August 2024 | Balaji Srinivasan introduces Network School"
+      },
+      {
+        "label": "V1 Opens",
+        "detail": "September 23, 2024 | First 90-day cohort launches, ~128 members"
+      },
+      {
+        "label": "V1 Closes",
+        "detail": "December 23, 2024 | First cohort concludes"
+      },
+      {
+        "label": "V2 Launch",
+        "detail": "March 1, 2025 | Year-long cohort opens, 256 members"
+      },
+      {
+        "label": "Fellowship Launch",
+        "detail": "2025 | $100K funding track opens for 100 global founders"
+      }
+    ],
+    "sources": [
+      "https://balajis.com/p/network-school",
+      "https://balajis.com/p/network-school-2025",
+      "https://www.ethns.io/"
     ]
   },
-  "location": "Network School is located in Forest City, Malaysia, a large-scale development within the Singapore-Johor Special Economic Zone. Members have access to private rooms, a gym, coworking areas, and auditorium spaces. This site serves as the primary hub for the foreseeable future.\n\nAs the community grows, the long-term plan includes establishing additional locations worldwide, creating a decentralized network of connected campuses.",
-  "duration": "The current program runs year-round as a continuous residency. Members can join for a minimum of one month and extend their stay on a monthly basis.\n\nThe goal is for the campus to eventually transition into a permanent neighborhood with ongoing intake.",
-  "pricing": "Membership costs $3,000 per month for a private room, or $1,500 per month with a roommate.\n\nThe pricing follows an all-inclusive model that covers accommodation, meals, fitness, coworking, and events, so members can focus entirely on learning, building, and connecting.",
+  "location": "Network School is based at the Marina Forest Hotel in Forest City, Johor, Malaysia - a cluster of artificial islands about 30 minutes from Johor Bahru city center and roughly one hour's drive from Singapore.\n\nForest City sits within the Singapore-Johor Special Economic Zone, giving members easy cross-border access to Singapore for day trips, errands, and flights. The campus has bay views, a waterfront area, and the quieter atmosphere of a planned new city rather than a dense urban environment.\n\nNearest airports are Singapore Changi (SIN) and Johor Bahru Senai (JHB), both one to two hours away. Ride-hailing apps like Grab handle local travel, and the campus runs a dedicated round-trip shuttle to Singapore.",
+  "duration": "Network School runs on rolling monthly enrollment - new members can join on the 1st of any month. There is no published minimum stay; members typically commit to one to three months and extend from there. The current year-long program opened March 1, 2025.\n\nFellowship recipients commit to a full year on campus as a condition of the $100K grant. Members who extend their stay for two or more months can upgrade to larger apartment units within Forest City.",
+  "pricing": "Membership costs $1,500 per month for a shared double room, covering accommodation, three daily meals, 24/7 gym access, all events and workshops, coworking space, and high-speed Wi-Fi. Applying via the [referral link](https://ns.com/wagmit/apply) reduces the standard rate by 25% to $1,125 per month.\n\nA private room costs approximately $3,000 per month (rate sourced from mid-2025 - confirm current pricing when you [apply](https://ns.com/wagmit/apply)). Fellowship recipients have their full stay covered as part of the $100K funding package.",
   "amenities": [
-    "Serviced room",
-    "All-you-can-eat restaurant",
-    "24/7 gym access",
-    "Fitness classes",
-    "24/7 co-working access",
-    "Content studios",
-    "Maker space",
-    "High-speed Wi-Fi",
-    "Workshops, lectures, and events"
+    "Shared double rooms and private rooms at the Marina Forest Hotel",
+    "Three daily meals following a health-focused diet",
+    "24/7 gym with personal trainers and coach-led morning sessions",
+    "Group workouts and body composition tracking",
+    "Coworking spaces and dedicated office pods",
+    "High-speed Wi-Fi throughout campus",
+    "Weekly hackathons, workshops, and speaker events",
+    "NS Cafe with complimentary coffee and beverages",
+    "Content studio and makerspace",
+    "Library and curated reading groups",
+    "Campus round-trip shuttle service to Singapore",
+    "Sports and fitness tournaments including the NS Cup"
   ],
-  "fellowship": "Founders and creators can apply for a fellowship worth $100,000 in funding for a new or existing venture. The main requirement is relocating to the Network School campus for one year.",
-  "fellowshipUrl": "https://balajis.com/p/network-school-fellowship?hide_intro_popup=true",
-  "longtermer": "To become a Longtermer, start by [applying for a regular stay](https://ns.com/wagmit/apply). Once on campus, Balaji typically hosts an introductory lunch where he shares more about the program. In short, Longtermers commit to a 12-month stay and in return gain access to private apartments, reduced rent, long-term visa assistance, a potential community token allocation, and membership in the core long-term community.",
+  "fellowship": "The [Network School Fellowship](https://ns.com/fellowship) funds up to 100 global founders with $100,000 each for a one-year onsite residency. Room, board, gym access, food, office space, laundry, and cleaning are all included on top of the cash grant. Fellows are expected to ship meaningful work - a new venture or a major milestone for an existing one - during their year on campus.\n\nThe application runs four stages: an online form with a short screening test and references at [ns.com/fellowship/apply](https://ns.com/fellowship/apply); a structured Zoom interview; an in-person proctored exam at the Network School campus; and final acceptance with funded relocation. The committee looks for high integrity, high agency, and either a strong academic track record or demonstrated startup traction. Applications are open to candidates from any country with English language fluency.",
+  "fellowshipUrl": "https://ns.com/fellowship/apply",
+  "longtermer": "Members who stay two months or longer can upgrade from a standard double hotel room to a two-bedroom apartment within Forest City, gaining more space and a more independent living setup. Monthly extensions are available with no fixed long-term commitment required.\n\nNetwork School v3 is planned as a purpose-built residential campus, with units designed for longer stays and families. Open-sourced blueprints are intended to allow the model to scale to additional campuses globally.",
   "kidFriendly": {
-    "description": "Yes! The community actively works to make Network School welcoming for families with children. Babysitting is available every weekday, there are customized kids' menus for meals, and kid-friendly activities run throughout the week. Here are some examples of regular activities:",
+    "description": "Network School welcomes families, and children have been present in every cohort. The campus sits on a low-traffic island with open outdoor areas and bay views - a practical environment for parents who work remotely alongside family life. Kids can use the gym, join campus sports, and participate in community events and social gatherings. Contact the team via [ns.com](https://ns.com/wagmit/apply) for family room options and current family-specific guidance.",
     "activities": [
-      { "emoji": "🍳", "name": "Breakfast Club", "location": "NS Breakfast Area", "time": "8:40 AM – 9:20 AM" },
-      { "emoji": "🎨", "name": "Craft with me: Watercolor Bookmarks", "location": "NS Cafe", "time": "11:00 AM – 12:00 PM" },
-      { "emoji": "🍱", "name": "Lunch Bunch", "location": "NS 13th Floor", "time": "12:15 PM – 1:00 PM" },
-      { "emoji": "💻", "name": "App Builder School (All Ages)", "location": "NS Library", "time": "12:30 PM – 1:30 PM" },
-      { "emoji": "🏊", "name": "Swim Club", "location": "NS Pool", "time": "2:00 PM – 3:00 PM" }
+      {
+        "emoji": "🏋️",
+        "name": "Gym sessions",
+        "location": "Marina Forest Hotel gym",
+        "time": "Daily, from 6 a.m."
+      },
+      {
+        "emoji": "⚽",
+        "name": "Football (NS Cup)",
+        "location": "Campus sports area",
+        "time": "Weekends"
+      },
+      {
+        "emoji": "🏐",
+        "name": "Beach volleyball",
+        "location": "Campus waterfront area",
+        "time": "Afternoons"
+      },
+      {
+        "emoji": "🏓",
+        "name": "Table tennis",
+        "location": "Campus recreation area",
+        "time": "Open daily"
+      },
+      {
+        "emoji": "📚",
+        "name": "Community book club",
+        "location": "Campus library",
+        "time": "Biweekly"
+      }
     ]
   },
   "discount": {
-    "text": "Network School typically does not offer discounts. However, if you apply using our link (or any other member's link), you'll receive a prioritized application review as well as one week of free stay.",
-    "linkText": "Prioritized review & 1 week free stay",
+    "text": "Apply via the referral link to get 25% off - $1,125 per month instead of the standard $1,500 for a shared room.",
+    "linkText": "Apply with discount",
     "linkUrl": "https://ns.com/wagmit/apply"
   },
   "howToEnter": {
-    "text": "Cohorts begin on the first of each month. There are no strict prerequisites, but priority is given to applicants who plan longer stays and bring relevant skills in engineering, creation, or community building. Once accepted, you'll need to pay the first month's rent to confirm your spot. Applying through a member referral can strengthen your application.",
-    "linkText": "here",
+    "text": "Applications are open year-round at [ns.com/apply](https://ns.com/wagmit/apply). Fill out a short form, select your intended start date, and wait for acceptance. If approved, you complete a second step that includes paying your first month's rent. New cohorts start on the 1st of each month, so the time from application to move-in can be as short as a few weeks. To apply for the fellowship, visit [ns.com/fellowship/apply](https://ns.com/fellowship/apply).",
+    "linkText": "Apply now",
     "linkUrl": "https://ns.com/wagmit/apply"
   },
   "faqs": [
-    { "question": "What is Network School?", "answer": "Network School is a live-in community for founders, remote workers, creators, and other builders." },
-    { "question": "How do I book a stay?", "answer": "You [apply first](https://ns.com/wagmit/apply). Accepted members are then invited to join." },
-    { "question": "How much does it cost?", "answer": "Pricing starts at $1,500/month with roommates. Private rooms at $3,000/month. If you qualify for being a long-term after 1 month, you might get an apartment or private hotel room with lower rent." },
-    { "question": "How do I pay?", "answer": "Both fiat card payment or crypto is accepted, we recommend crypto if you want to reduce the transaction cost." },
-    { "question": "What's included?", "answer": "Accommodation, meals, gym access, coworking, events, workshops, lectures, fitness classes, and high-speed Wi-Fi." },
-    { "question": "Is food included?", "answer": "Yes, great meals are included." },
-    { "question": "Is Wi-Fi included?", "answer": "Yes, high-speed Wi-Fi is included." },
-    { "question": "Is it good for remote work?", "answer": "Yes, it is designed for remote workers and builders." },
-    { "question": "Are private rooms available?", "answer": "Yes, both shared and private options appear to be available." },
-    { "question": "Can I come with a partner or family?", "answer": "Yes, Network School aims to be family-friendly. Your partner needs to apply as well, then contact support@ns.com to confirm. Price is $3,000/month for a couple or family. The team might be able to help you with a 2nd room if space is available." },
-    { "question": "Can I bring coworkers or friends?", "answer": "Possibly. Contact support@ns.com for rooming and admission details." },
-    { "question": "How long can I stay?", "answer": "Monthly stays are standard, with possible extensions and the option to become an NS long-termer." },
-    { "question": "When do cohorts start?", "answer": "Admissions are rolling rather than tied to one fixed annual start date. You generally move in 1st each month." },
-    { "question": "Do I need a visa?", "answer": "It depends on your passport and how long you plan to stay. Most nationalities can enter Malaysia with a 90-day visa-free. You will get more info as soon as you are accepted." },
-    { "question": "What is the refund policy?", "answer": "Public terms say all sales are final and non-refundable." },
-    { "question": "Is there an age requirement?", "answer": "Yes, you must be 18+." },
-    { "question": "How does Network School referral work?", "answer": "Existing members can refer applicants. Referred applicants receive a prioritized review and one week of free stay. Here is our [referral link](https://ns.com/wagmit/apply)." },
-    { "question": "How do I get help?", "answer": "If you are curious how life at Network School is you can schedule a [15 min call with us](https://calendar.app.google/qLMUJ9FyAX3n9Ccm7), if you already booked contact support at support@ns.com." }
+    {
+      "question": "What is the monthly cost at Network School?",
+      "answer": "A shared double room costs $1,500 per month. A private room costs approximately $3,000 per month (rate as of mid-2025). Applying via the [referral link](https://ns.com/wagmit/apply) gives a 25% discount, bringing a shared room to $1,125 per month."
+    },
+    {
+      "question": "What is included in the membership fee?",
+      "answer": "The monthly fee covers accommodation, three daily meals, 24/7 gym access with coached sessions, all workshops and events, coworking space, and high-speed Wi-Fi. Flights and personal expenses are not included."
+    },
+    {
+      "question": "Where exactly is Network School located?",
+      "answer": "Network School is at the Marina Forest Hotel in Forest City, Johor, Malaysia - about 30 minutes from Johor Bahru and one hour from Singapore. The campus runs a dedicated shuttle to Singapore, and Grab handles local rides."
+    },
+    {
+      "question": "How do I apply to Network School?",
+      "answer": "Visit [ns.com/apply](https://ns.com/wagmit/apply), fill out a short form, and choose your start date. If accepted, you complete payment to lock in your spot. New members can join on the 1st of any month."
+    },
+    {
+      "question": "What is the Network School Fellowship?",
+      "answer": "The [fellowship](https://ns.com/fellowship) awards $100,000 to up to 100 global founders per cohort for a one-year onsite residency, with room, board, gym, and office space all included. Apply at [ns.com/fellowship/apply](https://ns.com/fellowship/apply)."
+    },
+    {
+      "question": "Can I bring my family or children to Network School?",
+      "answer": "Yes - families with children have been part of every cohort, and Network School encourages family participation. Contact the team via [ns.com](https://ns.com/wagmit/apply) to discuss family room options and current guidance."
+    },
+    {
+      "question": "Is there a minimum stay at Network School?",
+      "answer": "There is no published minimum stay. Members typically join for one to three months and extend month by month. Longer-term members can upgrade to a two-bedroom apartment within Forest City."
+    },
+    {
+      "question": "Do I need a tech or crypto background to join?",
+      "answer": "No fixed background is required. Network School draws engineers, founders, writers, artists, fitness trainers, and remote workers. The main thing the community looks for is high agency and a belief in technology and open networks."
+    },
+    {
+      "question": "What visa do I need to stay at Network School?",
+      "answer": "Most nationalities can enter Malaysia on a tourist visa or visa-on-arrival for 30-90 days. Longer stays require extensions or a relevant long-stay visa. Network School recommends checking current Malaysian immigration rules for your specific passport before applying."
+    },
+    {
+      "question": "Is there a referral or discount available?",
+      "answer": "Yes - applying through the [referral link](https://ns.com/wagmit/apply) gives a 25% discount off the standard monthly rate, bringing a shared room to $1,125 per month."
+    },
+    {
+      "question": "What does Learn, Burn, Earn, Fun mean?",
+      "answer": "Learn means weekly talks, hackathons, book clubs, and workshops on technology and startup societies. Burn means daily fitness - gym sessions, group workouts, and sports tournaments. Earn connects members to task-based crypto bounties, career coaching, and investor networks. Fun covers social events, bonfires, and day trips to Singapore."
+    },
+    {
+      "question": "When can I join Network School?",
+      "answer": "New members can join on the 1st of any month. The current year-long program opened March 1, 2025. [Apply at ns.com](https://ns.com/wagmit/apply) to select an upcoming start date."
+    }
   ]
 }

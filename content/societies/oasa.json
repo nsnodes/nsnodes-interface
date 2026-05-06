@@ -1,0 +1,123 @@
+{
+  "overview": [
+    {
+      "title": "What is OASA?",
+      "text": "OASA is a network of regenerative villages where land is held as perpetual commons and tokenized access rights fund ecological restoration across Europe.",
+      "sources": [
+        "https://oasa.earth"
+      ]
+    },
+    {
+      "title": "Who joins OASA?",
+      "text": "OASA attracts land stewards, remote workers, creatives, systems thinkers, families, and nature lovers who want to live and work inside a functioning regenerative ecosystem. Members range from short-stay visitors and two-week volunteers to long-term citizens who hold governance rights and help shape the community's future.",
+      "sources": [
+        "https://traditionaldreamfactory.com",
+        "https://traditionaldreamfactory.com/citizenship"
+      ]
+    }
+  ],
+  "history": {
+    "text": "OASA was founded in 2021 to build a replicable model for transitioning land out of extractive ownership into perpetual community stewardship. The framework - combining token-based land access, ecological restoration targets, and consent-based governance - grew directly from the experience of building [Traditional Dream Factory (TDF)](https://traditionaldreamfactory.com) in the Alentejo region of Portugal.\n\nTDF is the first OASA village: 25 hectares of former farmland transformed over seven years into a regenerative ecosystem. Founder Samuel Delesque led the project, which has since attracted 60+ active citizens, 280+ token holders, and coverage in more than 80 publications across Europe and Web3 media.\n\nIn 2025, OASA published its formal [Constitution](https://oasa.earth/papers/oasa-constitution-2025/), codifying seven regenerative principles - Soil, Water, Air, Waste, Rewilding, Resources, and Community - as the shared standard for all network projects. The Swiss non-profit structure enables OASA to replicate the TDF model globally, with each new village held through a Special Purpose Vehicle trust.",
+    "milestones": [
+      {
+        "label": "Founded",
+        "detail": "2021 - OASA established as a Swiss non-profit in Zug, Switzerland"
+      },
+      {
+        "label": "First Village",
+        "detail": "Traditional Dream Factory: 25 hectares restored in Alentejo, Portugal"
+      },
+      {
+        "label": "Commons Milestone",
+        "detail": "280+ $TDF token holders | 60+ active citizens"
+      },
+      {
+        "label": "OASA Constitution",
+        "detail": "2025 - seven regenerative principles formally codified"
+      },
+      {
+        "label": "Capital Raised",
+        "detail": "€1.25M+ secured for co-living and co-housing construction"
+      }
+    ],
+    "sources": [
+      "https://oasa.earth",
+      "https://oasa.earth/fund/",
+      "https://oasa.earth/papers/oasa-constitution-2025/",
+      "https://traditionaldreamfactory.com/press"
+    ]
+  },
+  "location": "OASA's first village, Traditional Dream Factory, occupies 25 hectares of restored land in Alentejo, Portugal - a rural region known for its biodiversity, cork-oak forests, and mild climate. The land divides into three zones: 50% protected wild core, 45% productive agroforestry, and under 5% built infrastructure. Seven years of restoration have recharged the wells and brought back native bird species.\n\nThe OASA legal entity is registered as a non-profit association under Swiss law in Zug, Switzerland. Infrastructure at TDF is under active construction, with the co-living build targeting operational status by mid-2027 and the full co-housing development (23 homes) to follow.",
+  "duration": "Stays at OASA's Traditional Dream Factory start at a minimum of 5 days and can extend up to 180 days per year. Volunteer stays require a minimum two-week commitment, with programs starting on Sundays - a one-month stay is recommended for anyone who wants to settle in properly.\n\nCitizens - those holding 30 or more $TDF tokens - must maintain at least two weeks of on-site presence per year to keep active status. Bookings open up to one year in advance via the [TDF booking portal](https://traditionaldreamfactory.com/bookings/create/dates).",
+  "pricing": "OASA uses a token-based access model. Each $TDF token grants one night of accommodation per year at Traditional Dream Factory. Different room types draw different token amounts: van and tent pitches start at 0.5 tokens per night, while private houses run up to 5 tokens per night, with utility fees added on top. Tokens are purchased via cryptocurrency (cEUR) or bank transfer at [traditionaldreamfactory.com/token](https://traditionaldreamfactory.com/token).\n\nVolunteers stay free of charge - shared dormitory accommodation is provided in exchange for four hours of work per day, five days a week. Three home-cooked vegetarian meals per day are included for volunteers, covering vegan, gluten-free, and dairy-free diets.\n\nCitizenship financing (30-120 tokens over 36 months) starts from a 10% downpayment, with monthly payments from the financing plan negotiated with the team.",
+  "amenities": [
+    "12 en-suite rooms (20m², queen bed, desk, private bathroom)",
+    "Shared dormitory accommodation",
+    "3-bedroom house for families and groups",
+    "4 artist studios",
+    "30-seat farm-to-table restaurant",
+    "Mushroom cultivation farm",
+    "Biopool with sauna and yoga space",
+    "Starlink internet",
+    "Regenerative agroforestry land (45% of total site)",
+    "Protected wild nature reserve (50% of total site)",
+    "Workshop and event spaces",
+    "Governance participation via $TDF token DAO"
+  ],
+  "longtermer": "OASA citizenship is the long-stay tier, open to members who hold 30 or more $TDF tokens. Citizens can stay up to 180 days per year and book up to a year in advance, with priority access to events and future co-housing units.\n\nThe citizenship process has five steps: completing cultural onboarding, spending 14 days on-site, holding 30+ tokens, receiving three vouches from existing members, and signing a citizen agreement. Token financing is available - a 10% downpayment secures the commitment, with the balance spread over 36 months.\n\nActive status requires a minimum two-week visit per year. Citizens participate in governance votes and DAO proposals, and earn Sweat Tokens for work contributions that can reduce living costs over time.",
+  "howToEnter": {
+    "text": "New visitors can start with a volunteer placement or a direct booking. Volunteers email [space@traditionaldreamfactory.com](mailto:space@traditionaldreamfactory.com) to find available start dates (always Sundays) and schedule an intro call. The team recommends reading TDF's community culture documents - the Pink Paper and Visitor's Guide - before applying.\n\nFor a paid stay, use the [TDF booking portal](https://traditionaldreamfactory.com/bookings/create/dates) to select dates (minimum 5 days). Citizenship - which unlocks stays up to 180 days per year and full governance rights - requires 14 days on-site, 30+ $TDF tokens, and three community vouches.",
+    "linkText": "Apply to Stay",
+    "linkUrl": "https://traditionaldreamfactory.com/bookings/create/dates"
+  },
+  "faqs": [
+    {
+      "question": "What does OASA stand for?",
+      "answer": "OASA stands for Organization for Alternative Social Architecture. It is a Swiss non-profit that coordinates a global network of regenerative land projects, using tokenized access rights and commons-based stewardship to fund ecological restoration."
+    },
+    {
+      "question": "Where is OASA's first village located?",
+      "answer": "The first OASA village is [Traditional Dream Factory (TDF)](https://traditionaldreamfactory.com), located in the Alentejo region of Portugal. The site is 25 hectares of restored land, with 50% designated as a protected wild core and 45% in productive agroforestry."
+    },
+    {
+      "question": "How does the OASA token model work?",
+      "answer": "The $TDF token grants one night of accommodation per year at Traditional Dream Factory, indefinitely. Different room types use different token amounts (0.5 to 5 tokens per night, plus utility fees). Tokens are purchased via crypto or bank transfer and can be used immediately. Holding 30 or more tokens qualifies a member for citizenship status and governance rights."
+    },
+    {
+      "question": "How do I apply to stay at OASA?",
+      "answer": "Visit the [TDF booking portal](https://traditionaldreamfactory.com/bookings/create/dates) to book a stay (minimum 5 days, maximum 180 days). Alternatively, apply for a volunteer placement by emailing [space@traditionaldreamfactory.com](mailto:space@traditionaldreamfactory.com)."
+    },
+    {
+      "question": "What is the OASA volunteer program?",
+      "answer": "Volunteers work four hours per day, five days a week on projects ranging from regenerative agriculture to hospitality, construction, and mushroom cultivation. Shared dormitory accommodation is provided at no cost. Three home-cooked vegetarian meals per day are included, with vegan and gluten-free options. The minimum stay is two weeks, starting on a Sunday, with a preference for one-month stays."
+    },
+    {
+      "question": "What is OASA citizenship?",
+      "answer": "Citizenship is the long-term membership tier for people who hold 30 or more $TDF tokens. Citizens gain governance voting rights, priority booking, and stays of up to 180 days per year. The path requires 14 days on-site, three community vouches, and signing a citizen agreement. Token financing is available with a 10% downpayment spread over 36 months."
+    },
+    {
+      "question": "What are the seven regenerative principles of OASA?",
+      "answer": "The [OASA Constitution](https://oasa.earth/papers/oasa-constitution-2025/) defines seven principles: Soil (living soil through composting), Water (rainwater capture and biological treatment), Air (carbon sequestration and biochar), Waste (circular reuse), Rewilding (at least 50% of land left wild), Resources (renewable energy, under 5% built area), and Community (consent-based, transparent governance)."
+    },
+    {
+      "question": "Can families stay at OASA?",
+      "answer": "Yes. Traditional Dream Factory has a 3-bedroom house suited to families and groups, and the community explicitly welcomes families alongside remote workers, creatives, and nature lovers. Families interested in volunteering can apply through the standard volunteer process."
+    },
+    {
+      "question": "Has OASA been covered in the press?",
+      "answer": "Traditional Dream Factory - the first OASA village - has appeared in more than 80 publications, including Expresso, Forbes Portugal, Reuters, The Japan Times, Diário de Notícias, and EFE Verde. It has been described as Europe's first tokenized regenerative village."
+    },
+    {
+      "question": "What is the difference between OASA and Traditional Dream Factory?",
+      "answer": "OASA is the global framework and non-profit network, registered in Switzerland. Traditional Dream Factory is the first OASA village - the physical prototype in Alentejo, Portugal where the model is being built and tested. OASA sets the governance and legal architecture; TDF is where members live, work, and steward the land."
+    },
+    {
+      "question": "How is OASA land held, and can I own it?",
+      "answer": "OASA land is held in perpetual commons through a Special Purpose Vehicle (SPV) trust. Individual ownership and speculation are not permitted. Members hold utility tokens that grant access rights and governance participation - not equity or title. This structure is designed to prevent the land from ever being privatized or sold off."
+    },
+    {
+      "question": "What is the $TDF token supply and can I sell my tokens?",
+      "answer": "The total $TDF token supply is 18,600. Token transfers and secondary-market trading are restricted until the project's Go-Live phase is complete. Once launched, tokens will be tradeable on decentralized exchanges. Tokens are purchased via [traditionaldreamfactory.com/token](https://traditionaldreamfactory.com/token)."
+    }
+  ]
+}

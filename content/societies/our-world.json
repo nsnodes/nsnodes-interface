@@ -1,0 +1,79 @@
+{
+  "overview": [
+    {
+      "title": "What is Our World?",
+      "text": "Our World is a venture studio building infrastructure and tools for what its founders describe as a sovereign, autonomous, and interconnected world where humans and intelligence can thrive together. It operates as a parent organization that develops or backs ventures across digital sovereignty, decentralized infrastructure, and special economic zones.",
+      "sources": [
+        "https://www.ourworld.tf/"
+      ]
+    },
+    {
+      "title": "Who joins Our World?",
+      "text": "Our World is structured for builders, founders, and operators interested in long-horizon infrastructure plays rather than a residential community. Its main public touchpoint is via its ventures - most prominently the Zanzibar Digital Free Zone, which is open to companies and founders setting up operations on the island.",
+      "sources": [
+        "https://www.ourworld.tf/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Our World is co-founded by Kristof De Spiegeleer (CEO), with a leadership team that includes Adnan Fatayerji (Telecom Strategic Relations), Chris Camponovo (Director, and co-founder of the Zanzibar Digital Free Zone), and Florian Fournier (Marketing & Business Development). The organization grew out of the broader ThreeFold ecosystem and has since extended into adjacent ventures focused on sovereign infrastructure.\n\nThe Zanzibar Digital Free Zone is the most concrete venture currently spotlighted on the Our World site, and the organization has been visible at events including DePIN Summit Africa.",
+    "milestones": [
+      {
+        "label": "Zanzibar Digital Free Zone",
+        "detail": "Special economic zone venture co-founded by Chris Camponovo"
+      },
+      {
+        "label": "DePIN Summit Africa",
+        "detail": "Public presence at the 2025 DePIN Summit Africa"
+      }
+    ],
+    "sources": [
+      "https://www.ourworld.tf/"
+    ]
+  },
+  "location": "Our World operates internationally rather than from a single physical hub. The most prominent geographic anchor in its venture portfolio is the [Zanzibar Digital Free Zone](https://www.ourworld.tf/) - a special economic zone in Zanzibar, Tanzania - which is where most of the organization's tangible on-the-ground activity is concentrated.",
+  "amenities": [
+    "Access to the Zanzibar Digital Free Zone for incorporation and operations",
+    "Connections into the ThreeFold ecosystem for decentralized infrastructure",
+    "Participation in DePIN-focused events and partnerships in Africa"
+  ],
+  "howToEnter": {
+    "text": "Our World is not a residency program with a public application portal. The most direct way to engage is to email the team at info@ourworld.tf to discuss venture collaboration, or to apply directly to one of its ventures - in particular the Zanzibar Digital Free Zone if you are looking to incorporate or operate there.",
+    "linkText": "Visit ourworld.tf",
+    "linkUrl": "https://www.ourworld.tf/"
+  },
+  "faqs": [
+    {
+      "question": "What does Our World actually do?",
+      "answer": "Our World is a venture studio that builds and backs infrastructure ventures aimed at digital sovereignty and decentralized systems. Its public site frames the mission as building tools for a sovereign, autonomous, interconnected world."
+    },
+    {
+      "question": "Who founded Our World?",
+      "answer": "Kristof De Spiegeleer is co-founder and CEO. The leadership team also includes Adnan Fatayerji (Telecom Strategic Relations), Chris Camponovo (Director, and co-founder of the Zanzibar Digital Free Zone), and Florian Fournier (Marketing & Business Development)."
+    },
+    {
+      "question": "What is the Zanzibar Digital Free Zone?",
+      "answer": "The Zanzibar Digital Free Zone is a special economic zone in Zanzibar, Tanzania, co-founded by Chris Camponovo and spotlighted as one of Our World's flagship ventures. It is the most concrete on-the-ground initiative within the organization's venture portfolio."
+    },
+    {
+      "question": "How can I get involved with Our World?",
+      "answer": "The site lists this as a frequent question but the full answer is not published publicly. The most direct path is to email info@ourworld.tf, or to engage with one of the specific ventures (such as the Zanzibar Digital Free Zone) that aligns with what you want to build."
+    },
+    {
+      "question": "Is Our World related to ThreeFold?",
+      "answer": "Yes - Our World grew out of the broader ThreeFold ecosystem. CEO Kristof De Spiegeleer is closely associated with ThreeFold, and Our World extends ThreeFold's themes of digital sovereignty into a wider venture portfolio."
+    },
+    {
+      "question": "Where can I learn more?",
+      "answer": "Visit [ourworld.tf](https://www.ourworld.tf/) for the latest on the organization and its ventures, or contact the team directly at info@ourworld.tf."
+    }
+  ],
+  "_meta": {
+    "manualEdit": true,
+    "manualEditDate": "2026-04-29",
+    "reason": "LLM bulk-seed conflated ourworld.tf (ThreeFold venture studio) with ourworldthegame (XR game / OASIS API). Replaced with a conservative summary based only on https://www.ourworld.tf/. Most optional sections intentionally omitted because the source page provides little public detail. Future scraper runs should use https://www.ourworld.tf/ as the canonical URL.",
+    "sources": [
+      "https://www.ourworld.tf/"
+    ]
+  }
+}
