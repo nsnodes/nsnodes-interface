@@ -2,112 +2,78 @@
   "overview": [
     {
       "title": "What is Our World?",
-      "text": "Our World is a venture collective building open digital infrastructure. Its ventures include the Zanzibar Digital Free Zone and an XR game platform.",
+      "text": "Our World is a venture studio building infrastructure and tools for what its founders describe as a sovereign, autonomous, and interconnected world where humans and intelligence can thrive together. It operates as a parent organization that develops or backs ventures across digital sovereignty, decentralized infrastructure, and special economic zones.",
       "sources": [
-        "https://www.ourworld.tf/",
-        "https://www.ourworldthegame.com/"
+        "https://www.ourworld.tf/"
       ]
     },
     {
       "title": "Who joins Our World?",
-      "text": "Our World attracts builders, developers, and digital entrepreneurs who want to own their data and contribute to decentralized infrastructure or open-source XR technology.\n\nParticipants range from those seeking digital business formation through the [Zanzibar Digital Free Zone](https://zdfz.live) to developers integrating the OASIS API into new applications and games.",
+      "text": "Our World is structured for builders, founders, and operators interested in long-horizon infrastructure plays rather than a residential community. Its main public touchpoint is via its ventures - most prominently the Zanzibar Digital Free Zone, which is open to companies and founders setting up operations on the island.",
       "sources": [
-        "https://www.ourworld.tf/",
-        "https://www.ourworldthegame.com/"
+        "https://www.ourworld.tf/"
       ]
     }
   ],
   "history": {
-    "text": "Our World emerged from over two decades of infrastructure work by a founding team with a track record of building and exiting enterprise technology companies. Co-founder Kristof De Spiegeleer and the core team built and sold five companies between 2005 and 2015, with acquirers including Veritas Symantec, Verizon/Equinix, Telenet, Sun Microsystems/Oracle, and Western Digital. Their infrastructure powered UEFA, NASA, and World Cup events before the exits.\n\nThose ventures shaped OurWorld's founding philosophy: build infrastructure that returns digital control to individuals and communities rather than consolidating it in large platforms. The collective launched to pursue this through three main ventures - ThreeFold (decentralized internet infrastructure), the Zanzibar Digital Free Zone (a fully digital special economic zone in Tanzania), and Geomind (AI and geospatial solutions).\n\nA parallel project, Our World The Game, began development in 2019 as an open-source XR/IR (extended reality/infinite reality) educational game built on the OASIS API, a universal connector designed to bridge decentralized protocols. The game's MVP and STAR demo were released in December 2025.",
+    "text": "Our World is co-founded by Kristof De Spiegeleer (CEO), with a leadership team that includes Adnan Fatayerji (Telecom Strategic Relations), Chris Camponovo (Director, and co-founder of the Zanzibar Digital Free Zone), and Florian Fournier (Marketing & Business Development). The organization grew out of the broader ThreeFold ecosystem and has since extended into adjacent ventures focused on sovereign infrastructure.\n\nThe Zanzibar Digital Free Zone is the most concrete venture currently spotlighted on the Our World site, and the organization has been visible at events including DePIN Summit Africa.",
     "milestones": [
       {
-        "label": "Founding Team Exits",
-        "detail": "Five companies acquired by Veritas Symantec, Verizon/Equinix, Telenet, Sun/Oracle, and Western Digital (2005-2015)"
-      },
-      {
-        "label": "Our World The Game",
-        "detail": "2019 | Open-source XR/IR game development begins on the OASIS API framework"
-      },
-      {
         "label": "Zanzibar Digital Free Zone",
-        "detail": "2023 | OurWorld helps establish the ZDFZ as a digital special economic zone for global tech businesses in Tanzania"
+        "detail": "Special economic zone venture co-founded by Chris Camponovo"
       },
       {
         "label": "DePIN Summit Africa",
-        "detail": "June-July 2025 | OurWorld co-hosts DePIN Summit across Mombasa and Zanzibar"
-      },
-      {
-        "label": "Project Mycelium",
-        "detail": "November 2025 | Next-generation decentralized platform announced with dual-token model (AUR and SPORE)"
+        "detail": "Public presence at the 2025 DePIN Summit Africa"
       }
     ],
     "sources": [
-      "https://www.ourworld.tf/about",
-      "https://www.ourworld.tf/ventures",
-      "https://www.ourworld.tf/news",
-      "https://threefold.io/",
-      "https://www.ourworldthegame.com/blog"
+      "https://www.ourworld.tf/"
     ]
   },
-  "location": "Our World operates across two primary geographies. The [Zanzibar Digital Free Zone (ZDFZ)](https://zdfz.live) in Zanzibar, Tanzania, serves as OurWorld's flagship special economic zone where digital businesses can incorporate and operate under a simplified digital jurisdiction. Zanzibar's government has positioned the zone to attract global technology investment and reduce the island's reliance on tourism.\n\nThe software arm - Our World The Game - is developed by a UK-based team. ThreeFold, OurWorld's decentralized infrastructure venture, has community-operated nodes distributed across 40+ countries.",
-  "duration": "Our World does not run fixed-cohort programs. Participation in the [Zanzibar Digital Free Zone](https://zdfz.live) is ongoing once a business is registered. Contribution to Our World The Game is open-ended - developers can join at any time via the project's open-source repositories and community channels. ThreeFold node operators participate on a continuous basis.",
+  "location": "Our World operates internationally rather than from a single physical hub. The most prominent geographic anchor in its venture portfolio is the [Zanzibar Digital Free Zone](https://www.ourworld.tf/) - a special economic zone in Zanzibar, Tanzania - which is where most of the organization's tangible on-the-ground activity is concentrated.",
   "amenities": [
-    "Access to ThreeFold decentralized grid (750+ nodes, 40+ countries)",
-    "Zanzibar Digital Free Zone business incorporation and cross-border compliance tools",
-    "OASIS API for connecting and building decentralized applications",
-    "STAR development kit (ODK) for XR/IR app and game creation",
-    "HoloNET integration for distributed peer-to-peer applications",
-    "Project Mycelium encrypted networking layer",
-    "Quantum-safe distributed storage",
-    "Open-source GitHub repositories and developer documentation",
-    "Community access via Discord and Telegram channels",
-    "Karma system for rewarding positive contributions in the Our World game ecosystem"
+    "Access to the Zanzibar Digital Free Zone for incorporation and operations",
+    "Connections into the ThreeFold ecosystem for decentralized infrastructure",
+    "Participation in DePIN-focused events and partnerships in Africa"
   ],
   "howToEnter": {
-    "text": "For OurWorld venture collaboration, contact the team at info@ourworld.tf or reach out via the [official website](https://www.ourworld.tf).\n\nTo contribute to Our World The Game or the OASIS API, the project is fully open source - browse the repositories and join the developer community on Discord or Telegram as listed on [ourworldthegame.com](https://www.ourworldthegame.com).\n\nFor Zanzibar Digital Free Zone business formation, visit [zdfz.live](https://zdfz.live) for registration details.",
-    "linkText": "Visit OurWorld",
+    "text": "Our World is not a residency program with a public application portal. The most direct way to engage is to email the team at info@ourworld.tf to discuss venture collaboration, or to apply directly to one of its ventures - in particular the Zanzibar Digital Free Zone if you are looking to incorporate or operate there.",
+    "linkText": "Visit ourworld.tf",
     "linkUrl": "https://www.ourworld.tf/"
   },
   "faqs": [
     {
-      "question": "What is Our World?",
-      "answer": "Our World is a venture collective building open digital sovereignty infrastructure. It operates two main platforms: [OurWorld.tf](https://www.ourworld.tf), which focuses on ventures including ThreeFold, the Zanzibar Digital Free Zone, and Geomind; and [Our World The Game](https://www.ourworldthegame.com), an open-source XR/IR game built on the OASIS API."
-    },
-    {
-      "question": "What is the Zanzibar Digital Free Zone?",
-      "answer": "The [Zanzibar Digital Free Zone (ZDFZ)](https://zdfz.live) is a fully digital special economic zone in Zanzibar, Tanzania, enabling digital businesses to incorporate, operate, and trade cross-border through integrated digital infrastructure. It was co-founded by Chris Camponovo and Florian Fournier as part of the OurWorld ecosystem."
-    },
-    {
-      "question": "What is Our World The Game?",
-      "answer": "Our World The Game is an open-source next-generation XR/IR (extended reality/infinite reality) educational game and social platform. It uses a Karma system to reward players for real-world positive actions, and is built on the OASIS API - a universal connector designed to bridge decentralized protocols. The MVP and STAR demo were released in December 2025."
+      "question": "What does Our World actually do?",
+      "answer": "Our World is a venture studio that builds and backs infrastructure ventures aimed at digital sovereignty and decentralized systems. Its public site frames the mission as building tools for a sovereign, autonomous, interconnected world."
     },
     {
       "question": "Who founded Our World?",
-      "answer": "OurWorld.tf was co-founded by Kristof De Spiegeleer (CEO) and a team including Adnan Fatayerji, Chris Camponovo, and Florian Fournier. The founding team previously built and exited five enterprise technology companies between 2005 and 2015. Our World The Game was founded by developer dellams, with Max Gershfield (CMO/COO) and ALASKANmagpie (Community) as key team members."
+      "answer": "Kristof De Spiegeleer is co-founder and CEO. The leadership team also includes Adnan Fatayerji (Telecom Strategic Relations), Chris Camponovo (Director, and co-founder of the Zanzibar Digital Free Zone), and Florian Fournier (Marketing & Business Development)."
     },
     {
-      "question": "What is ThreeFold?",
-      "answer": "ThreeFold is a decentralized internet infrastructure network with 750+ community-operated nodes across 40+ countries. It uses Zero OS, Quantum-Safe Storage, and the Mycelium Network to let users deploy workloads without relying on centralized cloud providers. It is a core venture in the OurWorld ecosystem and the infrastructure foundation for Project Mycelium."
+      "question": "What is the Zanzibar Digital Free Zone?",
+      "answer": "The Zanzibar Digital Free Zone is a special economic zone in Zanzibar, Tanzania, co-founded by Chris Camponovo and spotlighted as one of Our World's flagship ventures. It is the most concrete on-the-ground initiative within the organization's venture portfolio."
     },
     {
-      "question": "What is Project Mycelium?",
-      "answer": "Project Mycelium is the next evolution of ThreeFold's infrastructure, announced in November 2025. It introduces sovereign cloud capabilities, AI agent-based workloads, and a dual-token economic model using AUR and SPORE tokens. A Mycelium Marketplace is scheduled to launch in 2026."
+      "question": "How can I get involved with Our World?",
+      "answer": "The site lists this as a frequent question but the full answer is not published publicly. The most direct path is to email info@ourworld.tf, or to engage with one of the specific ventures (such as the Zanzibar Digital Free Zone) that aligns with what you want to build."
     },
     {
-      "question": "What is the OASIS API?",
-      "answer": "The OASIS API is a universal API developed by the Our World The Game team that connects decentralized protocols, platforms, and applications. It underpins the Our World platform and is available to third-party developers who want to build satellite apps and games that interoperate with the Our World ecosystem."
+      "question": "Is Our World related to ThreeFold?",
+      "answer": "Yes - Our World grew out of the broader ThreeFold ecosystem. CEO Kristof De Spiegeleer is closely associated with ThreeFold, and Our World extends ThreeFold's themes of digital sovereignty into a wider venture portfolio."
     },
     {
-      "question": "Is Our World open source?",
-      "answer": "Yes. Our World The Game and the OASIS API are fully open source, with repositories on GitHub. OurWorld.tf also states open-source tooling as a core operating principle. Developers can contribute to the codebase or build new apps using the OASIS API and STAR ODK."
-    },
-    {
-      "question": "Where is Our World based?",
-      "answer": "Our World operates across multiple locations. OurWorld.tf and the Zanzibar Digital Free Zone are based in Zanzibar, Tanzania. The Our World The Game development team is based in the UK. ThreeFold's infrastructure spans community-operated nodes in 40+ countries worldwide."
-    },
-    {
-      "question": "How do I get involved with Our World?",
-      "answer": "For venture collaboration with OurWorld.tf, contact info@ourworld.tf or visit the [OurWorld website](https://www.ourworld.tf). For developer contribution to Our World The Game, visit [ourworldthegame.com](https://www.ourworldthegame.com) and join the Discord or Telegram community. For business formation in the Zanzibar Digital Free Zone, visit [zdfz.live](https://zdfz.live)."
+      "question": "Where can I learn more?",
+      "answer": "Visit [ourworld.tf](https://www.ourworld.tf/) for the latest on the organization and its ventures, or contact the team directly at info@ourworld.tf."
     }
-  ]
+  ],
+  "_meta": {
+    "manualEdit": true,
+    "manualEditDate": "2026-04-29",
+    "reason": "LLM bulk-seed conflated ourworld.tf (ThreeFold venture studio) with ourworldthegame (XR game / OASIS API). Replaced with a conservative summary based only on https://www.ourworld.tf/. Most optional sections intentionally omitted because the source page provides little public detail. Future scraper runs should use https://www.ourworld.tf/ as the canonical URL.",
+    "sources": [
+      "https://www.ourworld.tf/"
+    ]
+  }
 }
