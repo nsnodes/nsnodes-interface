@@ -49,7 +49,7 @@
   },
   "location": "Network School is based at the Marina Forest Hotel in Forest City, Johor, Malaysia - a cluster of artificial islands about 30 minutes from Johor Bahru city center and roughly one hour's drive from Singapore.\n\nForest City sits within the Singapore-Johor Special Economic Zone, giving members easy cross-border access to Singapore for day trips, errands, and flights. The campus has bay views, a waterfront area, and the quieter atmosphere of a planned new city rather than a dense urban environment.\n\nNearest airports are Singapore Changi (SIN) and Johor Bahru Senai (JHB), both one to two hours away. Ride-hailing apps like Grab handle local travel, and the campus runs a dedicated round-trip shuttle to Singapore.",
   "duration": "Network School runs on rolling monthly enrollment - new members can join on the 1st of any month. There is no published minimum stay; members typically commit to one to three months and extend from there. The current year-long program opened March 1, 2025.\n\nFellowship recipients commit to a full year on campus as a condition of the $100K grant. Members who extend their stay for two or more months can upgrade to larger apartment units within Forest City.",
-  "pricing": "Membership costs $1,500 per month for a shared double room, covering accommodation, three daily meals, 24/7 gym access, all events and workshops, coworking space, and high-speed Wi-Fi. Applying via the [referral link](https://ns.com/wagmit/apply) reduces the standard rate by 25% to $1,125 per month.\n\nA private room costs approximately $3,000 per month (rate sourced from mid-2025 - confirm current pricing when you [apply](https://ns.com/wagmit/apply)). Fellowship recipients have their full stay covered as part of the $100K funding package.",
+  "pricing": "Membership costs $1,500 per month for a shared double room, covering accommodation, three daily meals, 24/7 gym access, all events and workshops, coworking space, and high-speed Wi-Fi. Applying via the [referral link](https://ns.com/wagmit/apply) gives one week free. A private room costs approximately $3,000 per month (rate sourced from mid-2025 — confirm current pricing when you [apply](https://ns.com/wagmit/apply)). Fellowship recipients have their full stay covered as part of the $100K funding package.",
   "amenities": [
     "Shared double rooms and private rooms at the Marina Forest Hotel",
     "Three daily meals following a health-focused diet",
@@ -103,7 +103,7 @@
     ]
   },
   "discount": {
-    "text": "Apply via the referral link to get 25% off - $1,125 per month instead of the standard $1,500 for a shared room.",
+    "text": "Apply via the [Network School](https://ns.com/wagmit/apply) referral link to get one week free.",
     "linkText": "Apply with discount",
     "linkUrl": "https://ns.com/wagmit/apply"
   },
@@ -161,5 +161,11 @@
       "question": "When can I join Network School?",
       "answer": "New members can join on the 1st of any month. The current year-long program opened March 1, 2025. [Apply at ns.com](https://ns.com/wagmit/apply) to select an upcoming start date."
     }
-  ]
+  ],
+  "faqs[0]": {
+    "answer": "A shared double room costs $1,500 per month. A private room costs approximately $3,000 per month (rate as of mid-2025). Applying via the [referral link](https://ns.com/wagmit/apply) gives one week free."
+  },
+  "faqs[9]": {
+    "answer": "Yes — applying through the [referral link](https://ns.com/wagmit/apply) gives you one week free."
+  }
 }
