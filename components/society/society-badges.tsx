@@ -1,4 +1,5 @@
 import { MapPin } from 'lucide-react';
+import type { SocietyLifecycleStatus, SocietyUrlStatus } from '@/lib/data/societies-database';
 
 // Score color helpers shared across pages
 export const getScoreColor = (score: number) =>
@@ -32,9 +33,39 @@ interface SocietyBadgesProps {
   founded?: string;
   tier?: number;
   communityScore?: number;
+  status?: SocietyLifecycleStatus;
+  urlStatus?: SocietyUrlStatus;
+  urlStatusNote?: string;
 }
 
-export function SocietyBadges({ location, category, type, founded, tier, communityScore }: SocietyBadgesProps) {
+const lifecycleBadgeClasses: Record<SocietyLifecycleStatus, string> = {
+  active: 'border-status-success/40 bg-status-success/10 text-status-success',
+  watchlist: 'border-status-soon/40 bg-status-soon/10 text-foreground',
+  dormant: 'border-muted-foreground/30 bg-muted text-muted-foreground',
+  archived: 'border-muted-foreground/30 bg-muted text-muted-foreground',
+  removed: 'border-destructive/40 bg-destructive/10 text-destructive',
+};
+
+const urlBadgeClasses: Record<SocietyUrlStatus, string> = {
+  ok: 'border-status-success/40 bg-status-success/10 text-status-success',
+  redirect: 'border-status-soon/40 bg-status-soon/10 text-foreground',
+  timeout: 'border-destructive/40 bg-destructive/10 text-destructive',
+  error: 'border-destructive/40 bg-destructive/10 text-destructive',
+  ssl_error: 'border-destructive/40 bg-destructive/10 text-destructive',
+  unknown: 'border-muted-foreground/30 bg-muted text-muted-foreground',
+};
+
+export function SocietyBadges({
+  location,
+  category,
+  type,
+  founded,
+  tier,
+  communityScore,
+  status,
+  urlStatus,
+  urlStatusNote,
+}: SocietyBadgesProps) {
   return (
     <div className="flex flex-wrap items-center gap-2">
       {location && (
@@ -59,6 +90,19 @@ export function SocietyBadges({ location, category, type, founded, tier, communi
       {communityScore != null && communityScore > 0 && (
         <div className={`text-xs font-mono px-2 py-1 border ${getScoreBorderColor(communityScore)} ${getScoreBgColor(communityScore)} ${getScoreColor(communityScore)} whitespace-nowrap font-bold`}>
           Score: {communityScore}/100
+        </div>
+      )}
+      {status && status !== 'active' && (
+        <div className={`text-xs font-mono px-2 py-1 border whitespace-nowrap ${lifecycleBadgeClasses[status]}`}>
+          {status}
+        </div>
+      )}
+      {urlStatus && urlStatus !== 'ok' && (
+        <div
+          className={`text-xs font-mono px-2 py-1 border whitespace-nowrap ${urlBadgeClasses[urlStatus]}`}
+          title={urlStatusNote}
+        >
+          site: {urlStatus.replace('_', ' ')}
         </div>
       )}
     </div>

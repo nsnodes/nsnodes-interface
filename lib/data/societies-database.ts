@@ -1,5 +1,8 @@
 // Network State Societies Database
-// All data is now fetched from Airtable. This file contains only types and helper functions.
+// All data is now fetched from Airtable/Supabase. This file contains types and helper functions.
+
+export type SocietyLifecycleStatus = 'active' | 'watchlist' | 'dormant' | 'archived' | 'removed';
+export type SocietyUrlStatus = 'ok' | 'redirect' | 'timeout' | 'error' | 'ssl_error' | 'unknown';
 
 export interface SocietyDatabase {
   name: string;
@@ -21,6 +24,15 @@ export interface SocietyDatabase {
   youtube?: string;
   youtube_subscribers?: number;
   telegram_members?: number;
+  // Lifecycle and verification status
+  status?: SocietyLifecycleStatus;
+  status_note?: string;
+  reviewed_at?: string;
+  url_status?: SocietyUrlStatus;
+  url_checked_at?: string;
+  url_last_success_at?: string;
+  url_status_code?: number;
+  url_status_note?: string;
   // Radar scores (0-100, pre-multiplied from 0-1 DB values)
   scalability?: number;
   autonomy?: number;

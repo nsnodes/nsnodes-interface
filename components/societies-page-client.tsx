@@ -463,6 +463,9 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
                           type={society.type}
                           founded={society.founded}
                           tier={society.tier}
+                          status={society.status}
+                          urlStatus={society.url_status}
+                          urlStatusNote={society.url_status_note}
                         />
                       </div>
                     </div>
@@ -644,4 +647,3 @@ export default function SocietiesPageClient({ societies }: { societies: SocietyD
     </div>
   );
 }
-

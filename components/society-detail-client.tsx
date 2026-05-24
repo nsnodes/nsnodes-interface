@@ -72,6 +72,9 @@ export default function SocietyDetailClient({
                 category={society.category}
                 type={society.type}
                 founded={society.founded}
+                status={society.status}
+                urlStatus={society.url_status}
+                urlStatusNote={society.url_status_note}
               />
               <div className="mt-4">
                 <SocietySocialLinks

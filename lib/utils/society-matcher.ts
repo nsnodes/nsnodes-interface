@@ -4,42 +4,38 @@
  */
 
 /**
- * Special mappings for event network states to society names
- * These handle specific cases where event network state names differ from society names
+ * Canonical aliases for society names across events, jobs, X accounts, and
+ * scraper output. Keep these data-driven so we can add observed variants
+ * without changing the matching algorithm.
  */
-const NETWORK_STATE_MAPPINGS: Record<string, string> = {
-  'edgepatagonia': 'Edge City',
-  'edgpatagonia': 'Edge City', // Typo variant
-
-  // User/organizer name mappings
-  'angelo': 'Build_Republic',
-  'gabrielnovak.eth': 'Ipê City',
-  'gabrielnovak': 'Ipê City',
-
-  // INFINITA variants - normalize to "Infinita"
-  'infinita city': 'Infinita',
-  'infinita': 'Infinita',
-  'infinita ': 'Infinita', // With trailing space
-
-  // Ipê City variants
-  'ipê': 'Ipê City',
-  'ipê city': 'Ipê City',
-
-  // Crecimiento variants
-  'matias nisenson': 'Crecimiento',
-  'paisanos.io': 'Crecimiento',
-  'paisanos': 'Crecimiento',
-  'fhenix': 'Crecimiento',
-  'fhenix ‎': 'Crecimiento', // With invisible character
-
-  // Aleph Crecimiento variants
-  'whabbit': 'Aleph Crecimiento',
-  'alexis': 'Aleph Crecimiento',
-  'alexis | lisk': 'Aleph Crecimiento',
-
-  // Montelibero variants
-  'ми': 'Montelibero', // Cyrillic "Mi"
+export const SOCIETY_ALIASES: Record<string, string[]> = {
+  'Aleph Crecimiento': ['whabbit', 'alexis', 'alexis | lisk'],
+  'Build_Republic': ['angelo', 'build republic', 'build_republic'],
+  'Crecimiento': ['matias nisenson', 'paisanos.io', 'paisanos', 'fhenix'],
+  'Edge City': ['edgepatagonia', 'edgpatagonia', 'edge city patagonia'],
+  'Infinita': ['infinita city'],
+  'Ipê City': ['ipê', 'ipe', 'ipe city', 'ipê city', 'gabrielnovak.eth', 'gabrielnovak'],
+  'Montelibero': ['ми'],
+  'Network School': ['ns', 'ns.com', 'n/s', 'the network school', 'network school malaysia'],
+  'OASA': ['tdf', 'traditional dream factory', 'traditional dream factory/oasa'],
+  'Próspera': ['prospera', 'prospera global', 'prosperahn', 'próspera'],
 };
+
+const toLookupKey = (value: string): string =>
+  value
+    .toLowerCase()
+    .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    .replace(/^@/, '')
+    .trim();
+
+const NETWORK_STATE_MAPPINGS: Record<string, string> = Object.entries(SOCIETY_ALIASES)
+  .reduce((acc, [canonical, aliases]) => {
+    acc[toLookupKey(canonical)] = canonical;
+    aliases.forEach(alias => {
+      acc[toLookupKey(alias)] = canonical;
+    });
+    return acc;
+  }, {} as Record<string, string>);
 
 /**
  * Normalize society name for matching
@@ -47,7 +43,7 @@ const NETWORK_STATE_MAPPINGS: Record<string, string> = {
  * Returns the mapped name with proper capitalization if found in NETWORK_STATE_MAPPINGS
  */
 export const normalizeSocietyName = (name: string): string => {
-  const lowercased = name.toLowerCase().trim();
+  const lowercased = toLookupKey(name);
 
   // Check for special mappings first - these preserve capitalization
   if (NETWORK_STATE_MAPPINGS[lowercased]) {
@@ -64,9 +60,10 @@ export const normalizeSocietyName = (name: string): string => {
     .replace(/\.xyz$/i, '') // Remove ".xyz" suffix
     .replace(/\.com$/i, '') // Remove ".com" suffix
     .replace(/\.io$/i, '') // Remove ".io" suffix
+    .replace(/^@/, '') // Remove X handle prefix
     .trim();
 
-  return normalized;
+  return NETWORK_STATE_MAPPINGS[toLookupKey(normalized)] ?? normalized;
 };
 
 /**
@@ -136,6 +133,5 @@ export const findMatchingSociety = (
   
   return null;
 };
-
 
 

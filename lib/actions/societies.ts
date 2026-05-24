@@ -1,7 +1,7 @@
 'use server';
 
 import { createServerClient } from '@/lib/supabase/server';
-import type { SocietyDatabase } from '@/lib/data/societies-database';
+import type { SocietyDatabase, SocietyLifecycleStatus, SocietyUrlStatus } from '@/lib/data/societies-database';
 
 // Supabase row type (matches database schema)
 interface SupabaseSociety {
@@ -34,6 +34,14 @@ interface SupabaseSociety {
   youtube: string | null;
   youtube_subscribers: number | null;
   telegram_members: number | null;
+  status?: SocietyLifecycleStatus | null;
+  status_note?: string | null;
+  reviewed_at?: string | null;
+  url_status?: SocietyUrlStatus | null;
+  url_checked_at?: string | null;
+  url_last_success_at?: string | null;
+  url_status_code?: number | null;
+  url_status_note?: string | null;
 }
 
 // Cache the fetched data
@@ -70,6 +78,14 @@ function transformToSocietyDatabase(row: SupabaseSociety): SocietyDatabase {
     youtube: row.youtube || undefined,
     youtube_subscribers: row.youtube_subscribers ?? undefined,
     telegram_members: row.telegram_members ?? undefined,
+    status: row.status || 'active',
+    status_note: row.status_note || undefined,
+    reviewed_at: row.reviewed_at || undefined,
+    url_status: row.url_status || undefined,
+    url_checked_at: row.url_checked_at || undefined,
+    url_last_success_at: row.url_last_success_at || undefined,
+    url_status_code: row.url_status_code ?? undefined,
+    url_status_note: row.url_status_note || undefined,
   };
 }
 
