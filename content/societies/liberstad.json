@@ -1,0 +1,115 @@
+{
+  "overview": [
+    {
+      "title": "What is Liberstad?",
+      "text": "Liberstad is a private voluntaryist city in Marnardal, Southern Norway, built on non-aggression principles and voluntary exchange without state oversight.",
+      "sources": [
+        "https://www.liberstad.com/",
+        "https://liberation.travel/liberstad-voluntaryist-experiment-in-southern-norway-why-anarchy-because-anything-else-would-be-uncivilized/"
+      ]
+    },
+    {
+      "title": "Who joins Liberstad?",
+      "text": "Liberstad draws voluntaryists, anarcho-capitalists, libertarians, and crypto enthusiasts who want to live or do business in a community governed entirely by private agreements. Members range from landowners building permanent homes to short-term visitors attending events and exploring the community. As of 2018, buyers from 28 countries had purchased plots, with a waiting list of roughly 500 additional applicants.",
+      "sources": [
+        "https://www.thelocal.no/20180425/norwegian-private-city-claims-100-foreign-buyers/",
+        "https://www.aicoin.com/en/article/22898",
+        "https://www.liberstad.com/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Liberstad grew out of the Libertania project, which took shape around 2015 when John Holmesland - inspired by Jeffrey Tucker's writing on Atlanta's Atlantic Station - connected with Sondre Bjellås, a Norwegian anarchist who had been writing about voluntaryism since 2011 through his blog \"Uten Stat\" (Without Government). Together they formed the Liberstad Drift Association and launched a crowdfunding campaign to fund the community.\n\nOn June 1, 2017, the founders purchased the Tjelland farm in Marnardal Municipality, Vest-Agder, formally establishing Liberstad. Within a year, over 100 land plots were sold to buyers from 28 countries, with a waiting list of roughly 500 additional applicants. Plots were planned for handover around 2020 once infrastructure was in place.\n\nIn 2019, Liberstad adopted City Coin (CITY) - running on the City Chain proof-of-stake blockchain - as its sole recognized medium of exchange, replacing cash and fiat within the community. Alongside it, a FreeID identity system based on Decentralized Identifiers (DIDs) was introduced to give members a cryptographic identity independent of their national legal identity.\n\nIn January 2025, Liberstad launched the Liberstad Membership Organisation (LMO), a formal administrative body providing a membership agreement grounded in voluntaryist principles, individual sovereignty, and natural law. The LMO launch marked a key step in the transition from Liberstad 1.0 to Liberstad 2.0, an ongoing phase of structural and communications improvements.",
+    "milestones": [
+      {
+        "label": "Libertania Project",
+        "detail": "2015 - Concept launched by John Holmesland and Sondre Bjellås"
+      },
+      {
+        "label": "Tjelland Farm Purchased",
+        "detail": "June 1, 2017 - Formal founding in Marnardal, Vest-Agder, Norway"
+      },
+      {
+        "label": "100+ Land Plots Sold",
+        "detail": "2018 - Buyers from 28 countries; ~500 on waiting list"
+      },
+      {
+        "label": "City Coin Adopted",
+        "detail": "2019 - Sole recognized currency on City Chain blockchain"
+      },
+      {
+        "label": "LMO Established",
+        "detail": "January 2025 - Membership Organisation launched for Liberstad 2.0"
+      }
+    ],
+    "sources": [
+      "https://www.thelocal.no/20180425/norwegian-private-city-claims-100-foreign-buyers/",
+      "https://www.aicoin.com/en/article/22898",
+      "https://liberation.travel/liberstad-voluntaryist-experiment-in-southern-norway-why-anarchy-because-anything-else-would-be-uncivilized/",
+      "https://blockonomi.com/private-city-liberstad-ditches-cash-for-cryptocurrency/",
+      "https://fullycrypto.com/liberstad-the-norwegian-private-city-running-on-the-blockchain",
+      "https://www.liberstad.com/post/introducing-the-membership-agreement-for-the-liberstad-membership-organisation-lmo",
+      "https://sputnikglobe.com/20180427/norway-liberstad-private-city-1063954627.html"
+    ]
+  },
+  "location": "Liberstad sits on the Tjelland property in Marnardal Municipality, Vest-Agder, Southern Norway - a roughly 150-hectare expanse of farmland and forest divided across three parcels totaling over 2 square kilometers. The nearest village is Bjelland, approximately 6 km away. By car, the site is about 45 minutes from both Kristiansand and Mandal.\n\nThe land is privately owned and lies within Norwegian territory, so residents are still subject to Norwegian national law and standard immigration requirements. Within the property's boundaries, all governance is handled through private contracts, voluntary arbitration, and the rules of the Liberstad Membership Organisation rather than municipal authority.",
+  "duration": "Liberstad has no fixed program length - it supports day visits, short-term stays, and permanent residency. The community is designed for long-term settlement rather than a cohort-based program, and members can access the site year-round. Three membership tiers reflect different levels of on-site access: Community Membership is primarily remote, while Standard and VIP memberships include flexible on-site residency options ranging from occasional visits to permanent settlement.",
+  "amenities": [
+    "Community center with lectures and events",
+    "Visitor facilities: showers, toilets, washing machines, and dryers",
+    "Free on-site parking",
+    "Forest land and recreational trails across 150 hectares",
+    "City Coin (CITY) digital currency for on-site transactions",
+    "FreeID identity system based on Decentralized Identifiers (DIDs)",
+    "Annual Freedom Fest community gathering",
+    "Private arbitration for dispute resolution",
+    "Access to a free-market economy with resident-run businesses"
+  ],
+  "howToEnter": {
+    "text": "Liberstad offers both digital and physical membership through the [Liberstad Membership Organisation (LMO)](https://www.liberstad.com/post/introducing-the-membership-agreement-for-the-liberstad-membership-organisation-lmo). Three tiers are available: Community Membership for remote supporters (online access, investment opportunities, and Freedom Fest invitations), Standard Membership for on-site access and flexible residency (with a discount on short-term accommodations), and VIP Membership for priority access and additional event and accommodation benefits.\n\nAll memberships are tied to a FreeID - a cryptographic identity based on Decentralized Identifiers (DIDs) - which serves as your sole form of identification within Liberstad. The LMO processes applications and verifies FreeID identities. The liberstad.com website is currently being updated as part of the Liberstad 2.0 transition; for inquiries, contact post@liberstad.com.",
+    "linkText": "liberstad.com",
+    "linkUrl": "https://www.liberstad.com/"
+  },
+  "faqs": [
+    {
+      "question": "What is Liberstad and where is it located?",
+      "answer": "Liberstad is a private voluntaryist community on the Tjelland property in Marnardal Municipality, Vest-Agder, Southern Norway. It operates under voluntary agreements and the non-aggression principle rather than conventional government authority. The site is roughly 45 minutes by car from Kristiansand."
+    },
+    {
+      "question": "Who founded Liberstad?",
+      "answer": "John Holmesland and Sondre Bjellås co-founded Liberstad. John was inspired by Jeffrey Tucker's writing on private urban development; Sondre had been writing and speaking about voluntaryism in Norway since 2011 through his blog \"Uten Stat\" (Without Government). They established the community on Tjelland farm on June 1, 2017."
+    },
+    {
+      "question": "What currency does Liberstad use?",
+      "answer": "Liberstad uses City Coin (CITY), a proof-of-stake cryptocurrency running on the City Chain blockchain, as its sole recognized medium of exchange within the community. Goods and services offered on site are transacted in CITY. Non-residents can download the City Hub wallet to buy and stake CITY tokens."
+    },
+    {
+      "question": "Do residents of Liberstad still have to follow Norwegian law?",
+      "answer": "Yes. Liberstad is located on private land within Norway, so all residents remain subject to Norwegian national law and standard immigration regulations. Non-EU citizens must go through the same immigration process as anywhere else in Norway. Internal governance uses private contracts and voluntary arbitration, but Norwegian law applies to everyone on the property."
+    },
+    {
+      "question": "Can I visit Liberstad without becoming a permanent resident?",
+      "answer": "Yes. Liberstad supports day visits, short-term stays, and long-term residency alongside permanent settlement. Community Membership provides access to online resources and events including the annual Freedom Fest. Standard and VIP memberships include on-site access and flexible residency options."
+    },
+    {
+      "question": "What is the Liberstad Membership Organisation (LMO)?",
+      "answer": "The LMO is an administrative body launched in January 2025 to formalize membership in Liberstad. It processes membership applications, issues FreeID digital identities, organizes community events, manages access to Liberstad's free-market economy, and serves as the communication bridge between members and other community entities - all under voluntaryist principles."
+    },
+    {
+      "question": "What is a FreeID?",
+      "answer": "A FreeID is a cryptographic identity based on Decentralized Identifiers (DIDs) issued by the LMO. All Liberstad assets, agreements, and memberships are tied to a member's FreeID. It is not linked to a member's national legal identity, offering an anonymous parallel identity for use within the community."
+    },
+    {
+      "question": "How many people own land in Liberstad?",
+      "answer": "As of 2018, more than 100 land plots had been sold to buyers from 28 countries, with approximately 500 additional people on a waiting list. Permanent on-site residents are a much smaller group. Current land availability is not confirmed on the public website - contact post@liberstad.com for the latest information."
+    },
+    {
+      "question": "What is Liberstad 2.0?",
+      "answer": "Liberstad 2.0 refers to the current phase of the project, which includes structural improvements, clearer communication, and updated community frameworks - including the January 2025 LMO membership agreement. The liberstad.com website is currently being rebuilt to reflect this transition."
+    },
+    {
+      "question": "What is the Freedom Fest?",
+      "answer": "Freedom Fest is Liberstad's annual community gathering, open to members across all membership tiers. It is held on the Tjelland property in Marnardal. For specific dates and registration, follow Liberstad's official channels or contact post@liberstad.com."
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "overview": [
+    {
+      "title": "What is Tools for the Commons?",
+      "text": "Tools for the Commons gives businesses access to digital economic zones with lower taxes, global banking, and legal infrastructure - fully online.",
+      "sources": [
+        "https://toolsforthecommons.com/"
+      ]
+    },
+    {
+      "title": "Who joins Tools for the Commons?",
+      "text": "Contractors, freelancers, solopreneurs, remote-first agencies, SaaS founders, and web3 builders use the platform to incorporate and operate globally without establishing separate legal entities in each market.\n\nThe platform serves three tracks: Digital Self for individuals managing identity and financial assets, Digital Twin for businesses operating across borders, and a government-facing tier for jurisdictions that want to launch their own digital zones.",
+      "sources": [
+        "https://toolsforthecommons.com/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Tools for the Commons was founded in 2023 by Hugo Mathecowitsch, a Brazilian entrepreneur previously behind a55, a fintech lending platform for SMEs across Latin America, and an advisor at OurWorld Ventures and reState Foundation. Mathecowitsch set out to build infrastructure for what he describes as the \"fourth sector\" - a hybrid layer bridging state, market, and non-profit institutions to manage public goods through interoperable digital systems.\n\nThe first year was devoted to identifying a viable starting point and evaluating what was feasible and financeable. By early 2024, the team had committed to special governance zones and built the DAZ platform to connect entrepreneurs directly to existing digital economic zones. An early version of the website focused on conceptual governance framing; a redesigned version launched later that year to reflect the product focus.\n\nIn 2024 and 2025, Tools for the Commons expanded its zone portfolio, signing partnerships with the Zanzibar Digital Free Zone, Prospera ZEDE in Honduras, Itana in Nigeria, and the emerging Mata zone in Rio de Janeiro, Brazil. By end of 2025, Itana had reached 50 incorporated companies.",
+    "milestones": [
+      {
+        "label": "Founded",
+        "detail": "2023 | Hugo Mathecowitsch launches TFTC from Brazil"
+      },
+      {
+        "label": "DAZ Platform Launch",
+        "detail": "2024 | Digital incorporation portal goes live"
+      },
+      {
+        "label": "Zanzibar Zone Live",
+        "detail": "2024-2025 | Zanzibar Digital Free Zone (East Africa) integrated"
+      },
+      {
+        "label": "Prospera Integration",
+        "detail": "2025 | Prospera ZEDE (Honduras) added as live zone"
+      },
+      {
+        "label": "Itana Milestone",
+        "detail": "2025 | Itana (Nigeria) reaches 50 incorporated companies"
+      }
+    ],
+    "sources": [
+      "https://toolsforthecommons.com/",
+      "https://www.linkedin.com/company/tools-for-the-commons",
+      "https://medium.com/@lucas.russoesilva/zanzibars-digital-free-zone-bdba14704e98"
+    ]
+  },
+  "location": "Tools for the Commons operates as a fully digital platform founded in Brazil, with no physical membership location and no relocation requirement for members. Its zone partnerships span multiple jurisdictions: Zanzibar (East Africa), Prospera (Honduras, Central America), Itana (Lagos, Nigeria), and Mata (Rio de Janeiro, Brazil, in development).\n\nAll onboarding, incorporation, and ongoing operations run through the [DAZ platform](https://daz.toolsforthecommons.com/) at daz.toolsforthecommons.com. Members never need to visit a zone's physical location.",
+  "duration": "There is no fixed membership term or cohort schedule. Incorporation through the DAZ platform takes under 24 hours, with 99% of applications approved automatically after completing KYC online. Once incorporated, a business operates on an ongoing basis within its chosen digital economic zone - no renewal periods or time limits apply.",
+  "amenities": [
+    "Digital company incorporation in under 24 hours",
+    "Choice of jurisdiction: Zanzibar, Prospera, Itana, or Mata",
+    "Multi-currency invoicing",
+    "Global payments in crypto and 5+ fiat currencies",
+    "Automated tax report generation",
+    "International arbitration and dispute resolution",
+    "Capital markets access (treasury, bonds, stocks)",
+    "Legal support through zone government partnerships",
+    "Zero capital gains tax (zone-dependent)",
+    "No wealth tax (zone-dependent)",
+    "100% remote operation - no physical relocation required"
+  ],
+  "howToEnter": {
+    "text": "Visit [daz.toolsforthecommons.com](https://daz.toolsforthecommons.com/) to create an account, complete KYC verification, and select your preferred digital economic zone. Incorporation is processed digitally with legal support included. The process takes under an hour for most applicants, with 99% of applications approved automatically. A contact form is also available at toolsforthecommons.com for pre-application inquiries.",
+    "linkText": "Apply on the DAZ platform",
+    "linkUrl": "https://daz.toolsforthecommons.com/"
+  },
+  "faqs": [
+    {
+      "question": "What is Tools for the Commons?",
+      "answer": "Tools for the Commons is a platform connecting businesses and entrepreneurs to digital economic zones - jurisdictions with their own legal frameworks, competitive tax structures, and global banking infrastructure. Everything runs 100% online through the DAZ platform at daz.toolsforthecommons.com."
+    },
+    {
+      "question": "Which digital economic zones does Tools for the Commons support?",
+      "answer": "Two zones are currently live: Zanzibar Digital Free Zone (East Africa), built for data, AI, digital assets, and remote operations; and Prospera (Honduras), a special economic zone with its own legal system and 400+ incorporated companies. Two more are in development: Itana (Nigeria) and Mata (Rio de Janeiro, Brazil)."
+    },
+    {
+      "question": "Do I need to relocate to use Tools for the Commons?",
+      "answer": "No. The platform is 100% online. You can incorporate, operate, and manage compliance entirely remotely without visiting a zone's physical location."
+    },
+    {
+      "question": "How long does incorporation take?",
+      "answer": "The DAZ platform completes incorporation in under 24 hours. KYC is processed online and 99% of applications are approved automatically. Invoicing and expense logging are accessible immediately after incorporation."
+    },
+    {
+      "question": "What tax rates apply in the Zanzibar Digital Free Zone?",
+      "answer": "Under the ZDFZ Charter (June 2025), companies with no physical presence in Zanzibar pay 5% corporate tax on net profits. Companies that establish a physical presence there pay 15% on net profits. Both structures carry zero capital gains tax and no wealth tax."
+    },
+    {
+      "question": "What is included with a DAZ account?",
+      "answer": "Membership includes digital incorporation, multi-currency invoicing, global payments in crypto and 5+ fiat currencies, automated tax report generation, access to international arbitration, and capital markets access (treasury, bonds, stocks). Legal support is bundled through the zone's government partnership."
+    },
+    {
+      "question": "Who founded Tools for the Commons?",
+      "answer": "Hugo Mathecowitsch founded Tools for the Commons in 2023. He previously co-founded a55, a fintech platform for SMEs in Latin America, and has backgrounds in governance, digital finance, and institutional design."
+    },
+    {
+      "question": "Is Tools for the Commons the same as Prospera?",
+      "answer": "No. Prospera is a separate special economic zone in Honduras with its own government and legal system. Tools for the Commons is a platform that provides incorporation and operations services inside Prospera (and other zones). They are distinct entities - Tools for the Commons gives you access to Prospera's framework, not the other way around."
+    },
+    {
+      "question": "What types of businesses are best suited for Tools for the Commons?",
+      "answer": "The platform fits contractors, freelancers, remote-first agencies, SaaS founders, digital product companies, and web3 builders - anyone with digital operations and international revenue who wants lower corporate taxes, stronger legal infrastructure, and global banking without physical office requirements."
+    },
+    {
+      "question": "How do I apply or get started?",
+      "answer": "[Apply at daz.toolsforthecommons.com](https://daz.toolsforthecommons.com/) by creating an account and completing the KYC process. You can also send a pre-application inquiry through the contact form at toolsforthecommons.com."
+    }
+  ]
+}

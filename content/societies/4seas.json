@@ -1,0 +1,116 @@
+{
+  "overview": [
+    {
+      "title": "What is 4seas?",
+      "text": "4seas is a Chiang Mai-based co-living and co-working hub for Ethereum builders, crypto nomads, and cypherpunks pursuing decentralized society.",
+      "sources": [
+        "https://www.4seas.xyz/",
+        "https://coliving.com/spaces/mwpfj5lo"
+      ]
+    },
+    {
+      "title": "Who joins 4seas?",
+      "text": "Founded in 2023, 4seas operates a permanent community base in Chiang Mai's Nimman district and a larger rural event campus called Mountain View in Hang Dong. It serves as Southeast Asia's main anchor for the Zuzalu-aligned network state movement and hosts rotating popup city teams, Ethereum hackathons, and weekly community events year-round.\n\n4seas draws web3 developers, governance researchers, public goods contributors, and long-term crypto nomads who want a stable base in Southeast Asia. The community grew out of the Global Chinese Commons (GCC) - a network of Chinese-speaking Ethereum developers - but is explicitly international, with members from across Asia, Europe, and the Americas.",
+      "sources": [
+        "https://coliving.com/spaces/mwpfj5lo",
+        "https://luma.com/0zxrcfab",
+        "https://app.sola.day/event/4seas"
+      ]
+    }
+  ],
+  "history": {
+    "text": "4seas was founded in 2023 with a mission rooted in cypherpunk ideals and the post-Zuzalu wave of experimental communities. Its name comes from the Chinese phrase 四海 (four seas), meaning all corners of the world - reflecting the project's ambition to build a borderless network for crypto nomads.\n\nThe project emerged from the Global Chinese Commons (GCC), a network of Chinese-speaking Ethereum developers and public goods contributors who sought a physical anchor in Southeast Asia. 4seas opened its first co-living house in Chiang Mai's Nimman district in mid-2023 and established an on-chain treasury via a 4seas.eth Safe multisig to govern community funds.\n\nBy late 2024, 4seas had expanded to include the rural Mountain View campus in Hang Dong and was hosting major ecosystem events: a Funding the Commons Builder Residency in October 2024 and a PopUp Fest drawing more than a dozen popup village teams. The 2025-2026 season brought ETHChiangmai, a two-month Ethereum gathering co-organized with Chiang Mai University, followed by the launch of the Zuzalu Library event space at the Nimman location in 2026.",
+    "milestones": [
+      {
+        "label": "ENS Registered",
+        "detail": "January 2023 - 4seas.eth registered on-chain; ENS expiration set to 2058"
+      },
+      {
+        "label": "Nimman House Opens",
+        "detail": "June 2023 - Co-living bookings launched in Chiang Mai's Nimman district"
+      },
+      {
+        "label": "Mountain View Campus",
+        "detail": "2024 - 56,000 sqm rural event venue established in Hang Dong District"
+      },
+      {
+        "label": "PopUp Fest 2024",
+        "detail": "November 2-7, 2024 - 12+ popup village teams hosted at Mountain View"
+      },
+      {
+        "label": "ETHChiangmai 2025",
+        "detail": "Dec 2025 - Feb 2026 - Two-month Ethereum gathering co-organized with Chiang Mai University; hackathon drew 120 participants and a $11,500 prize pool"
+      }
+    ],
+    "sources": [
+      "https://luma.com/mp24njfi",
+      "https://app.sola.day/event/detail/11688",
+      "https://ethchiangmai.devfolio.co/",
+      "https://luma.com/x8uh2723",
+      "https://luma.com/0zxrcfab"
+    ]
+  },
+  "location": "4seas operates from two sites in Chiang Mai, Thailand. The main co-living node is in the [Nimman district](https://nomadsummit.com/venue/4seas/) at Nimmana Haeminda Road Lane 15 (Tambon Su Thep, Chiang Mai 50200), a four-story townhouse with 10 bedrooms and space for up to 16 co-living residents. A dedicated community event space called the [Zuzalu Library](https://nomadsummit.com/venue/zuzalu-library-4seas/) operates out of Building F at the same address.\n\nThe second site, [4seas Mountain View](https://app.sola.day/event/detail/11688), is a 56,000 sqm rural campus at Moo 6, Sanpakwan Subdistrict, Hang Dong District, Chiang Mai 50230 - roughly 22 minutes from Chiang Mai International Airport. Mountain View houses 31 rooms, a co-working building, a restaurant, and five event spaces accommodating 30-100 guests each. It serves as the primary venue for large popup city gatherings and seasonal hackathons.",
+  "duration": "4seas is a permanent community space, not a time-limited cohort program. Co-living at the Nimman house runs month-to-month with a one-month minimum stay and no fixed application seasons or program start dates.\n\nWeekly programming - including TogETHer Tuesdays and Friday open mic events - runs year-round. Larger gatherings such as ETHChiangmai and PopUp Fest are organized seasonally and draw visitors for multi-week stays. Residents may stay as long as space allows.",
+  "pricing": "Monthly co-living at 4seas Nimman (sourced from [coliving.com](https://coliving.com/spaces/mwpfj5lo) as of May 2026 - verify current rates with the team before booking):\n\n- Grand room (Queen bed, 19 sqm, private bathroom): from US$560/month\n- Private room (King bed, private bathroom): from US$690/month\n\nMinimum stay is one month. No security deposit is required. A full refund applies if canceled 30 or more days before move-in. Couples are welcome; minimum age is 18. Mountain View event space rates and day-pass co-working prices were not found in any accessible source - [contact the team](https://airtable.com/appu03OGGbSeyo8Bl/paglXnq4HplkYf9gp/form) for those rates.",
+  "amenities": [
+    "High-speed WiFi (97 Mbps up/down)",
+    "24-hour co-working access with hot desks",
+    "Private call rooms for video meetings",
+    "Shared fully equipped kitchen",
+    "Air conditioning in all rooms",
+    "Weekly housekeeping (daily cleaning of common areas)",
+    "Balcony and outdoor chill-out area",
+    "On-site meeting rooms and conference space",
+    "Washing machine and dryer",
+    "Free on-site and street parking",
+    "Weekly community dinners, workshops, and film nights"
+  ],
+  "howToEnter": {
+    "text": "4seas accepts co-living applications on a rolling basis throughout the year. Submit an [application via the official form](https://airtable.com/appu03OGGbSeyo8Bl/paglXnq4HplkYf9gp/form) and the team will follow up on availability and move-in dates.\n\nThe Nimman co-living space can also be browsed and booked through [Coliving.com](https://coliving.com/spaces/mwpfj5lo). No portfolio requirement or crypto wallet gating is listed for co-living. Large seasonal events like ETHChiangmai have separate registration pages on Luma and Social Layer.",
+    "linkText": "Apply here",
+    "linkUrl": "https://airtable.com/appu03OGGbSeyo8Bl/paglXnq4HplkYf9gp/form"
+  },
+  "faqs": [
+    {
+      "question": "Where is 4seas located?",
+      "answer": "4seas has two sites in Chiang Mai, Thailand. The main co-living house is in the [Nimman district](https://nomadsummit.com/venue/4seas/) at Nimmana Haeminda Road Lane 15. A second rural campus called [Mountain View](https://app.sola.day/event/detail/11688) is in Hang Dong District, about 22 minutes from Chiang Mai International Airport."
+    },
+    {
+      "question": "What is the minimum stay at 4seas?",
+      "answer": "The minimum stay for co-living at the Nimman house is one month. There is no fixed cohort schedule - residents join on a rolling basis and stay as long as space allows."
+    },
+    {
+      "question": "How much does it cost to stay at 4seas?",
+      "answer": "Based on [coliving.com](https://coliving.com/spaces/mwpfj5lo), Nimman rates start from US$560/month for a Grand room (Queen bed, private bathroom) and US$690/month for a Private room (King bed). Verify current rates before booking by [applying directly](https://airtable.com/appu03OGGbSeyo8Bl/paglXnq4HplkYf9gp/form)."
+    },
+    {
+      "question": "What kind of community events does 4seas run?",
+      "answer": "4seas hosts TogETHer Tuesdays every week: all-day co-working, community dinners, and evening talks on decentralized governance, web3 tooling, and public goods. The first Tuesday of each month is a community townhall. The Zuzalu Library at Building F hosts Chinese, Thai, and Burmese language corners, film screenings, mindfulness sessions, AI and coding workshops, and health talks throughout the week."
+    },
+    {
+      "question": "Is 4seas only for Chinese-speaking builders?",
+      "answer": "No. 4seas grew from the Global Chinese Commons network of Chinese-speaking Ethereum developers, but the community is explicitly international. Event co-hosts and residents come from across Asia, Europe, and the Americas, and English is used in most programming."
+    },
+    {
+      "question": "How do I apply to 4seas?",
+      "answer": "Submit an application via the [official Airtable form](https://airtable.com/appu03OGGbSeyo8Bl/paglXnq4HplkYf9gp/form). No portfolio requirement or crypto wallet gating is listed for co-living. Large events like ETHChiangmai have separate registration pages on Luma."
+    },
+    {
+      "question": "What does the name 4seas mean?",
+      "answer": "The name comes from the Chinese phrase 四海 (four seas), meaning all corners of the world. It reflects the community's ambition to build a borderless network for crypto nomads regardless of their origin."
+    },
+    {
+      "question": "Is 4seas connected to Zuzalu?",
+      "answer": "Yes. 4seas is one of Southeast Asia's main communities extending the Zuzalu movement - a series of experimental co-living gatherings championed by Vitalik Buterin. The [Zuzalu Library](https://nomadsummit.com/venue/zuzalu-library-4seas/) at the Nimman location is named in that tradition, and 4seas hosted more than a dozen popup village teams during Chiang Mai's pre-Devcon popup season in late 2024."
+    },
+    {
+      "question": "What major events has 4seas hosted?",
+      "answer": "Notable events include [ETHChiangmai 2025](https://ethchiangmai.devfolio.co/) (a two-month Ethereum gathering co-organized with Chiang Mai University, Dec 2025-Feb 2026), the [ETHChiangmai Hackathon 2026](https://luma.com/x8uh2723) ($11,500 prize pool, up to 120 participants), PopUp Fest 2024 (November 2-7 at Mountain View), a Funding the Commons Builder Residency (October 2024), and the world premiere of the documentary \"Vitalik: An Ethereum Story.\""
+    },
+    {
+      "question": "Does 4seas have a fellowship or grants program?",
+      "answer": "The Nomad Matters Project, a collaboration between 4seas and Matters.Town, has offered funding and publishing support to Chinese-speaking digital nomads. 4seas also participated in Gitcoin's Global Chinese Community for Public Goods grants round (GR18) in 2023. Check the latest announcements on X ([@4seasDesoc](https://x.com/4seasdesoc)) for current opportunities."
+    }
+  ]
+}

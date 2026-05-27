@@ -1,0 +1,166 @@
+{
+  "overview": [
+    {
+      "title": "What is Veritas Villages?",
+      "text": "Veritas Villages is an intentional community developer in Latin America offering off-grid homes built on solar power, natural water, and food production. Communities in Panama and Nicaragua use DAO governance rather than a traditional HOA and accept Bitcoin alongside traditional currency.",
+      "sources": [
+        "https://www.veritasvillages.com/",
+        "https://www.veritasvillages.com/understanding-veritas-villages"
+      ]
+    },
+    {
+      "title": "Who joins Veritas Villages?",
+      "text": "Veritas Villages attracts families, expats, retirees, and digital nomads who want to own property in a self-sufficient community with like-minded neighbors. Residents are typically drawn by the combination of lower cost of living, food and energy independence, and freedom from reliance on large institutions. The community explicitly welcomes seniors, children, and pets, and the Panama location includes a school for students aged 8 to 19.",
+      "sources": [
+        "https://www.veritasvillages.com/about-us",
+        "https://veritaspanama.com/about-us",
+        "https://veritaspanama.com/blog/veritas-village-education-innovative-schools-and-unique-learning-opportunities"
+      ]
+    },
+    {
+      "title": "The F.I.R.S.T. Principles Behind Veritas Villages",
+      "text": "Every Veritas Villages community is shaped by five core pillars: Freedom (a live-and-let-live ethos protecting personal liberty), Independence (reduced reliance on external systems), Resilience (durable infrastructure for long-term stability), Sustainability (solar energy, water recycling, and on-site food production), and Transparency (open governance via DAO voting). These principles, referred to collectively as F.I.R.S.T., shape how each community is designed, governed, and maintained.",
+      "sources": [
+        "https://www.veritasvillages.com/understanding-veritas-villages",
+        "https://veritaspanama.com/about-us"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Veritas Villages grew out of Patrick Hiebert's decades of experience building sustainable off-grid communities in Central America. Patrick, a Canadian entrepreneur who previously founded and sold multiple high-tech software companies, relocated to Latin America and developed the first off-grid luxury communities in Nicaragua after years of learning self-sufficient living while sailing with his son Spencer.\n\nIn 2019, Spencer Hiebert formalized his vision for an integrated off-grid community of freedom-oriented homes during an extended stay in Belize. That design concept became the foundation for Veritas Villages, developed under parent company Autris Group, headquartered in Panama City, Panama.\n\nToday Veritas Villages operates active communities in Nicaragua and Panama, with Costa Rica in development. By mid-2025, the flagship Coronado, Panama community had over 70% of its lots sold and reached key infrastructure milestones: roads fully roughed in, over 75% of water lines installed, and the first home officially began construction with building permits secured.",
+    "milestones": [
+      {
+        "label": "Founding",
+        "detail": "2019 - Veritas Villages founded by Patrick and Spencer Hiebert; off-grid community concept formalized"
+      },
+      {
+        "label": "Nicaragua Launch",
+        "detail": "First Veritas community launched at Playa Pacifica within Gran Pacifica Beach and Golf Resort"
+      },
+      {
+        "label": "Panama Community",
+        "detail": "Coronado, Panama community launched with land lots from $73,900 and homes from $129,000"
+      },
+      {
+        "label": "Infrastructure Complete",
+        "detail": "2025 - Roads 100% roughed in, 75%+ water lines installed, solar systems operational at Coronado"
+      },
+      {
+        "label": "First Home Built",
+        "detail": "May 2025 - First Veritas home begins construction in Coronado with permits secured; 70%+ of lots sold"
+      }
+    ],
+    "sources": [
+      "https://www.veritasvillages.com/about-us",
+      "https://veritaspanama.com/about-us",
+      "https://veritaspanama.com/blog/veritas-village-construction-updates"
+    ]
+  },
+  "location": "Veritas Villages operates across multiple locations in Central America, each with a distinct setting.\n\nPlaya Pacifica, Nicaragua sits within Gran Pacifica Beach and Golf Resort, less than an hour from Managua's international airport. This Spanish-inspired beachfront neighborhood features a 9-hole golf course, horseback riding, yoga palapas, beachfront pools, and world-class surfing access.\n\nCoronado, Panama is a highland community approximately 10 minutes from Coronado town and about an hour from Panama City. Year-round temperatures range from 23 to 27C (73 to 81F), with Pacific Ocean views, mountain aquifer water, and convenient access to hospitals, schools, and grocery stores. The flagship community here had over 70% of lots sold as of mid-2025.\n\nChiriqui, Panama is a smaller, private community near Boquete in Panama's Chiriqui province, focused on self-sufficiency and resilient off-grid living.\n\nAtenas, Costa Rica is in early planning stages in the Central Valley, with details forthcoming.",
+  "duration": "Veritas Villages is a permanent-residency community - members purchase land or a completed home rather than joining a time-limited program. Construction of new homes takes approximately 10 to 14 months after building permits are approved. Title transfer and permit processing add further lead time before construction begins. Buyers can complete the full purchase process remotely through virtual tours, digital contracts, and secure online transactions.\n\nFor those who want to experience the community before committing to a purchase, a limited number of rental properties are available at Playa Pacifica in Nicaragua, including two-bedroom and beachfront villa options.",
+  "pricing": "Prices vary by community and property type. All figures are in USD and exclude furniture and closing costs.\n\nCoronado, Panama: Land lots start at $73,900. Homes are available from $129,000 across several models including estate homes (3.5 bed/3 bath), lifestyle farm homes (3 bed/3.5 bath), and large lofted homes (2 bed/2 bath). Vendor financing is available for land purchases; the team can assist with home financing.\n\nPlaya Pacifica, Nicaragua: Four home models are offered - Galician studio (538 sq ft, 1 bath) from $186,900; Losino (579 sq ft, 2 bed/1 bath) from $196,900; Paso Fino (1,215 sq ft, 2 bed/2 bath) from $389,900; Andalusian (1,372 sq ft, 3 bed/2.5 bath) from $489,900.\n\nAll communities accept Bitcoin or traditional currency for transactions.",
+  "amenities": [
+    "Solar power systems standard for all homes",
+    "Off-grid water systems: deep wells, springs, and 5-stage bio-filter filtration (98-99% purity)",
+    "Community orchards, gardens, hydroponics, and small livestock for on-site food production",
+    "Bi-weekly farmers markets",
+    "Starlink high-speed internet and digital nomad workstations",
+    "Community pools (natural and saltwater options)",
+    "Village centers and gathering spaces",
+    "Nature trails and walking paths",
+    "DAO community governance replacing traditional HOA",
+    "Bitcoin and traditional currency transactions supported",
+    "Renewable energy with EV charging capability via solar",
+    "Amphitheater for community events and performances"
+  ],
+  "howToEnter": {
+    "text": "Buying a property at Veritas Villages starts with a consultation with the sales team to select a community and lot. The process fully supports remote purchases: virtual tours, digital contracts, and secure online transactions are all available. Once you reserve a lot and finalize a home model, the team handles building permits before construction begins - typically 10 to 14 months after permits are approved.\n\nVendor financing is available for land purchases in Panama, and the team can assist with home financing options. For those who want to experience a community first, rental properties are available at Playa Pacifica in Nicaragua. [Contact the Veritas Villages team](https://www.veritasvillages.com/) to start the process.",
+    "linkText": "Request more information",
+    "linkUrl": "https://www.veritasvillages.com/"
+  },
+  "kidFriendly": {
+    "description": "Veritas Villages is designed for families and explicitly welcomes children and pets across all communities. The Panama location operates a community school for students aged 8 to 19, blending digital learning with hands-on outdoor education. The school connects students with educators around the world via Starlink internet, while community members including farmers, solar engineers, and entrepreneurs contribute as hands-on instructors. Outdoor learning in the local ecosystem complements the academic program, with planned expansion to accommodate more students.",
+    "activities": [
+      {
+        "emoji": "🏫",
+        "name": "Community School (ages 8-19)",
+        "location": "Coronado, Panama",
+        "time": "Weekdays"
+      },
+      {
+        "emoji": "🌱",
+        "name": "Garden and farming activities",
+        "location": "Community orchards and food production areas",
+        "time": "Daily"
+      },
+      {
+        "emoji": "🌊",
+        "name": "Beach and surfing",
+        "location": "Playa Pacifica, Nicaragua",
+        "time": "Year-round"
+      },
+      {
+        "emoji": "🏊",
+        "name": "Swimming pools",
+        "location": "Playa Pacifica and Panama communities",
+        "time": "Daily"
+      },
+      {
+        "emoji": "🐾",
+        "name": "Nature trails and wildlife observation",
+        "location": "All communities",
+        "time": "Daily"
+      }
+    ]
+  },
+  "faqs": [
+    {
+      "question": "What is Veritas Villages and how does it work?",
+      "answer": "Veritas Villages is a real estate developer building freedom-oriented intentional communities in Central America. Members purchase land or a home within one of the communities and become part of a neighborhood governed by a Decentralized Autonomous Organization (DAO) rather than a traditional HOA. All communities are built around the F.I.R.S.T. principles: Freedom, Independence, Resilience, Sustainability, and Transparency. [Learn more on the official site](https://www.veritasvillages.com/understanding-veritas-villages)."
+    },
+    {
+      "question": "Which countries does Veritas Villages operate in?",
+      "answer": "Veritas Villages currently operates active communities in Nicaragua (Playa Pacifica, within Gran Pacifica Beach and Golf Resort) and Panama (a highland community near Coronado and a separate community in the Chiriqui province near Boquete). A community in Atenas, Costa Rica is in early development. The company has broader plans for expansion across Latin America including Mexico, Ecuador, and Argentina."
+    },
+    {
+      "question": "How much does it cost to buy a home or land at Veritas Villages?",
+      "answer": "Costs vary by community. In Coronado, Panama, land lots start at $73,900 USD and homes start from $129,000 USD. At Playa Pacifica in Nicaragua, homes range from $186,900 for a studio (Galician model) to $489,900 for a 3-bedroom villa (Andalusian model). Vendor financing is available for land in Panama. All communities accept Bitcoin or traditional currency. [Contact the team](https://www.veritasvillages.com/) for current availability."
+    },
+    {
+      "question": "How does the DAO governance model work at Veritas Villages?",
+      "answer": "Instead of a traditional homeowners association, Veritas Villages communities are governed through a Decentralized Autonomous Organization (DAO). Homeowners participate in voting on community decisions, providing transparent and decentralized control over shared infrastructure, rules, and community development compared to a standard HOA structure."
+    },
+    {
+      "question": "Can I pay with Bitcoin at Veritas Villages?",
+      "answer": "Yes. All Veritas Villages communities accept Bitcoin alongside traditional currency for property transactions. The communities are philosophically aligned with Bitcoin's principles of financial sovereignty and independence from centralized financial institutions. Solar-powered Bitcoin mining units are also operational at the Coronado, Panama community."
+    },
+    {
+      "question": "How long does construction take at Veritas Villages?",
+      "answer": "After building permits are approved, construction of a new home typically takes 10 to 14 months. Title transfer and permit processing add additional lead time before construction begins. The Veritas team provides regular construction updates, including video reports from the construction manager throughout the build."
+    },
+    {
+      "question": "Is Veritas Villages suitable for families with children?",
+      "answer": "Yes. All Veritas Villages communities explicitly welcome families, children, and pets. The Panama community operates a school for students aged 8 to 19 that combines digital learning via Starlink internet access to global educators with hands-on outdoor education, including farming, nature study, and community-based learning from local experts."
+    },
+    {
+      "question": "Can I visit or rent before committing to buy at Veritas Villages?",
+      "answer": "Rental properties are available at Playa Pacifica in Nicaragua, including two-bedroom and beachfront villa options. Remote viewing is fully supported through virtual tours. [Contact the team](https://www.veritasvillages.com/) for current rental availability and pricing."
+    },
+    {
+      "question": "What is the Veritas Village Club?",
+      "answer": "The [Veritas Village Club](https://www.veritasvillages.com/veritas-village-club) is a membership program for homeowners across all Veritas Villages communities. Benefits include 10% off stays at any Veritas Village community, 20% off meals at on-site restaurants, reduced rates on activities such as horseback riding and golf, and invitations to exclusive owner events and gatherings."
+    },
+    {
+      "question": "Who founded Veritas Villages?",
+      "answer": "Veritas Villages was co-founded in 2019 by Patrick Hiebert (CEO/Chairman) and Spencer Hiebert (Chief Design Officer). Patrick is a Canadian entrepreneur who previously founded high-tech software companies and developed the first off-grid luxury communities in Nicaragua after years of sustainable living while sailing. Spencer formalized the community design concept during a stay in Belize. Mikkel Thorup, an international expat consultant specializing in tax and residency planning, serves as a partner and board member."
+    },
+    {
+      "question": "What amenities are included in a Veritas Villages community?",
+      "answer": "All communities include solar power systems, off-grid water systems with 5-stage bio-filter filtration, community orchards and gardens, nature trails, digital nomad workstations with Starlink internet, community pools, village centers, and DAO governance. Location-specific amenities include a 9-hole golf course and world-class surfing at Playa Pacifica, and an amphitheater, disc golf, pickleball courts, and outdoor gym at the Coronado, Panama community. Full details are at [the community features page](https://www.veritasvillages.com/community-features)."
+    },
+    {
+      "question": "How do I apply to Veritas Villages?",
+      "answer": "The process starts with contacting the sales team through the official website. You select a community and lot, complete a reservation, and the team guides you through permitting and construction. The full purchase process - including lot selection, contracts, and payment - can be completed remotely. [Start the process here](https://www.veritasvillages.com/)."
+    }
+  ]
+}

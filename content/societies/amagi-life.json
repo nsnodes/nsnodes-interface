@@ -2,114 +2,131 @@
   "overview": [
     {
       "title": "What is Amagi Life?",
-      "text": "Amagi Life is a regenerative village on Koh Phangan, Thailand for families, entrepreneurs, and creators building long-term community with shared ownership. The name Amagi comes from the first recorded word for freedom in ancient Sumer, roughly meaning \"return to the mother.\" The village combines eco-conscious living with shared land stewardship and a community economy that rewards contribution over extraction.",
+      "text": "Amagi Life is a regenerative village on Koh Phangan, Thailand, combining long-term living, shared land ownership, and a contribution-driven economy.",
       "sources": [
         "https://amagi.life"
       ]
     },
     {
       "title": "Who joins Amagi Life?",
-      "text": "Amagi Life attracts remote workers, location-independent entrepreneurs, artists, practitioners, and families who want stable long-term living outside the conventional property market. The community explicitly seeks early adopters: people who are self-directed, emotionally mature, and comfortable helping build something that is still taking shape. Villagers, investors, and partner organizations are all recognized pathways into the community.",
+      "text": "Amagi Life attracts location-independent professionals, founders, artists, practitioners, and families who want a stable long-term home base inside an intentional community. The current phase is explicitly for early adopters -- people who are open, adventurous, and comfortable stepping into a living project that is still taking shape.",
       "sources": [
-        "https://amagi.life",
-        "https://amagi.life/join"
+        "https://amagi.life"
+      ]
+    },
+    {
+      "title": "The Amagi Life Model",
+      "text": "The model rests on three pillars: a hybrid ownership structure that lets residents invest in land and earn equity over time; affordable eco-conscious living that keeps nature, innovation, and community in sync; and cultural and entrepreneurial programming that drives engagement among people who share core values.\n\nThe name derives from ancient Sumerian -- the first recorded word for freedom -- translating roughly as 'return to the mother' or liberation through restoration. Amagi is built on regenerative land stewardship, shared ownership without forced collectivism, long-term affordability, and a living economic model that rewards contribution rather than extraction.",
+      "sources": [
+        "https://amagi.life"
       ]
     }
   ],
   "history": {
-    "text": "Amagi Life was founded in 2024 on Koh Phangan, Thailand by a team including Ofer Rotem, a blockchain investor and real estate developer with over 17 years of experience and more than 100 homes built on the island, and Geir Windsvoll, a serial entrepreneur who has lived on Koh Phangan for 17 years. The founding team set out to prototype a new kind of village where residents earn co-ownership through contribution rather than capital alone.\n\nThe project's first site is Hidden Valley, a secluded location in the hills above Ban Tai. In January 2025 the team launched the [Amagi Village Podcast](https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT) on Spotify and YouTube to document the community's development in real time. By January 2026, nine residents were living across eleven available homes, with the team focused on reaching its first 20 to 30 residents.",
+    "text": "Amagi Life was founded in 2024 by a Koh Phangan-based team with backgrounds in real estate development, blockchain, AI engineering, and social-impact venture building. The core idea: build a village model that addresses the three simultaneous failures of housing affordability, community fragility, and extractive development.\n\nThe team secured Hidden Valley, a site in the hills above Ban Tai on Koh Phangan, and began co-designing the first village with early residents. The [Amagi Village Podcast](https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT) launched in early 2025, documenting the journey through conversations with community builders, entrepreneurs, and governance thinkers.\n\nThe first residents moved into Hidden Valley in May 2025. By late 2025 the community had run its first workshops, held a [public town hall on the model whitepaper](https://luma.com/p8b2rzz4), and published the foundational blog series on regenerative village design. Globally, 7+ villages across Peru, the US, Australia, and Thailand have signed letters of intent to join the Amagi network.",
     "milestones": [
       {
         "label": "Founded",
-        "detail": "2024 | Koh Phangan, Thailand"
+        "detail": "Amagi Life formed on Koh Phangan, Thailand | 2024"
+      },
+      {
+        "label": "Hidden Valley Secured",
+        "detail": "Site in the hills above Ban Tai chosen and co-design begins | 2024-2025"
       },
       {
         "label": "Podcast Launched",
-        "detail": "January 2025 | Amagi Village Podcast on Spotify and YouTube"
-      },
-      {
-        "label": "Year-One Reflection",
-        "detail": "November 2025 | Co-founder Geir Windsvoll shares lessons from the first year of the experiment"
+        "detail": "Amagi Village Podcast debuts on Spotify | March 2025"
       },
       {
         "label": "First Residents",
-        "detail": "9 residents in 11 homes | January 2026"
+        "detail": "Hidden Valley welcomes its founding residents | May 2025"
+      },
+      {
+        "label": "One Year In",
+        "detail": "Team reflects on 'Building Belonging: One Year Into the Amagi Experiment' | November 2025"
+      },
+      {
+        "label": "Global LOIs",
+        "detail": "7+ villages across Peru, US, Australia and Thailand sign letters of intent to join the network | 2025-2026"
       }
     ],
     "sources": [
+      "https://amagi.life",
       "https://amagi.life/team",
-      "https://amagi.life/post/network-state-in-action",
-      "https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT"
+      "https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT",
+      "https://luma.com/p8b2rzz4",
+      "https://ns.com/dashboard/amagi-life",
+      "https://liranja.medium.com/why-i-joined-amagi-and-why-i-believe-it-offers-a-new-framework-for-eco-villages-c35baffde75a"
     ]
   },
-  "location": "Amagi Life's first village occupies Hidden Valley, a secluded site in the hills above Ban Tai on Koh Phangan, approximately five minutes from the Ban Tai town centre. The setting pairs natural surroundings with straightforward access to island services and infrastructure.\n\nSi Ri Panya International School - a Cambridge-accredited British school serving early years through secondary, taught in English and licensed by the Thai Ministry of Education - is five minutes from the village and provides bus transport to and from the community.\n\nKoh Phangan is a Thai island in the Gulf of Thailand known for its beaches, jungle interior, and growing base of long-term residents. The island has direct ferry connections to the mainland and to Koh Samui, which has an international airport.",
-  "duration": "Amagi Life is designed for long-term living rather than fixed-length cohorts or short visits. Residents join either as Residents, moving into an existing home, or as Builders, who commission a custom home through the in-house construction team. No minimum stay is publicly stated, but the community's equity model - where co-ownership grows through ongoing participation - is structured to reward residents who stay and contribute over time.",
-  "pricing": "Amagi Life uses a rent-reduction model tied to community participation. Three tiers are available:\n\n- Full Value: live rent-free while earning village equity through active contribution\n- Half Payment: 50% rent reduction with ongoing equity accumulation\n- Standard Rate: normal rent with equity earned over time\n\nRent rates are set by community governance and vary by home. For residents who want to build rather than rent, land-plus-build packages start from approximately 60,000 baht. Specific terms are discussed during a 1:1 alignment call with the team. Contact join@amagi.life to start the conversation.",
+  "location": "Amagi Life's Hidden Valley sits in the hills above Ban Tai on Koh Phangan, Surat Thani province, Thailand (address: 49/12 Ban Tai, Koh Phangan 84280). The site is a short drive -- about 5 minutes -- from Koh Phangan's cluster of international schools, making it practical for families.\n\nKoh Phangan is a Gulf of Thailand island roughly 80 km from Surat Thani on the mainland and accessible by ferry from Koh Samui. The Ban Tai area on the island's south coast is quieter than the party-focused north and is home to a growing international residential community. The valley setting provides a natural buffer from road noise while remaining close to Ban Tai's amenities.",
+  "duration": "Amagi Life is designed for long-term residents rather than short-stay visitors or cohort rotations. There is no fixed minimum or maximum tenure announced; the model assumes members put down roots and participate in the village economy over time.\n\nIn its current early-adopter phase, Amagi is explicitly open to people comfortable with a living project that is still taking shape. Interested applicants should expect a 1:1 alignment call before any commitment, and engagement types range from full-time Villager to Investor to Partner -- each with a different level of on-site presence.",
+  "pricing": "Amagi Life uses a hybrid equity model rather than a fixed rent schedule. Three participation tiers are described on the site:\n\n- **Full investment** -- pay the full villa value upfront; live rent-free and earn village equity over time.\n- **Half investment** -- pay approximately half the villa value; receive a 50% rent discount and earn equity.\n- **Contribution path** -- pay no upfront capital; pay an ongoing community-governed rent and earn equity through work and contribution.\n\nThe [Villa Investment Calculator](https://calculator.amagi.life/) on the Amagi site lets prospective residents model specific scenarios. Exact villa prices are shared during the application conversation rather than listed publicly. Contact [join@amagi.life](mailto:join@amagi.life) or apply at [amagi.life](https://amagi.life) to start the process.",
   "amenities": [
-    "Long-term rental homes in a secluded hidden valley setting",
-    "Eco-village living with fresh air and nature access",
-    "Farm-to-table locally grown food",
-    "Community events and facilitated pod sessions",
-    "In-house construction team for custom home builds (100+ homes built on Koh Phangan)",
-    "Co-ownership equity that grows through village contribution",
-    "Quarterly community governance voting",
-    "5-minute access to Si Ri Panya Cambridge-accredited International School",
-    "Telegram community group for residents and prospective members",
-    "1:1 onboarding and alignment support from the founding team"
+    "Long-term accommodation (villas) in a jungle-valley setting",
+    "Shared land stewardship -- residents co-own and co-manage village grounds",
+    "Community governance -- rents are community-governed, not set by a landlord",
+    "Portable equity -- equity and rent reductions carry across future Amagi villages",
+    "Cultural and entrepreneurial programming",
+    "Village venture-builder support for resident-run businesses (land, legal, or capital)",
+    "5-minute access to Koh Phangan's international schools",
+    "Proximity to Ban Tai town amenities and Koh Phangan's beaches",
+    "Amagi Village Podcast and ongoing educational content",
+    "Telegram community channel for residents and prospects"
   ],
   "howToEnter": {
-    "text": "The joining process starts with an [application form](https://amagi.life/join) where you describe your engagement type (Villager, Investor, or Partner) and your motivation for joining. The team then schedules a 1:1 alignment call to explore fit and next steps. Optional pod sessions - three facilitated meetings totaling six hours - cover presence, deep listening, and co-creation. After alignment, the team works with you on location selection and, if you plan to build, home design. Reach out to join@amagi.life to begin.",
-    "linkText": "Apply on the Amagi Life website",
-    "linkUrl": "https://amagi.life/join"
+    "text": "Interested applicants start by filling in the application form at [amagi.life](https://amagi.life), selecting one of three engagement types -- Villager, Investor, or Partner. The form asks for contact details, a short motivation statement, participation preferences, and any social links you want to share.\n\nAfter submission the team schedules a 1:1 alignment call to explore fit, answer questions, and agree on next steps together. Amagi is currently in its early-adopter phase and is looking for people who are self-responsible, emotionally mature, capable of cooperation, and genuinely interested in shaping the community as it grows.",
+    "linkText": "Apply at amagi.life",
+    "linkUrl": "https://amagi.life"
   },
   "faqs": [
     {
-      "question": "What does the name Amagi mean?",
-      "answer": "Amagi is the first recorded word for freedom in human history, originating in ancient Sumer. It roughly translates to \"return to the mother\" or \"return to freedom.\""
+      "question": "What is Amagi Life and where is it located?",
+      "answer": "Amagi Life is a regenerative village model combining long-term living, shared land stewardship, and a contribution-driven economy. Its first village -- Hidden Valley -- is in the hills above Ban Tai on Koh Phangan, Thailand. Learn more at [amagi.life](https://amagi.life)."
     },
     {
-      "question": "Where is Amagi Life located?",
-      "answer": "Amagi Life is on Koh Phangan, Thailand. The first village is Hidden Valley, a secluded site in the hills above Ban Tai, about five minutes from the Ban Tai town centre."
+      "question": "Is Amagi Life an intentional community or a co-housing project?",
+      "answer": "It is both -- the team describes it as part co-housing project and part village venture builder. Residents share land governance and community programs while retaining individual autonomy. The model deliberately avoids forced collectivism."
     },
     {
-      "question": "Is Amagi Life family-friendly?",
-      "answer": "Yes. The community explicitly markets to families and is designed with education and a natural lifestyle in mind. Si Ri Panya International School - a Cambridge-accredited British school - is five minutes from the village and provides bus transport. The school offers outdoor learning, arts, sports, and cultural programs for early years through secondary."
-    },
-    {
-      "question": "How does the shared equity model work?",
-      "answer": "Residents earn co-ownership in the village over time through active contribution. Equity is allocated through quarterly community voting based on tangible contributions. The model is designed to be portable across participating Amagi villages."
-    },
-    {
-      "question": "How do I apply to Amagi Life?",
-      "answer": "Fill out the application form at [amagi.life/join](https://amagi.life/join) describing your engagement type and motivation. The team will schedule a 1:1 alignment call to discuss your goals and fit."
-    },
-    {
-      "question": "What housing options are available at Amagi Life?",
-      "answer": "You can move into an existing rental home or commission a custom build through Amagi's in-house construction team, which has completed over 100 homes on Koh Phangan. Land-plus-build packages start from approximately 60,000 baht."
-    },
-    {
-      "question": "Are there good schools near Amagi Life?",
-      "answer": "Yes. Si Ri Panya International School, a Cambridge-accredited British school serving early years through secondary, is five minutes from Hidden Valley. It is taught in English, licensed by the Thai Ministry of Education, and offers bus transport to and from the village."
+      "question": "How does the Amagi Life equity model work?",
+      "answer": "Three tiers exist: (1) pay full villa value upfront -- live rent-free and earn equity; (2) pay roughly half -- receive a 50% rent discount and earn equity; (3) pay no capital upfront -- pay community-governed rent and earn equity through contribution over time. Equity is portable across all future Amagi villages."
     },
     {
       "question": "How much does it cost to live at Amagi Life?",
-      "answer": "Costs depend on your participation level. The rent-reduction model has three options: rent-free living (full community contribution), a 50% rent discount (regular participation), or standard rent with equity earned over time. Specific rates are set by community governance and discussed in your alignment call. Land-plus-build packages start from approximately 60,000 baht."
+      "answer": "Specific villa prices are not listed publicly. The model is equity-based, so the upfront amount depends on the tier you choose. Use the [Villa Investment Calculator](https://calculator.amagi.life/) for scenario modelling or [apply](https://amagi.life) to get current figures from the team."
     },
     {
-      "question": "Who founded Amagi Life?",
-      "answer": "The core founding team includes Ofer Rotem (blockchain investor and real estate developer with 17+ years and 100+ homes built on Koh Phangan), Geir Windsvoll (17-year Koh Phangan resident and serial entrepreneur), Dora Ho (venture builder and Stanford GSB alumna), and Mikkel Fishman (former CEO with systems and data infrastructure background). The full team and supporting cast are listed on the [Amagi team page](https://amagi.life/team)."
+      "question": "Who is Amagi Life for?",
+      "answer": "Amagi is explicitly for early adopters -- location-independent professionals, founders, artists, practitioners, and families who want a long-term home base inside a values-aligned community. The team looks for people who are self-responsible, emotionally mature, and interested in co-shaping a living project."
     },
     {
-      "question": "Is there a minimum stay requirement?",
-      "answer": "No fixed minimum stay is stated publicly. Amagi Life is designed for long-term living, and the equity model rewards contribution over time, so the community is better suited to residents planning to stay at least several months."
+      "question": "How do I apply to Amagi Life?",
+      "answer": "Fill in the application form at [amagi.life](https://amagi.life), selecting Villager, Investor, or Partner as your engagement type. The team will follow up to schedule a 1:1 alignment call. You can also email [join@amagi.life](mailto:join@amagi.life) with questions."
     },
     {
-      "question": "Does Amagi Life have a podcast?",
-      "answer": "Yes. The [Amagi Village Podcast](https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT) documents the real-time development of the community through conversations with innovators, community builders, and residents. It launched in January 2025 and is available on Spotify and YouTube."
+      "question": "Is Amagi Life good for families with children?",
+      "answer": "Yes -- Amagi explicitly markets Hidden Valley to families. The site is about 5 minutes from Koh Phangan's international schools, and the community emphasizes safety, continuity, and a village-scale environment for daily life. The February 2026 blog post is titled 'Why Amagi's Hidden Valley Is a Perfect Community for Families Looking for Exceptional Education and a Natural Lifestyle.'"
     },
     {
-      "question": "Who are some notable advisors and investors in Amagi Life?",
-      "answer": "Balaji Srinivasan, co-founder of Counsyl, former Coinbase CTO, and author of The Network State, is listed as an investor and advisor. Patri Friedman, founder of Pronomos Capital and the Seasteading Institute, is also an advisor. The complete list of investors, advisors, and partners is on the [Amagi team page](https://amagi.life/team)."
+      "question": "When did Amagi Life open and when did the first residents move in?",
+      "answer": "Amagi Life was founded in 2024. The first residents moved into Hidden Valley in May 2025. The [Amagi Village Podcast](https://open.spotify.com/show/6KGJfBnSkoP2aPlh1vPmpT) launched in March 2025 and has documented the community's development from the start."
+    },
+    {
+      "question": "Is Amagi Life part of a larger network of villages?",
+      "answer": "Yes. As of early 2026, 7+ villages across Peru, the US, Australia, and Thailand have signed letters of intent to join the Amagi network, with 10+ more in the pipeline. Equity earned at Hidden Valley is portable across all network villages."
+    },
+    {
+      "question": "Who are the founders and team behind Amagi Life?",
+      "answer": "The core Koh Phangan team includes Ofer Rotem (17+ years of real estate development on the island), Thunj Chantramonklasri (tokenomics, ex-chief economist at Bitazza), Mikkel Fishman (AI engineer, ex-CEO of Arturo Labs), Dora Ho (venture builder, ex-CEO of Thrive in Thailand), Saar Kagan (product strategy), Guillaume de Maquillé (creative direction), and Benny Palinee (education and operations). See the full team and global advisors at [amagi.life/team](https://amagi.life/team)."
+    },
+    {
+      "question": "Does Amagi Life have a whitepaper or model documentation?",
+      "answer": "Yes -- the Amagi Model Whitepaper is available as a Google Doc linked from the main site. The team also holds public town halls to discuss the whitepaper and answer questions. Check [amagi.life](https://amagi.life) for the current link."
+    },
+    {
+      "question": "What advisors and investors are involved with Amagi Life?",
+      "answer": "Notable advisors include Patri Friedman (founder, Pronomos Capital -- the charter cities and network states venture fund), Balaji Srinivasan (co-founder Counsyl, former CTO of Coinbase, author of The Network State), Sergey Solonin (co-founder of Qiwi, builder of Nuanu), and Shannon Kalayanamitr (CEO of 5G Catalyst Technologies). Full list at [amagi.life/team](https://amagi.life/team)."
     }
   ]
 }

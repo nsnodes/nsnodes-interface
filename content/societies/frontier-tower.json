@@ -2,115 +2,124 @@
   "overview": [
     {
       "title": "What is Frontier Tower?",
-      "text": "Frontier Tower is a 16-story vertical village at 995 Market Street in San Francisco for founders working in AI, crypto, robotics, biotech, and longevity.",
+      "text": "Frontier Tower is a 16-story vertical village at 995 Market Street in San Francisco for 700+ founders and builders in AI, biotech, crypto, and deep tech.\n\nThe 90,500 sq ft building in San Francisco's Mid-Market neighborhood organizes each floor around a specific technology vertical - AI, biotech, longevity, crypto, robotics, neurotech, arts, and human flourishing. The community hosts more than 100 events monthly, from pitch nights and hackathons to workshops and founder dinners.",
       "sources": [
         "https://frontiertower.io/",
-        "https://sfstandard.com/2025/05/18/first-look-frontier-tower-san-francisco-vertical-village/"
+        "https://www.sfexaminer.com/news/the-city/fighting-robots-tech-ventures-more-animate-frontier-tower/article_17957561-40d5-467b-8728-e7c0afe00b66.html",
+        "https://www.superherohotel.com/"
       ]
     },
     {
       "title": "Who joins Frontier Tower?",
-      "text": "Members are founders, engineers, scientists, and researchers building in frontier technology fields. Around 80% of the community are startup founders, with teams working across AI, biotech, longevity, robotics, neurotech, and crypto. The community has collectively raised over $150M.\n\nEach floor is organized around a discipline and led by a dedicated community host. To become a citizen, you apply through the official portal and, once accepted, pay a monthly or annual membership fee.",
+      "text": "Frontier Tower draws startup founders, researchers, engineers, and investors working on problems in AI, biotech, longevity, cryptocurrency, robotics, neurotech, and consciousness research. Members range from pre-seed founders to VCs and scientists who want a community-governed workspace in San Francisco.\n\nStartups based at Frontier Tower include Onairos (personal data management) and Muse Bio (stem cell research). The 700+ member community has collectively raised more than $150 million.",
       "sources": [
         "https://www.sfexaminer.com/news/the-city/fighting-robots-tech-ventures-more-animate-frontier-tower/article_17957561-40d5-467b-8728-e7c0afe00b66.html",
-        "https://sfstandard.com/2025/05/18/first-look-frontier-tower-san-francisco-vertical-village/"
+        "https://www.superherohotel.com/",
+        "https://x.com/frontiertower/status/2044836944002404356"
       ]
     }
   ],
   "history": {
-    "text": "Frontier Tower was founded in early 2025 by three German entrepreneurs: Jakob Drzazga, Christian Nagel, and Christian Peters. Inspired by a 200-person gathering in Montenegro, the team pooled their savings and secured a private debt fund loan to purchase [995 Market Street](https://frontiertower.io/office) for $11 million - a 16-story, 90,500-square-foot building in San Francisco's Mid-Market district that had sold for $62 million in 2018.\n\nThe building was formerly home to WeWork and then the Burning Man Project (Black Rock LLC), and was vacant at the time of purchase. Drzazga is a Berlin-based serial entrepreneur with a background in crypto, fintech, and real estate who previously co-founded an artists' collective in Berlin. The concept draws on the network-state tradition: a self-governed, community-run space where each floor is its own micro-community with distinct focus and leadership.\n\nIn February 2025, the first programming launched inside the building. Vitalik Buterin hosted a panel on futurist cities in March 2025. By summer 2025, a six-week immersive program called [Viva Frontier](https://luma.com/viva-frontier-tower) had run from June 20 through August 4. By fall 2025, the community had grown to over 450 members.",
+    "text": "Frontier Tower was founded by Jakob Drzazga, Christian Nagel, and Christian Peters, three German entrepreneurs with backgrounds in venture capital, fintech, and real estate development. Their company, BerlinHouse, purchased the 16-story building at 995 Market Street in January 2025 for $11 million through its acquisition vehicle, Deep Ink Ventures.\n\nThe BerlinHouse concept draws from post-Berlin Wall history, when vacant buildings in East Berlin became vibrant clubs, art spaces, and hacker houses. The founders saw a parallel in San Francisco's Mid-Market district, where commercial real estate had collapsed - the 995 Market building was assessed at $62 million in 2016 before selling for $11 million. The building previously served as a WeWork facility and as the headquarters of the Burning Man Project.\n\nFrontier Tower opened to members in 2025 and has since grown to 700+ members across 16 themed floors. Co-living for residents is provided through a partner property, [Superhero Hotel](https://www.superherohotel.com/), a separate historic 1920 building at 825 Sutter Street in Nob Hill acquired by the same team.",
     "milestones": [
       {
+        "label": "Company Founded",
+        "detail": "BerlinHouse established by Jakob Drzazga, Christian Nagel, and Christian Peters | 2024"
+      },
+      {
         "label": "Building Acquired",
-        "detail": "January 2025 | $11M purchase of 995 Market St, formerly David Hewes Building"
+        "detail": "16-story, 90,500 sq ft at 995 Market Street, San Francisco | $11M purchase | January 2025"
       },
       {
-        "label": "First Programming",
-        "detail": "February 2025 | Doors opened and first pop-up programming launched"
+        "label": "Doors Open",
+        "detail": "Founding Citizen program launched | 450+ members enrolled in early 2025"
       },
       {
-        "label": "Vitalik Buterin Panel",
-        "detail": "March 2025 | Panel on futurist cities hosted at the Tower"
+        "label": "Superhero Hotel",
+        "detail": "Co-living partner hotel opened at 825 Sutter St, Nob Hill | 10-min walk from the Tower"
       },
       {
-        "label": "Viva Frontier",
-        "detail": "June 20 - August 4, 2025 | Six-week immersive pop-up village with keynote by Peter Diamandis"
-      },
-      {
-        "label": "450+ Members",
-        "detail": "Fall 2025 | Community grows past 450 citizens; members collectively raised $150M"
+        "label": "Viva Frontier Tower",
+        "detail": "6-week vertical village summit program announced | June 20 - August 4, 2026"
       }
     ],
     "sources": [
       "https://therealdeal.com/san-francisco/2025/01/03/deep-ink-ventures-buys-san-francisco-office-tower-for-11m/",
-      "https://sfist.com/2025/01/02/office-tower-at-sixth-and-market-getting-acquired-by-tech-group/",
       "https://sfstandard.com/2025/05/18/first-look-frontier-tower-san-francisco-vertical-village/",
       "https://www.sfexaminer.com/news/the-city/fighting-robots-tech-ventures-more-animate-frontier-tower/article_17957561-40d5-467b-8728-e7c0afe00b66.html",
-      "https://luma.com/viva-frontier-tower"
+      "https://viva.city/frontier-tower"
     ]
   },
-  "location": "Frontier Tower occupies a 16-story, 90,500-square-foot building at [995 Market Street](https://frontiertower.io/office), at the corner of Sixth and Market in San Francisco's Mid-Market district. The building was constructed in 1908, historically known as the David Hewes Building, and sits near the city's civic center.\n\nThe building's floors each serve a distinct community. The second floor houses The Spaceship, a 200-person event venue used for talks, hackathons, and town halls. Floor 4 is dedicated to robotics and houses a $50,000 Unitree and a $75,000 Boston Dynamics robot. Floor 8 focuses on biotech and is pursuing BSL-2 lab certification. Floor 11 is the longevity floor, hosting hyperbaric oxygen therapy and IV drip startups. The 16th floor lounge overlooks the San Francisco skyline. The building also includes a basement nightclub and a rooftop area.",
-  "duration": "Frontier Tower membership is ongoing with no fixed residency term - members sign up monthly or annually and can adjust at any time. There is no required minimum stay.\n\nFor a more intensive experience, Frontier Tower has run multi-week immersive programs. The [Viva Frontier](https://luma.com/viva-frontier-tower) pop-up village ran for six weeks in summer 2025 and offered structured tracks, workshops, and hackathons within the building. For co-living, the team has acquired a separate nearby hotel rather than converting tower floors; detailed floor plans, programming, and operational updates are maintained on the [Frontier Tower Notion page](https://frontiertower.notion.site).",
-  "pricing": "Founding Citizenship costs $1,800 per year or $190 per month, covering 24-hour building access, use of the coworking lounge, gym, kitchen with coffee and kombucha, and event spaces. A dedicated coworking membership with a reserved workspace starts at $219 per month.\n\nPrivate offices for frontier tech startups are available on floors 2 and 3 at $1,000 to $4,000 per month, with citizenship required separately. Private day offices are available at $300 per day.\n\nVisit [frontiertower.io/office](https://frontiertower.io/office) for current availability or email [support@frontiertower.io](mailto:support@frontiertower.io).",
+  "location": "Frontier Tower sits at 995 Market Street (corner of 6th and Market) in San Francisco's Mid-Market neighborhood, CA 94103. The building is 16 stories tall and approximately 90,500 sq ft, with each floor covering roughly 4,250 sq ft.\n\nFloors are organized around distinct technology verticals: AI, cryptocurrency (home to an Ethereum House lounge), neurotech, longevity and biotech, robotics, arts and music, consciousness research, and human flourishing. Named event spaces include the Spaceship on the 2nd floor (capacity 200 standing or 120 seated, used for talks, panels, and product launches) and the Lounge on the 16th floor with panoramic skyline views. The building also has a rooftop deck, gym, kitchen, focus zones, and a robotics lab with access to advanced equipment.\n\nThe co-living partner, [Superhero Hotel](https://www.superherohotel.com/), is a separate historic building at 825 Sutter Street in Nob Hill - a 10-minute walk from the Tower.",
+  "duration": "Frontier Tower membership is flexible. A private day office is available for short visits. Monthly memberships run month-to-month with no minimum commitment; annual memberships lock in a lower rate.\n\nFor a full live-in experience, the partner [Superhero Hotel](https://www.superherohotel.com/) at 825 Sutter Street (Nob Hill) offers a Day-by-Day track with a 3-night minimum, or a 4-week residency program - both include full Frontier Tower access and 50+ monthly events.\n\nThe [Viva Frontier Tower](https://viva.city/frontier-tower) program is a structured 6-week cohort running June 20 through August 4, 2026, with tracks in longevity, AI, crypto, neurotech, robotics, and arts. The Frontier Residency is a multi-month intensive for 10 selected founding teams, including weekly feedback sessions, a 4-day offsite retreat, and a Demo Day pitch to investors.",
+  "pricing": "Founding Citizenship (24/7 building access, events, governance): $190/month or $1,800/year.\n\nCoworking Membership (hot desk + citizenship): from $219/month.\n\nPrivate Office (office rent, requires active Founding Citizenship): from $1,100/month for a 2-person office; larger offices up to $4,000/month.\n\nPrivate Day Office: from $300/day.\n\n[Superhero Hotel](https://www.superherohotel.com/) co-living at 825 Sutter St, Nob Hill (10-min walk): Day-by-Day from $200/night with a 3-night minimum; 4-week residency programs from $1,980 - both include full Frontier Tower access and 50+ monthly events.\n\n[Viva Frontier Tower](https://viva.city/frontier-tower) 6-week program (June 20 - August 4, 2026): $950 full access; discounts available for active Frontier Tower members; scholarships available for students, researchers, open-source contributors, and volunteers.",
   "amenities": [
-    "24/7 secure building access via mobile app",
-    "Coworking lounge",
+    "24/7 building access for all members",
+    "Coworking lounge and hot desks",
+    "Conference rooms and meeting spaces",
+    "The Spaceship event venue (2nd floor, 200 standing / 120 seated)",
+    "The Lounge (16th floor, skyline views, for dinners and networking)",
     "Gym",
-    "Meditation space",
-    "Rooftop area",
-    "Basement nightclub",
-    "Kitchen with complimentary coffee and kombucha",
-    "Focus zones",
-    "The Spaceship event space (2nd floor, up to 200 standing or 120 seated)",
-    "16th floor lounge with panoramic San Francisco skyline views",
-    "Meeting rooms with AV setup and lighting",
-    "Multiple community events per day across disciplines"
+    "Rooftop deck",
+    "Robotics lab with access to advanced equipment",
+    "Kitchen with complimentary coffee, tea, and healthy snacks",
+    "Focus zones for deep work",
+    "100+ community events monthly (pitch nights, hackathons, workshops, founder dinners)"
   ],
+  "longtermer": "For extended stays, [Superhero Hotel](https://www.superherohotel.com/) at 825 Sutter Street in Nob Hill (10-minute walk from the Tower) offers 4-week residency programs starting from $1,980. All stays include full access to Frontier Tower, free entry to 50+ monthly events, and access to the community chat.\n\nThe Frontier Residency is a more intensive multi-month program for 10 selected founding teams. It includes weekly feedback sessions, a 4-day offsite retreat, curated investor introductions, and a Demo Day. Applications are reviewed on a rolling basis; the current cohort is closed - check [frontiertower.io](https://frontiertower.io/) for the next opening.",
   "howToEnter": {
-    "text": "Apply for Frontier Tower citizenship at [frontiertower.io/apply](https://frontiertower.io/apply). The team reviews applications for fit within the community and looks for founders and researchers working in AI, crypto, robotics, biotech, longevity, neurotech, or related frontier fields.\n\nOnce accepted, members pay $1,800 per year or $190 per month for Founding Citizenship. Friday tours run regularly for prospective members. To book a private walkthrough, contact [support@frontiertower.io](mailto:support@frontiertower.io).",
-    "linkText": "Apply for citizenship",
+    "text": "Apply for Founding Citizenship at [frontiertower.io/apply](https://frontiertower.io/apply). The application is open to anyone working in frontier technology; select the floor community you'd like to join (AI, biotech, crypto, robotics, etc.) and your preferred membership tier. Members receive 24/7 building access and free use of event spaces.\n\nFor co-living, book directly at [superherohotel.com](https://www.superherohotel.com/). For the 6-week [Viva Frontier Tower](https://viva.city/frontier-tower) program (June 20 - August 4, 2026), register at viva.city with scholarships available for students and researchers.",
+    "linkText": "Apply for Founding Citizenship",
     "linkUrl": "https://frontiertower.io/apply"
   },
   "faqs": [
     {
       "question": "What is Frontier Tower?",
-      "answer": "Frontier Tower is a 16-story, 90,500-square-foot building at 995 Market Street in San Francisco organized as a vertical village for frontier technology founders and researchers. Each floor is run as a distinct community focused on areas like AI, crypto, robotics, biotech, longevity, and neurotech."
+      "answer": "Frontier Tower is a 16-story vertical village at 995 Market Street in San Francisco's Mid-Market district. It's a co-working and events hub with themed floors for AI, biotech, crypto, robotics, longevity, neurotech, arts, and human flourishing. The 700+ member community runs more than 100 events monthly."
     },
     {
-      "question": "How much does a Frontier Tower membership cost?",
-      "answer": "Founding Citizenship costs $1,800 per year or $190 per month and covers access to the building, coworking lounge, gym, kitchen, and event spaces. A dedicated coworking membership starts at $219 per month. Private offices run $1,000 to $4,000 per month and require a separate citizenship."
-    },
-    {
-      "question": "How do I apply to Frontier Tower?",
-      "answer": "You can [apply for citizenship here](https://frontiertower.io/apply). The team reviews applications for fit; they look for founders and researchers in AI, crypto, robotics, biotech, longevity, and related fields. Friday tours are available for prospective members, and private walkthroughs can be booked by emailing support@frontiertower.io."
+      "question": "Where is Frontier Tower located?",
+      "answer": "Frontier Tower is at 995 Market Street, San Francisco, CA 94103 - at the corner of 6th and Market in the Mid-Market neighborhood. The address scores 100/100 for walkability and 100/100 for public transit access."
     },
     {
       "question": "Who founded Frontier Tower?",
-      "answer": "Frontier Tower was founded by Jakob Drzazga, Christian Nagel, and Christian Peters - three German entrepreneurs who purchased the building in early 2025 for $11 million. Drzazga is a Berlin-based serial entrepreneur with a background in crypto, fintech, and real estate, and previously co-founded an artists' collective in Berlin."
+      "answer": "Frontier Tower was founded by Jakob Drzazga (CEO), Christian Nagel, and Christian Peters - three German entrepreneurs with backgrounds in venture capital, fintech, and real estate. Their company, BerlinHouse, acquired the building in January 2025 through its investment arm Deep Ink Ventures for $11 million."
     },
     {
-      "question": "What kinds of events happen at Frontier Tower?",
-      "answer": "Events run daily across a wide range: tech talks, hackathons, pitch nights, fitness classes, art shows, robotics competitions, and community parties. Past highlights include a panel hosted by Vitalik Buterin and a humanoid robot fighting competition featuring robots from UC Berkeley and Stanford. Browse the full calendar on [Frontier Tower's Luma page](https://luma.com/frontiertower)."
+      "question": "How much does Frontier Tower membership cost?",
+      "answer": "Founding Citizenship starts at $190/month or $1,800/year and includes 24/7 access, governance rights, and free use of event spaces. Coworking memberships (hot desk + citizenship) start from $219/month. Private offices range from $1,100 to $4,000/month and require an active Founding Citizen membership. Day access via a private day office starts at $300."
     },
     {
-      "question": "What floor themes are there in the building?",
-      "answer": "Each floor is organized around a discipline: AI, crypto, robotics (Floor 4, with Unitree and Boston Dynamics robots), biotech (Floor 8, pursuing BSL-2 lab certification), longevity (Floor 11, with hyperbaric oxygen therapy and IV drip startups), neurotech, consciousness research, arts and music, and human flourishing. The Spaceship on Floor 2 serves as the main event space, and the 16th floor Lounge is used for private dinners and networking."
+      "question": "What floor themes does Frontier Tower have?",
+      "answer": "Each floor focuses on a specific vertical: AI, cryptocurrency (with an Ethereum House lounge), neurotech, longevity and biotech, robotics, arts and music, consciousness research, and human flourishing. Main event spaces include the Spaceship on the 2nd floor (up to 200 guests) and the Lounge on the 16th floor with skyline views."
     },
     {
-      "question": "Do I need to live in San Francisco to join Frontier Tower?",
-      "answer": "No. Frontier Tower is primarily a coworking and community membership, not a residential address. You do not need to live in the building or in San Francisco to become a citizen. For members who do want to live close to the Tower, the team has acquired a separate nearby hotel for co-living rather than converting tower floors - see the [Frontier Tower Notion page](https://frontiertower.notion.site) for current arrangements and floor-by-floor details."
+      "question": "What events happen at Frontier Tower?",
+      "answer": "Frontier Tower hosts more than 100 events monthly - pitch nights, hackathons, founder dinners, investor panels, AI paper reading clubs, whitepaper reading groups, and wellness workshops. Some events are members-only; many are open to the public. See the full calendar at [luma.com/frontiertower](https://luma.com/frontiertower)."
     },
     {
-      "question": "Can I host events at Frontier Tower?",
-      "answer": "Yes. Founding Citizens can use the event spaces for their own events, including hackathons, and the Spaceship on Floor 2 holds up to 200 standing or 120 seated. The 16th floor Lounge is available for smaller dinners and networking. Contact support@frontiertower.io or visit [frontiertower.io/office](https://frontiertower.io/office) for booking details."
+      "question": "What is Superhero Hotel and how does it connect to Frontier Tower?",
+      "answer": "Superhero Hotel (825 Sutter St, Nob Hill) is the co-living partner for Frontier Tower - a separate historic 1920 building operated by the same team, a 10-minute walk from the Tower. It offers 110 rooms with a Day-by-Day track (from $200/night, 3-night minimum) and 4-week residency programs (from $1,980). All stays include full Frontier Tower access and 50+ monthly events. Book at [superherohotel.com](https://www.superherohotel.com/)."
     },
     {
-      "question": "What was Viva Frontier?",
-      "answer": "Viva Frontier was a six-week immersive pop-up village that ran June 20 through August 4, 2025, inside Frontier Tower. It offered educational tracks, workshops, hackathons, and keynote sessions - including a talk by Peter Diamandis. The program served as a prototype for cohort-style, intensive gatherings within the building."
+      "question": "What is the Frontier Residency?",
+      "answer": "The Frontier Residency is an intensive multi-month program for 10 selected founding teams, based at Frontier Tower and Superhero Hotel. It includes weekly feedback sessions, a 4-day offsite retreat, curated investor introductions, and a Demo Day pitch to investors. The current cohort is closed; check [frontiertower.io](https://frontiertower.io/) for the next opening."
     },
     {
-      "question": "Where can I see upcoming Frontier Tower events?",
-      "answer": "The full events calendar is on [Frontier Tower's Luma page](https://luma.com/frontiertower). Events range from open public sessions with suggested donations of $1 to $25 to invite-only programming for members."
+      "question": "What is Viva Frontier Tower?",
+      "answer": "Viva Frontier Tower is a 6-week pop-up community running June 20 through August 4, 2026 at 995 Market Street. It's a structured cohort with tracks in longevity, AI, crypto, neurotech, robotics, and arts, including daily programming, weekly summits, and a Demo Day on August 1. Full access is $950; discounts apply for existing Tower members and scholarships are available for students, researchers, and contributors. Register at [viva.city/frontier-tower](https://viva.city/frontier-tower)."
+    },
+    {
+      "question": "How do I apply to Frontier Tower?",
+      "answer": "Apply for Founding Citizenship at [frontiertower.io/apply](https://frontiertower.io/apply). The application is open to anyone working in frontier technology. For co-living at Superhero Hotel, book at [superherohotel.com](https://www.superherohotel.com/). For the 6-week Viva program, register at [viva.city/frontier-tower](https://viva.city/frontier-tower)."
+    },
+    {
+      "question": "Is Frontier Tower affiliated with BerlinHouse?",
+      "answer": "Yes. BerlinHouse is the parent company behind Frontier Tower, inspired by the post-Berlin Wall story of vacant East Berlin buildings becoming vibrant arts and hacker spaces. The company acquired 995 Market Street through its acquisition vehicle Deep Ink Ventures. BerlinHouse's website now redirects to frontiertower.io."
+    },
+    {
+      "question": "Does Frontier Tower have locations outside San Francisco?",
+      "answer": "Frontier Tower has announced a London location at london.frontiertower.io, though details on the London space are limited as of this writing. The San Francisco tower at 995 Market Street is the flagship location."
     }
   ]
 }

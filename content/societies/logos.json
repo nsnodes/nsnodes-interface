@@ -1,0 +1,127 @@
+{
+  "overview": [
+    {
+      "title": "What is Logos?",
+      "text": "Logos is a global social movement building a decentralized technology stack to revitalize civil society and lay the foundations for a network state.",
+      "sources": [
+        "https://logos.co/"
+      ]
+    },
+    {
+      "title": "Who joins Logos?",
+      "text": "Logos draws builders, developers, activists, and independent thinkers who reject surveillance, censorship, and institutional stagnation. Contributors come from open-source development, privacy technology, civic tech, experimental governance, music, and the arts.\n\nParticipants engage as open-source contributors, members of local Circles meetup groups, testnet node operators, or attendees at the annual [Parallel Society](https://ps.logos.co/) convergence in Lisbon. The network has 218 active contributors across 341 repositories as of mid-2026.",
+      "sources": [
+        "https://logos.co/",
+        "https://ps.logos.co/"
+      ]
+    },
+    {
+      "title": "The Logos Technology Stack",
+      "text": "Logos operates a unified technology platform combining three core modules: a blockchain layer for sovereignty and privacy-preserving coordination, a decentralized storage layer for censorship-resistant data, and a peer-to-peer messaging layer for surveillance-resistant communication.\n\nThese modules - formerly independent projects known as Nomos, Waku, and Codex - unified under the Logos identity and released [Testnet v0.1](https://logos.co/tech-stack) in March 2026, marking the first time all three were packaged into a single working system.",
+      "sources": [
+        "https://logos.co/tech-stack",
+        "https://logos.co/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Logos grew out of the Status ecosystem, where co-founder Jarrad Hope built one of the early privacy-first Ethereum messaging and crypto super-apps. As the component projects matured - Nomos (blockchain), Waku (messaging), and Codex (storage) - the teams concluded that privacy technology alone was not sufficient. The infrastructure for voluntary, consent-based governance needed to exist alongside it.\n\nLogos launched publicly as a movement in 2023, with Jarrad Hope and programme lead Corey Petty presenting the vision at community events. In 2024, the three underlying technology projects formally unified under the Logos identity, consolidating over 200 contributors and hundreds of repositories into a single coherent stack. Co-founder Hope and philosopher Peter Ludlow published [Farewell to Westphalia](https://logos.co/farewell-to-westphalia) in 2025 - a book arguing that public blockchains can serve as voluntary social orders capable of operating alongside the nation-state system.\n\nThe Logos Circles program launched in 2025 and grew from zero local groups at the start of the year to regular meetups in 23 cities by year-end. In March 2026, Testnet v0.1 went live and the inaugural [Parallel Society](https://ps.logos.co/) convergence drew just under 2,500 attendees and 44 coalition partners to Lisbon.",
+    "milestones": [
+      {
+        "label": "Logos Launches (2023)",
+        "detail": "Movement publicly launches with Jarrad Hope and Corey Petty presenting at community events"
+      },
+      {
+        "label": "Tech Stack Unified (2024)",
+        "detail": "Nomos, Waku, and Codex formally rebrand as Logos - 200+ contributors, 300+ repositories consolidated"
+      },
+      {
+        "label": "Farewell to Westphalia (2025)",
+        "detail": "Manifesto co-authored by Jarrad Hope and Peter Ludlow; available free in open-source formats"
+      },
+      {
+        "label": "Circles Expand (2025)",
+        "detail": "From zero local groups to regular meetups in 23 cities; 34 active Circles globally by 2026"
+      },
+      {
+        "label": "Testnet v0.1 + Parallel Society (March 2026)",
+        "detail": "First unified testnet goes live; flagship Parallel Society event draws ~2,500 attendees to Lisbon"
+      }
+    ],
+    "sources": [
+      "https://logos.co/",
+      "https://logos.co/tech-stack",
+      "https://logos.co/farewell-to-westphalia",
+      "https://phemex.com/news/article/logos-unifies-codex-nomos-and-waku-for-decentralized-tech-stack-37949",
+      "https://press.logos.co/article/2025-recap",
+      "https://ps.logos.co/"
+    ]
+  },
+  "location": "Logos operates as a global, digital-first movement with no fixed headquarters or physical campus. Physical presence comes through 34 Circles - community-led meetup groups active in cities across Europe, North America, Latin America, and Africa as of mid-2026.\n\nLisbon has emerged as the movement's flagship city. The annual [Parallel Society](https://ps.logos.co/) festival is held there each spring, most recently at Warehouse One16 in the Marvila district (Pereira Henriques 1, No. 5, Armazem 16, 1950-242 Lisbon). The movement also maintains a partnership with the Quinta do Mocho neighborhood in Lisbon, hosting youth workshops and community projects.",
+  "duration": "Logos is an ongoing open community with no fixed membership term or cohort model. Contributors and community members engage at their own pace through open-source development, Circles meetups, forums, and events.\n\nThe Parallel Society festival runs annually in Lisbon each spring. Local Circles meet on their own schedules, with online Circles convening weekly on Tuesdays. The Logos Podcast releases new episodes bi-weekly.",
+  "pricing": "Logos community participation is free. There are no membership fees to join the Discord, attend Circles meetups, access the [Builder Hub](https://logos.co/), or contribute to the open-source repositories.\n\nThe annual Parallel Society festival requires a separately purchased ticket (Day 1 only, Day 2 only, or combined options), available through 3cket.com. The event is run not-for-profit, and any proceeds are distributed to local NGOs and arts initiatives by community vote.",
+  "amenities": [
+    "Builder Hub - documentation, RFPs, and node installation guides",
+    "Access to 341 open-source GitHub repositories",
+    "Local Circles meetup network (34 chapters in cities worldwide)",
+    "Weekly online Circles meetings (Tuesdays)",
+    "Discord community server",
+    "Public community forums",
+    "Weekly X Spaces on parallel governance and digital freedom",
+    "Logos Podcast - bi-weekly interview show hosted by Jarrad Hope",
+    "Annual Parallel Society festival (Lisbon, each spring)",
+    "Testnet node operator participation",
+    "Contribution framework across blockchain, messaging, storage, and community projects"
+  ],
+  "howToEnter": {
+    "text": "Logos is an open community - no application or invitation is required. The most common entry points are joining the [Discord server](https://discord.gg/logosnetwork), finding or starting a local Circle via [logos.co/circles](https://logos.co/circles), or contributing directly to the open-source repositories.\n\nThose looking to engage more deeply can schedule a call with the Logos team to discuss involvement, apply to run a testnet node via the Builder Hub, or submit a lightning talk to Parallel Society. The bi-weekly Logos Podcast and monthly network state updates on the [blog](https://blog.logos.co/) are good starting points for understanding the movement before deciding how to contribute.",
+    "linkText": "Find or start a Circle",
+    "linkUrl": "https://logos.co/circles"
+  },
+  "faqs": [
+    {
+      "question": "What is Logos?",
+      "answer": "Logos is a global social movement building a privacy-first, decentralized technology stack designed to support voluntary, consent-based governance and revitalize civil society. The movement combines open-source technology development with community organizing through local Circles and an annual convergence called Parallel Society."
+    },
+    {
+      "question": "Is joining Logos free?",
+      "answer": "Yes. Logos community participation is entirely free. There are no fees to join the Discord, attend Circles meetups, access the Builder Hub, or contribute to the open-source codebase. The annual Parallel Society festival in Lisbon requires a separate ticket purchase via 3cket.com."
+    },
+    {
+      "question": "What is a Logos Circle?",
+      "answer": "A Circle is a community-led local meetup group where participants discuss, ideate, and build solutions to local problems using the Logos framework. Circles operate in 34 cities worldwide as of mid-2026, and online Circles meet weekly on Tuesdays. To find one near you, visit [logos.co/circles](https://logos.co/circles)."
+    },
+    {
+      "question": "How do I start a Logos Circle in my city?",
+      "answer": "First check if a Circle already exists using the finder at logos.co/circles. If not, the Circles Guide on the site walks through setup. You can also propose a new Circle in the [Logos Discord](https://discord.gg/logosnetwork) or schedule a call with the team for guidance on best practices and community support."
+    },
+    {
+      "question": "What is the Logos technology stack?",
+      "answer": "The Logos stack has three layers: a blockchain module (formerly Nomos) for privacy-preserving coordination, a storage module (formerly Codex) for censorship-resistant decentralized file storage, and a messaging module (formerly Waku) for peer-to-peer surveillance-resistant communication. [Testnet v0.1](https://logos.co/tech-stack) launched in March 2026 as the first integration of all three modules into a single working system."
+    },
+    {
+      "question": "What is Parallel Society?",
+      "answer": "Parallel Society is Logos' annual flagship event, held in Lisbon each spring. The 2026 edition drew just under 2,500 attendees and 44 coalition partners across two days at Warehouse One16 in Marvila, Lisbon. Day 1 is an unconference covering privacy, decentralization, civic tech, and free and open-source software. Day 2 is a music and arts festival. The event is run not-for-profit and tickets are sold separately. See [ps.logos.co](https://ps.logos.co/) for details."
+    },
+    {
+      "question": "Who founded Logos?",
+      "answer": "Logos was co-founded by Jarrad Hope, who previously co-founded Status - one of the early privacy-first Ethereum messaging applications. Corey Petty serves as programme lead. Hope and philosopher Peter Ludlow co-authored [Farewell to Westphalia](https://logos.co/farewell-to-westphalia), the intellectual manifesto underpinning the movement."
+    },
+    {
+      "question": "What is the Logos Testnet?",
+      "answer": "Testnet v0.1 launched in March 2026 as the first working integration of the full Logos stack - consensus, execution, networking, storage, and messaging - in a single modular system. It is open for community experimentation. Binary releases are on GitHub and setup guides are in the [Builder Hub](https://logos.co/)."
+    },
+    {
+      "question": "What is Farewell to Westphalia?",
+      "answer": "Farewell to Westphalia is a book co-authored by Logos co-founder Jarrad Hope and philosopher Peter Ludlow, published in 2025. It argues that public blockchains and decentralized communities can serve as viable alternatives to the 400-year-old nation-state system established at Westphalia. It is available in print, Kindle, and free open-source formats via [logos.co/farewell-to-westphalia](https://logos.co/farewell-to-westphalia)."
+    },
+    {
+      "question": "How is Logos different from a DAO?",
+      "answer": "Logos is a movement-scale effort rather than a single DAO. It combines open-source infrastructure development (the three-layer tech stack), grassroots community organizing (Circles), cultural programming (Parallel Society), and a long-term goal of establishing network state governance. DAOs typically govern a single protocol or treasury; Logos is building the underlying infrastructure that any number of self-governing communities could operate on top of."
+    },
+    {
+      "question": "Is there a Logos podcast?",
+      "answer": "Yes. The Logos Podcast is a bi-weekly interview show hosted by Jarrad Hope. Episodes explore decentralization, privacy technology, network states, and sovereign community building. It is available on Apple Podcasts, Spotify, and the [Logos blog](https://blog.logos.co/)."
+    }
+  ]
+}

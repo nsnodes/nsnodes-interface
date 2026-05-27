@@ -1,0 +1,123 @@
+{
+  "overview": [
+    {
+      "title": "What is Infinita City?",
+      "text": "Infinita City is a popup city in Próspera ZEDE, Roatán, Honduras, where founders and scientists work on longevity, biotech, and frontier technologies.\n\nTagged \"The City That Never Dies,\" Infinita operates as a layer-2 network state built within Próspera's special economic zone. It provides a physical campus with residential units, co-working space, a longevity clinic, and an events dome for startups and researchers pursuing life-extension science and decentralized governance.",
+      "sources": [
+        "https://www.infinita.city/",
+        "https://www.infinitacitytimes.com/p/infinita-manifesto-20"
+      ]
+    },
+    {
+      "title": "Who Joins Infinita?",
+      "text": "Infinita attracts startup founders, scientists, and builders working at the frontier of biotech, longevity, and computation in a regulatory-friendly environment. Previous seasons drew 500+ attendees, including Balaji Srinivasan, Naval Ravikant, Patri Friedman, Aubrey de Grey, Bryan Johnson, and Tim Draper.",
+      "sources": [
+        "https://luma.com/infinita-roatan-2025",
+        "https://www.infinita.city/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Infinita traces its roots to Vitalia City, a popup village for longevity and biotech that ran January through March 2024 inside Próspera ZEDE on Roatán. Modeled on Zuzalu, Vitalia attracted roughly 1,000 visitors and confirmed strong demand for a permanent frontier biotech hub.\n\nIn 2025, the project relaunched as Infinita City under the leadership of Niklas Anzinger, with a broader mission: a network city for founders building toward longevity through biotechnology, computation, and science. The manifesto framed Infinita as a go-to-market accelerator that can compress a drug's path to patients from ten years to six months, leveraging Próspera's Right-to-Try framework and medical reciprocity rules.\n\nThe first official season, Forever 2025, ran January 6 through March 3, 2025, followed by Bio-Frontiers in September 2025 and Infinite Games 2026 from February 1 through March 31, 2026. Each season brings a curated cohort of founders, scientists, and investors for themed programming weeks covering longevity biotech, crypto cities, human enhancement, and competitive challenges.",
+    "milestones": [
+      {
+        "label": "Vitalia Popup",
+        "detail": "Jan-Mar 2024 | ~1,000 visitors | precursor to Infinita"
+      },
+      {
+        "label": "Infinita Launches",
+        "detail": "2025 | relaunch under Niklas Anzinger with longevity + biotech focus"
+      },
+      {
+        "label": "Forever 2025",
+        "detail": "Jan 6 - Mar 3, 2025 | first formal Infinita season"
+      },
+      {
+        "label": "Bio-Frontiers",
+        "detail": "Sept 1-30, 2025 | dedicated longevity and biotech month"
+      },
+      {
+        "label": "Infinite Games 2026",
+        "detail": "Feb 1 - Mar 31, 2026 | science, sport, and community season with BioHub Demo Day"
+      }
+    ],
+    "sources": [
+      "https://www.infinitacitytimes.com/p/infinita-manifesto-20",
+      "https://luma.com/infinita-roatan-2025",
+      "https://www.infinita.city/games/landing",
+      "https://www.infinita.city/biofrontiers/landing"
+    ]
+  },
+  "location": "Infinita City occupies a permanent hub within Próspera ZEDE, a special economic zone on Roatán Island, Honduras. The main campus is anchored by Duna Tower - an 82-unit residential building with studio apartments, a gym, and co-working floors - and the Infinita Dome, a 20-meter geodesic event venue with a 200-person capacity.\n\nAdditional accommodation options within the Próspera zone include the budget Beta Hostel (shared rooms), Clarion Suites, Las Verandas villas, and Pristine Bay villas. On-site facilities include the GARM Clinic for longevity therapies and clinical trial support, shared lab and maker spaces, a startup office area, and the [Roatán Institute for Science and Technology](https://www.infinitacitytimes.com/p/infinita-manifesto-20).\n\nRoatán is reachable via direct flights from Miami, Houston, Atlanta, Dallas, and Toronto to Roatán International Airport (RTB). Visitors from San Pedro Sula can connect via a 30-minute domestic flight on CM Airlines or Aerolíneas Sosa.",
+  "duration": "Infinita runs structured seasonal programs typically lasting one to two months. The Forever 2025 season ran January 6 to March 3, 2025; Bio-Frontiers covered September 1-30, 2025; and Infinite Games 2026 ran February 1 to March 31, 2026.\n\nOutside official seasons, the hub supports year-round residency with flexible daily, weekly, and monthly stays. There is no minimum stay requirement. Most visitors arrive on a standard Honduras tourist entry valid for up to 90 days. A next season has not been announced as of May 2026.",
+  "pricing": "Accommodation at Infinita City is priced per night or per month through the [official visit page](https://www.infinita.city/visit):\n\n- Beta Hostel (shared room): $20/night or $450/month\n- Duna Tower (private studio): $100/night or $850/month\n- Clarion Suites (private room): from $80/night\n- Las Verandas (villa, 1-3 bedrooms): from $210/night\n- Pristine Bay (villa, 2-5 bedrooms): from $240/night\n\nA NODE Pass (Builder Pass) grants access to all community spaces and events. It is included with housing and available separately at a suggested $100/week contribution for day visitors. Seasonal residency packages for seed or pre-seed founders - bundling housing and event access - have been offered at approximately $1,705/month during structured seasons.\n\nAll fees can be paid in $LIVES, Infinita's utility token pegged 1:1 to USD, accepted across the campus for housing, food, coworking, and services.",
+  "amenities": [
+    "Duna Tower residential studios with kitchen and balcony",
+    "Co-working spaces and startup offices",
+    "Infinita Dome - 20-meter geodesic event venue (200-person capacity)",
+    "GARM Clinic for longevity therapies and clinical trial support",
+    "Shared labs and maker spaces",
+    "Beta Kitchen restaurant and campus dining",
+    "Gym facilities in Duna Tower",
+    "Weekly yoga, fitness, and social events",
+    "On-campus networking events and demo days",
+    "$LIVES utility token accepted across campus"
+  ],
+  "fellowship": "Infinita runs a Grants for Visionaries program offering startup founders and scientists a $1,000 discount on accommodation or, in select cases, free housing. Fellowship recipients receive full access to the community and events for the season. Financial need can be noted during the application process for additional sponsorship consideration. Preference is given to early-stage founders and working scientists.",
+  "fellowshipUrl": "https://app.infinita.city/apply",
+  "howToEnter": {
+    "text": "To join Infinita, first obtain a Próspera Number (takes under one minute via Próspera's onboarding). Next, set up a Solana wallet address and [apply for a Builder Pass](https://app.infinita.city/apply) at app.infinita.city/apply. Once you have your NODE Pass, book accommodation via the [visit page](https://www.infinita.city/visit) and register for specific events through Luma.\n\nNo formal application is required for most open seasons and short stays. For structured programs like the BioHub Residency, contact the Infinita team via the relevant Luma event page to confirm availability and potential fellowship support.",
+    "linkText": "Apply for a Builder Pass",
+    "linkUrl": "https://app.infinita.city/apply"
+  },
+  "faqs": [
+    {
+      "question": "What is Infinita City?",
+      "answer": "Infinita City is a popup city and permanent frontier hub in Próspera ZEDE, Roatán, Honduras, focused on longevity, biotech, and computation. It runs multi-week seasonal programs and supports year-round residency for founders and scientists building life-extension technologies."
+    },
+    {
+      "question": "Where exactly is Infinita located?",
+      "answer": "Infinita is based in Próspera ZEDE, a special economic zone on Roatán Island, Honduras. The main venue is Duna Tower, an 82-unit residential building. Direct flights reach Roatán International Airport (RTB) from Miami, Houston, Atlanta, Dallas, and Toronto."
+    },
+    {
+      "question": "How do I join Infinita?",
+      "answer": "Get a Próspera Number (under one minute), set up a Solana wallet, and [apply for a Builder Pass](https://app.infinita.city/apply). Then book accommodation via the visit page and register for events on Luma. No formal application is required for most open seasons."
+    },
+    {
+      "question": "What does the Builder Pass (NODE Pass) include?",
+      "answer": "The Builder Pass - also called a NODE Pass - gives access to all community spaces, co-working areas, and Infinita events. It is included with housing bookings and is available separately as a suggested $100/week contribution for day visitors who need only event and space access."
+    },
+    {
+      "question": "What is the $LIVES token?",
+      "answer": "The $LIVES token is Infinita's utility token pegged 1:1 to USD. It is accepted across the campus for housing, food, co-working, event fees, and services including longevity therapies. Acquiring $LIVES before arrival is part of the standard onboarding flow."
+    },
+    {
+      "question": "Does Infinita have a fellowship or grant program?",
+      "answer": "Yes. The Grants for Visionaries program offers startup founders and scientists a $1,000 discount on accommodation, or free housing in select cases. You can note financial need during the [application process](https://app.infinita.city/apply) to be considered for sponsorship."
+    },
+    {
+      "question": "What seasons and events has Infinita run?",
+      "answer": "Past seasons include Forever 2025 (January 6 - March 3, 2025), Bio-Frontiers (September 1-30, 2025), and Infinite Games 2026 (February 1 - March 31, 2026). Themed weeks within each season cover longevity biotech, crypto cities, human enhancement, and science competitions. A next season has not been announced as of May 2026."
+    },
+    {
+      "question": "Who has visited or spoken at Infinita events?",
+      "answer": "Past participants include Balaji Srinivasan, Naval Ravikant, Patri Friedman, Tim Draper, Aubrey de Grey, and Bryan Johnson, alongside biotech researchers and longevity scientists such as Jay Olshansky, Sebastian Brunemeier, Jack Scannell, and Andrew Steele."
+    },
+    {
+      "question": "Is there a longevity clinic on-site?",
+      "answer": "Yes. The GARM Clinic operates on campus and provides longevity therapies and clinical trial support. Stem cell therapies, regenerative protocols, and experimental treatments are available within Próspera's Right-to-Try and medical reciprocity framework."
+    },
+    {
+      "question": "How long do most people stay at Infinita?",
+      "answer": "Stays range from a single day (with a daily Builder Pass) to multi-month residencies. Seasonal programs typically run four to eight weeks. Most visitors enter Honduras on a standard tourist entry valid for up to 90 days, with no minimum stay required."
+    },
+    {
+      "question": "What is the Infinita Dome?",
+      "answer": "The Infinita Dome is a 20-meter geodesic dome on campus serving as the main event venue, with a capacity of 200 people. It hosts demo days, pitch events, conferences, and community gatherings. The dome is also available for external event rental."
+    },
+    {
+      "question": "What is Infinita's connection to Próspera?",
+      "answer": "Infinita City operates as the first community district within Próspera ZEDE, a charter city and special economic zone on Roatán that offers flexible regulation, Right-to-Try healthcare access, and digital governance. Infinita describes itself as a 'layer-2 network state' built on Próspera's infrastructure."
+    }
+  ]
+}

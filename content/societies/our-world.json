@@ -2,78 +2,120 @@
   "overview": [
     {
       "title": "What is Our World?",
-      "text": "Our World is a venture studio building infrastructure and tools for what its founders describe as a sovereign, autonomous, and interconnected world where humans and intelligence can thrive together. It operates as a parent organization that develops or backs ventures across digital sovereignty, decentralized infrastructure, and special economic zones.",
+      "text": "Our World is a Zanzibar-based venture creator building decentralized cloud infrastructure, a digital free zone, and a planned startup city in Tanzania.",
       "sources": [
-        "https://www.ourworld.tf/"
+        "https://ourworld.tf/",
+        "https://ourworld.tf/about/"
       ]
     },
     {
       "title": "Who joins Our World?",
-      "text": "Our World is structured for builders, founders, and operators interested in long-horizon infrastructure plays rather than a residential community. Its main public touchpoint is via its ventures - most prominently the Zanzibar Digital Free Zone, which is open to companies and founders setting up operations on the island.",
+      "text": "Our World draws technology entrepreneurs, builders, and digital nomads who want to operate from a low-tax, crypto-friendly digital jurisdiction. E-residents can register companies, access fiat and crypto banking, and benefit from a 5% flat income tax rate - all without relocating to Zanzibar.\n\nThe broader ecosystem includes infrastructure developers contributing to Project Mycelium (OurWorld's decentralized cloud) and future physical residents of the Zanzibar Cybercity, Dunia, when it opens on the Fumba Peninsula.",
       "sources": [
-        "https://www.ourworld.tf/"
+        "https://ourworld.tf/ventures/",
+        "https://www2.ourworld.tf/ventures/cybercity/",
+        "https://en.cryptonomist.ch/2026/01/12/zanzibar-and-the-city-of-crypto-dreams/"
+      ]
+    },
+    {
+      "title": "Our World's Approach to Digital Sovereignty",
+      "text": "Our World backs projects designed so individuals, communities, and nations can own and govern their digital lives. Their ventures span decentralized cloud infrastructure, digital free zones, and an agent-native operating system - all under shared principles around digital autonomy and self-empowerment.\n\nAt the Network State Conference in Singapore, OurWorld described their goal as \"building the infrastructure layer for Network State as a Service,\" combining bare-metal decentralized cloud with a digital free zone from which any community can exist and transact freely.",
+      "sources": [
+        "https://ourworld.tf/about/",
+        "https://www2.ourworld.tf/news/network_state_conference/"
       ]
     }
   ],
   "history": {
-    "text": "Our World is co-founded by Kristof De Spiegeleer (CEO), with a leadership team that includes Adnan Fatayerji (Telecom Strategic Relations), Chris Camponovo (Director, and co-founder of the Zanzibar Digital Free Zone), and Florian Fournier (Marketing & Business Development). The organization grew out of the broader ThreeFold ecosystem and has since extended into adjacent ventures focused on sovereign infrastructure.\n\nThe Zanzibar Digital Free Zone is the most concrete venture currently spotlighted on the Our World site, and the organization has been visible at events including DePIN Summit Africa.",
+    "text": "Our World was built by a team with over 20 years developing internet infrastructure. Co-founder Kristof De Spiegeleer and collaborators previously founded and exited companies acquired by Oracle, Equinix, Veritas, and Western Digital, spanning cloud deployment, managed hosting, backup deduplication, and object storage between 2005 and 2015.\n\nThe team launched ThreeFold as a decentralized bare-metal cloud network, then formalized OurWorld as a venture creator around 2019. The mission expanded from infrastructure-building to a full-stack sovereign digital ecosystem spanning decentralized cloud, digital free zones, and eventually a physical startup city.\n\nIn July 2023, OurWorld launched the [Zanzibar Digital Free Zone](https://www2.freezone.ourworld.tf/) in partnership with ZICTIA, the Zanzibar state ICT agency. In November 2024, President Dr. Hussein Ali Mwinyi formally granted OurWorld a 30-year concession to develop and operate the Zanzibar Cybercity on the Fumba Peninsula.",
     "milestones": [
       {
-        "label": "Zanzibar Digital Free Zone",
-        "detail": "Special economic zone venture co-founded by Chris Camponovo"
+        "label": "2005-2015",
+        "detail": "Five infrastructure companies exited to Oracle, Equinix, Veritas, Western Digital, and Telenet"
       },
       {
-        "label": "DePIN Summit Africa",
-        "detail": "Public presence at the 2025 DePIN Summit Africa"
+        "label": "ThreeFold",
+        "detail": "Decentralized bare-metal cloud network launched, later rebranded as Project Mycelium"
+      },
+      {
+        "label": "2019",
+        "detail": "OurWorld venture creator established"
+      },
+      {
+        "label": "July 2023",
+        "detail": "Zanzibar Digital Free Zone launched in partnership with ZICTIA"
+      },
+      {
+        "label": "November 2024",
+        "detail": "President Mwinyi grants 30-year concession for Zanzibar Cybercity on Fumba Peninsula; ~100 e-residents and 30 companies registered"
       }
     ],
     "sources": [
-      "https://www.ourworld.tf/"
+      "https://ourworld.tf/about/",
+      "https://ourworld.tf/news/",
+      "https://www.africanleadershipmagazine.co.uk/zanzibars-cyber-city-vision-dunia-and-the-future-of-digital-sovereignty/",
+      "https://en.cryptonomist.ch/2026/01/12/zanzibar-and-the-city-of-crypto-dreams/"
     ]
   },
-  "location": "Our World operates internationally rather than from a single physical hub. The most prominent geographic anchor in its venture portfolio is the [Zanzibar Digital Free Zone](https://www.ourworld.tf/) - a special economic zone in Zanzibar, Tanzania - which is where most of the organization's tangible on-the-ground activity is concentrated.",
+  "location": "Our World operates from Zanzibar, Tanzania, with team members also based in the UK. The organization's flagship physical project is the Zanzibar Cybercity, branded as Dunia - a 71-hectare site on the Fumba Peninsula on Zanzibar's western coast.\n\nThe site is formally designated as a Digital Special Economic Zone under Zanzibari law, operating through a public-private partnership between OurWorld and ZICTIA. Land has been awarded and a pre-feasibility study completed; the project is currently in the capital formation phase seeking investors.\n\nZanzibar's geographic position between Africa, the Middle East, and Asia anchors OurWorld's strategy as a digital jurisdiction. The [Digital Free Zone](https://www2.freezone.ourworld.tf/) is accessible entirely online without visiting Tanzania.",
+  "duration": "OurWorld's e-residency and Digital Free Zone membership are ongoing programs with no fixed term. E-residents register digitally and maintain status as long as they remain compliant, with no minimum stay in Zanzibar required.\n\nPhysical residency in the Zanzibar Cybercity is not yet available. When complete, the city is designed to host 5,000 to 7,000 permanent physical residents alongside a broader global community of e-residents. No construction timeline or opening date has been publicly confirmed as of May 2026.",
   "amenities": [
-    "Access to the Zanzibar Digital Free Zone for incorporation and operations",
-    "Connections into the ThreeFold ecosystem for decentralized infrastructure",
-    "Participation in DePIN-focused events and partnerships in Africa"
+    "Digital company formation and licensing",
+    "Banking access supporting both fiat and cryptocurrency",
+    "Legal and tax settlement services",
+    "Web3-compatible payment infrastructure",
+    "Decentralized cloud infrastructure via Project Mycelium",
+    "5% flat income tax rate for remote e-residents",
+    "Zero corporate tax for the first 10 years",
+    "No capital gains or wealth taxes",
+    "Fully automated digital onboarding",
+    "Quantum-safe data storage technology"
   ],
   "howToEnter": {
-    "text": "Our World is not a residency program with a public application portal. The most direct way to engage is to email the team at info@ourworld.tf to discuss venture collaboration, or to apply directly to one of its ventures - in particular the Zanzibar Digital Free Zone if you are looking to incorporate or operate there.",
-    "linkText": "Visit ourworld.tf",
-    "linkUrl": "https://www.ourworld.tf/"
+    "text": "E-residency applications go through the [Zanzibar Digital Free Zone platform](https://www2.freezone.ourworld.tf/). The process requires identity verification and evidence of professional involvement in the technology sector. The platform is designed for digital entrepreneurs, startups, and remote workers, and operates entirely online.\n\nFor the Zanzibar Cybercity physical development, OurWorld is in the capital formation phase and actively seeking investors and strategic partners. Contact Chris Camponovo or Florian Fournier at info@ourworld.tf or through the [OurWorld ventures page](https://ourworld.tf/ventures/).",
+    "linkText": "Apply via the Digital Free Zone",
+    "linkUrl": "https://www2.freezone.ourworld.tf/"
   },
   "faqs": [
     {
-      "question": "What does Our World actually do?",
-      "answer": "Our World is a venture studio that builds and backs infrastructure ventures aimed at digital sovereignty and decentralized systems. Its public site frames the mission as building tools for a sovereign, autonomous, interconnected world."
-    },
-    {
-      "question": "Who founded Our World?",
-      "answer": "Kristof De Spiegeleer is co-founder and CEO. The leadership team also includes Adnan Fatayerji (Telecom Strategic Relations), Chris Camponovo (Director, and co-founder of the Zanzibar Digital Free Zone), and Florian Fournier (Marketing & Business Development)."
+      "question": "What does Our World actually build?",
+      "answer": "Our World co-creates five ventures: Project Mycelium (decentralized cloud), Geomind (sovereign AI infrastructure), Lhumina (agent-native OS), the Zanzibar Digital Free Zone (digital business jurisdiction), and the Zanzibar Cybercity (a planned physical startup city). See the [ventures page](https://ourworld.tf/ventures/) for details on each."
     },
     {
       "question": "What is the Zanzibar Digital Free Zone?",
-      "answer": "The Zanzibar Digital Free Zone is a special economic zone in Zanzibar, Tanzania, co-founded by Chris Camponovo and spotlighted as one of Our World's flagship ventures. It is the most concrete on-the-ground initiative within the organization's venture portfolio."
+      "answer": "The Zanzibar Digital Free Zone is a digital business jurisdiction operated by OurWorld in partnership with ZICTIA. It offers digital company registration, fiat and crypto banking, legal and tax services, and a 10-year corporate tax holiday. The zone is accessible entirely online through [the freezone platform](https://www2.freezone.ourworld.tf/). As of early 2026, approximately 100 e-residents and 30 companies had registered."
     },
     {
-      "question": "How can I get involved with Our World?",
-      "answer": "The site lists this as a frequent question but the full answer is not published publicly. The most direct path is to email info@ourworld.tf, or to engage with one of the specific ventures (such as the Zanzibar Digital Free Zone) that aligns with what you want to build."
+      "question": "What are the tax benefits in Our World's digital free zone?",
+      "answer": "Remote e-residents pay a 5% flat income tax rate. Physical residents of the future Zanzibar Cybercity pay 15%. Companies registered in the zone pay zero corporate tax for their first 10 years. There are no capital gains or wealth taxes. These rates are established under Zanzibari law as part of the Digital Special Economic Zone framework."
     },
     {
-      "question": "Is Our World related to ThreeFold?",
-      "answer": "Yes - Our World grew out of the broader ThreeFold ecosystem. CEO Kristof De Spiegeleer is closely associated with ThreeFold, and Our World extends ThreeFold's themes of digital sovereignty into a wider venture portfolio."
+      "question": "What is the Zanzibar Cybercity?",
+      "answer": "The Zanzibar Cybercity (branded Dunia) is a planned 71-hectare startup city on Zanzibar's Fumba Peninsula, designated as a Digital Special Economic Zone. It is designed to host 5,000 to 7,000 physical residents and a larger global e-resident community. In November 2024, President Mwinyi granted OurWorld a 30-year concession to develop the site. As of May 2026, the project is in the capital formation phase - no construction timeline has been publicly announced."
     },
     {
-      "question": "Where can I learn more?",
-      "answer": "Visit [ourworld.tf](https://www.ourworld.tf/) for the latest on the organization and its ventures, or contact the team directly at info@ourworld.tf."
+      "question": "How do I apply for Our World e-residency?",
+      "answer": "Apply through the [Zanzibar Digital Free Zone platform](https://www2.freezone.ourworld.tf/). You need to complete identity verification and demonstrate professional involvement in technology. The process is fully digital - no travel to Zanzibar required. For questions, contact info@ourworld.tf."
+    },
+    {
+      "question": "Who founded Our World?",
+      "answer": "Our World was co-founded by Kristof De Spiegeleer (CEO), alongside team members Adnan Fatayerji (Telecom Strategic Relations), Chris Camponovo (Director and co-founder of the Zanzibar Digital Free Zone), and Florian Fournier (Marketing and Business Development). The founding team has over 20 years of experience building and exiting internet infrastructure companies."
+    },
+    {
+      "question": "How is Our World related to ThreeFold?",
+      "answer": "ThreeFold was OurWorld's original decentralized cloud network, built by co-founder Kristof De Spiegeleer before OurWorld was formalized as a venture creator. ThreeFold has since been rebranded as Project Mycelium and remains one of OurWorld's five current ventures, providing decentralized bare-metal cloud infrastructure."
+    },
+    {
+      "question": "Is Our World the same as the 'Our World' VR/AR game?",
+      "answer": "No. Our World at ourworld.tf is a venture creator and digital free zone operator based in Zanzibar, Tanzania. It is an entirely separate entity from 'ourworldthegame,' which is an XR game with the OASIS API. When researching this society, use ourworld.tf as the authoritative source."
+    },
+    {
+      "question": "What is the current status of the Zanzibar Cybercity?",
+      "answer": "As of May 2026, the Zanzibar Cybercity is in the capital formation phase. Land has been awarded on the Fumba Peninsula and a pre-feasibility study completed. OurWorld holds a 30-year concession from the Revolutionary Government of Zanzibar, granted in November 2024. No construction start date or opening timeline has been officially announced. Investor and partner inquiries can be directed to info@ourworld.tf."
+    },
+    {
+      "question": "Where is Our World based?",
+      "answer": "Our World is based in Zanzibar, Tanzania, with team members also in the UK. The Digital Free Zone and e-residency program are accessible entirely online worldwide. The future physical city - the Zanzibar Cybercity - is planned for the Fumba Peninsula on Zanzibar's western coast."
     }
-  ],
-  "_meta": {
-    "manualEdit": true,
-    "manualEditDate": "2026-04-29",
-    "reason": "LLM bulk-seed conflated ourworld.tf (ThreeFold venture studio) with ourworldthegame (XR game / OASIS API). Replaced with a conservative summary based only on https://www.ourworld.tf/. Most optional sections intentionally omitted because the source page provides little public detail. Future scraper runs should use https://www.ourworld.tf/ as the canonical URL.",
-    "sources": [
-      "https://www.ourworld.tf/"
-    ]
-  }
+  ]
 }

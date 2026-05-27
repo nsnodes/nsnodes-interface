@@ -1,0 +1,126 @@
+{
+  "overview": [
+    {
+      "title": "What is IslandDAO?",
+      "text": "IslandDAO is a Web3-native network state on Solana where builders hold NFT citizenship and gather for month-long coworking retreats worldwide.",
+      "sources": [
+        "https://islanddao.org/",
+        "https://islanddao.org/faq"
+      ]
+    },
+    {
+      "title": "Who joins IslandDAO?",
+      "text": "Founders, engineers, creators, and Web3 builders active in the Solana ecosystem join IslandDAO for the combination of in-person collaboration and on-chain governance. Citizens hold one of 12 animal-themed NFTs, vote on treasury proposals, and apply for event cohorts held in destinations like Greece, Thailand, and Brazil.",
+      "sources": [
+        "https://islanddao.org/",
+        "https://islanddao.org/faq",
+        "https://islanddao.org/governance"
+      ]
+    },
+    {
+      "title": "IslandDAO Membership: NFT Citizenship and On-Chain Governance",
+      "text": "Membership is anchored to the island_dao_perks NFT collection on [Magic Eden](https://magiceden.us/marketplace/island_dao_perks). Each of the 12 animal types carries distinct perks. Holders can apply for month-long coworking events, vote on-chain via [Realms](https://realms.today), and compete in hackathons with community prize pools. Between events, the community operates on Discord and through on-chain governance.",
+      "sources": [
+        "https://islanddao.org/",
+        "https://islanddao.org/faq",
+        "https://islanddao.org/governance",
+        "https://magiceden.us/marketplace/island_dao_perks"
+      ]
+    }
+  ],
+  "history": {
+    "text": "IslandDAO traces its roots to Dean's List, a subDAO of Grape Protocol launched on Solana in 2022. Originally a services DAO, the community connected Solana power users who provided professional feedback, grant management, and hackathon judging to emerging protocols. Over two years the community reviewed more than 200 projects, generated over $500k in community GDP, and grew to 100+ active citizens.\n\nIn 2023 the organization expanded globally, establishing regional teams in Nigeria and Brazil to extend Web3 education to new communities. Leadership recognized that the strongest working relationships emerged when members gathered in person.\n\nIn 2024 the organization rebranded from Dean's List to IslandDAO and launched its first two in-person coworking events in Crete, Greece and Koh Samui, Thailand. In 2025 it released the Perks NFT collection and a mobile app for on-chain event experiences, and held its third gathering in Mykonos, Greece - featuring a $200K+ hackathon prize pool with Unruggable winning the $30K grand prize. IslandDAO is now among the most active DAOs on Solana.",
+    "milestones": [
+      {
+        "label": "Dean's List Founded",
+        "detail": "Services DAO launched as a subDAO of Grape Protocol on Solana | 2022"
+      },
+      {
+        "label": "Scale Reached",
+        "detail": "200+ projects reviewed | $500k+ community GDP | 100+ active citizens"
+      },
+      {
+        "label": "Global Expansion",
+        "detail": "Regional teams established in Nigeria and Brazil | 2023"
+      },
+      {
+        "label": "v1 Crete + v2 Koh Samui",
+        "detail": "First in-person coworking events; rebrand to IslandDAO | 2024"
+      },
+      {
+        "label": "v3 Mykonos",
+        "detail": "$200K+ hackathon prize pool | Unruggable wins $30K grand prize | Sept-Oct 2025"
+      },
+      {
+        "label": "Perks NFT + Mobile App",
+        "detail": "On-chain membership collection and event app released | 2025"
+      }
+    ],
+    "sources": [
+      "https://islanddao.org/our-story",
+      "https://islanddao.org/faq",
+      "https://islanddao.org/events"
+    ]
+  },
+  "location": "IslandDAO gathers its citizens in rotating global destinations rather than maintaining a fixed campus. Past editions ran in Crete, Greece (v1, May-June 2024), Koh Samui, Thailand (v2, Sept-Oct 2024), and Mykonos, Greece (v3, Sept 17 - Oct 17, 2025). The upcoming [IslandDAO v4](https://v4.islanddao.org) runs June 3-28, 2026 in Koh Samui, Thailand.\n\nA fifth event, IslandDAO v5, is planned for Florianopolis, Brazil in October-November 2026. Between events the community operates online via Discord and on-chain governance on Realms.",
+  "duration": "IslandDAO events run for approximately one month per cohort. IslandDAO v4 Thailand spans June 3-28, 2026 (25 days). The v3 Mykonos event ran September 17 - October 17, 2025 (30 days). Between events, citizenship and governance participation are year-round and fully remote - NFT holders can vote on proposals and engage in the Discord community at any time from anywhere in the world.",
+  "amenities": [
+    "Access to month-long in-person coworking events in global destinations",
+    "On-chain governance voting rights via Realms ($ISLAND token)",
+    "Citizen-led workshops and collaborative sessions at each event",
+    "Hackathon participation with community prize pools",
+    "Exclusive Discord access and global builder network",
+    "Animal-specific NFT perks (12 types: Dragon, Tiger, Ox, Rabbit, Snake, Horse, Goat, Monkey, Rooster, Inu, Pig, Mouse)",
+    "Mobile app for on-chain event check-ins and experiences",
+    "Treasury participation and community proposal rights",
+    "Partner benefits from Solana Foundation, Metaplex, Solflare, and other ecosystem collaborators",
+    "Connection to 100+ active Solana builders, founders, and creators"
+  ],
+  "howToEnter": {
+    "text": "To join IslandDAO, purchase an NFT from the [island_dao_perks collection on Magic Eden](https://magiceden.us/marketplace/island_dao_perks). Once you hold an NFT, join the [Discord](https://discord.gg/dvHrj9SXQS) to connect with fellow citizens and watch for event application windows. When applications open, submit a short application explaining how you plan to spend the month-long cohort. Approval is required, and attendees arrange their own travel and accommodation. For the June 2026 Thailand event, registration is currently open at [v4.islanddao.org](https://v4.islanddao.org).",
+    "linkText": "Register for IslandDAO v4 Thailand",
+    "linkUrl": "https://v4.islanddao.org"
+  },
+  "faqs": [
+    {
+      "question": "What is IslandDAO?",
+      "answer": "IslandDAO is a Web3-native network state on Solana. It started in 2022 as Dean's List, a feedback and services DAO, and evolved into a community that holds month-long coworking events in global destinations while operating year-round through on-chain governance. Membership is held as a Solana NFT from the island_dao_perks collection."
+    },
+    {
+      "question": "How do I become a member of IslandDAO?",
+      "answer": "Membership is tied to holding an IslandDAO NFT from the island_dao_perks collection, available on [Magic Eden](https://magiceden.us/marketplace/island_dao_perks). Once you hold an NFT, join the [Discord](https://discord.gg/dvHrj9SXQS) and watch for event application windows to attend the next cohort."
+    },
+    {
+      "question": "What is the IslandDAO NFT?",
+      "answer": "The IslandDAO NFT is your on-chain passport to the community. There are 12 animal types - Dragon, Tiger, Ox, Rabbit, Snake, Horse, Goat, Monkey, Rooster, Inu, Pig, and Mouse - each with distinct perks. All types grant event access and governance voting rights; specific additional perks vary by animal type."
+    },
+    {
+      "question": "What happens at IslandDAO events?",
+      "answer": "Events are month-long coworking gatherings in locations such as Greece, Thailand, and Brazil. Citizens work on their own projects side by side, attend citizen-led workshops, and compete in on-site hackathons. The v3 Mykonos event in 2025 featured a $200K+ hackathon prize pool, with Unruggable taking the $30K grand prize."
+    },
+    {
+      "question": "Where are the next IslandDAO events?",
+      "answer": "IslandDAO v4 runs June 3-28, 2026 in Koh Samui, Thailand. Registration is open at [v4.islanddao.org](https://v4.islanddao.org). IslandDAO v5 is planned for Florianopolis, Brazil in October-November 2026; details are still being finalized."
+    },
+    {
+      "question": "How does IslandDAO governance work?",
+      "answer": "IslandDAO uses a hybrid model combining token-based voting and Sowellian Governance, implemented on [Realms](https://realms.today). Holders of $ISLAND tokens connect their Solana wallets, review community proposals, and cast binding votes. The treasury is fully on-chain and visible to all citizens."
+    },
+    {
+      "question": "Do I need to attend events to be a member of IslandDAO?",
+      "answer": "No. Holding an IslandDAO NFT confers citizenship regardless of event attendance. You can participate in governance, vote on proposals, and engage in the Discord community year-round from anywhere. Attending events requires a separate application and approval process each cohort cycle."
+    },
+    {
+      "question": "What is IslandDAO's long-term goal?",
+      "answer": "IslandDAO's stated mission is to build the future of decentralized organizations and ultimately purchase a physical island for its citizens - transitioning from a digital network state to one with a permanent geographic home."
+    },
+    {
+      "question": "Who are IslandDAO's ecosystem partners?",
+      "answer": "Key partners include Realms, Solana Foundation, Metaplex, Solflare, Pubkey, and MonkeDAO. These collaborations support governance infrastructure, NFT tooling, and community growth across the Solana ecosystem."
+    },
+    {
+      "question": "How did IslandDAO start?",
+      "answer": "IslandDAO started in 2022 as Dean's List, a subDAO of Grape Protocol on Solana. The community reviewed 200+ projects, generated over $500k in community GDP, and grew to 100+ active citizens before transitioning to in-person events and rebranding to IslandDAO in 2024. The full origin story is at [islanddao.org/our-story](https://islanddao.org/our-story)."
+    }
+  ]
+}

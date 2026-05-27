@@ -1,0 +1,122 @@
+{
+  "overview": [
+    {
+      "title": "What is Zuzalu?",
+      "text": "Zuzalu is a popup city experiment and open-source software movement launched in 2023 at Lustica Bay, Montenegro, by Ethereum co-founder Vitalik Buterin.",
+      "sources": [
+        "https://www.palladiummag.com/2023/10/06/why-i-built-zuzalu/",
+        "https://www.zuzalu.city/",
+        "https://zuzalu.gitbook.io/zuzalu-beta-docs/welcome/what-is-zuzalu"
+      ]
+    },
+    {
+      "title": "Who joins Zuzalu?",
+      "text": "The original 2023 event drew Ethereum developers, longevity researchers, AI safety thinkers, and governance innovators from dozens of countries. The decentralized Zu-village movement that followed is open to anyone building or joining intentional popup communities worldwide.",
+      "sources": [
+        "https://www.coindesk.com/tech/2023/05/23/zuzalu-is-2-months-in-montenegro-with-crypto-elites-cold-plunges-vitalik-selfies",
+        "https://gitcoin.co/case-studies/zuzalu-and-pop-up-cities-temporary-coordination-experiments",
+        "https://zuzalu.gitbook.io/zuzalu-beta-docs/welcome/what-is-zuzalu"
+      ]
+    },
+    {
+      "title": "The Zuzalu.city Community Platform",
+      "text": "Zuzalu.city is an open-source Community Operating System (C-OS) that grew out of the 2023 experiment. It connects communities to Ethereum-based tools for identity, event coordination, governance, and collaboration - with user-owned data as a core principle.",
+      "sources": [
+        "https://zuzalu.gitbook.io/zuzalu-beta-docs/welcome/zuzalu.city-vision-and-mission",
+        "https://www.zuzalu.city/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Zuzalu began as Vitalik Buterin's answer to a practical question: could an online community of technologists and scientists materialize offline long enough to develop real depth? Inspired by [his essay in Palladium Magazine](https://www.palladiummag.com/2023/10/06/why-i-built-zuzalu/) and Balaji Srinivasan's work on network states, Buterin organized and funded a two-month popup city at Lustica Bay, Montenegro, from March 25 to May 25, 2023.\n\nApproximately 200 invite-only residents lived on-site for the full two months, with another roughly 500 participants rotating through as weekly visitors. Programming spanned Ethereum infrastructure, longevity biotech, AI safety, zero-knowledge cryptography, and governance. During the event, the 0xPARC team built Zupass - a zero-knowledge proof identity system - from prototype to working product, tested in real conditions by hundreds of attendees.\n\nAfter 2023, the Zuzalu community deliberately decentralized. Rather than running a single flagship event, it encouraged independently organized Zu-villages worldwide. ZuConnect in Istanbul (October-November 2023) hosted roughly 300 residents and deployed quadratic funding within the popup. By late 2024, more than 20 derivative popup villages had launched globally - including Edge City, Vitalia in Prospera, and Zuzalu Taiwan. The Zuzalu.city software platform emerged to give these communities shared infrastructure for coordination and identity.",
+    "milestones": [
+      {
+        "label": "Zuzalu Montenegro",
+        "detail": "March-May 2023 | Lustica Bay, Montenegro | ~200 core residents, ~700 total participants"
+      },
+      {
+        "label": "Zupass ships",
+        "detail": "Zero-knowledge proof identity system developed and deployed by 0xPARC during the 2023 event"
+      },
+      {
+        "label": "ZuConnect Istanbul",
+        "detail": "October-November 2023 | ~300 residents | quadratic funding deployed within the popup"
+      },
+      {
+        "label": "20+ Zu-Villages",
+        "detail": "By October 2024, more than 20 independent popup communities had launched worldwide"
+      },
+      {
+        "label": "Zuzalu.city platform",
+        "detail": "Open-source Community OS launched to connect popup communities to Ethereum-based coordination tools"
+      }
+    ],
+    "sources": [
+      "https://www.palladiummag.com/2023/10/06/why-i-built-zuzalu/",
+      "https://gitcoin.co/case-studies/zuzalu-and-pop-up-cities-temporary-coordination-experiments",
+      "https://zuzalu.gitbook.io/zuzalu-beta-docs/welcome/what-is-zuzalu",
+      "https://zuzalu.gitbook.io/zuzalu-beta-docs/welcome/zuzalu.city-vision-and-mission"
+    ]
+  },
+  "location": "Zuzalu's founding 2023 event was held at Lustica Bay on Montenegro's Adriatic coast - a marina development nestled between the Bay of Kotor and the open sea, flanked by green mountains. Residents lived at [The Chedi Lustica Bay](https://www.chedilusticabay.com/), a five-star hotel with 111 rooms and suites overlooking the water, or in nearby Airbnbs; some stayed on yachts and catamarans moored in the bay.\n\nThe marina offered restaurants, a bakery, and a grocery store within easy walking distance. Residents built a dome structure 300 feet from the hotel that served as the main event and coworking space. Since 2024, Zuzalu has operated as a decentralized network of independently run popup villages rather than a fixed single location.",
+  "duration": "The 2023 Zuzalu ran for two months - March 25 to May 25. Core residents committed to the full duration; roughly 500 additional visitors joined for one or more weeks. Buterin's explicit goal was to find a middle ground: longer than a week-long conference (too brief for real collaboration) but shorter than a year-long residency (too hard to commit to).\n\nPost-2023 Zu-villages vary in length, typically running one to four weeks. The Zuzalu.city platform itself has no fixed duration - it supports communities year-round as an ongoing coordination tool.",
+  "amenities": [
+    "Shared coworking dome with monitors and free food during talks and panels",
+    "Weekly themed programming tracks covering Ethereum, longevity, AI safety, governance, and synthetic biology",
+    "Zupass zero-knowledge proof credentials for private identity and gated space access",
+    "Daily cold plunges in the Adriatic (8 a.m. and 1 p.m.) and group fitness sessions",
+    "Volunteer-cooked community dinners for 100+ residents",
+    "Evening dance parties and informal social gatherings",
+    "Hiking, yoga, and outdoor activities along the Adriatic coast",
+    "Hackathons and informal cryptography and technology workshops",
+    "Restaurants, bakery, and grocery store within walking distance at the marina",
+    "Ongoing access to the Zuzalu.city platform for event discovery and community coordination"
+  ],
+  "howToEnter": {
+    "text": "The original 2023 Zuzalu was invite-only with no public application process. Since 2024, the movement has decentralized: there is no single flagship event and no official Zuzalu citizenship. Anyone can start or join a Zu-village. To get involved, visit [Zuzalu.city](https://www.zuzalu.city/) to discover upcoming popup communities, join the open builder community on [Discord](https://discord.gg/EP2hkRCuD), or follow [@Zuzalu_city on X](https://x.com/Zuzalu_city) for event announcements. Developers interested in contributing to the open-source Community OS can connect via the builder chat linked from the platform.",
+    "linkText": "Explore Zuzalu.city",
+    "linkUrl": "https://www.zuzalu.city/"
+  },
+  "faqs": [
+    {
+      "question": "What was the original Zuzalu event?",
+      "answer": "Zuzalu was a two-month popup city at Lustica Bay, Montenegro, running March 25 to May 25, 2023. About 200 core residents lived on-site for the full duration, with roughly 500 additional participants joining as weekly visitors. Programming covered Ethereum infrastructure, longevity science, AI safety, zero-knowledge cryptography, and governance theory."
+    },
+    {
+      "question": "Who founded Zuzalu?",
+      "answer": "Ethereum co-founder Vitalik Buterin initiated and primarily funded the original event. He outlined his vision in [a 2023 essay in Palladium Magazine](https://www.palladiummag.com/2023/10/06/why-i-built-zuzalu/): creating a physical space where online crypto and tech communities could develop real collaborative depth over weeks rather than days."
+    },
+    {
+      "question": "How do I join a Zuzalu event or Zu-village?",
+      "answer": "Since 2024, Zuzalu has no centralized application process. The movement runs through independently organized Zu-villages. Visit [Zuzalu.city](https://www.zuzalu.city/) to find upcoming popup communities, or follow [@Zuzalu_city on X](https://x.com/Zuzalu_city) for announcements."
+    },
+    {
+      "question": "What is the Zuzalu.city software platform?",
+      "answer": "Zuzalu.city is an open-source Community Operating System (C-OS) that grew from the 2023 popup city. It connects communities to Ethereum-based tools for identity (via Zupass), event scheduling, governance, and collaboration - with user-owned data at its core. It returned to active development in July 2025 after a security audit."
+    },
+    {
+      "question": "What is Zupass?",
+      "answer": "Zupass is a zero-knowledge proof identity system developed during the original 2023 Zuzalu event by the 0xPARC team. It enables anonymous event access, gated spaces, and privacy-preserving community polling. It moved from prototype to production use during 2023 and is now deployed across multiple popup communities worldwide."
+    },
+    {
+      "question": "How much did the original Zuzalu cost?",
+      "answer": "One attendee reported paying approximately $1,800 for a full month in 2023, covering rent, program fees, and breakfast. Financial assistance was available for students. No current centralized pricing exists - the post-2023 decentralized model means each independent Zu-village sets its own costs."
+    },
+    {
+      "question": "Who attended the original Zuzalu?",
+      "answer": "Participants included Ethereum developers, longevity and biotech researchers, AI safety researchers, and governance thinkers from China, Nigeria, Spain, Serbia, and many other countries. Notable attendees included Vitalik Buterin, Tim Beiko (Ethereum Foundation), and Patri Friedman (Pronomos Capital). No single nation represented more than one-third of attendees."
+    },
+    {
+      "question": "What happened after the 2023 Zuzalu?",
+      "answer": "ZuConnect in Istanbul (October-November 2023) followed with roughly 300 residents. The movement then decentralized into independent Zu-villages, with over 20 launching worldwide by October 2024 - including [Edge City](https://www.edgecity.live/), Vitalia in Prospera, Honduras, and Zuzalu Taiwan. The Zuzalu.city software platform also launched to support the ecosystem."
+    },
+    {
+      "question": "What topics does Zuzalu focus on?",
+      "answer": "Zuzalu sits at the intersection of open technology, longevity science, AI safety, decentralized governance, and social coordination. Past programming has covered Ethereum infrastructure, synthetic biology, zero-knowledge cryptography, public goods funding, and network state theory."
+    },
+    {
+      "question": "Is there an official Zuzalu organization?",
+      "answer": "No. The movement explicitly has no central authority, no official citizenship program, and no single flagship event since 2024. The Zuzalu.city platform and @Zuzalu_city X account are maintained by a distributed group of contributors - they do not govern the broader movement."
+    }
+  ]
+}

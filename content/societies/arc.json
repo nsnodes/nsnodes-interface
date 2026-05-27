@@ -1,0 +1,123 @@
+{
+  "overview": [
+    {
+      "title": "What is Arc?",
+      "text": "Arc is a live-in accelerator and popup city community based at Network School in the Singapore-Johor Special Economic Zone, on Forest City island in Johor, Malaysia. It brings together founders building in Bitcoin, AI, Web3, and governance to work in person, access pre-seed capital through three embedded investment vehicles, and help lay the groundwork for a permanent charter city.",
+      "sources": [
+        "https://www.thearccity.com/",
+        "https://www.thearccity.com/faqs"
+      ]
+    },
+    {
+      "title": "Who joins Arc?",
+      "text": "Arc is for frontier founders who are actively shipping products - particularly those building Bitcoin Layer 2 infrastructure, consumer AI applications, or Web3 and governance systems. It also draws investors from the Fulgur, Curious, and Arc Angel networks. Those interested in the network state and charter city movement can begin with an online membership or a short on-site visit before committing to a full residency.",
+      "sources": [
+        "https://www.thearccity.com/ascend",
+        "https://www.thearccity.com/join"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Arc was founded by James of Arc as a 'pop-up first, then permanent' strategy for building a new kind of city. Rather than starting with land, Arc started with community, capital, and a regulatory design purpose-built for AI agents and the next economy. The organization tested its playbook across several cities before establishing a permanent base at Network School in the Johor-Singapore SEZ.\n\nThe [Lisbon gathering in late 2024](https://luma.com/9zvdt0u0) brought 50+ founders and 43 funds through an acceleration bootcamp, hackathon, and investor programming alongside Vitalia and Good Mountain. The [Arc Austin pop-up](https://luma.com/m3jfo6b6) in March 2025 ran a full month at the Arc Embassy on 701 Brazos St, drawing 1,000+ attendees across acceleration, angel investing, wellness, and summit programming. A Singapore pop-up in September-October 2025 proved the year-round model with 100+ resident members. Arc has since settled at Network School as its permanent home, with Davos missions in January 2025 and January 2026 engaging government ministers and development banks at the World Economic Forum.",
+    "milestones": [
+      {
+        "label": "Lisbon Gathering",
+        "detail": "50+ founders | 43 funds | September-October 2024"
+      },
+      {
+        "label": "Arc Austin",
+        "detail": "1,000+ attendees | March 2-30, 2025"
+      },
+      {
+        "label": "Singapore Pop-up",
+        "detail": "100+ resident members | September-October 2025"
+      },
+      {
+        "label": "Permanent Base",
+        "detail": "Network School, Johor-Singapore SEZ | 500+ events to date"
+      },
+      {
+        "label": "Davos Missions",
+        "detail": "Government engagement at World Economic Forum | January 2025 and January 2026"
+      }
+    ],
+    "sources": [
+      "https://www.thearccity.com/history",
+      "https://luma.com/m3jfo6b6",
+      "https://luma.com/9zvdt0u0"
+    ]
+  },
+  "location": "Arc is based at Network School on Forest City island in Johor, Malaysia - about 30 minutes from Johor Bahru and a short drive from Singapore across the Causeway. Forest City sits within the Johor-Singapore Special Economic Zone (JS-SEZ), a bilateral development corridor established by the Malaysian and Singaporean governments. The campus spans residential and coworking facilities on the reclaimed island, with the full amenity stack of Network School (meals, gym, coworking) available to all Arc residents.",
+  "duration": "Arc runs on a continuous, rolling model with no fixed cohort start dates or graduation days. The minimum on-site commitment is one month at Network School. Many founders extend their stays considerably - some remaining for multiple months as they build products and seek investment. Online community membership has no minimum duration. Fulgur's accelerator operates on rolling monthly cohorts, allowing founders to pick an arrival date up to three months ahead.",
+  "pricing": "Network School accommodation through Arc is $1,500/month (shared room), which covers accommodation, three daily meals, 24/7 gym and wellness access, and coworking space. Arc members receive a 25% discount on bookings made through the [Arc application portal](https://ns.com/arc/apply), bringing the effective rate to approximately $1,125/month.\n\nFounders accepted into the Arc Ascend accelerator program may qualify for scholarships that cover full residency costs, issued after demonstrating sustained shipping progress on-site.\n\nOnline-only membership tiers for those not yet ready to travel:\n- Member: $11/month (community access and regular programming)\n- Patron: $111/month (everything in Member plus permanent recognition and deeper access)\n- Patron+: $1,111/month (everything in Patron plus a direct line to Arc leadership and dedicated recognition)",
+  "amenities": [
+    "Shared accommodation at Network School",
+    "Three daily meals included",
+    "24/7 gym and wellness facilities",
+    "Dedicated coworking space",
+    "Founder-focused community programming",
+    "Access to Fulgur (Bitcoin), Curious (AI x Web3), and Arc Angel investment vehicles",
+    "Quarterly demo days (Cyphertank) for investor pitching",
+    "Dedicated mentor matching for accelerator participants",
+    "Corporate services including incorporation, company secretary, and director services",
+    "Visa assistance for Malaysia long-stay options",
+    "Civic and cultural programming including festivals and rituals",
+    "Priority access to premium island coworking and event spaces"
+  ],
+  "howToEnter": {
+    "text": "Apply through the [Arc application portal](https://ns.com/arc/apply) at ns.com/arc/apply. Applications are reviewed on a rolling basis and decisions typically arrive within ten days. Once accepted, Arc assists with visa logistics, onboarding, and connecting you with the right investment vehicles. You can book an arrival date up to three months ahead - there is no fixed intake window. The minimum stay is one month. For government partnership inquiries, reach out at gov@oa.city.",
+    "linkText": "Apply to Arc",
+    "linkUrl": "https://ns.com/arc/apply"
+  },
+  "faqs": [
+    {
+      "question": "Where is Arc located?",
+      "answer": "Arc's permanent home is Network School on Forest City island in Johor, Malaysia, within the Singapore-Johor Special Economic Zone. The campus is about 30 minutes from Johor Bahru and a short drive from Singapore."
+    },
+    {
+      "question": "How long do I need to stay at Arc?",
+      "answer": "The minimum stay is one month at Network School. Many founders extend considerably - the model is continuous with no forced graduation date, so you stay as long as you are actively building."
+    },
+    {
+      "question": "How much does Arc cost per month?",
+      "answer": "Network School accommodation through Arc is $1,500/month (shared room) at the standard rate. Arc members receive a 25% discount via the [apply portal](https://ns.com/arc/apply), bringing it to approximately $1,125/month. This covers accommodation, three meals a day, gym, and coworking. Founders accepted into the Ascend accelerator may qualify for a scholarship covering full residency costs."
+    },
+    {
+      "question": "What is the Arc Ascend accelerator?",
+      "answer": "Ascend is Arc's embedded acceleration program - described as 'the most important evolution of the accelerator since YC.' It provides scholarships covering residency, dedicated mentors, on-site capital partners (Fulgur for Bitcoin, Curious for AI x Web3), access to the Arc Angel co-investment syndicate, and quarterly demo days called Cyphertank. Applications are reviewed on a rolling basis and decisions take about ten days. [Apply here](https://ns.com/arc/apply)."
+    },
+    {
+      "question": "What investment is available through Arc?",
+      "answer": "Three vehicles operate within Arc: Fulgur (pre-seed Bitcoin and Lightning infrastructure), Curious (pre-seed consumer AI and Web3, $25K-$500K ticket sizes), and Arc Angel (a members-only co-investment syndicate with a $1,000 minimum ticket and 15% carry). All three are embedded on-site and observe founders building directly before making investment decisions."
+    },
+    {
+      "question": "Can I join Arc without traveling to Malaysia?",
+      "answer": "Yes. Online community memberships are available at $11/month (Member), $111/month (Patron), and $1,111/month (Patron+), with access to community programming and regular events. However, founding citizenship and accelerator participation require real in-person time at Network School. You can also subscribe to James of Arc on Substack to stay engaged."
+    },
+    {
+      "question": "Can I bring my family to Arc?",
+      "answer": "Yes. Network School accommodates couples and families with various housing options, and Arc provides organizational support for visa logistics. Contact foundation@oa.city for specifics on family housing."
+    },
+    {
+      "question": "How does Arc help with Malaysia visas?",
+      "answer": "Malaysia offers several visa pathways for long-stay founders, and Arc provides organizational support navigating the options. Specific guidance is given after you [apply](https://ns.com/arc/apply) - Arc handles the process once you are accepted."
+    },
+    {
+      "question": "What does Arc do for governments?",
+      "answer": "Arc partners with national governments to design and launch special economic zones capable of hosting the agentic economy - covering legal frameworks that recognize AI agents as corporate entities, sovereign-grade datacenter infrastructure, and an incoming community of founders and capital. Partnerships are formed through introductions; government teams can reach out at gov@oa.city."
+    },
+    {
+      "question": "What are Arc's partner organizations?",
+      "answer": "Arc's 16+ partner network includes Zuzalu.city, Frontier Tower, Charter Cities Institute, Pronomos Capital, Seasteading Institute, Solana Superteam, Gitcoin, Gnosis, Celo, Safe, Sweatcoin, Healthspan Capital, and LEV Foundation, among others."
+    },
+    {
+      "question": "Is Arc primarily a crypto project?",
+      "answer": "Partly. Bitcoin infrastructure and Web3 founders make up a significant share of the community, and two of the three investment vehicles (Fulgur and Curious) focus on those domains. But AI agents, governance design, and legal infrastructure for the agentic economy are equally central to Arc's thesis - it is not exclusively a crypto project."
+    }
+  ],
+  "discount": {
+    "text": "Arc members receive 25% off Network School monthly bookings. Book through Arc to access the discount, plus the full accelerator community, embedded investment vehicles, and corporate services.",
+    "linkText": "Book with Arc discount",
+    "linkUrl": "https://ns.com/arc/apply"
+  }
+}

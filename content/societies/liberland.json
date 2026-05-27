@@ -1,0 +1,116 @@
+{
+  "overview": [
+    {
+      "title": "What is Liberland?",
+      "text": "Liberland is a self-declared micronation on 7 km² of disputed land between Croatia and Serbia, governed by voluntary taxation and blockchain-based merit.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Liberland",
+        "https://liberland.org/"
+      ]
+    },
+    {
+      "title": "Who joins Liberland?",
+      "text": "Liberland draws entrepreneurs, crypto builders, libertarian thinkers, and sovereignty activists interested in an alternative governance experiment. More than 800,000 people have applied for citizenship worldwide. Around 1,000 have been granted citizenship and roughly 6,500 hold e-residency. Vít Jedlička serves as President, and TRON founder Justin Sun was elected Prime Minister in October 2024.",
+      "sources": [
+        "https://liberlandpress.com/2025/05/27/how-does-a-community-become-a-state-the-case-of-liberland/",
+        "https://liberland.org/news/725-liberland-announces-october-2025-congress-election-results-justin-sun-defends-prime-minister-role-brittany-kaiser-joins-congress",
+        "https://anniversary.ll.land/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Liberland was proclaimed on 13 April 2015 by Czech libertarian activist Vít Jedlička, who claimed an uninhabited Danube River floodplain known as Gornja Siga. Jedlička argued the land was terra nullius - unclaimed by either Croatia or Serbia due to a long-standing border dispute - and founded the nation on principles of laissez-faire capitalism, voluntary taxation, and minimal government.\n\nIn December 2015, Jedlička appointed the first provisional government ministers. Croatian authorities have consistently blocked access to the territory and expelled would-be settlers over the years. Despite this, a core group established continuous presence on the territory starting in August 2023 and permanent structures now stand on Liberty Island.\n\nIn October 2024, Liberland held its first blockchain-based congress election. TRON founder Justin Sun won a seat and was appointed Prime Minister - a milestone in Liberland's goal of becoming the world's first fully on-chain governed state. By April 2026, Liberland had attended Davos and hosted its [11th anniversary summit](https://anniversary.ll.land/) at ARK Village in Serbia, drawing 399 builders and investors.",
+    "milestones": [
+      {
+        "label": "Independence Proclaimed",
+        "detail": "April 13, 2015 | Gornja Siga floodplain, Danube River"
+      },
+      {
+        "label": "Provisional Government",
+        "detail": "December 2015 | First ministers appointed by President Jedlička"
+      },
+      {
+        "label": "Continuous Settlement",
+        "detail": "August 2023 | Core settlers establish ongoing presence on territory"
+      },
+      {
+        "label": "First Blockchain Election",
+        "detail": "October 2024 | First on-chain congress election; Justin Sun elected Prime Minister"
+      },
+      {
+        "label": "11th Anniversary Summit",
+        "detail": "April 2026 | 399 founders and investors gathered at ARK Village, Apatin"
+      }
+    ],
+    "sources": [
+      "https://en.wikipedia.org/wiki/Liberland",
+      "https://liberlandpress.com/2025/05/27/how-does-a-community-become-a-state-the-case-of-liberland/",
+      "https://anniversary.ll.land/",
+      "https://liberland.org/news/725-liberland-announces-october-2025-congress-election-results-justin-sun-defends-prime-minister-role-brittany-kaiser-joins-congress"
+    ]
+  },
+  "location": "Liberland claims 7 km² of forested Danube River floodplain known as Gornja Siga, in disputed territory between Croatia and Serbia. The land is mostly wooded floodplain with no permanent road access from the Croatian side; the practical approach is by boat from the Serbian bank of the Danube.\n\nThe main community hub is [ARK Village](https://ark.ll.land/) in Apatin, Serbia - a riverside eco-resort about 45 km from the EU border at Bački Breg and 200 km south of Belgrade. Permanent structures have been established on Liberty Island within the claimed territory, and a core group of settlers has maintained continuous on-site presence since August 2023. Monthly community gatherings draw additional participants to both ARK Village and the territory itself.",
+  "duration": "Liberland does not run fixed-length cohort programs. Visitors can attend weekend events and monthly community gatherings at [ARK Village](https://ark.ll.land/) in Apatin, Serbia, with stays typically ranging from 2-4 days. The site is open year-round and accommodations are bookable through [visit.ll.land](https://visit.ll.land/).\n\nCitizenship by settlement requires a minimum of 7 consecutive days on Liberland territory (after obtaining e-residency). Some settlers have lived on the territory continuously since August 2023, making full-time residency a real option for those willing to commit. The annual Independence Day celebration in April runs 3-4 days and is the flagship event of the year.",
+  "pricing": "Liberland offers two e-residency tiers and a citizenship path, all purchased through liberland.org.\n\nE-Residency Standard - $150: A physical ID card plus 25 LLM merit tokens. Approved within 1-4 business days and shipped worldwide via DHL or UPS.\n\nE-Residency Gold - $1,000: A premium card design with a larger LLM token allocation and business registration eligibility for Citizens and Gold E-Residents.\n\nCitizenship - from $10,100: Requires accumulating 5,000 Liberland Merit (LLM) tokens through financial contribution, work, or service. Alternatively, citizenship by settlement is available after e-residency by spending at least 7 consecutive days on Liberland territory at no additional cost.\n\nARK Village accommodations at [visit.ll.land](https://visit.ll.land/) are booked separately: camping tents from €35/night, cottages €60-90/night, yacht house from €400.",
+  "amenities": [
+    "Liberty Island territorial access via Danube boat trip",
+    "Treehouses on Liberty Island (bookable accommodation)",
+    "ARK Village eco-resort in Apatin, Serbia - Liberland's operational base",
+    "Beach bar and restaurant on the Danube",
+    "Water sports: jetski (€100/hr), boats (€15/hr), canoes, and paddle boards (€15/day)",
+    "Sauna and wellness facilities",
+    "Fitness center",
+    "Horse stables and riding access",
+    "5-hectare arboretum with walking and cycling trails",
+    "Buggy and ATV rentals for exploring the grounds",
+    "LLM merit tokens included with e-residency purchase (25 for Standard)",
+    "Digital identity card for e-residents and citizens"
+  ],
+  "howToEnter": {
+    "text": "Apply for Liberland e-residency at [liberland.org](https://liberland.org/) by submitting a passport photo and selfie for identity verification (KYC). Applications are typically reviewed within 1-4 business days. After approval, your physical e-residency card is produced and shipped worldwide - allow roughly four weeks from approval to delivery.\n\nOnce you have e-residency, citizenship can be pursued two ways: accumulate 5,000 LLM tokens through donations, work, or service (equivalent to about $10,100); or spend at least 7 consecutive days on Liberland territory. All citizenship applicants must have a clean criminal record and no communist or Nazi party affiliations.",
+    "linkText": "Apply at liberland.org",
+    "linkUrl": "https://liberland.org/"
+  },
+  "faqs": [
+    {
+      "question": "What is Liberland exactly?",
+      "answer": "Liberland is a self-declared micronation proclaimed on April 13, 2015, by Czech libertarian activist Vít Jedlička. It claims 7 km² of disputed Danube River floodplain between Croatia and Serbia, operating on voluntary taxation and blockchain-based governance. It has no diplomatic recognition from any UN member state."
+    },
+    {
+      "question": "Where is Liberland located?",
+      "answer": "The claimed territory - Gornja Siga - is a forested floodplain on the Danube River between Croatia and Serbia. The practical entry is by boat from the Serbian side. Liberland's main community hub is [ARK Village](https://ark.ll.land/) in Apatin, Serbia, about 200 km from Belgrade."
+    },
+    {
+      "question": "Is Liberland recognized by other countries?",
+      "answer": "No. Liberland has no diplomatic recognition from any UN member state. Croatian authorities administer the claimed land and have historically restricted access and expelled settlers. Liberland passports are not internationally recognized travel documents."
+    },
+    {
+      "question": "What does Liberland e-residency cost and what do I get?",
+      "answer": "The Standard e-residency card costs $150 and includes 25 LLM merit tokens plus a physical ID card. The Gold card costs $1,000 and includes more LLM tokens, a premium card design, and business registration eligibility. Cards are shipped worldwide in about four weeks. [Apply at liberland.org](https://liberland.org/)."
+    },
+    {
+      "question": "How do I become a Liberland citizen?",
+      "answer": "E-residency is required first. After that, citizenship can be obtained by accumulating 5,000 LLM merit tokens (roughly $10,100 via donation), or by spending at least 7 consecutive days on Liberland territory after obtaining e-residency. All applicants must have a clean criminal record and no communist or Nazi affiliations."
+    },
+    {
+      "question": "What is the Liberland Merit (LLM) token?",
+      "answer": "LLM is Liberland's on-chain governance token built on Ethereum. Holding LLM grants voting rights in the blockchain-based congress, with influence proportional to holdings. Merits are earned through financial contributions, work, or service to Liberland. The first blockchain congress election was held in October 2024."
+    },
+    {
+      "question": "What can I do at ARK Village?",
+      "answer": "[ARK Village](https://ark.ll.land/) in Apatin, Serbia, is Liberland's operational base - a riverside eco-resort with treehouses, cottages, a beach bar, jetski and boat rentals, a sauna, fitness facilities, horse stables, and a 5-hectare arboretum. It hosts monthly community gatherings and larger annual events including the Independence Day celebration."
+    },
+    {
+      "question": "Can I visit Liberland territory directly?",
+      "answer": "Yes. The territory is accessible by boat from the Serbian side of the Danube, and Danube boat trips to the territory are offered from ARK Village. A core group of settlers has maintained continuous presence on Liberty Island since August 2023. Croatian authorities have historically restricted land access from the Croatian side and have expelled settlers on multiple occasions."
+    },
+    {
+      "question": "What is Liberland's tax system?",
+      "answer": "Liberland operates on voluntary taxation. Citizens are not obligated to pay taxes but can contribute voluntarily and receive LLM merit tokens proportional to their contributions. Those tokens grant governance voting rights in the blockchain congress. There are no mandatory personal income or corporate tax rates."
+    },
+    {
+      "question": "Who leads Liberland?",
+      "answer": "Vít Jedlička, the Czech libertarian who proclaimed Liberland in 2015, serves as President. Justin Sun, founder of the TRON blockchain, was elected Prime Minister via the blockchain congress in October 2024 and re-confirmed in the October 2025 election. Brittany Kaiser also joined the Congress in the 2025 election."
+    }
+  ]
+}

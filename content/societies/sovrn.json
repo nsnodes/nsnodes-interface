@@ -1,0 +1,108 @@
+{
+  "overview": [
+    {
+      "title": "What is Sovrn?",
+      "text": "Sovrn is a digital infrastructure platform that enables cities and special economic zones to launch e-residency, payments, and city asset programs.",
+      "sources": [
+        "https://www.sovrn.place/",
+        "https://www.sovrn.place/about-us"
+      ]
+    },
+    {
+      "title": "Who joins Sovrn?",
+      "text": "Individuals apply for early access to digital residency in Sovrn's partner cities, fractional ownership of city assets, and a Universal ID reusable across jurisdictions. Founders, policymakers, and technologists can also request invitations to the [Sovrn Salon](https://www.sovrn.place/sovrnsalon), a private think-space for those shaping next-generation governance and sovereign systems.",
+      "sources": [
+        "https://www.sovrn.place/",
+        "https://www.sovrn.place/sovrnsalon"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Sovrn emerged from years of research in governance structures, public infrastructure, and emerging economic zones. Founder Aashraya Rau spent 5+ years as an engineer and GovTech entrepreneur building digital infrastructure for public benefit and municipal-scale initiatives before launching Sovrn in 2022.\n\nEarly iterations of the platform examined digital citizenship frameworks and evolved through multiple product cycles, shaped by direct collaboration with city administrators across Asia, Africa, Europe, and the Middle East. The platform is designed to compress months of resident-onboarding paperwork into minutes of code.\n\nSovrn's first publicly announced city deployment is [Ceylon City in Sri Lanka](https://www.sovrn.place/city-launches), with Universal ID and payments infrastructure targeting a Q1 2026 go-live. The broader deployment roadmap spans Asian SEZs, African economic zones, four European freeport districts, and a Middle East digital nation.",
+    "milestones": [
+      {
+        "label": "Founded",
+        "detail": "2022 | Aashraya Rau, Founder & CEO"
+      },
+      {
+        "label": "Phase 01 Live",
+        "detail": "Core Marketplace: Digital Residency, City Assets, Universal ID & Payments"
+      },
+      {
+        "label": "Ceylon City - Q1 2026",
+        "detail": "Universal ID + Payments live in Sri Lanka"
+      },
+      {
+        "label": "Phase 02 Target",
+        "detail": "2 Ministry deployments, 4 European Freeport zones, Middle East Digital Nation"
+      },
+      {
+        "label": "Phase 03 Target",
+        "detail": "12+ cities across 3 continents; monthly city launches"
+      }
+    ],
+    "sources": [
+      "https://www.sovrn.place/about-us",
+      "https://www.sovrn.place/city-launches"
+    ]
+  },
+  "location": "Sovrn operates as a global platform with no single physical headquarters, deploying digital infrastructure across cities on multiple continents. The first publicly announced city launch is [Ceylon City](https://www.sovrn.place/city-launches) in Sri Lanka, building a digital economy zone with e-residency, payments, and city asset investment programs. An associated property program, Asaya Sands Mirissa, offers a beachfront retreat on Sri Lanka's south coast with direct access to Thalaramba Beach as part of the early-access experience.",
+  "duration": "Sovrn is an ongoing digital platform with no fixed membership term. E-residency and Universal ID access in partner cities is managed digitally and structured around each city's program timeline. Ceylon City is rolling out in phases: Universal ID and payments launched in Q1 2026, with digital residency applications and city asset investment pilots targeted for Q2 2026, and multi-city residency plus governance pilots in Q3 2026. Sovrn Salon gatherings are individual invitation-only events rather than a standing membership.",
+  "amenities": [
+    "Universal ID with one-time KYC reusable across all partner cities",
+    "Digital e-residency in partner special economic zones",
+    "Fractional city asset investments with automated dividends",
+    "Stablecoin payment access for city services and transactions",
+    "Multi-city residency management from a single account",
+    "Priority access to new sovereign zone launches",
+    "Early access to tokenized city asset offerings",
+    "Access to Sovrn Salon private dinners (invitation basis)"
+  ],
+  "howToEnter": {
+    "text": "Individuals can apply for early access to Sovrn's platform and partner city programs via a short application form. Early access grants priority entry to new city launches, tokenized city assets, and multi-city residency programs as partner zones come online. To join the Sovrn Salon, a private dinner series for founders, policymakers, and technologists, submit a separate invitation request at [sovrn.place/sovrnsalon](https://www.sovrn.place/sovrnsalon); invitations are reviewed periodically and all gatherings remain private.",
+    "linkText": "Apply for early access",
+    "linkUrl": "https://tally.so/r/3j64jY"
+  },
+  "faqs": [
+    {
+      "question": "What is Sovrn?",
+      "answer": "Sovrn is a digital infrastructure platform that helps cities, special economic zones, and startup districts launch e-residency programs, payment systems, and city asset investment markets. It is not a government entity, not a blockchain protocol, and not a standalone marketplace -- it is the underlying infrastructure layer cities deploy to operate as digital economies."
+    },
+    {
+      "question": "Is Sovrn a place to live?",
+      "answer": "Sovrn is a software platform, not a physical community. However, its partner city programs -- starting with Ceylon City in Sri Lanka -- do offer digital residency and access to place-based experiences in those zones. The Asaya Sands Mirissa property program in Sri Lanka is one example of a physical offering tied to the platform, providing beachfront access on Mirissa's south coast. See the [city launches page](https://www.sovrn.place/city-launches) for details."
+    },
+    {
+      "question": "What is the Universal ID?",
+      "answer": "The Universal ID is a single digital identity that lets you complete KYC once and reuse it across all of Sovrn's partner cities and economic zones. It is currently being deployed in Sri Lanka with .si.ID compatibility. Identity created in one Sovrn-integrated jurisdiction carries over to other partner zones without repeated paperwork."
+    },
+    {
+      "question": "What is the Sovrn Salon?",
+      "answer": "The [Sovrn Salon](https://www.sovrn.place/sovrnsalon) is a private dinner series of 8-12 people exploring new political systems, digital nations, and the future of sovereignty. It runs under Chatham House Rule with phones off, and brings together founders, policymakers, technologists, economists, and investors. Invitations are reviewed periodically -- you can request one at the Salon page."
+    },
+    {
+      "question": "Which cities are currently live on Sovrn?",
+      "answer": "As of Q1 2026, Sovrn's first publicly announced deployment is Ceylon City in Sri Lanka, with Universal ID and payments infrastructure live. Residency applications and city asset investment pilots are targeted for Q2 2026. The roadmap includes Asian SEZs, African economic zones, four European freeport zones, and a Middle East digital nation, though specific city names for those phases have not been publicly announced."
+    },
+    {
+      "question": "How do city asset investments work on Sovrn?",
+      "answer": "Sovrn enables fractional ownership of city real estate and infrastructure through regulated investment structures, with dividends automated on-platform. Investments are managed alongside your digital residency from a single account. City asset pilots with licensed partners are part of Phase 2 of the Ceylon City launch (Q2 2026). The platform is compliance-first and operates within multiple legal jurisdictions."
+    },
+    {
+      "question": "How do I apply for early access to Sovrn?",
+      "answer": "Fill out the short application at [tally.so/r/3j64jY](https://tally.so/r/3j64jY). Early access members receive priority entry to new city launches, tokenized city asset offerings, and multi-city residency programs as partner zones come online."
+    },
+    {
+      "question": "Is Sovrn a blockchain or crypto project?",
+      "answer": "No. Sovrn explicitly states it is not a blockchain protocol and does not issue speculative tokens. It does use stablecoin payment infrastructure for programmable city payments and treasury flows, but the platform is jurisdiction-focused and compliance-first -- built for government and civic partners with revenue generated from the day of deployment."
+    },
+    {
+      "question": "Who founded Sovrn?",
+      "answer": "Sovrn was founded by Aashraya Rau, who has 5+ years of experience as an engineer and GovTech entrepreneur building digital infrastructure for public benefit and municipal-scale initiatives. Rau has implemented public-goods networks across jurisdictions via government and civic organization partnerships, and oversees product design, architecture, city partnerships, and implementation. See [the about page](https://www.sovrn.place/about-us) for more."
+    },
+    {
+      "question": "How can a city or zone partner with Sovrn?",
+      "answer": "City and zone operators can apply via the [Partners page](https://www.sovrn.place/partners). Sovrn's deployment process runs in four phases -- assessment, design, deployment, and scale -- with infrastructure going live in under 90 days. Target partners include cities, SEZs, freeports, startup city districts, and government-backed development authorities."
+    }
+  ]
+}

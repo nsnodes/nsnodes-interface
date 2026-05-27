@@ -1,0 +1,131 @@
+{
+  "overview": [
+    {
+      "title": "What is Loci?",
+      "text": "Loci is a community-owned lifestyle brand building a distributed network of rural micro-communities for remote workers and digital nomads in the USA.",
+      "sources": [
+        "https://lociproperty.com/",
+        "https://locilife.com/"
+      ]
+    },
+    {
+      "title": "Who joins Loci?",
+      "text": "Loci draws remote workers, digital nomads, and location-independent professionals who want flexible residential options in nature without the constraints of traditional renting or homeownership. Members access furnished properties through a points-based stay system and participate in the community's collective real estate development.",
+      "sources": [
+        "https://lociproperty.com/purpose/",
+        "https://locilife.com/purpose/"
+      ]
+    },
+    {
+      "title": "Flexible Living Through Community Ownership",
+      "text": "Loci operates a dual-brand model: lociproperty.com handles real estate development and acquisition, while locilife.com hosts the membership platform. Members buy points to book stays at any Loci property, and a Web3 governance layer is planned to give members a voice in which properties are acquired and developed.\n\nThe model is built around three pillars: geographic freedom (live anywhere in the network), financial freedom (invest and exit flexibly), and occupational freedom (work independently). Loci calls this combination 'lifestyle liquidity.'",
+      "sources": [
+        "https://lociproperty.com/purpose/",
+        "https://locilife.com/purpose/",
+        "https://locilife.com/loci-membership/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Loci was founded by Joshua A. Haarbrink after observing the rapid expansion of remote work in 2020. Haarbrink had worked with professional networks of digital nomads and saw a clear gap: housing options had not kept pace with the rise of mobile, location-independent careers.\n\nLoci, LLC was incorporated with a founding purpose of developing a small rural property to give friends with mobile lifestyles a place to stay in nature - free from traditional rental and ownership constraints. The company describes its communities as 'ecologically-integrated, digitally-connected and regionally-distributed.'\n\nHaarbrink presented Loci at a conference in Singapore focused on network state-adjacent communities, where the model attracted attention from mobile professionals. Loci subsequently launched the Loci Life membership platform at locilife.com, adding a points-based stay system and a roadmap for Web3-enabled member governance.",
+    "milestones": [
+      {
+        "label": "2020: Catalyst",
+        "detail": "Remote work expansion accelerates Haarbrink's vision for community-owned mobile housing"
+      },
+      {
+        "label": "2021: Founded",
+        "detail": "Loci, LLC incorporated with mission to develop distributed rural micro-communities"
+      },
+      {
+        "label": "Singapore Presentation",
+        "detail": "Haarbrink presents Loci's model at an international network state-focused conference"
+      },
+      {
+        "label": "Loci Skymeadow",
+        "detail": "$601,000 project in Lakebay, WA - first property with 3D-printed dome and studio ADUs"
+      },
+      {
+        "label": "Loci Life Launch",
+        "detail": "Membership platform and points-based stay system go live at locilife.com"
+      }
+    ],
+    "sources": [
+      "https://lociproperty.com/purpose/",
+      "https://locilife.com/purpose/",
+      "https://joshuahaarbrink.com/",
+      "https://lociproperty.com/project/skymeadow-lakebay-wa/"
+    ]
+  },
+  "location": "Loci's first active property, Loci Skymeadow, sits on a 1.2-acre parcel in Lakebay, Washington, on the Key Peninsula near Puget Sound - approximately 25 minutes from Highway 16. The property includes a 3D-printed dome house (1,166 sq ft, 2 bed / 1 bath with loft, built with 60% recovered waste materials), two studio ADUs, and camper van and RV parking with shore power and septic hookups.\n\nBay Lake, a 128-acre freshwater lake, is 1,000 feet from the Skymeadow site, and Lakebay Marina is 2,000 feet away. A partner project, Loci Panama, is in feasibility review in the Bocas del Toro archipelago on Panama's Caribbean coast.\n\nLoci's long-term roadmap includes a geographically distributed network spanning rural agro-communities, suburban co-housing, and airport-adjacent urban properties across the USA and internationally.",
+  "duration": "Loci properties support both short-term vacation stays and extended residential arrangements. Members use a points-based system where 24 points equal one night's stay, and can hold points indefinitely as long as Loci operates.\n\nThere is no fixed minimum or maximum stay length. The membership model accommodates seasonal residency, in-transit stopovers, and longer-term arrangements for those seeking a residential alternative to traditional renting.",
+  "pricing": "Loci membership begins with a $225 one-time enrollment fee covering administrative setup. A Limited Edition Lifetime Loci Membership Package is also available for $250 (regular price $294).\n\nStays are purchased through a points system. New members can buy 100 points for $750, 300 points for $1,250, or 1,750 points for $5,250. Existing members pay lower rates: 100 points for $500, 300 points for $1,000, or 1,750 points for $5,000. Each point represents approximately $6.81 in stay value, and 24 points cover one night.\n\nCurrent pricing is listed at [locilife.com/points](https://locilife.com/points) and [locilife.com/loci-membership](https://locilife.com/loci-membership/).",
+  "amenities": [
+    "Furnished and turnkey units (appliances, cookware, and linens included)",
+    "Co-working spaces at community locations",
+    "On-site management and concierge services",
+    "Community centers and shared gathering spaces",
+    "Camper van and RV parking with shore power and septic hookups",
+    "Lake and waterfront access at Skymeadow",
+    "Garden and outdoor picnic areas",
+    "Points-based stay system with member discounts",
+    "Sustainable and ecological design with site-specific architecture",
+    "Aptera EV fleet access across properties (planned)"
+  ],
+  "howToEnter": {
+    "text": "Join Loci by becoming a member at [locilife.com](https://locilife.com/loci-membership/). The process starts with a $225 one-time enrollment fee, after which you can purchase points packages to book stays at any Loci property. A Lifetime Membership Package ($250) is also available for expanded long-term access.\n\nTo stay informed about new properties and launch dates, sign up for the mailing list at [lociproperty.com](https://lociproperty.com). Loci also accepts inquiries through a contact form for members interested in specific locations or investment participation.",
+    "linkText": "Become a member",
+    "linkUrl": "https://locilife.com/loci-membership/"
+  },
+  "faqs": [
+    {
+      "question": "What is Loci?",
+      "answer": "Loci is a community-owned lifestyle brand that develops a distributed network of micro-communities in rural and semi-remote locations. Members book stays through a points system and can participate in the collective real estate development behind the properties. Learn more at [lociproperty.com](https://lociproperty.com)."
+    },
+    {
+      "question": "Where is Loci located?",
+      "answer": "Loci's first property is Loci Skymeadow in Lakebay, Washington, on the Key Peninsula near Puget Sound. A partner project in Panama's Bocas del Toro is in feasibility review. Loci plans to build a geographically distributed network of properties across the USA and internationally over time."
+    },
+    {
+      "question": "How does the Loci points system work?",
+      "answer": "Each point represents approximately $6.81 in stay value, and 24 points equal one night. Members buy points packages - 100, 300, or 1,750 points - at discounted rates compared to nightly market prices. Points do not expire as long as Loci operates. An inter-member points trading marketplace is projected to launch in 2026. See current packages at [locilife.com/points](https://locilife.com/points)."
+    },
+    {
+      "question": "How do I become a Loci member?",
+      "answer": "Visit [locilife.com](https://locilife.com/loci-membership/) and pay the $225 one-time enrollment fee. You can then purchase points packages to book stays, or add the Lifetime Membership Package ($250) for expanded access."
+    },
+    {
+      "question": "What does a Loci membership include?",
+      "answer": "Membership gives you access to Loci's points-based stay system, member-discounted points packages, and planned future benefits including group health insurance, Aptera EV fleet access across properties, agricultural product discounts, and member governance through a planned Web3 platform."
+    },
+    {
+      "question": "Who founded Loci?",
+      "answer": "Loci was founded by Joshua A. Haarbrink, a management consultant who worked with professional networks of digital nomads. He launched the company after observing the acceleration of remote work in 2020 and identified a gap between modern mobile careers and rigid traditional housing options."
+    },
+    {
+      "question": "What is Loci Skymeadow?",
+      "answer": "Loci Skymeadow is Loci's first property, located in Lakebay, Washington. It features a 3D-printed dome house (1,166 sq ft, 2 bed / 1 bath with loft), two studio ADUs, and RV and camper van parking. The 1.2-acre parcel sits 1,000 feet from Bay Lake and 2,000 feet from Lakebay Marina. Total project cost is $601,000."
+    },
+    {
+      "question": "What is 'lifestyle liquidity'?",
+      "answer": "Lifestyle liquidity is Loci's term for the combination of geographic freedom (live anywhere in the network), financial freedom (invest and exit flexibly), and occupational freedom (work independently). The concept underpins Loci's model of offering housing as a flexible, investable service rather than a fixed commitment."
+    },
+    {
+      "question": "Is Loci connected to the network state movement?",
+      "answer": "Loci is aligned with network state concepts - specifically the idea of cloud-based communities building toward physical presence. Joshua Haarbrink has presented Loci at conferences focused on network state-adjacent communities, and Loci's approach to distributed, community-governed property ownership reflects those ideas."
+    },
+    {
+      "question": "Can I invest in Loci properties?",
+      "answer": "Loci's model includes a crowdfunding layer where members participate in real estate acquisition. A Web3 governance system is planned, giving members input into which properties are acquired and when they are liquidated. Specific investment tier details are not yet publicly listed - contact Loci directly at [locilife.com](https://locilife.com) for current options."
+    },
+    {
+      "question": "How are Loci properties designed?",
+      "answer": "Loci properties use sustainable and ecological design with site-specific architecture that respects local character. Units are furnished and turnkey - appliances, cookware, and linens included - and designed for single or dual occupancy with space for remote work. Each community aims to include co-working spaces, community centers, and on-site management."
+    }
+  ],
+  "discount": {
+    "text": "Loci's Limited Edition Lifetime Membership Package is available for $250, reduced from the regular price of $294.",
+    "linkText": "Get lifetime membership",
+    "linkUrl": "https://locilife.com/loci-membership/"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "overview": [
+    {
+      "title": "What is Edge City?",
+      "text": "Edge City is a nonprofit running monthlong popup villages where founders, scientists, and builders live together to test new ideas in real communities.",
+      "sources": [
+        "https://www.edgecity.live/",
+        "https://www.edgecity.live/about"
+      ]
+    },
+    {
+      "title": "Who joins Edge City?",
+      "text": "Participants come from 100+ countries and span disciplines - startup founders, AI researchers, biotech scientists, artists, philosophers, and urbanists. Past attendees have included Vitalik Buterin, Moxie Marlinspike, Juan Benet, and Laura Deming. The villages are explicitly multigenerational, welcoming everyone from young founders to families with children.",
+      "sources": [
+        "https://www.edgecity.live/about",
+        "https://www.edgecity.live/"
+      ]
+    },
+    {
+      "title": "What has Edge City produced?",
+      "text": "Edge City events have helped seed or accelerate 300+ startups and research projects, with $1M+ in grants distributed to builders across all editions. Notable outcomes include Constellation (AI for mental illness treatment, $10M raised), Crecimiento (Argentine tech movement, 1,200+ active contributors), and the ongoing [Esmeralda](https://edgeesmeralda.com/) permanent village project near Cloverdale, California.",
+      "sources": [
+        "https://www.edgecity.live/"
+      ]
+    }
+  ],
+  "history": {
+    "text": "Edge City grew out of the Zuzalu popup city experiment co-organized by Vitalik Buterin in Montenegro in 2023. Co-founders Janine Leger (who had led Zuzalu Montenegro and ZuConnect, and previously ran Gitcoin's Public Goods Funding) and Timour Kosters (formerly partner at Seed Club Ventures) launched Edge City in 2024 as a 501(c)(3) nonprofit - Edge Institute, Inc. - dedicated to running popup villages as in-person laboratories for new social, technological, and governance experiments.\n\nThe first full year launched in February 2024, when Edge City Denver ran alongside ETHDenver with 3,000 participants. That summer, Edge Esmeralda 2024 hosted 300 full-time residents and 1,300 total visitors across 25 programs in Healdsburg, California. Edge City Lanna in Chiang Mai followed in the fall with 700 participants.\n\n2025 saw the network expand to five continents, with events in Austin, Cape Town, Bhutan, and Patagonia. By May 2026, Edge City has welcomed 12,000+ cumulative participants across all editions and is preparing the sixth iteration of Edge Esmeralda.",
+    "milestones": [
+      {
+        "label": "Edge City Founded",
+        "detail": "2024 | 501(c)(3) nonprofit launched by Janine Leger and Timour Kosters"
+      },
+      {
+        "label": "Edge Esmeralda 2024",
+        "detail": "Healdsburg, CA | Jun 2-29, 2024 | 300 full-time residents | 1,300 total visitors | 25 programs"
+      },
+      {
+        "label": "Edge City Lanna",
+        "detail": "Chiang Mai, Thailand | Oct-Nov 2024 | 700 participants"
+      },
+      {
+        "label": "Global Expansion 2025",
+        "detail": "Events in Austin, Cape Town, Bhutan, and Patagonia | 12,000+ cumulative participants"
+      },
+      {
+        "label": "Edge Esmeralda 2026",
+        "detail": "Healdsburg, CA | May 30 - Jun 27, 2026 | Upcoming flagship village"
+      }
+    ],
+    "sources": [
+      "https://www.edgecity.live/about",
+      "https://www.edgecity.live/"
+    ]
+  },
+  "location": "Edge City hosts popup villages at different locations globally each season. The flagship recurring event, Edge Esmeralda, takes place in Healdsburg, California - about 90 minutes north of San Francisco in Sonoma County. Past villages have run in Chiang Mai (Thailand), Buenos Aires and San Martin de los Andes (Argentina), Cape Town (South Africa), Thimphu (Bhutan), Austin (Texas), and Denver (Colorado).\n\nThe organization is also co-developing [Esmeralda](https://edgeesmeralda.com/), a planned permanent walkable village near Cloverdale, California, with capacity for up to 605 residences, a hotel, community piazza, event spaces, trails, and playgrounds.",
+  "duration": "Core Edge City popup villages run for one month (28-30 days). Attendance is flexible - most events offer weekly passes in addition to monthly passes, and some participants join for only a single week. Shorter explorations of 8-10 days have also run in locations like Bhutan and Cape Town. The upcoming [Edge Esmeralda 2026](https://edgeesmeralda.com/) runs May 30 - June 27, 2026.",
+  "pricing": "The following prices apply to [Edge Esmeralda 2026](https://edgeesmeralda.com/) (May 30 - June 27, 2026). Prices increase monthly through June.\n\nStandard Monthly pass: $2,950. Standard Weekly pass: $1,325. Partner/Spouse Monthly: $2,213. Partner/Spouse Weekly: $994.\n\nAccommodation and meals are not included in the pass price; both are available at subsidized rates on-site. Builders under 25 can apply for the Inflection Fellowship, which can cover the full cost of attendance.",
+  "amenities": [
+    "High-speed coworking internet",
+    "Daily facilitated workshops and talks with founders and researchers",
+    "Unconferences and peer knowledge-sharing sessions",
+    "Buildathons and product sprint time",
+    "Fitness and wellness programming",
+    "Thematic weekly programs by discipline (health, AI, arts, urbanism)",
+    "Access to grants and fellowship programs",
+    "Peer network drawing from 100+ countries",
+    "Organic meal options available on-site at subsidized rates",
+    "Nature access and outdoor recreation in Sonoma County",
+    "Kids programming (Edge Tomorrow) at flagship Esmeralda events"
+  ],
+  "howToEnter": {
+    "text": "Apply through the [Edge City application portal](https://edgecity.edgeos.world/portal/edge-esmeralda-2026/application) for the upcoming Edge Esmeralda 2026 village (May 30 - June 27, 2026, in Healdsburg, California). The application is open to anyone with genuine intent to build or collaborate. Prices increase monthly, so earlier applications lock in lower rates. Builders under 25 can apply separately for the Inflection Fellowship, which covers the full attendance fee.",
+    "linkText": "Apply to Edge Esmeralda 2026",
+    "linkUrl": "https://edgecity.edgeos.world/portal/edge-esmeralda-2026/application"
+  },
+  "fellowship": "Edge City's Inflection Fellowship is a funded month-long residency for builders under 25, covering the full cost of attendance at a popup village. Inflection Grants of $2,000 are also available to eligible early-career builders. The organization co-administers [SHIFT Grants](https://www.shiftgrants.org/) with Nodes, offering Micro Grants ($5,000-$15,000) and Development Grants ($20,000-$40,000) for projects in biosecurity, neurotech, cyber defense, information resilience, and social technology aligned with d/acc principles.",
+  "fellowshipUrl": "https://www.shiftgrants.org/",
+  "kidFriendly": {
+    "description": "Edge City explicitly designs its villages to be multigenerational, welcoming families with children alongside founders and researchers. The flagship Edge Esmeralda event runs Edge Tomorrow, a dedicated kids' program, running in parallel with the adult village schedule. The organization describes its community as spanning from toddlers to centenarians.",
+    "activities": []
+  },
+  "faqs": [
+    {
+      "question": "What is Edge City?",
+      "answer": "Edge City is a 501(c)(3) nonprofit (Edge Institute, Inc.) that runs monthlong popup villages globally for founders, scientists, researchers, and builders. Each village brings a few hundred people together to live, work, and experiment side by side around specific themes. The organization also funds builders through grants and fellowships."
+    },
+    {
+      "question": "Where does Edge City hold its events?",
+      "answer": "Edge City events have run in Healdsburg (California), Chiang Mai (Thailand), Buenos Aires and San Martin de los Andes (Argentina), Cape Town (South Africa), Thimphu (Bhutan), Austin, and Denver. The flagship recurring event - Edge Esmeralda - takes place annually in Healdsburg, California."
+    },
+    {
+      "question": "How much does it cost to attend Edge Esmeralda 2026?",
+      "answer": "The standard monthly pass is $2,950 and the standard weekly pass is $1,325. Partner/spouse passes are $2,213 (monthly) or $994 (weekly). Prices increase monthly through June. Accommodation and meals are extra, available at subsidized rates on-site. Builders under 25 can [apply for the Inflection Fellowship](https://www.edgecity.live/) to potentially cover the full attendance cost."
+    },
+    {
+      "question": "How long is a typical Edge City event?",
+      "answer": "Core popup villages run for one month (28-30 days). Attendance is flexible - you can join for one week or the full month using weekly or monthly passes. Some shorter explorations of 8-10 days have run in locations like Bhutan and Cape Town."
+    },
+    {
+      "question": "Do I need to attend the whole month?",
+      "answer": "No. Most Edge City villages, including Edge Esmeralda, offer weekly passes alongside monthly passes. You can attend for one week or up to the full month depending on your schedule and interests."
+    },
+    {
+      "question": "Who attends Edge City events?",
+      "answer": "Past participants include startup founders, AI and biotech researchers, artists, philosophers, and policymakers from 100+ countries. Notable past attendees include Vitalik Buterin, Laura Deming, Juan Benet, and Moxie Marlinspike."
+    },
+    {
+      "question": "What is the Inflection Fellowship?",
+      "answer": "The Inflection Fellowship is a funded month-long residency for builders under 25. Selected fellows receive a full-ride to a popup village, covering the attendance fee. Inflection Grants of $2,000 are also available for eligible early-career builders. Learn more at [edgecity.live](https://www.edgecity.live/)."
+    },
+    {
+      "question": "What are SHIFT Grants?",
+      "answer": "SHIFT Grants, co-administered by Edge City and Nodes, fund projects in biosecurity, neurotech, cyber defense, infrastructure, information resilience, and social technology. Micro Grants run $5,000-$15,000 and Development Grants run $20,000-$40,000. Applications for Round 002 are open at [shiftgrants.org](https://www.shiftgrants.org/)."
+    },
+    {
+      "question": "Are Edge City events family-friendly?",
+      "answer": "Yes. Edge City explicitly designs its villages to be multigenerational. Edge Esmeralda includes Edge Tomorrow, a dedicated kids' program running alongside the adult village schedule."
+    },
+    {
+      "question": "How do I apply for Edge Esmeralda 2026?",
+      "answer": "Apply through the Edge City portal for the event running May 30 - June 27, 2026 in Healdsburg, California. Prices increase monthly, so earlier applications lock in lower rates. [Apply here](https://edgecity.edgeos.world/portal/edge-esmeralda-2026/application)."
+    },
+    {
+      "question": "What projects has Edge City helped launch?",
+      "answer": "Edge City events have seeded or accelerated 300+ startups and research projects. Notable examples include Constellation (AI for mental illness treatment, $10M raised), Crecimiento (Argentine tech movement, 1,200+ active contributors), and NODES (deep tech consultancy). The organization has also contributed to the early development of the Esmeralda permanent village project near Cloverdale, California."
+    },
+    {
+      "question": "Is Edge City connected to Zuzalu?",
+      "answer": "Edge City grew out of the Zuzalu ecosystem. Co-founder Janine Leger previously led Zuzalu Montenegro and ZuConnect. Edge City operates independently as a separate 501(c)(3) nonprofit organization."
+    }
+  ]
+}
