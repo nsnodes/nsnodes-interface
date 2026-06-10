@@ -8,7 +8,6 @@ const SOON_PAGES = [
   "/funding",
   "/funding/grants",
   "/investment-dao",
-  "/content",
   "/tooling",
 ];
 

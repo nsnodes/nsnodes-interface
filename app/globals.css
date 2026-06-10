@@ -113,86 +113,86 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #f2e0c8;
-  --foreground: #1a2f3a;
-  --card: #f5ead8;
-  --card-foreground: #1a2f3a;
-  --popover: #f5ead8;
-  --popover-foreground: #1a2f3a;
-  --primary: #1a6b6a;
+  --background: #f7f7f2;
+  --foreground: #050505;
+  --card: #ffffff;
+  --card-foreground: #050505;
+  --popover: #ffffff;
+  --popover-foreground: #050505;
+  --primary: #050505;
   --primary-foreground: #ffffff;
-  --secondary: #f5d6c0;
-  --secondary-foreground: #1a2f3a;
-  --muted: #eddcc8;
-  --muted-foreground: #4a6b6e;
-  --accent: #f5d6c0;
-  --accent-foreground: #1a2f3a;
-  --destructive: #c4524a;
-  --border: #1a2f3a;
-  --input: #3a5e5e;
-  --ring: #1a7a7a;
-  --chart-1: #1a7a7a;
-  --chart-2: #b85c3a;
-  --chart-3: #5c7264;
-  --chart-4: #c89b3c;
-  --chart-5: #c4524a;
-  --sidebar: #f5ead8;
-  --sidebar-foreground: #1a2f3a;
-  --sidebar-primary: #1a6b6a;
+  --secondary: #ecece7;
+  --secondary-foreground: #050505;
+  --muted: #ecece7;
+  --muted-foreground: #565656;
+  --accent: #e2e2dc;
+  --accent-foreground: #050505;
+  --destructive: #d92d20;
+  --border: #050505;
+  --input: #2d2d2d;
+  --ring: #050505;
+  --chart-1: #0057ff;
+  --chart-2: #ff4d00;
+  --chart-3: #008a4b;
+  --chart-4: #f0b400;
+  --chart-5: #d92d20;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #050505;
+  --sidebar-primary: #050505;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f5d6c0;
-  --sidebar-accent-foreground: #1a2f3a;
-  --sidebar-border: #1a2f3a;
-  --sidebar-ring: #1a7a7a;
+  --sidebar-accent: #e2e2dc;
+  --sidebar-accent-foreground: #050505;
+  --sidebar-border: #050505;
+  --sidebar-ring: #050505;
 
   /* ── Brand ── */
-  --bitcoin: #c89b3c;
-  --bitcoin-foreground: #1a2f3a;
+  --bitcoin: #f7931a;
+  --bitcoin-foreground: #050505;
 
   /* ── Status ── */
-  --status-live: #c4524a;
+  --status-live: #d92d20;
   --status-live-foreground: #ffffff;
-  --status-soon: #c89b3c;
-  --status-soon-foreground: #1a2f3a;
-  --status-success: #1a7a7a;
+  --status-soon: #f0b400;
+  --status-soon-foreground: #050505;
+  --status-success: #008a4b;
   --status-success-foreground: #ffffff;
 
   /* ── Financial ── */
-  --money-positive: #1a7a7a;
-  --money-negative: #c4524a;
+  --money-positive: #008a4b;
+  --money-negative: #d92d20;
 
   /* ── Star / highlight ── */
-  --star: #c89b3c;
-  --featured: #b85c3a;
+  --star: #f0b400;
+  --featured: #0057ff;
   --featured-foreground: #ffffff;
 
   /* ── API status ── */
-  --api-active: #1a7a7a;
+  --api-active: #008a4b;
 
   /* ── Now indicator ── */
-  --now-indicator: #c4524a;
+  --now-indicator: #d92d20;
 
   /* ── Network state palette ── */
-  --palette-1: #1a7a7a;
-  --palette-2: #b85c3a;
-  --palette-3: #5c7264;
-  --palette-4: #c89b3c;
-  --palette-5: #c4524a;
-  --palette-6: #237878;
-  --palette-7: #8b5a3c;
-  --palette-8: #3a5e5e;
-  --palette-9: #a14a2a;
-  --palette-10: #3a4a2e;
-  --palette-11: #1a6b6a;
-  --palette-12: #c4703c;
-  --palette-13: #142e35;
-  --palette-14: #f5d6c0;
-  --palette-15: #0e3b3e;
-  --palette-16: #e8d5b7;
-  --palette-17: #f2e0c8;
-  --palette-18: #4a6b6e;
-  --palette-19: #1a2f3a;
-  --palette-default: #3a5e5e;
+  --palette-1: #0057ff;
+  --palette-2: #ff4d00;
+  --palette-3: #008a4b;
+  --palette-4: #f0b400;
+  --palette-5: #d92d20;
+  --palette-6: #00a3a3;
+  --palette-7: #7c3aed;
+  --palette-8: #111111;
+  --palette-9: #e0005a;
+  --palette-10: #2f6b1f;
+  --palette-11: #006f5f;
+  --palette-12: #cc5a00;
+  --palette-13: #2d2d2d;
+  --palette-14: #f4d35e;
+  --palette-15: #0b7285;
+  --palette-16: #d9d9d2;
+  --palette-17: #f7f7f2;
+  --palette-18: #565656;
+  --palette-19: #050505;
+  --palette-default: #111111;
 
   /* ── Timeline palette ── */
   --timeline-1: oklch(0.623 0.214 259.815);  /* blue-500 */
@@ -214,49 +214,86 @@
   --brutal-shadow-xl: 8px 8px 0px 0px rgba(0, 0, 0, 1);
 
   /* ── Text shadow (ascii-3d) ── */
-  --text-shadow-primary: rgba(0, 0, 0, 0.2);
-  --text-shadow-secondary: rgba(0, 0, 0, 0.1);
+  --text-shadow-primary: rgba(0, 0, 0, 0.18);
+  --text-shadow-secondary: rgba(0, 0, 0, 0.08);
 }
 
 .dark {
-  --background: #0e3b3e;
-  --foreground: #f2e0c8;
-  --card: #142e35;
-  --card-foreground: #f2e0c8;
-  --popover: #142e35;
-  --popover-foreground: #f2e0c8;
-  --primary: #b85c3a;
-  --primary-foreground: #ffffff;
-  --secondary: #1a6b6a;
-  --secondary-foreground: #f2e0c8;
-  --muted: #3a5e5e;
-  --muted-foreground: #e8d5b7;
-  --accent: #1a6b6a;
-  --accent-foreground: #f2e0c8;
-  --destructive: #c4524a;
-  --border: #e8d5b7;
-  --input: #5c7264;
-  --ring: #c89b3c;
-  --chart-1: #237878;
-  --chart-2: #c4703c;
-  --chart-3: #c89b3c;
-  --chart-4: #5c7264;
-  --chart-5: #c4524a;
-  --sidebar: #142e35;
-  --sidebar-foreground: #f2e0c8;
-  --sidebar-primary: #b85c3a;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1a6b6a;
-  --sidebar-accent-foreground: #f2e0c8;
-  --sidebar-border: #e8d5b7;
-  --sidebar-ring: #c89b3c;
+  --background: #050505;
+  --foreground: #f7f7f2;
+  --card: #101010;
+  --card-foreground: #f7f7f2;
+  --popover: #101010;
+  --popover-foreground: #f7f7f2;
+  --primary: #f7f7f2;
+  --primary-foreground: #050505;
+  --secondary: #181818;
+  --secondary-foreground: #f7f7f2;
+  --muted: #181818;
+  --muted-foreground: #b6b6b0;
+  --accent: #202020;
+  --accent-foreground: #f7f7f2;
+  --destructive: #ff5a4f;
+  --border: #f7f7f2;
+  --input: #d9d9d2;
+  --ring: #f7f7f2;
+  --chart-1: #6ea8ff;
+  --chart-2: #ff9b5f;
+  --chart-3: #55d98b;
+  --chart-4: #f4d35e;
+  --chart-5: #ff5a4f;
+  --sidebar: #101010;
+  --sidebar-foreground: #f7f7f2;
+  --sidebar-primary: #f7f7f2;
+  --sidebar-primary-foreground: #050505;
+  --sidebar-accent: #202020;
+  --sidebar-accent-foreground: #f7f7f2;
+  --sidebar-border: #f7f7f2;
+  --sidebar-ring: #f7f7f2;
+
+  --bitcoin: #f7931a;
+  --bitcoin-foreground: #050505;
+  --status-live: #ff5a4f;
+  --status-live-foreground: #050505;
+  --status-soon: #f4d35e;
+  --status-soon-foreground: #050505;
+  --status-success: #55d98b;
+  --status-success-foreground: #050505;
+  --money-positive: #55d98b;
+  --money-negative: #ff5a4f;
+  --star: #f4d35e;
+  --featured: #6ea8ff;
+  --featured-foreground: #050505;
+  --api-active: #55d98b;
+  --now-indicator: #ff5a4f;
+
+  --palette-1: #6ea8ff;
+  --palette-2: #ff9b5f;
+  --palette-3: #55d98b;
+  --palette-4: #f4d35e;
+  --palette-5: #ff5a4f;
+  --palette-6: #3ddbd9;
+  --palette-7: #b69cff;
+  --palette-8: #f7f7f2;
+  --palette-9: #ff7ab6;
+  --palette-10: #95d46a;
+  --palette-11: #5eead4;
+  --palette-12: #ffb86b;
+  --palette-13: #d9d9d2;
+  --palette-14: #f4d35e;
+  --palette-15: #74d7ee;
+  --palette-16: #d9d9d2;
+  --palette-17: #f7f7f2;
+  --palette-18: #b6b6b0;
+  --palette-19: #ffffff;
+  --palette-default: #f7f7f2;
 
   /* ── Brutal shadows (dark) ── */
-  --brutal-shadow-sm: 2px 2px 0px 0px rgba(255, 255, 255, 0.2);
-  --brutal-shadow-md: 4px 4px 0px 0px rgba(255, 255, 255, 0.2);
+  --brutal-shadow-sm: 2px 2px 0px 0px rgba(255, 255, 255, 0.28);
+  --brutal-shadow-md: 4px 4px 0px 0px rgba(255, 255, 255, 0.28);
   --brutal-shadow-md-active: 4px 4px 0px 0px rgba(255, 255, 255, 1);
-  --brutal-shadow-lg: 6px 6px 0px 0px rgba(255, 255, 255, 0.3);
-  --brutal-shadow-xl: 8px 8px 0px 0px rgba(255, 255, 255, 0.2);
+  --brutal-shadow-lg: 6px 6px 0px 0px rgba(255, 255, 255, 0.32);
+  --brutal-shadow-xl: 8px 8px 0px 0px rgba(255, 255, 255, 0.28);
 
   /* ── Text shadow (ascii-3d, dark) ── */
   --text-shadow-primary: rgba(255, 255, 255, 0.1);
