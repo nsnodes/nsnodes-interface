@@ -12,6 +12,7 @@ export interface DatabaseArticle {
   is_paid: boolean
   fetched_at: string // ISO timestamp
   content: string | null // HTML content (optional for list views)
+  is_ns_relevant?: boolean | null
 }
 
 // Type for the transformed article used in the UI
@@ -25,5 +26,5 @@ export interface UIArticle {
   url: string
   preview: string
   isPaid: boolean
-  source: 'substack' | 'paragraph'
+  source: 'substack' | 'paragraph' | 'medium'
 }

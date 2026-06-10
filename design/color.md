@@ -1,104 +1,49 @@
 # Color Palette
 
-Color system derived from the Midjourney illustration series. The artwork shares a retro/vintage aesthetic built around deep teal/cyan blues contrasted with warm copper/terracotta accents.
+NSNodes uses a monochrome-first interface that matches the pixel logo assets:
+`logo-light.png` is white for dark surfaces, and `logo-dark.png` is black for
+light surfaces. Color is reserved for status, charts, and small editorial
+signals rather than the page chrome.
 
 ---
 
-## Backgrounds - Light
+## Base Surfaces
 
-| Name | Hex | Description |
-|------|-----|-------------|
-| bg-warm-sand | `#f2e0c8` | Sandy, parchment-like tone from cloud and building highlights |
-| bg-light-peach | `#f5d6c0` | Soft salmon/copper from sunlit areas |
-| bg-warm-cream | `#f5ead8` | Neutral warm tone from cloud edges and horizon glows |
-| bg-pale-terra | `#eddcc8` | Muted tone matching the aged/vintage quality of the artwork |
+| Role | Light | Dark | Notes |
+|------|-------|------|-------|
+| Background | `#f7f7f2` | `#050505` | Off-white and near-black, not the older sand/teal illustration palette |
+| Foreground | `#050505` | `#f7f7f2` | Matches the logo contrast |
+| Card | `#ffffff` | `#101010` | Slight lift from the page background |
+| Muted | `#ecece7` | `#181818` | Quiet UI fills |
+| Border | `#050505` | `#f7f7f2` | Brutalist high-contrast frame |
 
-## Backgrounds - Dark
+## Core UI
 
-| Name | Hex | Description |
-|------|-----|-------------|
-| bg-deep-teal | `#0e3b3e` | The dominant dark tone across all images - makes artwork glow |
-| bg-midnight | `#121d2b` | From starry night skies - premium, gallery-like feel |
-| bg-dark-petrol | `#142e35` | Bluer, moodier variant - cinematic |
+| Role | Light | Dark |
+|------|-------|------|
+| Primary | `#050505` | `#f7f7f2` |
+| Primary foreground | `#ffffff` | `#050505` |
+| Accent | `#e2e2dc` | `#202020` |
+| Muted foreground | `#565656` | `#b6b6b0` |
+| Ring | `#050505` | `#f7f7f2` |
 
-## Backgrounds - Mid-Tone
+## Signal Colors
 
-| Name | Hex | Description |
-|------|-----|-------------|
-| bg-muted-sage | `#5c7264` | From dense foliage and tree canopies |
-| bg-dusty-terra | `#8b5a3c` | From earth, rooftops, and warm wood tones |
-| bg-slate-teal | `#3a5e5e` | Balanced middle ground - not too dark, not too light |
+| Role | Light | Dark |
+|------|-------|------|
+| Blue | `#0057ff` | `#6ea8ff` |
+| Orange | `#ff4d00` | `#ff9b5f` |
+| Green | `#008a4b` | `#55d98b` |
+| Yellow | `#f0b400` | `#f4d35e` |
+| Red | `#d92d20` | `#ff5a4f` |
 
-## Backgrounds - Bold
+## Theme Rules
 
-| Name | Hex | Description |
-|------|-----|-------------|
-| bg-vintage-cyan | `#1a7a7a` | Bright teal water tone - bold and energetic |
-| bg-rust | `#a14a2a` | Full commitment to the warm side of the palette |
-| bg-deep-olive | `#3a4a2e` | Earthy, grounded, natural - from jungle scenes |
-
----
-
-## Buttons - Primary
-
-| Name | Hex | Description |
-|------|-----|-------------|
-| btn-deep-teal | `#1a6b6a` | Primary CTA - strong contrast against warm backgrounds |
-| btn-rich-teal | `#237878` | Brighter alternative with more pop |
-
-## Buttons - Secondary
-
-| Name | Hex | Description |
-|------|-----|-------------|
-| btn-copper | `#b85c3a` | Secondary actions - from terracotta/copper building tones |
-| btn-terra | `#c4703c` | Lighter variant for hover states |
-
----
-
-## Accents
-
-| Name | Hex | Description |
-|------|-----|-------------|
-| acc-coral | `#c4524a` | Notifications, badges, destructive actions - from red rooftop accents |
-| acc-amber | `#c89b3c` | Tags, highlights, star ratings - from golden light touches |
-
----
-
-## Text
-
-| Name | Hex | Description |
-|------|-----|-------------|
-| txt-navy | `#1a2f3a` | Headings, primary text - from deep night sky tones |
-| txt-muted-teal | `#4a6b6e` | Secondary text, captions, subtle labels |
-| txt-warm-sand | `#f2e0c8` | Light text on dark backgrounds |
-| txt-cream | `#e8d5b7` | Alternative light text on dark backgrounds |
-
----
-
-## Suggested Pairings
-
-### Light theme
-- **Background:** bg-warm-sand `#f2e0c8`
-- **Primary button:** btn-deep-teal `#1a6b6a` with white text
-- **Secondary button:** btn-copper `#b85c3a` with white text
-- **Ghost button:** txt-navy `#1a2f3a` border and text
-- **Danger:** acc-coral `#c4524a` with white text
-- **Headings:** txt-navy `#1a2f3a`
-- **Body text:** txt-muted-teal `#4a6b6e`
-
-### Dark theme
-- **Background:** bg-deep-teal `#0e3b3e`
-- **Primary button:** btn-copper `#b85c3a` with white text
-- **Secondary button:** btn-rich-teal `#237878` with white text
-- **Text:** txt-warm-sand `#f2e0c8`
-- **Secondary text:** txt-cream `#e8d5b7`
-- **Accent:** acc-amber `#c89b3c`
-
----
-
-## Design Principles
-
-- The core tension in the palette is **cool teal vs warm copper** - the same contrast that drives the illustrations
-- Avoid pure black (`#000`) for text - use txt-navy instead to stay within the palette
-- The teal-to-copper spectrum covers the full range of UI needs from informational (cool) to action-oriented (warm)
-- All primary button colors pass WCAG AA contrast against the light backgrounds
+- Page chrome should stay monochrome: background, text, cards, borders, and
+  navigation should not drift into sand, teal, or copper.
+- Accent colors should appear as small signals: charts, labels, status badges,
+  and editorial highlights.
+- Palette tokens must have dark-mode overrides. A dark theme should not inherit
+  light-mode accent values when those values are used for text.
+- Avoid pure decorative gradients. Let the black/white pixel brand and the
+  content grid carry the page.
