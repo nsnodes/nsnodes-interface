@@ -301,6 +301,10 @@ function getResourceInitials(title: string) {
     .join("");
 }
 
+function isExternalUrl(url: string) {
+  return /^https?:\/\//.test(url);
+}
+
 function ResourceThumbnail({
   item,
   index,
@@ -320,6 +324,31 @@ function ResourceThumbnail({
         : "object-center";
   const fallbackLabel = item.thumbnail?.label ?? item.title;
   const surfaceClass = item.thumbnail?.surface === "light" ? "bg-white text-black" : accent.bg;
+  const byLabel = item.byLabel ?? "by";
+
+  if (item.kind === "Model") {
+    return (
+      <div
+        className={`relative h-36 overflow-hidden border-b border-border ${accent.bg} ${accent.border} sm:h-44`}
+      >
+        <div className="flex h-full flex-col justify-between p-4 font-mono sm:p-5">
+          <div className="flex items-center justify-between text-[10px] uppercase text-muted-foreground">
+            <span>Field model</span>
+            <span>Societies dashboard</span>
+          </div>
+          <div className="space-y-3">
+            <div className={`max-w-[18rem] break-words text-2xl font-bold leading-none ${accent.text} sm:text-4xl`}>
+              {fallbackLabel}
+            </div>
+            <div className="h-1 w-16 bg-current opacity-60" />
+          </div>
+          <div className="max-w-[28rem] truncate text-[10px] text-muted-foreground">
+            {byLabel} {item.by}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (item.kind === "Book") {
     return (
@@ -386,7 +415,9 @@ function ResourceThumbnail({
           <span className="max-w-[16rem] break-words text-lg font-bold leading-tight sm:text-2xl">
             {fallbackLabel || getResourceInitials(item.title)}
           </span>
-          <span className="max-w-[14rem] truncate text-[10px] text-foreground/60">{item.by}</span>
+          <span className="max-w-[14rem] truncate text-[10px] text-foreground/60">
+            {byLabel} {item.by}
+          </span>
         </div>
       )}
       <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-background/90 px-2 py-1 font-mono text-[10px] text-muted-foreground backdrop-blur-sm">
@@ -451,8 +482,8 @@ function LibrarySection() {
             <a
               key={`${item.title}-${item.url}`}
               href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={isExternalUrl(item.url) ? "_blank" : undefined}
+              rel={isExternalUrl(item.url) ? "noopener noreferrer" : undefined}
               className="group overflow-hidden border-2 border-border bg-card font-mono shadow-brutal-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
             >
               <ResourceThumbnail item={item} index={index} />
@@ -472,9 +503,16 @@ function LibrarySection() {
                   </div>
                   <div>
                     <h3 className="text-base font-bold leading-snug">{item.title}</h3>
-                    <p className="text-xs text-muted-foreground">by {item.by}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {item.byLabel ?? "by"} {item.by}
+                    </p>
                   </div>
                   <p className="text-sm leading-relaxed text-muted-foreground">{item.note}</p>
+                  {item.ctaLabel && (
+                    <div className="inline-flex w-fit items-center gap-2 border border-border bg-background px-2 py-1 text-xs font-bold text-foreground">
+                      {item.ctaLabel} <ArrowUpRight className="h-3 w-3" />
+                    </div>
+                  )}
                 </div>
               )}
             </a>

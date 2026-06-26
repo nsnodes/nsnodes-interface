@@ -16,9 +16,11 @@ export interface ReadingResource {
   kind: string;
   title: string;
   by: string;
+  byLabel?: string;
   year: string;
   url: string;
   note: string;
+  ctaLabel?: string;
   thumbnail?: {
     src?: string;
     alt: string;
