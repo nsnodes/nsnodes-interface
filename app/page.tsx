@@ -229,10 +229,10 @@ export default function Home() {
         </div>
         <div className="w-full flex justify-start md:justify-end">
           <Image
-            src="/dontdare.png"
+            src="/dontdare.webp"
             alt="Don't dare to raise me up in a nation state"
             width={420}
-            height={280}
+            height={235}
             priority
             unoptimized
             className="h-auto max-w-full border-2 border-border shadow-brutal-md"

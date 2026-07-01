@@ -1,423 +1,736 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { Youtube, Twitter, Rss, ExternalLink, BookOpen, FileText, ChevronDown, Lock } from "lucide-react";
-import { getArticles } from "@/lib/actions/articles";
-import { UIArticle } from "@/lib/types/articles";
+import Image from "next/image";
+import { useMemo, useState } from "react";
+import {
+  ArrowUpRight,
+  FileText,
+  Library,
+  Radio,
+  Users,
+} from "lucide-react";
+import { contentVoices, readingCanons } from "@/lib/data/content-hub";
+import type { ReadingResource, SubstackPost } from "@/lib/types/content-hub";
+import type { UIArticle } from "@/lib/types/articles";
 
-const creators = [
+interface ContentClientProps {
+  substackPosts: SubstackPost[];
+  ecosystemArticles: UIArticle[];
+}
+
+const SUBSTACK_HOME = "https://nsnodes.substack.com";
+const SUBSTACK_SUBSCRIBE = "https://nsnodes.substack.com/subscribe";
+const EDITION_ACCENTS = [
   {
-    name: "Balaji Srinivasan",
-    handle: "@balajis",
-    description: "Former CTO of Coinbase. Author of 'The Network State'. The OG.",
-    platforms: {
-      twitter: "https://twitter.com/balajis",
-      blog: "https://balajis.com",
-    },
-    topics: ["Network States", "Crypto", "Longevity"],
-    followers: "1M+",
+    bg: "bg-palette-3/10",
+    border: "border-palette-3/70",
+    text: "text-palette-3",
   },
   {
-    name: "Vitalik Buterin",
-    handle: "@VitalikButerin",
-    description: "Ethereum founder. Philosopher-king of crypto.",
-    platforms: {
-      twitter: "https://twitter.com/VitalikButerin",
-      blog: "https://vitalik.ca",
-    },
-    topics: ["Ethereum", "Governance", "Coordination"],
-    followers: "5M+",
+    bg: "bg-palette-8/10",
+    border: "border-palette-8/70",
+    text: "text-palette-8",
   },
   {
-    name: "Dryden Brown",
-    handle: "@drydenwtbrown",
-    description: "Founder of Praxis. Building the first Network State city.",
-    platforms: {
-      twitter: "https://twitter.com/drydenwtbrown",
-      youtube: "https://youtube.com/@praxis",
-    },
-    topics: ["Praxis", "City Building", "Startups"],
-    followers: "50K+",
+    bg: "bg-palette-6/10",
+    border: "border-palette-6/70",
+    text: "text-palette-6",
   },
   {
-    name: "Naval Ravikant",
-    handle: "@naval",
-    description: "Philosopher, investor, and builder. Wealth wisdom in tweet form.",
-    platforms: {
-      twitter: "https://twitter.com/naval",
-      blog: "https://nav.al",
-    },
-    topics: ["Philosophy", "Wealth", "Happiness"],
-    followers: "2M+",
-  },
-  {
-    name: "Lex Fridman",
-    handle: "@lexfridman",
-    description: "AI researcher. Long-form conversations with builders and thinkers.",
-    platforms: {
-      twitter: "https://twitter.com/lexfridman",
-      youtube: "https://youtube.com/@lexfridman",
-    },
-    topics: ["AI", "Philosophy", "Long-form"],
-    followers: "3M+",
-  },
-  {
-    name: "Lyn Alden",
-    handle: "@LynAldenContact",
-    description: "Macroeconomics and Bitcoin. The best technical analysis.",
-    platforms: {
-      twitter: "https://twitter.com/LynAldenContact",
-      blog: "https://lynalden.com",
-    },
-    topics: ["Bitcoin", "Macro", "Finance"],
-    followers: "800K+",
-  },
-  {
-    name: "Erik Torenberg",
-    handle: "@eriktorenberg",
-    description: "Tech writer and community builder. Network State enthusiast.",
-    platforms: {
-      twitter: "https://twitter.com/eriktorenberg",
-      blog: "https://eriktorenberg.substack.com",
-    },
-    topics: ["Startups", "Community", "Network States"],
-    followers: "200K+",
-  },
-  {
-    name: "Cabin DAO",
-    handle: "@creatorcabins",
-    description: "Building a decentralized city. IRL Network State experiments.",
-    platforms: {
-      twitter: "https://twitter.com/creatorcabins",
-      blog: "https://www.cabin.city",
-    },
-    topics: ["Coliving", "DAOs", "Community"],
-    followers: "25K+",
+    bg: "bg-palette-5/10",
+    border: "border-palette-5/70",
+    text: "text-palette-5",
   },
 ];
 
-// Substack icon SVG
-const SubstackIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M22.539 8.242H1.46V5.406h21.08v2.836zM1.46 10.812V24L12 18.11 22.54 24V10.812H1.46zM22.54 0H1.46v2.836h21.08V0z"/>
-  </svg>
-);
+function getEditionAccent(index: number) {
+  return EDITION_ACCENTS[index % EDITION_ACCENTS.length];
+}
 
-// Paragraph icon (stylized P)
-const ParagraphIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M13 4H7a4 4 0 0 0 0 8h2v8h2V6h2v14h2V6h2V4h-4z"/>
-  </svg>
-);
+function SubstackIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className={className}
+      focusable="false"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M22.54 8.24H1.46V5.41h21.08v2.83ZM1.46 10.81V24L12 18.11 22.54 24V10.81H1.46ZM22.54 0H1.46v2.84h21.08V0Z" />
+    </svg>
+  );
+}
 
-// Article card component for consistent rendering
-function ArticleCard({ article, className = "" }: { article: UIArticle; className?: string }) {
+function SectionHeader({
+  icon,
+  title,
+  note,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  note?: string;
+}) {
+  return (
+    <div className="flex min-w-0 flex-col gap-3 border-b border-dashed border-border pb-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center gap-3">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center border border-border bg-card text-foreground">
+          {icon}
+        </span>
+        <h2 className="min-w-0 break-words font-mono text-lg font-bold sm:text-xl">[ {title} ]</h2>
+      </div>
+      {note && (
+        <p className="hidden max-w-xl font-mono text-xs leading-relaxed text-muted-foreground sm:block sm:text-right">
+          {note}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function IndexChip({ href, label }: { href: string; label: string }) {
   return (
     <a
-      href={article.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`group flex flex-col border-2 border-border bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all ${className}`}
+      href={href}
+      className="border border-border bg-card px-3 py-2 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
     >
-      {/* Main content area - grows to fill space */}
-      <div className="flex-1 p-5">
-        {/* Article Header */}
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="flex items-center gap-2 flex-wrap">
-            {/* Source Icon */}
-            <div className="flex items-center gap-1 px-2 py-1 border border-border bg-muted text-xs font-mono">
-              {article.source === 'substack' ? (
-                <SubstackIcon className="h-3 w-3" />
-              ) : (
-                <ParagraphIcon className="h-3 w-3" />
-              )}
-            </div>
-            {/* Author */}
-            <span className="text-xs font-mono text-muted-foreground">
-              {article.author}
-            </span>
-          </div>
-          <div className="flex items-center gap-2 flex-shrink-0">
-            {article.isPaid && (
-              <div className="flex items-center gap-1 px-2 py-1 border border-featured/50 bg-featured/10 text-featured text-xs font-mono">
-                <Lock className="h-3 w-3" />
-              </div>
-            )}
-            <ExternalLink className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
-        </div>
-
-        {/* Title */}
-        <h3 className="text-base font-bold font-mono mb-2 group-hover:text-primary transition-colors leading-tight line-clamp-2">
-          {article.title}
-        </h3>
-
-        {/* Subtitle */}
-        {article.subtitle && (
-          <p className="text-sm font-mono text-muted-foreground leading-relaxed line-clamp-2">
-            {article.subtitle}
-          </p>
-        )}
-      </div>
-
-      {/* Date footer - always at bottom */}
-      <div className="px-5 py-3 border-t border-border bg-muted/30">
-        <span className="text-xs font-mono text-muted-foreground">
-          {article.date}
-        </span>
-      </div>
+      {label}
     </a>
   );
 }
 
-export default function ContentClient() {
-  const [articles, setArticles] = useState<UIArticle[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    async function loadData() {
-      setIsLoading(true);
-      const articlesData = await getArticles({ limit: 100 });
-      setArticles(articlesData);
-      setIsLoading(false);
-    }
-    loadData();
-  }, []);
-
-  // Split articles: first 4 for preview, rest for expanded view
-  const previewArticles = articles.slice(0, 4);
-  const remainingArticles = articles.slice(4);
+function IssueHero({ post }: { post?: SubstackPost }) {
+  if (!post) {
+    return (
+      <article className="border-2 border-border bg-card p-6 shadow-brutal-md">
+        <p className="font-mono text-sm text-muted-foreground">
+          NSNodes Weekly could not be loaded right now. The archive is still available on Substack.
+        </p>
+      </article>
+    );
+  }
 
   return (
-    <div className="space-y-12">
-      {/* Hero Section */}
-      <section className="text-center space-y-4">
-        <pre className="text-xs sm:text-sm md:text-base font-mono leading-none opacity-80">
-
-        </pre>
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">
-          [ CONTENT HUB ]
-        </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto font-mono text-sm sm:text-base">
-          Follow the thinkers, builders, and memers shaping the Network State movement.
-          These are the people defining our decentralized future.
-        </p>
-      </section>
-
-      {/* Articles Feed Section */}
-      <section className="space-y-6">
-        <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
-          <FileText className="h-6 w-6" />
-          [ LATEST ARTICLES ]
-        </h2>
-
-        {/* Loading State */}
-        {isLoading ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="border-2 border-border bg-card animate-pulse">
-                <div className="p-5 space-y-3">
-                  <div className="h-4 bg-muted rounded w-1/4"></div>
-                  <div className="h-5 bg-muted rounded w-3/4"></div>
-                  <div className="h-4 bg-muted rounded w-1/2"></div>
-                </div>
-                <div className="px-5 py-3 border-t border-border bg-muted/30">
-                  <div className="h-3 bg-muted rounded w-20"></div>
-                </div>
-              </div>
-            ))}
-          </div>
+    <article className="min-w-0 overflow-hidden border-2 border-border bg-card shadow-brutal-md">
+      <div className="relative min-h-40 border-b border-border bg-background sm:min-h-64">
+        {post.coverImage ? (
+          <Image
+            src={post.coverImage}
+            alt={`Cover image for ${post.title}`}
+            fill
+            priority
+            sizes="(min-width: 1024px) 760px, 100vw"
+            className="object-cover"
+          />
         ) : (
-          <>
-            {/* Preview Grid - Always visible */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {previewArticles.map((article) => (
-                <ArticleCard key={article.id} article={article} />
+          <div className="flex h-full min-h-40 items-center justify-center bg-palette-3/10 font-mono text-xs text-muted-foreground sm:min-h-64">
+            NSNODES WEEKLY
+          </div>
+        )}
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-background/95 via-background/45 to-transparent p-4">
+          <div className="inline-flex border border-border bg-background px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-normal text-palette-3">
+            live from nsnodes.substack.com
+          </div>
+        </div>
+      </div>
+
+      <div className="grid min-w-0 gap-5 p-4 sm:p-6 lg:grid-cols-[minmax(0,1fr)_220px] lg:gap-6 lg:p-7">
+        <div className="min-w-0 max-w-[320px] space-y-4 sm:max-w-none sm:space-y-5">
+          <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+            <span className="border border-foreground bg-background px-2 py-1 font-bold">
+              NSNODES WEEKLY{post.issueNumber ? ` #${post.issueNumber}` : ""}
+            </span>
+            <span className="text-muted-foreground">
+              {post.date} · {post.readTime}
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            <h2 className="max-w-full whitespace-normal break-words font-mono text-lg font-bold leading-tight text-palette-8 sm:max-w-4xl sm:text-2xl md:text-3xl lg:text-4xl">
+              {post.title}
+            </h2>
+            <p className="max-w-full whitespace-normal break-words font-mono text-sm leading-relaxed text-muted-foreground sm:max-w-3xl sm:text-base">
+              {post.subtitle}
+            </p>
+          </div>
+
+          {post.tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="border border-border bg-background px-2 py-1 font-mono text-xs text-muted-foreground"
+                >
+                  #{tag}
+                </span>
               ))}
             </div>
+          )}
 
-            {/* Expanded Articles Container */}
-            {remainingArticles.length > 0 && (
-              <div className="border-2 border-border bg-card">
-                {/* Expand/Collapse Header */}
-                <button
-                  onClick={() => setIsExpanded(!isExpanded)}
-                  className="w-full p-4 flex items-center justify-between hover:bg-accent transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono font-bold text-sm">
-                      {isExpanded ? "[ SHOWING ALL ]" : "[ LOAD MORE ]"}
-                    </span>
-                    <span className="text-xs font-mono text-muted-foreground">
-                      {remainingArticles.length} more article{remainingArticles.length !== 1 ? 's' : ''}
-                    </span>
-                  </div>
-                  <ChevronDown className={`h-5 w-5 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                </button>
-
-                {/* Scrollable Content Area */}
-                {isExpanded && (
-                  <div
-                    ref={scrollContainerRef}
-                    className="border-t-2 border-border max-h-[600px] overflow-y-auto"
-                  >
-                    <div className="p-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
-                      {remainingArticles.map((article) => (
-                        <ArticleCard key={article.id} article={article} />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Empty State */}
-            {articles.length === 0 && (
-              <div className="border-2 border-border p-12 bg-card text-center">
-                <FileText className="h-12 w-12 mx-auto mb-4 opacity-30" />
-                <p className="font-mono text-muted-foreground">No articles found</p>
-              </div>
-            )}
-          </>
-        )}
-      </section>
-
-      {/* Creator Cards */}
-      <section className="space-y-6">
-        <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
-          <BookOpen className="h-6 w-6" />
-          [ ESSENTIAL FOLLOWS ]
-        </h2>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {creators.map((creator, index) => (
-            <div
-              key={index}
-              className="border-2 border-border p-6 bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all space-y-4"
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <a
+              href={safeExternalHref(post.url)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 border-2 border-foreground bg-foreground px-4 py-2.5 text-center font-mono text-sm font-bold text-background shadow-brutal-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none sm:w-auto sm:py-3"
             >
-              {/* Header */}
-              <div className="flex items-start justify-between">
-                <div className="space-y-1">
-                  <h3 className="text-lg font-bold font-mono">{creator.name}</h3>
-                  <p className="text-sm font-mono text-muted-foreground">{creator.handle}</p>
-                </div>
-                <div className="text-xs font-mono px-2 py-1 border border-border bg-muted whitespace-nowrap">
-                  {creator.followers}
-                </div>
-              </div>
+              Read latest issue <ArrowUpRight className="h-4 w-4" />
+            </a>
+            <a
+              href={SUBSTACK_SUBSCRIBE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 border-2 border-border bg-background px-4 py-2.5 text-center font-mono text-sm text-foreground shadow-brutal-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none sm:w-auto sm:py-3"
+            >
+              Subscribe on Substack <SubstackIcon className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
 
-              {/* Description */}
-              <p className="text-sm font-mono text-muted-foreground leading-relaxed">
-                {creator.description}
-              </p>
+        <aside className="grid min-w-0 grid-cols-3 gap-3 border-t border-dashed border-border pt-4 lg:grid-cols-1 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
+          <div className="space-y-1">
+            <div className="font-mono text-xs text-muted-foreground">source</div>
+            <div className="font-mono text-sm font-bold">Substack</div>
+          </div>
+          <div className="space-y-1">
+            <div className="font-mono text-xs text-muted-foreground">words</div>
+            <div className="font-mono text-sm font-bold">{post.wordCount || "Live"}</div>
+          </div>
+          <div className="space-y-1">
+            <div className="font-mono text-xs text-muted-foreground">archive</div>
+            <a
+              href={`${SUBSTACK_HOME}/archive`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 inline-flex h-8 w-8 items-center justify-center border border-border bg-background hover:bg-accent hover:text-featured"
+              aria-label="Open NSNodes Substack archive"
+            >
+              <SubstackIcon className="h-4 w-4" />
+            </a>
+          </div>
+        </aside>
+      </div>
+    </article>
+  );
+}
 
-              {/* Topics */}
-              <div className="flex flex-wrap gap-2">
-                {creator.topics.map((topic, topicIndex) => (
-                  <span
-                    key={topicIndex}
-                    className="px-2 py-1 text-xs font-mono border border-primary/30 bg-primary/5 text-primary"
-                  >
-                    #{topic}
+function EditionThumbnail({ post, index }: { post: SubstackPost; index: number }) {
+  const accent = getEditionAccent(index);
+
+  return (
+    <span
+      className={`relative block h-14 w-20 shrink-0 overflow-hidden border ${accent.border} ${accent.bg}`}
+    >
+      {post.coverImage ? (
+        <Image
+          src={post.coverImage}
+          alt=""
+          fill
+          sizes="80px"
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      ) : (
+        <span className={`flex h-full items-center justify-center font-mono text-xs font-bold ${accent.text}`}>
+          {post.issueNumber ? `#${post.issueNumber}` : "post"}
+        </span>
+      )}
+    </span>
+  );
+}
+
+function EditionsList({
+  posts,
+  currentPostId,
+}: {
+  posts: SubstackPost[];
+  currentPostId?: number;
+}) {
+  const previous = posts
+    .filter((post) => post.issueNumber !== null && post.id !== currentPostId)
+    .slice(0, 8);
+
+  return (
+    <div className="border-2 border-border bg-card shadow-brutal-md">
+      <div className="border-b border-border px-4 py-3 font-mono text-sm font-bold">
+        [ PREVIOUS EDITIONS ]
+      </div>
+      <div className="divide-y divide-border">
+        {previous.map((post, index) => {
+          const accent = getEditionAccent(index);
+          return (
+            <a
+              key={post.id}
+              href={safeExternalHref(post.url)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-3 px-4 py-3 font-mono text-xs transition-colors hover:bg-accent"
+            >
+              <EditionThumbnail post={post} index={index} />
+              <span className="flex min-w-0 flex-col gap-1 self-center">
+                <span className="flex items-center justify-between gap-3">
+                  <span className="text-muted-foreground">
+                    {post.issueNumber ? `#${post.issueNumber}` : "post"}
                   </span>
-                ))}
-              </div>
+                  <span className="text-muted-foreground">{post.shortDate}</span>
+                </span>
+                <span className={`line-clamp-2 min-w-0 font-bold leading-snug ${accent.text}`}>
+                  {post.title}
+                </span>
+              </span>
+            </a>
+          );
+        })}
+      </div>
+      <a
+        href={`${SUBSTACK_HOME}/archive`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-between border-t border-border px-4 py-3 font-mono text-xs font-bold hover:bg-accent"
+      >
+        Open full archive <ArrowUpRight className="h-4 w-4" />
+      </a>
+    </div>
+  );
+}
 
-              {/* Platform Links */}
-              <div className="flex flex-wrap gap-2 pt-2 border-t border-border">
-                {creator.platforms.twitter && (
+function getResourceInitials(title: string) {
+  return title
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 3)
+    .map((word) => word[0]?.toUpperCase())
+    .join("");
+}
+
+function isExternalUrl(url: string) {
+  return /^https?:\/\//.test(url);
+}
+
+// Guard hrefs sourced from external data (Substack API / Supabase feed) so a
+// poisoned `javascript:`/`data:` URL can't execute in a visitor's browser.
+// Allows absolute http(s), root-relative, and in-page anchors; anything else
+// collapses to "#".
+function safeExternalHref(url: string): string {
+  if (/^https?:\/\//.test(url) || url.startsWith("/") || url.startsWith("#")) {
+    return url;
+  }
+  return "#";
+}
+
+function ResourceThumbnail({
+  item,
+  index,
+}: {
+  item: ReadingResource;
+  index: number;
+}) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const accent = getEditionAccent(index);
+  const imageSrc = item.thumbnail?.src && !imageFailed ? item.thumbnail.src : null;
+  const fit = item.thumbnail?.fit === "contain" ? "object-contain p-4" : "object-cover";
+  const position =
+    item.thumbnail?.position === "left"
+      ? "object-left"
+      : item.thumbnail?.position === "right"
+        ? "object-right"
+        : "object-center";
+  const fallbackLabel = item.thumbnail?.label ?? item.title;
+  const surfaceClass = item.thumbnail?.surface === "light" ? "bg-white text-black" : accent.bg;
+  const byLabel = item.byLabel ?? "by";
+
+  if (item.kind === "Model") {
+    return (
+      <div
+        className={`relative h-36 overflow-hidden border-b border-border ${accent.bg} ${accent.border} sm:h-44`}
+      >
+        <div className="flex h-full flex-col justify-between p-4 font-mono sm:p-5">
+          <div className="flex items-center justify-between text-[10px] uppercase text-muted-foreground">
+            <span>Field model</span>
+            <span>Societies dashboard</span>
+          </div>
+          <div className="space-y-3">
+            <div className={`max-w-[18rem] break-words text-2xl font-bold leading-none ${accent.text} sm:text-4xl`}>
+              {fallbackLabel}
+            </div>
+            <div className="h-1 w-16 bg-current opacity-60" />
+          </div>
+          <div className="max-w-[28rem] truncate text-[10px] text-muted-foreground">
+            {byLabel} {item.by}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (item.kind === "Book") {
+    return (
+      <div
+        className={`relative h-40 overflow-hidden border-b border-border ${accent.bg} ${accent.border} sm:h-44`}
+      >
+        <div className="grid h-full grid-cols-[88px_minmax(0,1fr)] items-center gap-3 px-4 pb-6 pt-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-4 sm:px-5">
+          <div className="relative h-28 overflow-hidden sm:h-32">
+            {imageSrc ? (
+              <Image
+                src={imageSrc}
+                alt={item.thumbnail?.alt ?? `${item.title} cover`}
+                fill
+                unoptimized
+                loading="eager"
+                sizes="120px"
+                className="object-contain"
+                onError={() => setImageFailed(true)}
+              />
+            ) : (
+              <div className={`flex h-full items-center justify-center border border-border bg-background font-mono ${accent.text}`}>
+                <span className="text-xl font-bold">{getResourceInitials(item.title)}</span>
+              </div>
+            )}
+          </div>
+          <div className="min-w-0 font-mono">
+            <div className="mb-2 inline-flex border border-border bg-background/80 px-2 py-1 text-[10px] uppercase text-muted-foreground">
+              Published {item.year}
+            </div>
+            <div className={`break-words text-lg font-bold leading-tight ${accent.text} sm:text-xl`}>
+              {item.title}
+            </div>
+            <div className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+              {item.by}
+            </div>
+          </div>
+        </div>
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-background/90 px-2 py-1 font-mono text-[10px] text-muted-foreground backdrop-blur-sm">
+          <span>{item.kind}</span>
+          <span>{item.year}</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className={`relative h-36 overflow-hidden border-b border-border ${surfaceClass} ${accent.border} sm:h-44`}
+    >
+      {imageSrc ? (
+        <Image
+          src={imageSrc}
+          alt={item.thumbnail?.alt ?? `${item.title} thumbnail`}
+          fill
+          unoptimized
+          loading="eager"
+          sizes="(min-width: 768px) 520px, 100vw"
+          className={`${fit} ${position} transition-transform duration-300 group-hover:scale-[1.03]`}
+          onError={() => setImageFailed(true)}
+        />
+      ) : (
+        <div className={`flex h-full flex-col items-center justify-center gap-2 p-4 text-center font-mono ${accent.text} sm:p-5`}>
+          <span className="text-[10px] uppercase text-foreground/60">{item.kind}</span>
+          <span className="max-w-[16rem] break-words text-lg font-bold leading-tight sm:text-2xl">
+            {fallbackLabel || getResourceInitials(item.title)}
+          </span>
+          <span className="max-w-[14rem] truncate text-[10px] text-foreground/60">
+            {byLabel} {item.by}
+          </span>
+        </div>
+      )}
+      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-background/90 px-2 py-1 font-mono text-[10px] text-muted-foreground backdrop-blur-sm">
+        <span>{item.kind}</span>
+        <span>{item.year}</span>
+      </div>
+    </div>
+  );
+}
+
+function LibrarySection() {
+  const [activeCanonId, setActiveCanonId] = useState(readingCanons[0]?.id ?? "");
+  const activeCanon = useMemo(
+    () => readingCanons.find((canon) => canon.id === activeCanonId) ?? readingCanons[0],
+    [activeCanonId]
+  );
+
+  return (
+    <section id="library" className="space-y-5 sm:space-y-6">
+      <SectionHeader
+        icon={<Library className="h-4 w-4" />}
+        title="THE LIBRARY"
+        note="Hand-picked references for going deeper into the space."
+      />
+
+      <div className="space-y-3">
+        <div
+          role="tablist"
+          aria-label="Library sections"
+          className="grid max-w-full grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:justify-start"
+        >
+          {readingCanons.map((canon, index) => (
+            <button
+              key={canon.id}
+              type="button"
+              role="tab"
+              aria-selected={activeCanon.id === canon.id}
+              onClick={() => setActiveCanonId(canon.id)}
+              className={`inline-flex min-h-11 w-full min-w-0 max-w-full items-center justify-center gap-1.5 border-2 px-2 py-2 font-mono text-[10px] transition-all sm:w-auto sm:min-w-fit sm:gap-2 sm:px-3 sm:text-sm ${
+                activeCanon.id === canon.id
+                  ? "border-foreground bg-foreground text-background shadow-none"
+                  : "border-border bg-card text-foreground shadow-brutal-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+              }`}
+            >
+              <span className={activeCanon.id === canon.id ? "text-background/70" : "text-muted-foreground"}>
+                0{index + 1}
+              </span>
+              <span className="truncate font-bold sm:whitespace-nowrap">[ {canon.label.toUpperCase()} ]</span>
+            </button>
+          ))}
+        </div>
+        {activeCanon && (
+          <p className="border border-dashed border-border bg-card px-4 py-3 font-mono text-xs leading-relaxed text-muted-foreground">
+            {activeCanon.blurb}
+          </p>
+        )}
+      </div>
+
+      {activeCanon && (
+        <div className="grid gap-3 md:grid-cols-2">
+          {activeCanon.items.map((item, index) => (
+            <a
+              key={`${item.title}-${item.url}`}
+              href={item.url}
+              target={isExternalUrl(item.url) ? "_blank" : undefined}
+              rel={isExternalUrl(item.url) ? "noopener noreferrer" : undefined}
+              className="group overflow-hidden border-2 border-border bg-card font-mono shadow-brutal-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+            >
+              <ResourceThumbnail item={item} index={index} />
+              {item.kind === "Book" ? (
+                <div className="p-3 sm:p-4">
+                  <p className="text-sm leading-relaxed text-muted-foreground">{item.note}</p>
+                </div>
+              ) : (
+                <div className="grid gap-3 p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <span>0{index + 1}</span>
+                      <span>{item.kind}</span>
+                      <span>{item.year}</span>
+                    </div>
+                    <ArrowUpRight className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold leading-snug">{item.title}</h3>
+                    <p className="text-xs text-muted-foreground">
+                      {item.byLabel ?? "by"} {item.by}
+                    </p>
+                  </div>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{item.note}</p>
+                  {item.ctaLabel && (
+                    <div className="inline-flex w-fit items-center gap-2 border border-border bg-background px-2 py-1 text-xs font-bold text-foreground">
+                      {item.ctaLabel} <ArrowUpRight className="h-3 w-3" />
+                    </div>
+                  )}
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function EcosystemRadar({ articles }: { articles: UIArticle[] }) {
+  if (articles.length === 0) return null;
+
+  return (
+    <section id="radar" className="space-y-6">
+      <SectionHeader
+        icon={<Radio className="h-4 w-4" />}
+        title="ECOSYSTEM RADAR"
+        note="Recent articles from our network"
+      />
+
+      <div className="grid gap-3 lg:grid-cols-4">
+        {articles.slice(0, 8).map((article) => (
+          <a
+            key={article.id}
+            href={safeExternalHref(article.url)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex min-h-44 flex-col justify-between border border-border bg-card p-4 font-mono transition-colors hover:bg-accent"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+                <span>{article.author}</span>
+                <span>{article.source}</span>
+              </div>
+              <h3 className="line-clamp-3 text-sm font-bold leading-snug">{article.title}</h3>
+              {article.subtitle && (
+                <p className="line-clamp-2 text-xs leading-relaxed text-muted-foreground">
+                  {article.subtitle}
+                </p>
+              )}
+            </div>
+            <div className="mt-4 flex items-center justify-between border-t border-border pt-3 text-xs text-muted-foreground">
+              <span>{article.date}</span>
+              <ArrowUpRight className="h-3 w-3" />
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function VoicesSection() {
+  return (
+    <section id="voices" className="space-y-6">
+      <SectionHeader
+        icon={<Users className="h-4 w-4" />}
+        title="VOICES"
+        note="A compact, non-exhaustive directory of people worth tracking."
+      />
+
+      <div className="border-2 border-border bg-card shadow-brutal-md">
+        <div className="border-b border-border p-4 font-mono text-sm text-muted-foreground">
+          A starter map, not a ranking. We will keep refining it as the field evolves.
+        </div>
+        <div className="divide-y divide-border">
+          {contentVoices.map((voice) => (
+            <div
+              key={voice.handle}
+              className="grid gap-3 p-4 font-mono lg:grid-cols-[minmax(250px,290px)_minmax(140px,180px)_1fr_auto] lg:items-center"
+            >
+              <div className="flex min-w-0 items-center gap-3">
+                <VoiceAvatar name={voice.name} avatarUrl={voice.avatarUrl} />
+                <div className="min-w-0">
+                  <div className="truncate font-bold">{voice.name}</div>
+                  <div className="truncate text-xs text-muted-foreground">{voice.handle}</div>
+                </div>
+              </div>
+              <div className="text-xs text-muted-foreground">{voice.role}</div>
+              <p className="text-sm leading-relaxed text-muted-foreground lg:max-w-none">{voice.note}</p>
+              <div className="flex gap-2">
+                {voice.xUrl && (
                   <a
-                    href={creator.platforms.twitter}
+                    href={voice.xUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
+                    className="border border-border px-2 py-1 text-xs hover:bg-accent"
                   >
-                    <Twitter className="h-3 w-3" />
-                    Twitter
+                    X
                   </a>
                 )}
-                {creator.platforms.youtube && (
-                  <a
-                    href={creator.platforms.youtube}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-                  >
-                    <Youtube className="h-3 w-3" />
-                    YouTube
-                  </a>
-                )}
-                {creator.platforms.blog && (
-                  <a
-                    href={creator.platforms.blog}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-3 py-2 border-2 border-border bg-background hover:bg-accent transition-colors text-xs font-mono shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none"
-                  >
-                    <Rss className="h-3 w-3" />
-                    Blog
-                  </a>
-                )}
+                <a
+                  href={voice.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border border-border px-2 py-1 text-xs hover:bg-accent"
+                >
+                  Site
+                </a>
               </div>
             </div>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* Reading List */}
-      <section className="space-y-6">
-        <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
-          <BookOpen className="h-6 w-6" />
-          [ ESSENTIAL READING ]
-        </h2>
+function VoiceAvatar({ name, avatarUrl }: { name: string; avatarUrl?: string }) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const initials = name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join("")
+    .toUpperCase();
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a
-            href="https://thenetworkstate.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-2 border-border p-6 bg-card hover:bg-accent transition-all space-y-2 shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
-          >
-            <div className="flex items-start justify-between">
-              <h3 className="text-lg font-bold font-mono">The Network State</h3>
-              <ExternalLink className="h-4 w-4" />
-            </div>
-            <p className="text-sm font-mono text-muted-foreground">
-              by Balaji Srinivasan
-            </p>
-            <p className="text-xs font-mono text-muted-foreground">
-              The foundational text. How to start a new country.
-            </p>
-          </a>
+  return (
+    <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-border bg-background text-xs font-bold text-muted-foreground shadow-[3px_3px_0_hsl(var(--border))]">
+      {avatarUrl && !imageFailed ? (
+        <Image
+          src={avatarUrl}
+          alt={`${name} profile image`}
+          fill
+          sizes="44px"
+          className="object-cover"
+          onError={() => setImageFailed(true)}
+        />
+      ) : (
+        <span>{initials}</span>
+      )}
+    </div>
+  );
+}
 
-          <a
-            href="https://vitalik.ca"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border-2 border-border p-6 bg-card hover:bg-accent transition-all space-y-2 shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
-          >
-            <div className="flex items-start justify-between">
-              <h3 className="text-lg font-bold font-mono">Vitalik&apos;s Blog</h3>
-              <ExternalLink className="h-4 w-4" />
-            </div>
-            <p className="text-sm font-mono text-muted-foreground">
-              by Vitalik Buterin
-            </p>
-            <p className="text-xs font-mono text-muted-foreground">
-              Deep dives on crypto, governance, and coordination.
-            </p>
-          </a>
+export default function ContentClient({
+  substackPosts,
+  ecosystemArticles,
+}: ContentClientProps) {
+  const latestPost = substackPosts[0];
+
+  return (
+    <div className="mx-auto w-full max-w-[calc(100vw-1.5rem)] space-y-10 overflow-hidden whitespace-normal pb-24 sm:max-w-7xl sm:space-y-12 lg:pb-8">
+      <section className="space-y-7 border-b border-dashed border-border pb-8 text-center sm:pb-10">
+        <div className="space-y-4">
+          <h1 className="font-mono text-3xl font-bold sm:text-5xl">[ READINGS ]</h1>
+          <p className="mx-auto max-w-[320px] whitespace-normal break-words font-mono text-sm leading-relaxed text-muted-foreground sm:max-w-3xl sm:text-base">
+            Weekly digest, hand-picked resources, and voices shaping the space.
+          </p>
+        </div>
+        <div className="grid grid-cols-[minmax(0,160px)_minmax(0,160px)] justify-center gap-2 sm:flex sm:flex-wrap">
+          <IndexChip href="#weekly" label="[ weekly ]" />
+          <IndexChip href="#library" label="[ library ]" />
+          <IndexChip href="#radar" label="[ radar ]" />
+          <IndexChip href="#voices" label="[ voices ]" />
         </div>
       </section>
 
-      {/* Meme Section */}
-      <section className="border-2 border-border p-6 bg-card text-center">
-        <pre className="font-mono text-xs sm:text-sm leading-relaxed opacity-80">
-
-        </pre>
+      <section id="weekly" className="space-y-6">
+        <SectionHeader
+          icon={<SubstackIcon className="h-4 w-4" />}
+          title="NSNODES WEEKLY"
+          note="Our weekly digest on the latest updates in the space"
+        />
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_380px]">
+          <IssueHero post={latestPost} />
+          <EditionsList posts={substackPosts} currentPostId={latestPost?.id} />
+        </div>
       </section>
+
+      <LibrarySection />
+
+      <EcosystemRadar articles={ecosystemArticles} />
+
+      <VoicesSection />
+
+      <section className="grid gap-4 border-2 border-border bg-card p-5 font-mono shadow-brutal-md md:grid-cols-[1fr_auto] md:items-center">
+        <div>
+          <h2 className="text-lg font-bold">[ HELP CURATE THE STACK ]</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Missing a canonical essay, field report, operator, or project? Route suggestions through NSNodes so this stays editorial instead of becoming a link dump.
+          </p>
+        </div>
+        <a
+          href="/contact"
+          className="inline-flex items-center justify-center gap-2 border-2 border-border bg-background px-4 py-3 text-sm shadow-brutal-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none"
+        >
+          Suggest a link <FileText className="h-4 w-4" />
+        </a>
+      </section>
+
+      <footer className="flex flex-col gap-3 border-t border-dashed border-border pt-6 font-mono text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <span>nsnodes / readings</span>
+        <div className="flex gap-4">
+          <a href={`${SUBSTACK_HOME}/archive`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+            archive
+          </a>
+          <a href={`${SUBSTACK_HOME}/feed`} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+            rss
+          </a>
+          <a href={SUBSTACK_SUBSCRIBE} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+            subscribe
+          </a>
+        </div>
+      </footer>
     </div>
   );
 }
