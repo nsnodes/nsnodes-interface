@@ -19,19 +19,23 @@ interface SubstackArchivePost {
 
 function formatDate(dateString?: string): string {
   if (!dateString) return "Recent";
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "Recent";
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
-  }).format(new Date(dateString));
+  }).format(date);
 }
 
 function formatShortDate(dateString?: string): string {
   if (!dateString) return "Recent";
+  const date = new Date(dateString);
+  if (Number.isNaN(date.getTime())) return "Recent";
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
-  }).format(new Date(dateString));
+  }).format(date);
 }
 
 function getIssueNumber(title?: string): number | null {

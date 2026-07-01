@@ -168,7 +168,7 @@ function IssueHero({ post }: { post?: SubstackPost }) {
 
           <div className="flex flex-col gap-3 sm:flex-row">
             <a
-              href={post.url}
+              href={safeExternalHref(post.url)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-full items-center justify-center gap-2 border-2 border-foreground bg-foreground px-4 py-2.5 text-center font-mono text-sm font-bold text-background shadow-brutal-sm transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none sm:w-auto sm:py-3"
@@ -259,7 +259,7 @@ function EditionsList({
           return (
             <a
               key={post.id}
-              href={post.url}
+              href={safeExternalHref(post.url)}
               target="_blank"
               rel="noopener noreferrer"
               className="group grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-3 px-4 py-3 font-mono text-xs transition-colors hover:bg-accent"
@@ -303,6 +303,17 @@ function getResourceInitials(title: string) {
 
 function isExternalUrl(url: string) {
   return /^https?:\/\//.test(url);
+}
+
+// Guard hrefs sourced from external data (Substack API / Supabase feed) so a
+// poisoned `javascript:`/`data:` URL can't execute in a visitor's browser.
+// Allows absolute http(s), root-relative, and in-page anchors; anything else
+// collapses to "#".
+function safeExternalHref(url: string): string {
+  if (/^https?:\/\//.test(url) || url.startsWith("/") || url.startsWith("#")) {
+    return url;
+  }
+  return "#";
 }
 
 function ResourceThumbnail({
@@ -538,7 +549,7 @@ function EcosystemRadar({ articles }: { articles: UIArticle[] }) {
         {articles.slice(0, 8).map((article) => (
           <a
             key={article.id}
-            href={article.url}
+            href={safeExternalHref(article.url)}
             target="_blank"
             rel="noopener noreferrer"
             className="flex min-h-44 flex-col justify-between border border-border bg-card p-4 font-mono transition-colors hover:bg-accent"

@@ -9,7 +9,12 @@ test.describe('content hub visibility', () => {
     await expect(page.locator('#library')).toBeVisible();
     await expect(page.locator('#radar')).toBeVisible();
     await expect(page.locator('#voices')).toBeVisible();
-    await expect(page.locator('#radar a')).toHaveCount(8);
+    // Radar is capped at 8 but may return fewer with live Supabase data,
+    // so assert a sane range rather than an exact count (avoids CI flake
+    // once real secrets are present).
+    const radarLinkCount = await page.locator('#radar a').count();
+    expect(radarLinkCount).toBeGreaterThan(0);
+    expect(radarLinkCount).toBeLessThanOrEqual(8);
 
     await page.waitForLoadState('load', { timeout: 8000 }).catch(() => undefined);
     await page.getByRole('tab', { name: /FIELD MODELS/ }).click();
