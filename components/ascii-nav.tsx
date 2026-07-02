@@ -14,8 +14,8 @@ export function AsciiNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { href: "/events", label: "[ EVENTS ]" },
     { href: "/societies", label: "[ SOCIETIES ]" },
+    { href: "/events", label: "[ EVENTS ]" },
     { href: "/content", label: "[ CONTENT ]" },
     { href: "/jobs", label: "[ JOBS ]" },
     { href: "/funding/vc", label: "[ FUNDING ]" },

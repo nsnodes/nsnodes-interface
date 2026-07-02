@@ -1,11 +1,12 @@
 "use client";
 
-import { Calendar, TrendingUp, ExternalLink, MapPin, Briefcase, DollarSign } from "lucide-react";
+import { Calendar, TrendingUp, ExternalLink, MapPin, Briefcase, DollarSign, BookOpen, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { getEvents, getPopupCities } from "@/lib/actions/events";
 import { getSocieties } from "@/lib/actions/societies";
+import { getSubstackPosts } from "@/lib/actions/substack";
 import type { UIEvent, PopupCity } from "@/lib/types/events";
 import type { SocietyDatabase } from "@/lib/data/societies-database";
 import { PopupSection } from "@/components/popup-section";
@@ -91,6 +92,7 @@ export default function Home() {
   const [isLoadingPopups, setIsLoadingPopups] = useState(true);
   const [popupError, setPopupError] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [digestCover, setDigestCover] = useState<{ src: string; title: string } | null>(null);
 
   // Apply client-side timezone conversion
   const clientEvents = useClientTimezone(events);
@@ -163,9 +165,22 @@ export default function Home() {
       }
     }
 
+    async function loadDigestCover() {
+      try {
+        const posts = await getSubstackPosts(3);
+        const withCover = posts.find((p) => p.coverImage);
+        if (isMounted && withCover?.coverImage) {
+          setDigestCover({ src: withCover.coverImage, title: withCover.title });
+        }
+      } catch (err) {
+        console.error("Failed to load latest digest cover:", err);
+      }
+    }
+
     loadEvents();
     loadSocieties();
     loadPopupCities();
+    loadDigestCover();
 
     return () => {
       isMounted = false;
@@ -375,6 +390,67 @@ export default function Home() {
 
       {/* Events Table */}
       <UpcomingEventsSection events={clientEvents} isLoading={isLoading} error={error} hideFilters={true} defaultViewMode="gantt" />
+
+      {/* Content Hub */}
+      <section className="space-y-6">
+        <h2 className="text-xl sm:text-2xl font-bold font-mono flex items-center gap-2">
+          <BookOpen className="h-6 w-6" />
+          [ READINGS & RESOURCES ]
+        </h2>
+        <Link
+          href="/content"
+          className="group block overflow-hidden border-2 border-border bg-card shadow-brutal-md hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+        >
+          <div className="grid sm:grid-cols-[240px_minmax(0,1fr)]">
+            {/* Latest digest cover */}
+            <div className="relative min-h-40 border-b-2 border-border bg-background sm:border-b-0 sm:border-r-2">
+              {digestCover ? (
+                <Image
+                  src={digestCover.src}
+                  alt={`Cover image for ${digestCover.title}`}
+                  fill
+                  sizes="(min-width: 640px) 240px, 100vw"
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex h-full min-h-40 items-center justify-center bg-palette-3/10 font-mono text-xs text-muted-foreground">
+                  NSNODES WEEKLY
+                </div>
+              )}
+            </div>
+            {/* Content */}
+            <div className="p-5 sm:p-6 space-y-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="space-y-1.5">
+                  <h3 className="font-mono font-bold text-base sm:text-lg">
+                    The Nodes Digest &amp; Content Hub
+                  </h3>
+                  <p className="text-xs sm:text-sm font-mono text-muted-foreground max-w-2xl leading-relaxed">
+                    Our weekly digest on the network-state movement, plus our
+                    recommended readings, the ecosystem radar, and the voices
+                    shaping startup societies, popup cities, and new governance
+                    experiments.
+                  </p>
+                </div>
+                <ArrowRight className="h-5 w-5 flex-shrink-0 transition-transform group-hover:translate-x-1" />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {["Weekly digest", "Recommended readings", "Ecosystem radar", "Voices"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 text-[10px] font-mono border border-border bg-muted"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <span className="inline-block font-mono text-xs underline underline-offset-4">
+                Browse the content hub →
+              </span>
+            </div>
+          </div>
+        </Link>
+      </section>
 
       {/* Network State Jobs */}
       <section className="space-y-6">
