@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radar Score Weighting</title>
+<style>
+  :root {
+    --bg: #fbfbfa; --surface: #ffffff; --text: #1d1d1b; --muted: #5d5d58;
+    --line: #e3e2de; --accent: #0f7a5c; --accent-soft: #e6f3ee; --warn: #8a5a00; --warn-soft: #fbf3e2;
+    --code-bg: #f2f1ee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161615; --surface: #1e1e1c; --text: #ecebe7; --muted: #a3a29c;
+      --line: #34332f; --accent: #4cc39b; --accent-soft: #1d3029; --warn: #e3b55c; --warn-soft: #2f2817;
+      --code-bg: #262624;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161615; --surface: #1e1e1c; --text: #ecebe7; --muted: #a3a29c;
+    --line: #34332f; --accent: #4cc39b; --accent-soft: #1d3029; --warn: #e3b55c; --warn-soft: #2f2817;
+    --code-bg: #262624;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 16px 96px; }
+  h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 8px; }
+  h2 { font-size: 1.3rem; margin: 48px 0 12px; padding-top: 16px; border-top: 1px solid var(--line); }
+  h3 { font-size: 1.05rem; margin: 28px 0 8px; }
+  p, li { color: var(--text); }
+  .lede { font-size: 1.1rem; color: var(--muted); margin: 0 0 24px; }
+  .meta { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; font-size: .9rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; }
+  .meta dt { color: var(--muted); }
+  .meta dd { margin: 0; }
+  code { font: .88em ui-monospace, "Cascadia Code", Consolas, monospace; background: var(--code-bg);
+    padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--code-bg); border-radius: 8px; padding: 14px 16px; overflow-x: auto;
+    font: .88rem/1.5 ui-monospace, "Cascadia Code", Consolas, monospace; }
+  pre code { background: none; padding: 0; }
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: .92rem; margin: 8px 0 16px; }
+  th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .req { font-family: ui-monospace, Consolas, monospace; font-weight: 600; color: var(--accent); white-space: nowrap; }
+  .assume { background: var(--warn-soft); color: var(--warn); font-size: .78rem; font-weight: 600;
+    padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+  .callout { background: var(--accent-soft); border-radius: 8px; padding: 12px 16px; margin: 16px 0; }
+  .callout.warn { background: var(--warn-soft); }
+  figure { margin: 24px 0; }
+  iframe { width: 100%; height: 640px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+  figcaption { font-size: .9rem; color: var(--muted); margin-top: 8px; }
+  a { color: var(--accent); }
+  @media (max-width: 640px) { iframe { height: 420px; } h1 { font-size: 1.6rem; } }
+</style>
+</head>
+<body>
+<main>
+
+<h1>Radar score weighting: quiz + Bonfire</h1>
+<p class="lede">How ratings from the nsnodes quiz and readings from the Bonfire bot combine into the six radar scores shown for each project.</p>
+
+<dl class="meta">
+  <dt>Status</dt><dd>Draft for review</dd>
+  <dt>Date</dt><dd>2026-10-03</dd>
+  <dt>Repos</dt><dd><code>nsnodes-interface</code> (site, migration), <code>NS-bonfire</code> (bot, phase 2)</dd>
+  <dt>Migration</dt><dd><code>supabase/migrations/20261003_create_radar_evidence.sql</code> (written and tested locally, <b>not yet applied</b>)</dd>
+  <dt>Database</dt><dd>Supabase project <code>qdzjcvbsfmznakbmfwfc</code></dd>
+</dl>
+
+<h2>1. Problem</h2>
+<p>Each project on nsnodes.com has a radar of six community metrics: Belonging, Autonomy, Economic Opportunity, Purpose, Scalability Tension and Quality of Life. Today one source fills them: the NS-bonfire bot, which reads the NS Nodes Telegram group through Bonfires.ai and asks an LLM to score whichever projects came up. We want a quiz where people who know the space rate projects directly, and those ratings should move the same six scores. Three facts make simply adding the quiz to the current columns unworkable:</p>
+
+<h3>The bot overwrites the columns every 10 minutes</h3>
+<p><code>NS-bonfire/bot.py:322</code> (<code>run_scoring_cycle</code>) blends a new LLM reading into each score with <code>new = old × (1 − α) + reading × α</code>, <code>α = confidence × 0.3</code>, and writes the result straight to <code>societies</code>. Anything else written to those columns is erased within hours.</p>
+
+<h3>The current score mostly reflects the last 48 hours</h3>
+<p>Every cycle rescans the full 48-hour window (<code>bot.py:139</code>), so one conversation is scored about 288 times. At a typical confidence of 0.7 the old value's weight falls below 1% within about 20 cycles. The stored score is close to "what the LLM thinks of the last 48 hours of chat", and the stored <code>confidence</code> is the LLM's own guess, not a count of evidence. <code>signals</code> is overwritten each cycle, so it never accumulates.</p>
+
+<h3>What the live data shows (queried 2026-10-03)</h3>
+<div class="table-wrap"><table>
+  <tr><th>Observation</th><th>Value</th><th>Consequence</th></tr>
+  <tr><td>Societies with radar values</td><td>108 of 108</td><td>Every project shows a radar</td></tr>
+  <tr><td>Ever scored by the bot</td><td>72 (tiers 1–3)</td><td>The bot only fetches tiers 1–3</td></tr>
+  <tr><td>Tier 4–5 values</td><td>All six = 0.50 exactly</td><td>36 projects display placeholder radars as if they were data</td></tr>
+  <tr><td>Last bot write</td><td>2026-08-30</td><td>The bot has not scored anything for 5 weeks</td></tr>
+  <tr><td><code>signals</code> per project</td><td>1–4</td><td>Very thin evidence behind each score</td></tr>
+  <tr><td>Average Purpose, tiers 1 / 2 / 3</td><td>0.75 / 0.69 / 0.66</td><td>Purpose is the highest metric in every tier: likely LLM positivity bias</td></tr>
+</table></div>
+
+<h2>2. Goals and non-goals</h2>
+<h3>Goals</h3>
+<ul>
+  <li>Quiz ratings change the displayed radar, in proportion to how much evidence they represent.</li>
+  <li>The bot and the quiz never overwrite each other.</li>
+  <li>Every displayed score can be reproduced from stored evidence rows.</li>
+  <li>Weights can be retuned without a migration or a redeploy.</li>
+  <li>Projects with no real evidence show no radar instead of a fake one.</li>
+</ul>
+<h3>Non-goals</h3>
+<ul>
+  <li>The quiz UI, question wording and results page design (separate spec).</li>
+  <li>User accounts or wallet-based identity.</li>
+  <li>Changing the six metrics or their definitions.</li>
+</ul>
+
+<h2>3. Use cases</h2>
+<ul>
+  <li>Someone who lived at Network School for three months rates it 2/5 on Quality of Life. That moves the score noticeably, more than a rating from someone who only follows it on X.</li>
+  <li>A project discussed once in Telegram and rated by ten quiz takers ends up mostly reflecting the ten ratings.</li>
+  <li>A tier-4 project nobody has rated or discussed shows "not enough data yet" instead of a flat 0.5 radar.</li>
+  <li>After a month of data, the team decides lived experience should count more. They change one number in <code>radar_config</code>, and every radar reflects it on the next page load.</li>
+  <li>The live results page shows, per project, what quiz takers think next to the blended score, so people can see the community disagreeing with the bot.</li>
+</ul>
+
+<h2>4. The weighting model</h2>
+
+<figure>
+  <iframe src="2026-10-03-radar-score-weighting-dataflow.html" title="Radar score evidence flow" loading="lazy"></iframe>
+  <figcaption><b>Figure 1. Radar score evidence flow.</b> Quiz ratings and Bonfire readings both become weighted evidence, and one SQL view blends them for both the radar and the results page (D1, W1–W8, S1–S3). The submit-route gate (G1–G4) is the only way into the quiz tables; the bot remains the only writer of Bonfire data.
+  <a href="2026-10-03-radar-score-weighting-dataflow.html" target="_blank" rel="noopener">Open full screen ↗</a></figcaption>
+</figure>
+
+<p>Each piece of evidence is a value between 0 and 1 with a weight. A score is the weighted average of all evidence for that project and metric, plus a neutral starting value that stops thin data from producing extreme scores:</p>
+
+<pre><code>score     = (prior_weight × prior_value + Σ weight × value) / (prior_weight + Σ weight)
+certainty = average over the 6 metrics of  Σweight / (Σweight + certainty_k)
+
+quiz rating     value = (rating − 1) / 4                 1→0.00 … 5→1.00
+                weight = relationship × (knowledge_base + knowledge_span × knowledge_score)
+Bonfire reading weight = bonfire_weight × confidence
+every weight    × 0.5 ^ (age_days / half_life_days)</code></pre>
+
+<h3>Parameters (defaults, stored in <code>radar_config</code>)</h3>
+<div class="table-wrap"><table>
+  <tr><th>Parameter</th><th class="num">Default</th><th>Meaning</th></tr>
+  <tr><td><code>prior_value</code></td><td class="num">0.5</td><td>Neutral starting value</td></tr>
+  <tr><td><code>prior_weight</code></td><td class="num">3</td><td>The starting value counts as 3 full ratings</td></tr>
+  <tr><td><code>bonfire_weight</code></td><td class="num">5</td><td>A Bonfire reading at confidence 1.0 counts as 5 ratings <span class="assume">ASSUMPTION</span></td></tr>
+  <tr><td><code>weight_lived</code></td><td class="num">1.0</td><td>Lived there or visited</td></tr>
+  <tr><td><code>weight_event</code></td><td class="num">0.6</td><td>Attended an event</td></tr>
+  <tr><td><code>weight_online</code></td><td class="num">0.5</td><td>Online member</td></tr>
+  <tr><td><code>weight_outside</code></td><td class="num">0.25</td><td>Follows from outside</td></tr>
+  <tr><td><code>knowledge_base</code>, <code>knowledge_span</code></td><td class="num">0.75, 0.5</td><td>Knowledge factor from 0.75 (score 0) to 1.25 (perfect score)</td></tr>
+  <tr><td><code>half_life_days</code></td><td class="num">180</td><td>Evidence loses half its weight every 6 months</td></tr>
+  <tr><td><code>certainty_k</code></td><td class="num">5</td><td>Evidence needed for 50% certainty</td></tr>
+</table></div>
+
+<h3>Worked examples (from the migration's local test run)</h3>
+<div class="table-wrap"><table>
+  <tr><th>Case</th><th>Evidence</th><th class="num">Score</th><th class="num">Certainty</th></tr>
+  <tr><td>Bonfire only</td><td>Bonfire 0.80 at confidence 0.6 (weight 3)</td><td class="num">0.65</td><td class="num">0.38</td></tr>
+  <tr><td>Bonfire + quiz</td><td>Same Bonfire reading + 10 lived-there ratings of 2/5 (weight 10)</td><td class="num">0.40</td><td class="num">0.72</td></tr>
+  <tr><td>Quiz only</td><td>10 lived-there ratings of 2/5, no Bonfire data</td><td class="num">0.31</td><td class="num">0.67</td></tr>
+  <tr><td>One outside observer</td><td>Bonfire as above + one 1/5 from someone who follows it (weight 0.25)</td><td class="num">0.62</td><td class="num">0.39</td></tr>
+  <tr><td>No evidence</td><td>Flat 0.5 placeholder, never scored</td><td class="num">none</td><td class="num">none</td></tr>
+</table></div>
+
+<h2>5. Requirements</h2>
+
+<h3>Must-have (v1)</h3>
+<div class="table-wrap"><table>
+  <tr><th>ID</th><th>Requirement</th><th>Test</th></tr>
+  <tr><td class="req">D1</td><td>No quiz code writes to the six score columns, <code>confidence</code>, <code>signals</code> or <code>summary</code> on <code>societies</code>.</td><td>grep finds no update to those columns outside NS-bonfire</td></tr>
+  <tr><td class="req">D2</td><td>Quiz data lives in <code>quiz_responses</code>, <code>quiz_project_feedback</code> and <code>quiz_ratings</code>, as defined in the migration.</td><td>Migration applies cleanly; tables exist with RLS on</td></tr>
+  <tr><td class="req">D3</td><td>All weights come from the single row of <code>radar_config</code>. Changing a value changes scores on the next read, without a migration.</td><td>Update <code>weight_lived</code>, re-query view, score changes</td></tr>
+  <tr><td class="req">D4</td><td>"Don't know" stores no rating row and has zero effect.</td><td>Score unchanged after a submission with all "don't know"</td></tr>
+  <tr><td class="req">D5</td><td>A respondent can rate a given project at most once per UTC day, enforced by the database.</td><td>Second insert fails on the unique constraint (verified)</td></tr>
+  <tr><td class="req">W1</td><td>Ratings of 1–5 map to 0, 0.25, 0.5, 0.75, 1.</td><td>View output for single ratings</td></tr>
+  <tr><td class="req">W2</td><td>Quiz weight = relationship weight × knowledge factor, as in section 4.</td><td>Verified: 10 lived ratings at knowledge 0.5 give evidence 10.0</td></tr>
+  <tr><td class="req">W3</td><td>Until phase 2, each bot-scored project's current column values count as one Bonfire reading at <code>bonfire_weight × confidence</code>. Rows with <code>radar_updated_at</code> null (the 36 placeholders) count as no evidence.</td><td>Verified in test: placeholder rows absent from the scores view</td></tr>
+  <tr><td class="req">W4</td><td>All evidence decays with a 180-day half-life from its <code>observed_at</code>.</td><td>Evidence 180 days old has half the weight</td></tr>
+  <tr><td class="req">W5</td><td>Scores blend as in section 4, with the prior at 0.5 × 3.</td><td>Matches all worked examples to 0.01 (verified)</td></tr>
+  <tr><td class="req">W6</td><td>A metric with no evidence shows the prior value. A project with no evidence at all is absent from the scores view and shows no radar.</td><td>Verified in test</td></tr>
+  <tr><td class="req">W7</td><td>Certainty is averaged over all six metrics, counting a metric with no evidence as 0.</td><td>Project with evidence on 1 metric has certainty ≤ 1/6</td></tr>
+  <tr><td class="req">W8</td><td>Only responses with status <code>accepted</code> count.</td><td>Verified: a flagged response does not change the score</td></tr>
+  <tr><td class="req">S1</td><td><code>getSocietyRadarScores</code> and <code>getAllCommunityScores</code> read <code>society_radar_scores</code> instead of the <code>societies</code> columns.</td><td>Radar matches view values × 100</td></tr>
+  <tr><td class="req">S2</td><td>The radar shows its sources, e.g. "Bonfire + 14 community ratings", and a certainty indicator.</td><td>Visible on a society page with quiz data</td></tr>
+  <tr><td class="req">S3</td><td>The results page shows the quiz-only score next to the blended score for each project.</td><td>Both columns present for a rated project</td></tr>
+  <tr><td class="req">G1</td><td>Submissions with the hidden honeypot field filled in are rejected.</td><td>E2E test</td></tr>
+  <tr><td class="req">G2</td><td>Submissions faster than 45 seconds are stored as <code>flagged</code>. <span class="assume">ASSUMPTION</span></td><td>E2E test</td></tr>
+  <tr><td class="req">G3</td><td>At most 5 submissions per IP hash per 24 hours. <span class="assume">ASSUMPTION</span></td><td>Sixth submission rejected</td></tr>
+  <tr><td class="req">G4</td><td>A project rated all 5s or all 1s across 4 or more metrics marks the response as <code>flagged</code>.</td><td>Unit test on the submit route</td></tr>
+  <tr><td class="req">G5</td><td>Only salted hashes of the IP and cookie are stored, never raw values.</td><td>No raw IP in any column</td></tr>
+</table></div>
+
+<h3>Should-have (fast follow, phase 2: NS-bonfire)</h3>
+<div class="table-wrap"><table>
+  <tr><th>ID</th><th>Requirement</th></tr>
+  <tr><td class="req">B1</td><td>The bot scores only episodes it has not scored before (<code>after_time</code> = end of the previous run), so each conversation counts once.</td></tr>
+  <tr><td class="req">B2</td><td>The bot appends one <code>bonfire_observations</code> row per project and metric instead of updating <code>societies</code>. Once a project has any observation, its legacy columns stop counting (built into the view).</td></tr>
+  <tr><td class="req">B3</td><td>Find out why the bot stopped on 2026-08-30 and where it runs (VPS or a Windows startup script), then add a health check.</td></tr>
+  <tr><td class="req">M1</td><td>An admin view to approve comments and review flagged responses.</td></tr>
+  <tr><td class="req">C1</td><td>Calibrate per source: compare Bonfire and quiz means per metric once 100+ ratings exist, to measure the Purpose bias.</td></tr>
+</table></div>
+
+<h3>Won't-have (this version)</h3>
+<ul>
+  <li>Logins, wallets or proof of personhood.</li>
+  <li>A reputation score per person beyond the quiz knowledge score.</li>
+  <li>Sending quiz comments into the Bonfire knowledge graph (open question 3).</li>
+</ul>
+
+<h2>6. Success metrics</h2>
+<ul>
+  <li>30 or more accepted quiz responses within 14 days of launch.</li>
+  <li>10 or more tier 1–2 projects reach certainty ≥ 0.5.</li>
+  <li>Less than 10% of responses flagged.</li>
+  <li>For any project, the displayed score can be recomputed from <code>radar_evidence</code> rows to within 0.01.</li>
+  <li>Zero tier 4–5 projects show a placeholder radar.</li>
+</ul>
+
+<h2>7. Open questions and risks</h2>
+<div class="callout warn"><b>Launch impact.</b> Simulating the model on today's data (Purpose metric): the average drops from 0.68 to 0.59, the spread between projects halves (standard deviation 0.135 → 0.067), and scores move by 0.10 on average. That's because the Bonfire readings are thin (weight 1.3–3.8 after decay) and the prior pulls them toward 0.5. Radars will look flatter until quiz ratings arrive. Lowering <code>prior_weight</code> to 1 would reduce the effect.</div>
+<ol>
+  <li><b>Scalability direction.</b> Does a high Scalability Tension score mean more growth pain (bad) or handling growth well (good)? The bot's prompt doesn't say, and the quiz question must point the same way.</li>
+  <li><b>Bonfire weight of 5.</b> Arbitrary until we can compare Bonfire readings with quiz ratings on the same projects (C1).</li>
+  <li><b>Comments into Bonfire.</b> Should quiz comments also feed the Bonfire knowledge graph?</li>
+  <li><b>Sybil risk.</b> Without logins, a determined person can rate from several devices. G2–G4 limit casual abuse only.</li>
+  <li><b>Bot downtime.</b> Until B3, the Bonfire side is frozen at 2026-08-30 values and decays with age.</li>
+  <li><b>Placeholder radars disappear.</b> Once S1 ships, 36 tier 4–5 projects show no radar until someone rates them. This is intended, but it is visible.</li>
+</ol>
+
+<h2>8. Appendix: sources</h2>
+<ul>
+  <li><code>NS-bonfire/bot.py</code> at commit <code>242b359</code>: scoring loop (lines 286–377), config (lines 41–48).</li>
+  <li><code>nsnodes-interface/lib/actions/societies-radar.ts</code>: how the site reads scores today.</li>
+  <li><code>nsnodes-interface/components/society/society-radar.tsx</code>: metric definitions.</li>
+  <li>Supabase queries on project <code>qdzjcvbsfmznakbmfwfc</code>, 2026-10-03: column list, score statistics by tier, update history by week.</li>
+  <li>Migration test: applied twice to an in-memory Postgres (PGlite) with sample data; all worked examples and the constraints in D5, W3, W6 and W8 were verified.</li>
+  <li>Figure 1 generated with archify (dataflow, showcase profile): 9 of 9 artifact checks passed, and the browser visual check passed at 1440×900 and 2048×1320.</li>
+</ul>
+
+</main>
+</body>
+</html>
