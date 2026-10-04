@@ -97,7 +97,16 @@ export async function getSocieties(): Promise<SocietyDatabase[]> {
       throw error;
     }
 
-    const societies = (data as SupabaseSociety[]).map(transformToSocietyDatabase);
+    // Radar scores come from the consensus view: today's bot values moved by
+    // quiz votes. It equals the societies columns when nobody has voted.
+    const { data: consensus } = await supabase
+      .from('society_radar_consensus')
+      .select('name, scalability, autonomy, qol, belonging, economic, purpose');
+    const consensusByName = new Map((consensus ?? []).map((c) => [c.name, c]));
+
+    const societies = (data as SupabaseSociety[]).map((row) =>
+      transformToSocietyDatabase({ ...row, ...consensusByName.get(row.name) })
+    );
 
     // Cache the successful result
     cachedSocieties = societies;

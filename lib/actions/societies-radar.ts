@@ -16,8 +16,8 @@ export async function getSocietyRadarScores(societyName: string): Promise<RadarS
     const supabase = createServerClient()
 
     const { data, error } = await supabase
-      .from('societies')
-      .select('scalability, autonomy, qol, belonging, economic, purpose, confidence')
+      .from('society_radar_consensus')
+      .select('scalability, autonomy, qol, belonging, economic, purpose')
       .eq('name', societyName)
       .single()
 
@@ -48,7 +48,7 @@ export async function getAllCommunityScores(): Promise<Record<string, AllRadarDa
     const supabase = createServerClient()
 
     const { data, error } = await supabase
-      .from('societies')
+      .from('society_radar_consensus')
       .select('name, scalability, autonomy, qol, belonging, economic, purpose')
 
     if (error || !data) {

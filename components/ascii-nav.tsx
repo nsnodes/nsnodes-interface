@@ -18,6 +18,7 @@ export function AsciiNav() {
     { href: "/events", label: "[ EVENTS ]" },
     { href: "/content", label: "[ CONTENT ]" },
     { href: "/jobs", label: "[ JOBS ]" },
+    { href: "/quiz", label: "[ QUIZ ]" },
     { href: "/funding/vc", label: "[ FUNDING ]" },
     { href: "/contact", label: "[ CONTACT ]" },
   ];

@@ -106,6 +106,9 @@ const MOCK_SOCIETIES: SocietyDatabase[] = [
   },
 ];
 
+// Re-render hourly so radar scores pick up new quiz votes
+export const revalidate = 3600;
+
 export async function generateStaticParams() {
   // Try database first, fall back to mock data
   const societies = await getSocieties();
