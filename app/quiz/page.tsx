@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
   title: 'Network State Quiz | nsnodes.com',
   description:
-    'Test your network state knowledge, then rate the projects you know on belonging, autonomy, purpose and more. Your ratings shape the community radar.',
+    'Learn the key terms of the network state space, then rate the projects you know on belonging, autonomy, purpose and more. Your ratings shape the radar.',
 };
 
 export const revalidate = 3600;

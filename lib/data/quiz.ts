@@ -2,81 +2,122 @@
 // action and the results page. Bump QUIZ_VERSION whenever a question, a
 // choice or a correct answer changes, so stored answers stay interpretable.
 
-export const QUIZ_VERSION = '2026-10-04';
+export const QUIZ_VERSION = '2026-10-04b';
 
+// Vocabulary questions: each teaches one term of the space. The
+// explanation is shown as soon as the question is answered.
 export interface KnowledgeQuestion {
   id: string;
   question: string;
   choices: { id: string; label: string }[];
   correct: string;
+  explanation: string;
 }
 
 export const KNOWLEDGE_QUESTIONS: KnowledgeQuestion[] = [
   {
-    id: 'author',
-    question: 'Who wrote "The Network State" (2022)?',
+    id: 'network-state',
+    question: 'What is a network state?',
     choices: [
-      { id: 'balaji', label: 'Balaji Srinivasan' },
-      { id: 'vitalik', label: 'Vitalik Buterin' },
-      { id: 'patri', label: 'Patri Friedman' },
-      { id: 'thiel', label: 'Peter Thiel' },
+      { id: 'online-first', label: 'An aligned online community that crowdfunds land around the world and aims for diplomatic recognition' },
+      { id: 'e-gov', label: 'A country that runs its public services online, like Estonia' },
+      { id: 'blockchain', label: 'A blockchain that issues its own passports' },
+      { id: 'alliance', label: 'An alliance of countries that share a digital currency' },
     ],
-    correct: 'balaji',
+    correct: 'online-first',
+    explanation:
+      'A network state starts as a community online, gathers in physical places scattered across the map, and only later seeks recognition from existing states. Cloud first, land last.',
   },
   {
-    id: 'progression',
-    question: 'In the book, what comes right after a "startup society"?',
+    id: 'ns',
+    question: 'On nsnodes.com, what does "NS" stand for?',
     choices: [
-      { id: 'union', label: 'Network union' },
-      { id: 'archipelago', label: 'Network archipelago' },
-      { id: 'state', label: 'Network state' },
-      { id: 'charter', label: 'Charter city' },
+      { id: 'school', label: 'Network School' },
+      { id: 'state', label: 'Network State' },
+      { id: 'society', label: 'Node Society' },
+      { id: 'sovereignty', label: 'New Sovereignty' },
     ],
-    correct: 'union',
+    correct: 'school',
+    explanation:
+      'NS is Network School, a live-in community where members learn, train and build together. It is one concrete step toward the broader idea of a network state, which is a different thing.',
   },
   {
-    id: 'zuzalu',
-    question: 'Zuzalu, the 2023 pop-up city, took place in which country?',
+    id: 'startup-society',
+    question: 'What is a startup society?',
     choices: [
-      { id: 'montenegro', label: 'Montenegro' },
-      { id: 'portugal', label: 'Portugal' },
-      { id: 'thailand', label: 'Thailand' },
-      { id: 'mexico', label: 'Mexico' },
+      { id: 'mission', label: 'A community built around a shared mission, before it has land or recognition' },
+      { id: 'coworking', label: 'A co-working space for startup founders' },
+      { id: 'company-housing', label: 'A company that houses its employees' },
+      { id: 'registered', label: 'A legal entity registered inside an SEZ' },
     ],
-    correct: 'montenegro',
+    correct: 'mission',
+    explanation:
+      'A startup society is the early stage: people who share a purpose, organise online and start meeting in person. With enough members and funding it can grow toward a network state.',
   },
   {
-    id: 'prospera',
-    question: 'Próspera is a charter city project in which country?',
+    id: 'sez',
+    question: 'What is an SEZ?',
     choices: [
-      { id: 'honduras', label: 'Honduras' },
-      { id: 'el-salvador', label: 'El Salvador' },
-      { id: 'panama', label: 'Panama' },
-      { id: 'costa-rica', label: 'Costa Rica' },
+      { id: 'zone', label: "An area inside a country with its own business, tax or trade rules, set by that country" },
+      { id: 'no-country', label: 'Land outside the control of any country' },
+      { id: 'treaty', label: 'A free trade agreement between two countries' },
+      { id: 'crypto', label: 'A district where only crypto payments are accepted' },
     ],
-    correct: 'honduras',
+    correct: 'zone',
+    explanation:
+      'A Special Economic Zone stays part of its host country, but runs on different economic rules. Shenzhen is the famous example. Many projects in this space build on SEZ law rather than starting from nothing.',
   },
   {
-    id: 'liberland',
-    question: 'Liberland claims a strip of land between which two countries?',
+    id: 'charter-city',
+    question: 'What makes a charter city different from an ordinary city?',
     choices: [
-      { id: 'hr-rs', label: 'Croatia and Serbia' },
-      { id: 'at-hu', label: 'Austria and Hungary' },
-      { id: 'si-hr', label: 'Slovenia and Croatia' },
-      { id: 'rs-hu', label: 'Serbia and Hungary' },
+      { id: 'charter', label: 'The host country grants it its own charter: its own rules and administration' },
+      { id: 'company-town', label: 'One company owns all the land and employs everyone' },
+      { id: 'constitution', label: 'It has a written city constitution' },
+      { id: 'leased', label: 'It rents its land from a neighbouring country' },
     ],
-    correct: 'hr-rs',
+    correct: 'charter',
+    explanation:
+      'A charter city goes further than an SEZ: beyond economic rules, it can set much of its own governance under an agreement with the host country. Próspera in Honduras is the best-known attempt.',
   },
   {
-    id: 'network-school',
-    question: "Network School's campus is in which country?",
+    id: 'intentional-community',
+    question: 'What is an intentional community?',
     choices: [
-      { id: 'malaysia', label: 'Malaysia' },
-      { id: 'singapore', label: 'Singapore' },
-      { id: 'indonesia', label: 'Indonesia' },
-      { id: 'thailand', label: 'Thailand' },
+      { id: 'chosen', label: 'People who choose to live together around shared values, often sharing land, resources or work' },
+      { id: 'zoned', label: 'A neighbourhood zoned for a single profession' },
+      { id: 'paid-forum', label: 'An online forum with a membership fee' },
+      { id: 'resettled', label: 'A community created by government resettlement' },
     ],
-    correct: 'malaysia',
+    correct: 'chosen',
+    explanation:
+      'Ecovillages, co-living houses and communes are all intentional communities. They are the oldest relative of the startup society: the difference is mostly scale, ambition and how much happens online.',
+  },
+  {
+    id: 'pop-up-city',
+    question: 'What is a pop-up city?',
+    choices: [
+      { id: 'temporary', label: 'A gathering of weeks to months where people co-live and co-work to try new ways of living' },
+      { id: 'containers', label: 'A city built from shipping containers' },
+      { id: 'festival', label: 'A one-weekend festival with no residents' },
+      { id: 'disaster', label: 'An emergency camp after a natural disaster' },
+    ],
+    correct: 'temporary',
+    explanation:
+      'Pop-up cities like Zuzalu let a community test living together before committing to land. Many permanent projects started as one.',
+  },
+  {
+    id: 'exit',
+    question: 'In governance debates, what does "exit" mean?',
+    choices: [
+      { id: 'leave', label: "Leaving a system you disagree with, instead of trying to change it from inside" },
+      { id: 'referendum', label: 'A referendum to leave a political union' },
+      { id: 'sell', label: 'Selling your stake in a project' },
+      { id: 'recall', label: 'Removing a leader by vote' },
+    ],
+    correct: 'leave',
+    explanation:
+      'Exit and voice are the two ways to respond to a system: leave it, or speak up to change it. The freedom to exit is why the Autonomy metric asks whether members can leave freely.',
   },
 ];
 

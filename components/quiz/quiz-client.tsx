@@ -107,7 +107,7 @@ export function QuizClient({ societies }: { societies: QuizSociety[] }) {
       <header className="space-y-3">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold font-mono">[ NETWORK STATE QUIZ ]</h1>
         <p className="text-muted-foreground font-mono text-sm sm:text-base">
-          Test what you know, then rate the projects you know first-hand. Your ratings move the community radar on
+          Learn the vocabulary of the space, then rate the projects you know first-hand. Your ratings move the community radar on
           each project page.
         </p>
       </header>
@@ -144,7 +144,7 @@ export function QuizClient({ societies }: { societies: QuizSociety[] }) {
       {step === 'intro' && (
         <section className={cn(panel, 'space-y-5')}>
           <ul className="space-y-2 font-mono text-sm">
-            <li>&gt; {KNOWLEDGE_QUESTIONS.length} quick questions about the network state space</li>
+            <li>&gt; {KNOWLEDGE_QUESTIONS.length} key terms of the space: network state, SEZ, charter city and more, each explained as you answer</li>
             <li>&gt; Pick up to {MAX_PROJECTS} projects you know</li>
             <li>&gt; Rate each on the 6 radar metrics. &quot;Don&apos;t know&quot; is always fine</li>
           </ul>
@@ -173,18 +173,33 @@ export function QuizClient({ societies }: { societies: QuizSociety[] }) {
                 {String(i + 1).padStart(2, '0')}. {q.question}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {q.choices.map((c) => (
-                  <button
-                    key={c.id}
-                    type="button"
-                    aria-pressed={answers[q.id] === c.id}
-                    className={choiceClass(answers[q.id] === c.id)}
-                    onClick={() => setAnswers((a) => ({ ...a, [q.id]: c.id }))}
-                  >
-                    {c.label}
-                  </button>
-                ))}
+                {q.choices.map((c) => {
+                  const answered = answers[q.id] !== undefined;
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      aria-pressed={answers[q.id] === c.id}
+                      disabled={answered}
+                      className={cn(
+                        choiceClass(answers[q.id] === c.id),
+                        answered && c.id === q.correct && 'ring-2 ring-green-600',
+                        answered && 'cursor-default'
+                      )}
+                      // The first answer counts: it is locked, then explained
+                      onClick={() => setAnswers((a) => ({ ...a, [q.id]: c.id }))}
+                    >
+                      {c.label}
+                    </button>
+                  );
+                })}
               </div>
+              {answers[q.id] && (
+                <p className="mt-3 font-mono text-xs sm:text-sm" role="status">
+                  <span className="font-bold">{answers[q.id] === q.correct ? '✓ Correct. ' : '✗ Not quite. '}</span>
+                  {q.explanation}
+                </p>
+              )}
             </fieldset>
           ))}
           <div className="flex justify-end">
