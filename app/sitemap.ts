@@ -7,7 +7,8 @@ import { societyNameToSlug } from "@/lib/utils/slug";
 const SITE_URL = "https://nsnodes.com";
 
 // Routes to exclude from the sitemap
-const EXCLUDED_ROUTES = new Set(["/nskids"]);
+// /quiz is hidden while the team reviews it
+const EXCLUDED_ROUTES = new Set(["/nskids", "/quiz", "/quiz/results"]);
 
 function discoverRoutes(dir: string, base = ""): string[] {
   const routes: string[] = [];
