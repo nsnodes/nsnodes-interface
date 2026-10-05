@@ -2,7 +2,7 @@
 // action and the results page. Bump QUIZ_VERSION whenever a question, a
 // choice or a correct answer changes, so stored answers stay interpretable.
 
-export const QUIZ_VERSION = '2026-10-04b';
+export const QUIZ_VERSION = '2026-10-05';
 
 // Vocabulary questions: each teaches one term of the space. The
 // explanation is shown as soon as the question is answered.
@@ -19,8 +19,8 @@ export const KNOWLEDGE_QUESTIONS: KnowledgeQuestion[] = [
     id: 'network-state',
     question: 'What is a network state?',
     choices: [
-      { id: 'online-first', label: 'An aligned online community that crowdfunds land around the world and aims for diplomatic recognition' },
       { id: 'e-gov', label: 'A country that runs its public services online, like Estonia' },
+      { id: 'online-first', label: 'An aligned online community that crowdfunds land around the world and aims for diplomatic recognition' },
       { id: 'blockchain', label: 'A blockchain that issues its own passports' },
       { id: 'alliance', label: 'An alliance of countries that share a digital currency' },
     ],
@@ -33,22 +33,22 @@ export const KNOWLEDGE_QUESTIONS: KnowledgeQuestion[] = [
     question: 'On nsnodes.com, what does "NS" stand for?',
     choices: [
       { id: 'school', label: 'Network School' },
-      { id: 'state', label: 'Network State' },
       { id: 'society', label: 'Node Society' },
+      { id: 'state', label: 'Network State' },
       { id: 'sovereignty', label: 'New Sovereignty' },
     ],
-    correct: 'school',
+    correct: 'state',
     explanation:
-      'NS is Network School, a live-in community where members learn, train and build together. It is one concrete step toward the broader idea of a network state, which is a different thing.',
+      'NS is short for network state. nsnodes.com maps the projects building toward one: the societies, pop-up cities and communities of the movement.',
   },
   {
     id: 'startup-society',
     question: 'What is a startup society?',
     choices: [
-      { id: 'mission', label: 'A community built around a shared mission, before it has land or recognition' },
       { id: 'coworking', label: 'A co-working space for startup founders' },
       { id: 'company-housing', label: 'A company that houses its employees' },
       { id: 'registered', label: 'A legal entity registered inside an SEZ' },
+      { id: 'mission', label: 'A community built around a shared mission, before it has land or recognition' },
     ],
     correct: 'mission',
     explanation:
@@ -58,8 +58,8 @@ export const KNOWLEDGE_QUESTIONS: KnowledgeQuestion[] = [
     id: 'sez',
     question: 'What is an SEZ?',
     choices: [
-      { id: 'zone', label: "An area inside a country with its own business, tax or trade rules, set by that country" },
       { id: 'no-country', label: 'Land outside the control of any country' },
+      { id: 'zone', label: "An area inside a country with its own business, tax or trade rules, set by that country" },
       { id: 'treaty', label: 'A free trade agreement between two countries' },
       { id: 'crypto', label: 'A district where only crypto payments are accepted' },
     ],
@@ -71,10 +71,10 @@ export const KNOWLEDGE_QUESTIONS: KnowledgeQuestion[] = [
     id: 'charter-city',
     question: 'What makes a charter city different from an ordinary city?',
     choices: [
-      { id: 'charter', label: 'The host country grants it its own charter: its own rules and administration' },
       { id: 'company-town', label: 'One company owns all the land and employs everyone' },
       { id: 'constitution', label: 'It has a written city constitution' },
       { id: 'leased', label: 'It rents its land from a neighbouring country' },
+      { id: 'charter', label: 'The host country grants it its own charter: its own rules and administration' },
     ],
     correct: 'charter',
     explanation:
@@ -97,9 +97,9 @@ export const KNOWLEDGE_QUESTIONS: KnowledgeQuestion[] = [
     id: 'pop-up-city',
     question: 'What is a pop-up city?',
     choices: [
-      { id: 'temporary', label: 'A gathering of weeks to months where people co-live and co-work to try new ways of living' },
       { id: 'containers', label: 'A city built from shipping containers' },
       { id: 'festival', label: 'A one-weekend festival with no residents' },
+      { id: 'temporary', label: 'A gathering of weeks to months where people co-live and co-work to try new ways of living' },
       { id: 'disaster', label: 'An emergency camp after a natural disaster' },
     ],
     correct: 'temporary',
@@ -110,8 +110,8 @@ export const KNOWLEDGE_QUESTIONS: KnowledgeQuestion[] = [
     id: 'exit',
     question: 'In governance debates, what does "exit" mean?',
     choices: [
-      { id: 'leave', label: "Leaving a system you disagree with, instead of trying to change it from inside" },
       { id: 'referendum', label: 'A referendum to leave a political union' },
+      { id: 'leave', label: "Leaving a system you disagree with, instead of trying to change it from inside" },
       { id: 'sell', label: 'Selling your stake in a project' },
       { id: 'recall', label: 'Removing a leader by vote' },
     ],
