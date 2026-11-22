@@ -389,7 +389,7 @@ export function SocietyRadar({ scores, telegramUrl }: SocietyRadarProps) {
           <h2 className="font-mono font-bold text-sm">[ COMMUNITY SCORE ]</h2>
           <p className="text-xs font-mono text-muted-foreground mt-1">
             Aggregated from community discussions on{' '}
-            <a href="https://t.me/+P3r-8XdRfXoyYWVl" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">
+            <a href="https://t.me/+43dk6ZbOtjdjOGI9" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground transition-colors">
               Telegram
             </a>
             . Read more at our{' '}

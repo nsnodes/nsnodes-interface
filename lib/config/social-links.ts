@@ -17,7 +17,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     name: "telegram",
-    url: "https://t.me/+P3r-8XdRfXoyYWVl",
+    url: "https://t.me/+43dk6ZbOtjdjOGI9",
     icon: SiTelegram,
     label: "Telegram",
   },

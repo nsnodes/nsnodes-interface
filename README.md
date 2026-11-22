@@ -147,7 +147,7 @@ MIT License - Fork it, improve it, ship it.
 
 ## 🌐 Community
 
-Join the nsnodes Telegram: https://t.me/+RwyXfj5VsXk2NmE1
+Join the nsnodes Telegram: https://t.me/+43dk6ZbOtjdjOGI9
 
 ---
 
