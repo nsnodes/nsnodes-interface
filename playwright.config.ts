@@ -1,6 +1,19 @@
+import { existsSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
 
 const isCI = !!process.env.CI;
+
+// Playwright's 'chrome' channel resolves to a fixed system path (e.g.
+// /opt/google/chrome/chrome on Linux) that exists on GitHub runners but not
+// in every sandbox. Only request the branded channel when that exact binary
+// is present; otherwise fall back to the bundled Chromium, which runs the
+// same tests.
+const CHROME_PATHS: Record<string, string> = {
+  linux: '/opt/google/chrome/chrome',
+  darwin: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+};
+const chromeChannel =
+  isCI && existsSync(CHROME_PATHS[process.platform] ?? '') ? 'chrome' : undefined;
 
 /**
  * Read environment variables from file.
@@ -40,7 +53,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        ...(isCI ? { channel: 'chrome' } : {}),
+        ...(chromeChannel ? { channel: chromeChannel } : {}),
       },
     },
 

@@ -53,26 +53,34 @@ async function getClientIp(): Promise<string> {
   return h.get('x-forwarded-for')?.split(',')[0].trim() || h.get('x-real-ip') || 'unknown';
 }
 
+/**
+ * Falls back to an empty list if Supabase fails or is not configured
+ * (e.g. prerendering in CI without Supabase env), like getSocieties().
+ */
 export async function getQuizSocieties(): Promise<QuizSociety[]> {
-  const supabase = createServerClient();
-  const { data, error } = await supabase
-    .from('societies')
-    .select('id, name, icon_url, category, tier')
-    .gte('tier', 1)
-    .lte('tier', 5)
-    .order('tier', { ascending: true })
-    .order('name', { ascending: true });
+  try {
+    const supabase = createServerClient();
+    const { data, error } = await supabase
+      .from('societies')
+      .select('id, name, icon_url, category, tier')
+      .gte('tier', 1)
+      .lte('tier', 5)
+      .order('tier', { ascending: true })
+      .order('name', { ascending: true });
 
-  if (error) {
-    console.error('Error fetching quiz societies:', error);
+    if (error) {
+      throw error;
+    }
+    return data.map((s) => ({
+      id: s.id,
+      name: s.name,
+      icon: s.icon_url || undefined,
+      category: s.category || undefined,
+    }));
+  } catch (error) {
+    console.warn('Failed to fetch quiz societies from Supabase, using empty fallback:', error);
     return [];
   }
-  return data.map((s) => ({
-    id: s.id,
-    name: s.name,
-    icon: s.icon_url || undefined,
-    category: s.category || undefined,
-  }));
 }
 
 export async function submitQuiz(input: QuizSubmission): Promise<QuizSubmitResult> {
